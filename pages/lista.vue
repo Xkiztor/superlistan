@@ -2,18 +2,18 @@
   <div>
     <h1 class="text-4xl">Superlista!</h1>
       <div>
-        <button class="bg-slate-100 p-2-me m-2 rounded-xl" @click="sortBy.ascending = !sortBy.ascending">
+        <button class="bg-slate-100 p-2-me m-2 rounded-xl" @click="handleClick">
           <p v-if="sortBy.ascending">Stigande</p>
           <p v-if="!sortBy.ascending">Nedåtgående</p>
         </button>
 
-        <select name="sortBy" id="sortBySelector" v-model="sortBy.sortByWhat">
-          <option value="VetenskapligtNamn">Namn</option>
-          <option value="PrisMedMoms">Pris</option>
+        <select name="sortBy" id="sortBySelector" v-model="sortBy.sortByWhat" @change="fetchList">
+          <option value="Namn">Namn</option>
+          <option value="Pris">Pris</option>
           <option value="Typ">Typ</option>
         </select
         >
-        <input type="text" placeholder="Sök" v-model="query" class="m-2 bg-gray-100 rounded-lg" title="Tryck Enter för attr söka">
+        <input type="text" placeholder="Sök" v-model="query" class="m-2 bg-gray-100 rounded-lg" title="Sök">
 
         <nuxt-link class="absolute top-5 right-5" to="/onske-lista">Önskelista</nuxt-link>
 
@@ -23,41 +23,114 @@
           <ListElement :plant="plant"/>
         </div>
       </ClientOnly>
+      <!-- <div v-observe-visibility="visibilityChanged">Hello</div> -->
+      <div id="loader">Loading...</div>
   </div>
 </template>
 
 <script setup>
-// if (typeof window !== 'undefined') {
-//     if(!JSON.parse(localStorage.getItem('test2'))) {
-//       import dataTest from "../composables/dataTest"
-//     }
-// }
-import dataTest from "../composables/dataTest"
+// import dataTest from "../composables/dataTest"
 
-const sortBy = ref({sortByWhat: 'VetenskapligtNamn', ascending: true})
+/* - - - - - - Supabase Setup - - - - - - */
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
+const supabase = createClient(supabaseUrl, supabaseKey)
+
+/* - - - - - - Refs - - - - - - */
+const sortBy = ref({sortByWhat: 'Namn', ascending: true})
 const query = ref("")
+const getList = ref([])  
+const fetchRange = ref({from: 0, to: 100})
 
-/// Ref
-// if(!JSON.parse(localStorage.getItem('test2')).lengh > 10) {
-let getList = ref([])  
-  
-  if (typeof window !== 'undefined') {
-    if(!JSON.parse(localStorage.getItem('test2'))) {
-      getList.value = dataTest()
-      console.log('from script')
-      // console.log(JSON.parse(localStorage.getItem('test2')))
-    } else {
-      getList.value = JSON.parse(localStorage.getItem('test2'))
-      console.log('from local storage')
-      // console.log(JSON.parse(localStorage.getItem('test2')).lenght)
-    // let getList = JSON.parse(localStorage.getItem('test2'))
-    }
+
+/* - - - - - - Fetching list - - - - - - */
+const fetchList = async () => {
+  const { data, error } = await supabase
+    .from('superlista')
+    .select()
+    .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
+    .range(fetchRange.value.from, fetchRange.value.to)
+    // .order(orderBy.value, {ascending: ascending.value})
+
+  if(error) {
+    console.log(error)
   }
+  if(data) {
+    console.log(data)
+    getList.value = data
+  }
+}  
+// fetchList()
+console.log(getList.value)
 
 
+/* - - - - - - Infinite scrolling - - - - - - */
+const fetchMoreList = async () => {
+  const { data, error } = await supabase
+    .from('superlista')
+    .select()
+    .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
+    .range(fetchRange.value.from + 100, fetchRange.value.to + 100)
+
+  if(error) {
+    console.log(error)
+  } 
+  if(data) {
+    console.log(data)
+    getList.value.push(...data)
+    fetchRange.value.from += 100
+    fetchRange.value.to += 100
+  }
+}
+
+onMounted(() => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if(entry.intersectionRatio > 0) {
+        fetchMoreList()
+      }
+    })
+  })
+  document.querySelectorAll('#loader').forEach((section) => {
+    observer.observe(section)
+  })
+})
 
 
-const route = useRoute()
+/* - - - - - - Handling click - - - - - - */
+const handleClick = () => {
+  sortBy.value.ascending = !sortBy.value.ascending
+  console.log('Hello')
+  fetchList()
+}
+// onMounted(() => {
+//   window.addEventListener("scroll", handleScroll)
+// });
+// onUnmounted(() => {
+//   window.removeEventListener("scroll", handleScroll)
+// });
+  
+// const handleScroll = (e) => {
+//   let element = scrollComponent.value
+//   if (element.getBoundingClientRect().bottom < window.innerHeight) {
+//     console.log(test);
+//   }
+// }
+
+// if (typeof window !== 'undefined') {
+//   if(!JSON.parse(localStorage.getItem('test2'))) {
+//     getList.value = dataTest()
+//     console.log('from script')
+//     // console.log(JSON.parse(localStorage.getItem('test2')))
+//   } else {
+//     getList.value = JSON.parse(localStorage.getItem('test2'))
+//     console.log('from local storage')
+//     // console.log(JSON.parse(localStorage.getItem('test2')).lenght)
+//   // let getList = JSON.parse(localStorage.getItem('test2'))
+//   }
+// }
 
 // localStorage.setItem("test", "Hello")
 
@@ -70,7 +143,7 @@ const list = computed(() => {
   //     } else return getList.value
   //   }  
   let filteredArray = query.value 
-    ? getList.value.filter(foo => foo.VetenskapligtNamn.toUpperCase().includes(query.value.toUpperCase()))
+    ? getList.value.filter(foo => foo.Namn.toUpperCase().includes(query.value.toUpperCase()))
     : getList.value
   
   // const filteredArray = ref(filter())
@@ -99,14 +172,6 @@ if (typeof window !== 'undefined') {
 } else {
   // console.log('we are running on the server');
 }
-
-
-// const { yee } = getList()s
-
-// console.log(list?.value)
-
-// console.log(list)
-// console.log(yee)
 
 
 </script>

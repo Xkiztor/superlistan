@@ -3,8 +3,8 @@
     <div class="rounded-full grid px-2 aspect-square mr-6" :class="{'t-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-pink': plant.Typ == 'G'}"> 
       <p class="my-auto mx-auto" >{{ plant.Typ }}</p>
     </div>
-    <p class="mr-2"><a :href="`https://www.google.com/search?q=${plant.VetenskapligtNamn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">{{ plant.VetenskapligtNamn }}</a></p>
-    <p class="mr-2 absolute right-2">{{ plant.PrisMedMoms }} kr</p>
+    <p class="mr-2"><a :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">{{ plant.Namn }}</a></p>
+    <p class="mr-2 absolute right-2">{{ plant.Pris }} kr</p>
   </div>
 </template>
 

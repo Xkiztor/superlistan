@@ -54,7 +54,7 @@ const fetchSmoothies = async () => {
     }
     if(data) {
       fetchError.value = null
-      console.log(data);
+      // console.log(data)
       smoothies.value = data
     }
 }

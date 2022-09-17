@@ -17,6 +17,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^1.35.6",
     "firebase": "^9.9.4",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "vue-observe-visibility": "^1.0.0"
   }
 }
