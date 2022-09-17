@@ -57,7 +57,7 @@ let getList = ref([])
 
 
 
-
+const route = useRoute()
 
 // localStorage.setItem("test", "Hello")
 
