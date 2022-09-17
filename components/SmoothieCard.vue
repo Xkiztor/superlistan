@@ -11,8 +11,10 @@
 <script setup>
 import { createClient } from '@supabase/supabase-js'
 const config = useRuntimeConfig()
-const supabaseUrl = config.supabaseUrl
-const supabaseKey = config.anonKey
+const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
+// const supabaseUrl = config.supabaseUrl
+// const supabaseKey = config.anonKey
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 const props = defineProps([
