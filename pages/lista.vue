@@ -58,8 +58,6 @@ let getList = ref([])
 
 
 
-const route = useRoute()
-console.log(route.params)
 
 // localStorage.setItem("test", "Hello")
 
@@ -89,17 +87,17 @@ const list = computed(() => {
 })
 
 if (typeof window !== 'undefined') {
-  console.log('we are running on the client')
+  // console.log('we are running on the client')
   localStorage.setItem('test2', JSON.stringify(list.value));
 } else {
-  console.log('we are running on the server');
+  // console.log('we are running on the server');
 }
 
 if (typeof window !== 'undefined') {
   console.log(JSON.parse(localStorage.getItem('test2')) )
   // localStorage.getItem('test2', JSON.stringify(list.value));
 } else {
-  console.log('we are running on the server');
+  // console.log('we are running on the server');
 }
 
 
