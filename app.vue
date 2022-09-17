@@ -12,29 +12,18 @@
 </template>
 
 <script setup>
-// import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
-
-
-
-// const isLoggedIn = ref(false)
-
-// let auth
-// onMounted(() => {
-//   auth = getAuth()
-//   onAuthStateChanged(auth, (user) => {
-//     if(user) {
-//       isLoggedIn.value = true
-//     } else {
-//       isLoggedIn.value = false
-//     }
-//   })
-// })
-
-// const handleSignOut = () => {
-//   signOut(auth).then(() => {
-//     navigateTo('/')
-//   })
-// }
-
+useHead({
+  title: 'Super-lista',
+  // or, instead:
+  // titleTemplate: (title) => `My App - ${title}`,
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+  charset: 'utf-8',
+  meta: [
+    { name: 'description', content: 'En lista med tusentals växter att beställa från' }
+  ],
+  bodyAttrs: {
+    class: 'test'
+  }
+})
 
 </script>
