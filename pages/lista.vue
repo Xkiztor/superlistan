@@ -58,7 +58,7 @@ const lazyInput = ref(true)
 /* - - - - - - Saving on local storage - - - - - - */
 watch(lazyInput, () => {
   if (typeof window !== 'undefined') {
-    console.log('clietn')
+    // console.log('clietn')
     localStorage.setItem('lazyInput', `${lazyInput.value}`);
     // console.log(localStorage.getItem('lazyInput'));
   }
@@ -67,7 +67,7 @@ watch(lazyInput, () => {
 /* - - - - - - Getting from local storage - - - - - - */
 if (typeof window !== 'undefined') {
   if(localStorage.getItem('lazyInput')) {
-    console.log(localStorage.getItem('lazyInput'));
+    // console.log(localStorage.getItem('lazyInput'));
     lazyInput.value = localStorage.getItem('lazyInput')
   } else {
     lazyInput.value = true
