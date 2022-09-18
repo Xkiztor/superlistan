@@ -7,24 +7,33 @@
           <p v-if="!sortBy.ascending">Nedåtgående</p>
         </button>
 
-        <select name="sortBy" id="sortBySelector" v-model="sortBy.sortByWhat" @change="fetchList">
+        <select name="sortBy" id="sortBySelector" v-model="sortBy.sortByWhat" @change="fetchList(0, 99)">
           <option value="Namn">Namn</option>
           <option value="Pris">Pris</option>
           <option value="Typ">Typ</option>
         </select
         >
-        <input type="text" placeholder="Sök" v-model="query" class="m-2 bg-gray-100 rounded-lg" title="Sök">
+        <input type="text" placeholder=" Lazy" v-model.lazy="query" v-if="lazyInput" class="m-2 bg-gray-100 rounded-lg" title="Lazy">
+        <input type="text" placeholder=" Sök" v-model="query" v-if="!lazyInput" class="m-2 bg-gray-100 rounded-lg" title="Sök">
+
+        <input type="checkbox" v-model="lazyInput" title="Lazy input?" id="lazyInput">
+        <label for="lazyInput" title="man behöver trycka enter för att söka" class="m-2">Lat sökning?</label>
 
         <nuxt-link class="absolute top-5 right-5" to="/onske-lista">Önskelista</nuxt-link>
 
+        <!-- {{fetchRange.from}} till {{fetchRange.to}} -->
+
+        <!-- <button @click="fetchAllList">Ladda alla</button> -->
+
       </div>  
       <ClientOnly fallbackTag="div">
-        <div v-for="plant in list" :key="plant.ID">
+        <div v-for="plant in list" :key="plant.id">
           <ListElement :plant="plant"/>
         </div>
       </ClientOnly>
       <!-- <div v-observe-visibility="visibilityChanged">Hello</div> -->
-      <div id="loader">Loading...</div>
+      <div v-if="!theEnd" id="loader">Loading...</div>
+      <div v-if="theEnd">Här är listan slut :)</div>
   </div>
 </template>
 
@@ -42,28 +51,76 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 const sortBy = ref({sortByWhat: 'Namn', ascending: true})
 const query = ref("")
 const getList = ref([])  
-const fetchRange = ref({from: 0, to: 100})
+const fetchRange = ref({from: 0, to: 99})
+const theEnd = ref(false)
+const lazyInput = ref(true)
+
+/* - - - - - - Saving on local storage - - - - - - */
+watch(lazyInput, () => {
+  if (typeof window !== 'undefined') {
+    console.log('clietn')
+    localStorage.setItem('lazyInput', `${lazyInput.value}`);
+    // console.log(localStorage.getItem('lazyInput'));
+  }
+})
+
+/* - - - - - - Getting from local storage - - - - - - */
+if (typeof window !== 'undefined') {
+  if(localStorage.getItem('lazyInput')) {
+    console.log(localStorage.getItem('lazyInput'));
+    lazyInput.value = localStorage.getItem('lazyInput')
+  } else {
+    lazyInput.value = true
+  }
+}
+
+
+/* - - - - - - Search - - - - - - */
+watch(query, () => {
+  fetchList(0, 99)
+})
 
 
 /* - - - - - - Fetching list - - - - - - */
-const fetchList = async () => {
+onMounted(() => {
+  fetchList(0, 99)
+})
+const fetchList = async (from, to) => {
+    const { data, error } = await supabase
+      .from('superlista')
+      .select()
+      // .ilike('Namn', `%${query.value}%`)
+      .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
+      .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
+      .range(from, to)
+      if(error) {
+        console.error(error)
+        getList.value = null
+      }
+      if(data) {
+        // console.log(data)
+        getList.value = data
+      }
+}  
+
+/* - - - - - - Fetch all list- - - - - - */
+const fetchAllList = async () => {
   const { data, error } = await supabase
     .from('superlista')
     .select()
+    .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
     .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
-    .range(fetchRange.value.from, fetchRange.value.to)
+    // .range(fetchRange.value.from, fetchRange.value.to)
     // .order(orderBy.value, {ascending: ascending.value})
 
   if(error) {
-    console.log(error)
+    console.error(error)
   }
   if(data) {
-    console.log(data)
+    // console.log(data)
     getList.value = data
   }
-}  
-// fetchList()
-console.log(getList.value)
+} 
 
 
 /* - - - - - - Infinite scrolling - - - - - - */
@@ -71,15 +128,22 @@ const fetchMoreList = async () => {
   const { data, error } = await supabase
     .from('superlista')
     .select()
+    .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
     .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
-    .range(fetchRange.value.from + 100, fetchRange.value.to + 100)
+    // .order('id', { ascending: true})
+    // .range(from, to)
+    .range(fetchRange.value.from, fetchRange.value.to)
+    // .range(0, 10)
 
   if(error) {
     console.log(error)
   } 
   if(data) {
-    console.log(data)
-    getList.value.push(...data)
+    if(fetchRange.value.from >= 100) {
+      getList.value.push(...data)
+      // console.log(data)
+    }
+    if(!data.length > 0) theEnd.value = true
     fetchRange.value.from += 100
     fetchRange.value.to += 100
   }
@@ -89,6 +153,7 @@ onMounted(() => {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if(entry.intersectionRatio > 0) {
+        // console.log('i see you')
         fetchMoreList()
       }
     })
@@ -103,24 +168,11 @@ onMounted(() => {
 const handleClick = () => {
   sortBy.value.ascending = !sortBy.value.ascending
   console.log('Hello')
-  fetchList()
+  fetchList(0, 99)
 }
-// onMounted(() => {
-//   window.addEventListener("scroll", handleScroll)
-// });
-// onUnmounted(() => {
-//   window.removeEventListener("scroll", handleScroll)
-// });
-  
-// const handleScroll = (e) => {
-//   let element = scrollComponent.value
-//   if (element.getBoundingClientRect().bottom < window.innerHeight) {
-//     console.log(test);
-//   }
-// }
 
 // if (typeof window !== 'undefined') {
-//   if(!JSON.parse(localStorage.getItem('test2'))) {
+  // if(!JSON.parse(localStorage.getItem('test2'))) {
 //     getList.value = dataTest()
 //     console.log('from script')
 //     // console.log(JSON.parse(localStorage.getItem('test2')))
@@ -150,13 +202,14 @@ const list = computed(() => {
 
   // return getList.value
   // return filteredArray
-  return filteredArray.sort((a, b) => {
-    if(sortBy.value.ascending) {
-      return a[sortBy.value.sortByWhat] > b[sortBy.value.sortByWhat] ? 1 : -1
-    } else {
-      return a[sortBy.value.sortByWhat] < b[sortBy.value.sortByWhat] ? 1 : -1
-    }
-  })
+  return getList.value
+  // return filteredArray.sort((a, b) => {
+  //   if(sortBy.value.ascending) {
+  //     return a[sortBy.value.sortByWhat] > b[sortBy.value.sortByWhat] ? 1 : -1
+  //   } else {
+  //     return a[sortBy.value.sortByWhat] < b[sortBy.value.sortByWhat] ? 1 : -1
+  //   }
+  // })
 })
 
 if (typeof window !== 'undefined') {
@@ -166,12 +219,12 @@ if (typeof window !== 'undefined') {
   // console.log('we are running on the server');
 }
 
-if (typeof window !== 'undefined') {
-  console.log(JSON.parse(localStorage.getItem('test2')) )
-  // localStorage.getItem('test2', JSON.stringify(list.value));
-} else {
-  // console.log('we are running on the server');
-}
+// if (typeof window !== 'undefined') {
+//   console.log(JSON.parse(localStorage.getItem('test2')) )
+//   // localStorage.getItem('test2', JSON.stringify(list.value));
+// } else {
+//   // console.log('we are running on the server');
+// }
 
 
 </script>
