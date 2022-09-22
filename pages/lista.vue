@@ -11,10 +11,12 @@
           <option value="Namn">Namn</option>
           <option value="Pris">Pris</option>
           <option value="Typ">Typ</option>
-        </select
-        >
-        <input type="text" placeholder=" Lazy" v-model.lazy="query" v-if="lazyInput" class="m-2 bg-gray-100 rounded-lg" title="Lazy">
-        <input type="text" placeholder=" Sök" v-model="query" v-if="!lazyInput" class="m-2 bg-gray-100 rounded-lg" title="Sök">
+        </select>
+        <ClientOnly fallbackTag="div">
+          <input type="text" placeholder=" Sök" v-model="query" v-if="!lazyInput" class="m-2 bg-gray-100 rounded-lg" title="Sök">
+          <input type="text" placeholder=" Lazy" v-model.lazy="query" v-else class="m-2 bg-gray-100 rounded-lg" title="Lazy">
+          <!-- {{lazyInput}} -->
+        </ClientOnly>
 
         <input type="checkbox" v-model="lazyInput" title="Lazy input?" id="lazyInput">
         <label for="lazyInput" title="man behöver trycka enter för att söka" class="m-2">Lat sökning?</label>
@@ -32,14 +34,15 @@
         </div>
       </ClientOnly>
       <!-- <div v-observe-visibility="visibilityChanged">Hello</div> -->
-      <div v-if="!theEnd" id="loader">Loading...</div>
+      <div v-if="!theEnd" id="loader">.</div>
+      <div v-if="!theEnd">Loading...</div>
       <div v-if="theEnd">Här är listan slut :)</div>
   </div>
 </template>
 
 <script setup>
 // import dataTest from "../composables/dataTest"
-
+// import { useCounterStore } from '../stores/counter.js'
 /* - - - - - - Supabase Setup - - - - - - */
 import { createClient } from '@supabase/supabase-js'
 
@@ -53,7 +56,14 @@ const query = ref("")
 const getList = ref([])  
 const fetchRange = ref({from: 0, to: 99})
 const theEnd = ref(false)
-const lazyInput = ref(true)
+const lazyInput = ref()
+
+/* - - - - - - Pinia - - - - - - */
+// const store = useCounterStore()
+// store.count++
+// store.increment(2)
+
+// console.log(store.count)
 
 /* - - - - - - Saving on local storage - - - - - - */
 watch(lazyInput, () => {
@@ -67,9 +77,11 @@ watch(lazyInput, () => {
 /* - - - - - - Getting from local storage - - - - - - */
 if (typeof window !== 'undefined') {
   if(localStorage.getItem('lazyInput')) {
+    console.log('in local storage')
     // console.log(localStorage.getItem('lazyInput'));
     lazyInput.value = localStorage.getItem('lazyInput')
   } else {
+    console.log('not in local storage')
     lazyInput.value = true
   }
 }
@@ -237,5 +249,11 @@ if (typeof window !== 'undefined') {
 
 .lista {
   transition: all 1s
+}
+
+#loader {
+  position: relative;
+  bottom: 50rem;
+  /* opacity: 0; */
 }
 </style>

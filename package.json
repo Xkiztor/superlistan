@@ -15,8 +15,8 @@
     "tailwindcss": "^3.1.8"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.2",
     "@supabase/supabase-js": "^1.35.6",
-    "firebase": "^9.9.4",
     "uuid": "^9.0.0",
     "vue-observe-visibility": "^1.0.0"
   }

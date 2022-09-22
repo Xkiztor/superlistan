@@ -2,6 +2,20 @@ import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  // modules: [[    
+  //   '@pinia/nuxt',
+  //   {
+  //     autoImports: [
+  //       // automatically imports `defineStore`
+  //       'defineStore', // import { defineStore } from 'pinia'
+  //       // automatically imports `defineStore` as `definePiniaStore`
+  //       ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+  //     ],
+  //   },
+  // ]],
+  // modules: [
+  //   '@pinia/nuxt',
+  // ],
   css: ["@/assets/css/styles.css"],
   build: {
     postcss: {
@@ -23,5 +37,5 @@ export default defineNuxtConfig({
       supabaseUrl: process.env.SUPABASE_URL,
       anonKey: process.env.ANON_KEY
     }
-  }
+  },
 })
