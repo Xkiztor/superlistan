@@ -1,5 +1,5 @@
 <template>
-  <div @click="handleClick" class="bg-slate-100 rounded-xl m-2 p-2 w-[40rem] flex relative">
+  <div @click="handleClick" class="bg-slate-50 w-[40rem] flex relative element">
     <div class="rounded-full grid px-2 aspect-square mr-6" :class="{'t-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-pink': plant.Typ == 'G'}"> 
       <p class="my-auto mx-auto" >{{ plant.Typ }}</p>
     </div>
@@ -23,6 +23,12 @@ const handleClick = () => {
 </script>
 
 <style>
+
+  .element {
+    padding: 5px;
+    border: 1px solid rgb(238, 238, 238);
+    margin-left: 0.75rem;
+  }
 
   .t-green {
     background-color: rgb(117, 236, 117);

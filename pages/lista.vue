@@ -2,7 +2,7 @@
   <div>
     <h1 class="text-4xl">Superlista!</h1>
       <div>
-        <button class="bg-slate-100 p-2-me m-2 rounded-xl" @click="handleClick">
+        <button class="bg-slate-100 m-2 rounded-xl btn" @click="handleClick">
           <p v-if="sortBy.ascending">Stigande</p>
           <p v-if="!sortBy.ascending">Nedåtgående</p>
         </button>
@@ -13,13 +13,15 @@
           <option value="Typ">Typ</option>
         </select>
         <ClientOnly fallbackTag="div">
-          <input type="text" placeholder=" Sök" v-model="query" v-if="!lazyInput" class="m-2 bg-gray-100 rounded-lg" title="Sök">
-          <input type="text" placeholder=" Lazy" v-model.lazy="query" v-else class="m-2 bg-gray-100 rounded-lg" title="Lazy">
+          <!-- <input type="text" placeholder=" Sök" v-model="query" v-if="!lazyInput" class="m-2 bg-gray-100 rounded-lg" title="Sök"> -->
+          <input type="text" placeholder=" Sök" v-model.lazy="query"  class="m-2 bg-gray-100 rounded-lg" title="Lazy">
           <!-- {{lazyInput}} -->
         </ClientOnly>
 
-        <input type="checkbox" v-model="lazyInput" title="Lazy input?" id="lazyInput">
-        <label for="lazyInput" title="man behöver trycka enter för att söka" class="m-2">Lat sökning?</label>
+        <!-- <input type="checkbox" v-model="lazyInput" title="Lazy input?" id="lazyInput">
+        <label for="lazyInput" title="man behöver trycka enter för att söka" class="m-2">Lat sökning?</label> -->
+
+        <button class="m-2 bg-gray-100 text-xs rounded-xl btn" @click="fetchAllList">Ladda Alla</button>
 
         <nuxt-link class="absolute top-5 right-5" to="/onske-lista">Önskelista</nuxt-link>
 
@@ -34,9 +36,11 @@
         </div>
       </ClientOnly>
       <!-- <div v-observe-visibility="visibilityChanged">Hello</div> -->
-      <div v-if="!theEnd" id="loader">.</div>
-      <div v-if="!theEnd">Loading...</div>
+      <div v-if="!theEnd" id="loader" class="loader-style">1</div>
+      <div v-if="!theEnd" id="loader">2</div>
+      <div v-if="!theEnd">Laddar....</div>
       <div v-if="theEnd">Här är listan slut :)</div>
+      <nuxt-link @click="scrollToTop" class="scroll-to-top bg-gray-100 p-2 rounded-full shadow-lg">Skolla till toppen</nuxt-link>
   </div>
 </template>
 
@@ -98,25 +102,27 @@ onMounted(() => {
   fetchList(0, 99)
 })
 const fetchList = async (from, to) => {
-    const { data, error } = await supabase
-      .from('superlista')
-      .select()
-      // .ilike('Namn', `%${query.value}%`)
-      .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
-      .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
-      .range(from, to)
-      if(error) {
-        console.error(error)
-        getList.value = null
-      }
-      if(data) {
-        // console.log(data)
-        getList.value = data
-      }
+  getList.value = []
+  const { data, error } = await supabase
+    .from('superlista')
+    .select()
+    // .ilike('Namn', `%${query.value}%`)
+    .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
+    .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
+    .range(from, to)
+    if(error) {
+      console.error(error)
+      getList.value = null
+    }
+    if(data) {
+      // console.log(data)
+      getList.value = data
+    }
 }  
 
 /* - - - - - - Fetch all list- - - - - - */
 const fetchAllList = async () => {
+  getList.value = []
   const { data, error } = await supabase
     .from('superlista')
     .select()
@@ -130,6 +136,7 @@ const fetchAllList = async () => {
   }
   if(data) {
     // console.log(data)
+    theEnd.value = true
     getList.value = data
   }
 } 
@@ -137,6 +144,7 @@ const fetchAllList = async () => {
 
 /* - - - - - - Infinite scrolling - - - - - - */
 const fetchMoreList = async () => {
+  getList.value = []
   const { data, error } = await supabase
     .from('superlista')
     .select()
@@ -181,6 +189,11 @@ const handleClick = () => {
   sortBy.value.ascending = !sortBy.value.ascending
   console.log('Hello')
   fetchList(0, 99)
+}
+
+/* - - - - - - Scroll to top - - - - - - */
+const scrollToTop = () => {
+  window.scrollTo(0,0);
 }
 
 // if (typeof window !== 'undefined') {
@@ -251,9 +264,26 @@ if (typeof window !== 'undefined') {
   transition: all 1s
 }
 
-#loader {
+.loader-style {
   position: relative;
   bottom: 50rem;
   /* opacity: 0; */
+}
+
+#loader {
+  opacity: 0;
+}
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  /* transition: all 100ms; */
+  /* translate: 10rem 0; */
+}
+
+.btn {
+  padding: 4px;
+  font-size: 0.9rem;
 }
 </style>
