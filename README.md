@@ -10,6 +10,7 @@
 
 
 
+
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
@@ -25,7 +26,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Xkiztor/superlista-test">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.png" alt="Logo" width="300" height="80">
   </a>
 
   <h3 align="center">Linders Superlista</h3>
@@ -51,7 +52,11 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
+ <p>
+  <a href="https://github.com/Xkiztor/superlista-test/"><img src="https://badgen.net/npm/license/nuxt3" alt="License"></a>
+  <a href="https://discord.nuxtjs.org/"><img src="https://badgen.net/badge/Discord/join/7289DA" alt="Discord"></a>
+ </p>
+ 
 A list with thousands of plant to order from.
 
 Details:
