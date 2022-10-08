@@ -26,7 +26,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Xkiztor/superlista-test">
-    <img src="images/logo.png" alt="Logo" width="300" height="80">
+    <img src="images/logo.png" alt="Logo" height="80">
   </a>
 
   <h3 align="center">Linders Superlista</h3>
