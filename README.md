@@ -25,7 +25,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Xkiztor/superlista-test">
+  <a href="https://lindersplantskola.se/">
     <img src="images/logo.png" alt="Logo" height="80">
   </a>
 
