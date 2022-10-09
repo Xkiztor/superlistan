@@ -1,5 +1,5 @@
 <template>
-  <div @click="handleClick" class="bg-slate-50 md:max-w-3xl xl:max-w-4xl grid element relative">
+  <div @click="handleClick" class="bg-slate-50 md:max-w-3xl xl:max-w-4xl grid element">
     <div class="rounded-full grid px-2 aspect-square mr-6"
       :class="{'t-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-pink': plant.Typ == 'G'}">
       <p class="my-auto mx-auto">{{ plant.Typ }}</p>
@@ -11,13 +11,9 @@
     <p class="mr-2 on-right">{{ plant.Pris }} kr</p>
     <!-- <button class="bg-gray-100 rounded-full text-center btn-add p-2">+</button> -->
     <!-- <div class="bg-gray-100 rounded-full p-2 w-10 aspect-square"><p class="text-center">+</p></div> -->
-    <div>
-      <div class="on-right rounded-full grid px-2 aspect-square bg-gray-100">
-        <p v-if="!adding" class="my-auto mx-auto" @click="adding = !adding">+</p>
-        <p v-else class="my-auto mx-auto" @click="handleAdd">++</p>
-        <!-- <p class="my-auto mx-auto" @click="handleAdd">+</p> -->
-      </div>
-      <input v-if="adding" class="w-10" type="number" v-model.number="count">
+    <div class="on-right rounded-full grid px-2 aspect-square bg-gray-100">
+      <p class="my-auto mx-auto">{{ plant.Count }}</p>
+      <!-- <p class="my-auto mx-auto" @click="handleAdd">+</p> -->
     </div>
     <!-- <p class="bg-gray-100 rounded-full">Hello</p> -->
 
@@ -25,8 +21,6 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['addToCart'])
-
 const props = defineProps({
   plant: Object,
   rowHeight: Number,
@@ -34,23 +28,7 @@ const props = defineProps({
 
 })
 
-
-
-const count = ref(1)
-const adding = ref(false)
-
 // console.log(props.rowHeight)
-
-const handleAdd = () => {
-  if (adding) {
-    console.log(props.plant.id);
-    console.log(count.value);
-    emit('addToCart', props.plant.id, count.value)
-    adding.value = false
-  } else {
-    adding.value = true
-  }
-}
 
 const handleClick = () => {
 }
@@ -75,12 +53,12 @@ const handleClick = () => {
   padding: 5px;
   border: 1px solid rgb(238, 238, 238);
   margin-left: 0.75rem;
-  grid-template-columns: 8fr 78fr 10fr 3fr;
+  grid-template-columns: 8fr 78fr 13fr 1fr;
   place-items: center start;
   min-width: 30rem;
   /* resize: both; */
+  height: v-bind(rowHeight + 'px');
   font-size: v-bind(textSize + 'px');
-  /* height: v-bind(rowHeight + 'px'); */
   /* height: 4rem; */
 
 }
