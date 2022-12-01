@@ -68,7 +68,7 @@ const props = defineProps({
 
 
 const count = ref(1)
-const adding = ref(true)
+const adding = ref(false)
 
 // console.log(props.rowHeight)
 
@@ -148,7 +148,7 @@ const toolTipCalculator = (firstLetter) => {
 
 .if-adding {
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
 .adding>*:not(:nth-last-child(1)) {
