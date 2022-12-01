@@ -4,6 +4,7 @@ import { defineNuxtConfig } from 'nuxt'
 export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
+    'nuxt-icon'
   ],
   // modules: [[    
   //   '@pinia/nuxt',

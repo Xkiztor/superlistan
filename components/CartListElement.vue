@@ -44,7 +44,7 @@ const handleClick = () => {
 </script>
 
 <style>
-.btn-add {
+/* .btn-add {
   border: 1px solid rgb(235, 235, 235);
   aspect-ratio: 1;
 }
@@ -56,14 +56,14 @@ const handleClick = () => {
   grid-template-columns: 8fr 78fr 13fr 1fr;
   place-items: center start;
   min-width: 30rem;
-  /* resize: both; */
+
   height: v-bind(rowHeight + 'px');
   font-size: v-bind(textSize + 'px');
-  /* height: 4rem; */
 
-}
 
-@media only screen and (max-width: 600px) {
+} */
+
+/* @media only screen and (max-width: 600px) {
   .element {
     font-size: 0.9rem
   }
@@ -71,9 +71,9 @@ const handleClick = () => {
 
 .on-right {
   place-self: center end;
-}
+} */
 
-.t-green {
+/* .t-green {
   background-color: rgb(117, 236, 117);
 }
 
@@ -95,5 +95,5 @@ const handleClick = () => {
 
 .g-pink {
   background-color: rgb(246, 168, 255);
-}
+} */
 </style>

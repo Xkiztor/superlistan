@@ -1,56 +1,54 @@
 <template>
-  <div>
-    <div v-if="showSettings" class="bordery max-w-2xl w-fit m-2 p-2">
-      <label for="height">Höjd:</label>
-      <input type="number" v-model="rowHeight" class="bg-gray-50 m-2 p-2 bordery mr-10 rounded-lg">
-      <label for="height">Textstorlek:</label>
-      <input type="number" v-model="textSize" class="bg-gray-50 m-2 p-2 bordery rounded-lg">
-    </div>
-    <h1 class="text-4xl m-2 mt-5">Superlista!</h1>
-    <div class="w-full shadow-2xl h-10 fixed top-[-2.5rem]"></div>
-    <div class="bg-gray-50 w-fit m-2 bordery sticky h-fit top-1 z-10 shadow-md">
-      <button class="bg-slate-100 m-2 rounded-xl btn" @click="handleClick">
-        <p v-if="sortBy.ascending">Stigande</p>
-        <p v-if="!sortBy.ascending">Nedåtgående</p>
-      </button>
-
-      <select name="sortBy" id="sortBySelector" v-model="sortBy.sortByWhat" @change="fetchList(0, 99)">
-        <option value="Namn">Namn</option>
-        <option value="Pris">Pris</option>
-        <option value="Typ">Typ</option>
-      </select>
-      <ClientOnly fallbackTag="div">
-        <!-- <input type="text" placeholder=" Sök" v-model="query" v-if="!lazyInput" class="m-2 bg-gray-100 rounded-lg" title="Sök"> -->
-        <input type="text" placeholder=" Sök" v-model="query" class="m-2 bg-gray-100 rounded-lg bordery" title="Lazy">
-        <!-- {{lazyInput}} -->
-      </ClientOnly>
-
-      <!-- <input type="checkbox" v-model="lazyInput" title="Lazy input?" id="lazyInput">
-        <label for="lazyInput" title="man behöver trycka enter för att söka" class="m-2">Lat sökning?</label> -->
-
-      <button class="m-2 bg-gray-100 text-xs rounded-xl btn" @click="fetchAllList">Ladda Alla</button>
+  <div class="list-layout">
+    <div>
+      <FilterModule :sortBy="sortBy" :query="query" @fetch-list="fetchList(0, 99)" @handle-click="handleClick"
+        v-model:query="query" @fetch-all-list="fetchAllList" />
+      <!-- <FilterModule :sortBy="sortBy" :query="query" @fetch-list="fetchList(0, 99)" @handle-click="handleClick"
+        v-model:query="query" /> -->
+      <!-- <div v-if="showSettings" class="bordery max-w-2xl w-fit m-2 p-2">
+        <label for="height">Höjd:</label>
+        <input type="number" v-model="rowHeight" class="bg-gray-50 m-2 p-2 bordery mr-10 rounded-lg">
+        <label for="height">Textstorlek:</label>
+        <input type="number" v-model="textSize" class="bg-gray-50 m-2 p-2 bordery rounded-lg">
+      </div> -->
+      <!-- <h1 class="text-4xl m-2 mt-5">Superlista!</h1> -->
+      <!-- <div class="w-full shadow-2xl h-10 fixed top-[-2.5rem]"></div> -->
 
     </div>
-    <div class="absolute top-14 right-0 grid grid-cols-2 grid-rows-1 p-2 gap-4">
-      <button class="bordery p-2 bg-gray-50 rounded-lg" @click="showSettings = !showSettings">Inställningar</button>
-      <nuxt-link class="bordery p-2 bg-gray-50 rounded-lg" to="/onske-lista">Önskelista</nuxt-link>
-    </div>
-    <div ref="listEl">
-      <div v-for="plant in list" :key="plant.id">
-        <ListElement :plant="plant" :rowHeight="rowHeight" :textSize="textSize" @add-to-cart="handleAdd" />
+
+
+    <div class="list-bg">
+      <ColumnTopInfo />
+      <div ref="listEl" class="">
+        <div v-for="plant in list" :key="plant.id">
+          <ListElement :plant="plant" :rowHeight="rowHeight" :textSize="textSize" @add-to-cart="handleAdd" />
+        </div>
       </div>
     </div>
+    <!-- 
+    <div class="navigator">
+      <button class="p-2 rounded-[0.75rem]" @click="showSettings = !showSettings">Inställningar</button>
+      <nuxt-link class="p-2 rounded-[0.75rem]" to="/onske-lista">Önskelista</nuxt-link>
+    </div> -->
     <!-- <ClientOnly fallbackTag="div" ref="listEl">
       <div v-for="plant in list" :key="plant.id">
         <ListElement :plant="plant" :rowHeight="rowHeight" :textSize="textSize" @add-to-cart="handleAdd" />
       </div>
     </ClientOnly> -->
     <!-- <div v-observe-visibility="visibilityChanged">Hello</div> -->
-    <div v-if="!theEnd" id="loader" class="loader-style">1</div>
-    <div v-if="!theEnd" id="loader">2</div>
-    <div v-if="!theEnd">Laddar....</div>
-    <div v-if="theEnd">Här är listan slut :)</div>
-    <nuxt-link @click="scrollToTop" class="scroll-to-top bg-gray-100 p-2 rounded-full shadow-lg">Skolla till toppen
+    <!-- <div class="center-bottom">
+      <div v-if="!theEnd" id="loader" class="loader-style">1</div>
+      <div v-if="!theEnd" id="loader">2</div>
+      <div v-if="!theEnd">Laddar....</div>
+      <div v-if="theEnd">Här är listan slut :)</div>
+    </div> -->
+    <div class="observer" ref="observerTarget">
+      <h1>Hello!</h1>
+    </div>
+    <div class="center-bottom">
+      {{ userMessage }}
+    </div>
+    <nuxt-link @click="scrollToTop" class="scroll-to-top  bg-white">Skolla till toppen
     </nuxt-link>
   </div>
 </template>
@@ -60,6 +58,7 @@
 // import { useCounterStore } from '../stores/counter.js'
 /* - - - - - - Supabase Setup - - - - - - */
 import { createClient } from '@supabase/supabase-js'
+import { useElementVisibility, useIntersectionObserver } from '@vueuse/core'
 
 const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
@@ -70,48 +69,30 @@ const sortBy = ref({ sortByWhat: 'Namn', ascending: true })
 const query = ref("")
 const getList = ref([])
 const fetchRange = ref({ from: 0, to: 99 })
-const theEnd = ref(false)
-const lazyInput = ref()
-
-const showSettings = ref(false)
-
-const listEl = ref(null)
 
 const rowHeight = ref(40)
 const textSize = ref(16)
 
+const userMessage = ref('Laddar')
+
+const observerTarget = ref(null)
+const targetIsVisible = ref(false)
+
+const { stop } = useIntersectionObserver(
+  observerTarget,
+  ([{ isIntersecting }], observerElement) => {
+    targetIsVisible.value = isIntersecting
+    if (targetIsVisible.value = true) {
+      fetchMoreList()
+    }
+  },
+)
+
+// const targetIsVisible = useElementVisibility(observerTarget)
+
 const cart = ref([
   { id: 69, count: 1 }
 ])
-
-let testCount = 0;
-/* - - - - - - Pinia - - - - - - */
-// const store = useCounterStore()
-// store.count++
-// store.increment(2)
-
-// console.log(store.count)
-
-/* - - - - - - Saving on local storage - - - - - - */
-watch(lazyInput, () => {
-  if (typeof window !== 'undefined') {
-    // console.log('clietn')
-    localStorage.setItem('lazyInput', `${lazyInput.value}`);
-    // console.log(localStorage.getItem('lazyInput'));
-  }
-})
-
-/* - - - - - - Getting from local storage - - - - - - */
-if (typeof window !== 'undefined') {
-  if (localStorage.getItem('lazyInput')) {
-    console.log('in local storage')
-    // console.log(localStorage.getItem('lazyInput'));
-    lazyInput.value = localStorage.getItem('lazyInput')
-  } else {
-    console.log('not in local storage')
-    lazyInput.value = true
-  }
-}
 
 /* - - - - - - Adding to cart - - - - - - */
 const handleAdd = (id, count) => {
@@ -133,9 +114,10 @@ watch(query, () => {
 
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
-  console.log('mounted');
   fetchList(0, 99)
 })
+
+
 const fetchList = async (from, to) => {
   getList.value = []
   const { data, error } = await supabase
@@ -150,13 +132,18 @@ const fetchList = async (from, to) => {
     getList.value = null
   }
   if (data) {
-    // console.log(data)
+    userMessage.value = 'Här är listan slut'
+    if (!data.length > 0) {
+      userMessage.value = 'Inga resultat'
+    }
+    console.log(data)
     getList.value = data
   }
 }
 
 /* - - - - - - Fetch all list- - - - - - */
 const fetchAllList = async () => {
+  userMessage.value = 'laddar...'
   getList.value = []
   const { data, error } = await supabase
     .from('superlista')
@@ -171,7 +158,7 @@ const fetchAllList = async () => {
   }
   if (data) {
     // console.log(data)
-    theEnd.value = true
+    userMessage.value = 'Här är listan slut'
     getList.value = data
   }
 }
@@ -179,6 +166,7 @@ const fetchAllList = async () => {
 
 /* - - - - - - Infinite scrolling - - - - - - */
 const fetchMoreList = async () => {
+  userMessage.value = 'laddar...'
   const { data, error } = await supabase
     .from('superlista')
     .select()
@@ -197,39 +185,13 @@ const fetchMoreList = async () => {
       getList.value.push(...data)
       // console.log(data)
     }
-    if (!data.length > 0) theEnd.value = true
+    if (!data.length > 0) {
+      userMessage.value = 'Listan är slut här'
+    }
     fetchRange.value.from += 100
     fetchRange.value.to += 100
   }
 }
-
-// useInfiniteScroll(
-//   listEl,
-//   () => {
-//     console.log('heloooooooooo')
-//   },
-//   { distance: 10 }
-// );
-
-
-onMounted(() => {
-  console.log('mounted 2');
-  console.log(testCount);
-  testCount++;
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      console.log('i see you')
-      if (entry.intersectionRatio > 0) {
-        // console.log('i see you')
-        fetchMoreList()
-      }
-    })
-  })
-  document.querySelectorAll('#loader').forEach((section) => {
-    console.log('observe');
-    observer.observe(section)
-  })
-})
 
 
 /* - - - - - - Handling click - - - - - - */
@@ -244,45 +206,14 @@ const scrollToTop = () => {
   window.scrollTo(0, 0);
 }
 
-// if (typeof window !== 'undefined') {
-// if(!JSON.parse(localStorage.getItem('test2'))) {
-//     getList.value = dataTest()
-//     console.log('from script')
-//     // console.log(JSON.parse(localStorage.getItem('test2')))
-//   } else {
-//     getList.value = JSON.parse(localStorage.getItem('test2'))
-//     console.log('from local storage')
-//     // console.log(JSON.parse(localStorage.getItem('test2')).lenght)
-//   // let getList = JSON.parse(localStorage.getItem('test2'))
-//   }
-// }
-
-// localStorage.setItem("test", "Hello")
-
-// let list = getList.value.sort((a, b) => a.PrisMedMoms - b.PrisMedMoms);
 
 const list = computed(() => {
-  // const filter = () => {
-  //   if(query.value) {
-  //     return getList.value.filter(foo => foo.VetenskapligtNamn.toUpperCase().includes(query.value.toUpperCase()))
-  //     } else return getList.value
-  //   }  
   let filteredArray = query.value
     ? getList.value.filter(foo => foo.Namn.toUpperCase().includes(query.value.toUpperCase()))
     : getList.value
 
-  // const filteredArray = ref(filter())
-
-  // return getList.value
-  // return filteredArray
   return getList.value
-  // return filteredArray.sort((a, b) => {
-  //   if(sortBy.value.ascending) {
-  //     return a[sortBy.value.sortByWhat] > b[sortBy.value.sortByWhat] ? 1 : -1
-  //   } else {
-  //     return a[sortBy.value.sortByWhat] < b[sortBy.value.sortByWhat] ? 1 : -1
-  //   }
-  // })
+
 })
 
 if (typeof window !== 'undefined') {
@@ -292,23 +223,58 @@ if (typeof window !== 'undefined') {
   // console.log('we are running on the server');
 }
 
-// if (typeof window !== 'undefined') {
-//   console.log(JSON.parse(localStorage.getItem('test2')) )
-//   // localStorage.getItem('test2', JSON.stringify(list.value));
-// } else {
-//   // console.log('we are running on the server');
-// }
-
 
 </script>
 
 
 <style>
-.p-2-me {
-  padding: 0.5px 8px;
+.list-bg {
+  border-radius: 1rem;
+  padding: 1rem;
+  width: fit-content;
+  margin: 0 auto;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.lista {
+.list-layout {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  max-width: 100rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media screen and (max-width: 1600px) {
+  .list-layout {
+    grid-template-columns: 1fr 3fr;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .list-layout {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.navigator {
+  max-width: 20rem;
+  margin: 0 auto;
+  background: white;
+  padding: 1rem;
+  height: fit-content;
+  border-radius: 1rem;
+}
+
+
+
+/* .navigator>a {
+  background: #e5e7eb;
+} */
+
+
+.html {
   transition: all 1s
 }
 
@@ -318,25 +284,27 @@ if (typeof window !== 'undefined') {
   /* opacity: 0; */
 }
 
-#loader {
-  opacity: 0;
-}
-
-.bordery {
-  border: 1px solid rgb(238, 238, 238);
+.observer {
+  transform: translateY(-120rem);
+  /* opacity: 0; */
 }
 
 .scroll-to-top {
   position: fixed;
   bottom: 1rem;
   right: 1rem;
+  padding: 0.7rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   /* transition: all 100ms; */
   /* translate: 10rem 0; */
+  border-radius: 1rem;
 }
 
-.btn {
-  padding: 4px;
-  font-size: 0.9rem;
+.center-bottom {
+  grid-column-start: 2;
+  grid-row-start: 2;
+  margin: 1rem auto 5rem;
+  font-size: 1.5rem;
 }
 
 /* .testing {

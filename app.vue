@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <nav class="bg-gray-100 p-2 shadow-md m-2">
-      <nuxt-link class="m-2" to="/">Home</nuxt-link>
-      <nuxt-link class="m-2" to="/lista">Lista</nuxt-link>
+  <div data-theme="light" class="main-layout">
+    <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver">
+      <nuxt-link class="" to="/">Hem</nuxt-link>
+      <nuxt-link class="" to="/lista">Lista</nuxt-link>
+      <nuxt-link class="" to="/onske-lista">Önskelista</nuxt-link>
       <!-- <NuxtLink to="/loggain" v-if="!isLoggedIn">Logga in</NuxtLink>
       <NuxtLink to="/registrera" v-if="!isLoggedIn">Registera dig</NuxtLink>
       <button @click="handleSignOut" v-if="isLoggedIn">Logga ut</button> -->
@@ -42,7 +43,54 @@ useHead({
 
 </script>
 
-<style scoped>
+<style>
+html {
+  background: #e5e7eb;
+}
+
+
+button,
+.btn-input,
+.navigator>a,
+input,
+select {
+  /* border: 1px solid rgb(223, 223, 223); */
+  padding: 0.4rem;
+  border-radius: 0.5rem;
+  background-color: #ebedf1;
+  box-shadow: inset 0 -0.5px 3px #cfd1d6;
+  margin: 0.5rem;
+  /* cfd1d6 */
+}
+
+/* .naver {} */
+
+.main-layout {
+  display: grid;
+  place-items: center;
+  padding: 0 1rem;
+}
+
+.naver>a {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.naver {
+  margin: 1rem 2rem;
+  width: 100%;
+  padding: 0;
+  height: 4rem;
+  display: grid;
+  max-width: 100rem;
+  margin-bottom: 1rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+}
+
+
+
 .the-grid {
   padding: 1rem;
   grid-template-columns: 8fr 100fr 8fr 8fr;

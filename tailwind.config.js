@@ -19,7 +19,27 @@ module.exports = {
   //   './nuxt.config.{js,ts}',
   // ],
   theme: {
-    extend: {},
+    // extend: {
+
+    // },
+    colors: {
+      rinth: {
+        100: '#f3f3f4',
+        200: '#e5e7eb',
+        300: '#696969'
+      },
+      white: '#ffffff'
+    }
   },
-  plugins: [],
+  plugins: [require('daisyui')],
+  daisyui: {
+    styled: true,
+    themes: true,
+    base: false,
+    utils: true,
+    logs: true,
+    rtl: false,
+    prefix: '',
+    darkTheme: 'dark',
+  },
 };
