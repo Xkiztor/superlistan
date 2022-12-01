@@ -286,7 +286,7 @@ if (typeof window !== 'undefined') {
 
 .observer {
   transform: translateY(-120rem);
-  /* opacity: 0; */
+  opacity: 0;
 }
 
 .scroll-to-top {

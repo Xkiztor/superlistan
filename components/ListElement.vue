@@ -173,7 +173,8 @@ const toolTipCalculator = (firstLetter) => {
 .info-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  width: auto;
+  width: 100%;
+  height: 100%;
   margin: 0;
   place-items: center;
   grid-column: 1 / 2;
