@@ -1,8 +1,9 @@
 <template>
   <div class="list-layout">
     <div>
-      <FilterModule :sortBy="sortBy" :query="query" @fetch-list="fetchList(0, 99)" @handle-click="handleClick"
-        v-model:query="query" @fetch-all-list="fetchAllList" />
+      <FilterModule :sortBy="sortBy" :filterType="filterType" :query="query" @fetch-list="fetchList(0, 99)"
+        @handle-click="handleClick" @fetch-all-list="fetchAllList" v-model:query="query"
+        v-model:filterType="filterType" />
       <!-- <FilterModule :sortBy="sortBy" :query="query" @fetch-list="fetchList(0, 99)" @handle-click="handleClick"
         v-model:query="query" /> -->
       <!-- <div v-if="showSettings" class="bordery max-w-2xl w-fit m-2 p-2">
@@ -58,7 +59,7 @@
 // import { useCounterStore } from '../stores/counter.js'
 /* - - - - - - Supabase Setup - - - - - - */
 import { createClient } from '@supabase/supabase-js'
-import { useElementVisibility, useIntersectionObserver } from '@vueuse/core'
+import { useElementVisibility, useIntersectionObserver, useStorage } from '@vueuse/core'
 
 const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
@@ -67,7 +68,9 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 /* - - - - - - Refs - - - - - - */
 const sortBy = ref({ sortByWhat: 'Namn', ascending: true })
 const query = ref("")
-const getList = ref([])
+const list = ref([])
+const filterType = ref("")
+// const list = useStorage('list', [])
 const fetchRange = ref({ from: 0, to: 99 })
 
 const rowHeight = ref(40)
@@ -77,6 +80,8 @@ const userMessage = ref('Laddar')
 
 const observerTarget = ref(null)
 const targetIsVisible = ref(false)
+
+
 
 const { stop } = useIntersectionObserver(
   observerTarget,
@@ -119,37 +124,47 @@ onMounted(() => {
 
 
 const fetchList = async (from, to) => {
-  getList.value = []
-  const { data, error } = await supabase
+  userMessage.value = 'laddar...'
+  list.value = []
+
+  let search = supabase
     .from('superlista')
     .select()
-    // .ilike('Namn', `%${query.value}%`)
     .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
     .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
     .range(from, to)
+  if (!filterType.value == '') { search = search.eq('Typ', `${filterType.value}`) }
+
+  const { data, error } = await search
+
   if (error) {
     console.error(error)
-    getList.value = null
+    list.value = null
   }
   if (data) {
     userMessage.value = 'Här är listan slut'
     if (!data.length > 0) {
       userMessage.value = 'Inga resultat'
     }
-    console.log(data)
-    getList.value = data
+    // console.log(data)
+    list.value = data
   }
 }
 
 /* - - - - - - Fetch all list- - - - - - */
 const fetchAllList = async () => {
   userMessage.value = 'laddar...'
-  getList.value = []
-  const { data, error } = await supabase
+  list.value = []
+
+  let search = supabase
     .from('superlista')
     .select()
     .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
     .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
+  if (!filterType.value == '') { search = search.eq('Typ', `${filterType.value}`) }
+
+  const { data, error } = await search
+
   // .range(fetchRange.value.from, fetchRange.value.to)
   // .order(orderBy.value, {ascending: ascending.value})
 
@@ -159,7 +174,7 @@ const fetchAllList = async () => {
   if (data) {
     // console.log(data)
     userMessage.value = 'Här är listan slut'
-    getList.value = data
+    list.value = data
   }
 }
 
@@ -167,22 +182,23 @@ const fetchAllList = async () => {
 /* - - - - - - Infinite scrolling - - - - - - */
 const fetchMoreList = async () => {
   userMessage.value = 'laddar...'
-  const { data, error } = await supabase
+
+  let search = supabase
     .from('superlista')
     .select()
     .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
     .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
-    // .order('id', { ascending: true})
-    // .range(from, to)
     .range(fetchRange.value.from, fetchRange.value.to)
-  // .range(0, 10)
+  if (!filterType.value == '') { search = search.eq('Typ', `${filterType.value}`) }
+
+  const { data, error } = await search
 
   if (error) {
     console.log(error)
   }
   if (data) {
     if (fetchRange.value.from >= 100) {
-      getList.value.push(...data)
+      list.value.push(...data)
       // console.log(data)
     }
     if (!data.length > 0) {
@@ -206,15 +222,6 @@ const scrollToTop = () => {
   window.scrollTo(0, 0);
 }
 
-
-const list = computed(() => {
-  let filteredArray = query.value
-    ? getList.value.filter(foo => foo.Namn.toUpperCase().includes(query.value.toUpperCase()))
-    : getList.value
-
-  return getList.value
-
-})
 
 if (typeof window !== 'undefined') {
   // console.log('we are running on the client')

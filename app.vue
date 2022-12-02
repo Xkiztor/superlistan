@@ -1,9 +1,9 @@
 <template>
   <div data-theme="light" class="main-layout">
     <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver">
-      <nuxt-link class="" to="/">Hem</nuxt-link>
-      <nuxt-link class="" to="/lista">Lista</nuxt-link>
-      <nuxt-link class="" to="/onske-lista">Önskelista</nuxt-link>
+      <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">Hem</nuxt-link>
+      <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista">Lista</nuxt-link>
+      <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista">Önskelista</nuxt-link>
       <!-- <NuxtLink to="/loggain" v-if="!isLoggedIn">Logga in</NuxtLink>
       <NuxtLink to="/registrera" v-if="!isLoggedIn">Registera dig</NuxtLink>
       <button @click="handleSignOut" v-if="isLoggedIn">Logga ut</button> -->
@@ -40,6 +40,8 @@ useHead({
   }
 })
 
+// const route = useRoute()
+// console.log(route.path)
 
 </script>
 
@@ -89,7 +91,9 @@ select {
   place-items: center;
 }
 
-
+.active {
+  border-bottom: 2.5px ridge #116fea;
+}
 
 .the-grid {
   padding: 1rem;

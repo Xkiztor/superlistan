@@ -1,8 +1,11 @@
 <template>
   <div>
     <h1 class="text-5xl font-bold mb-2 ml-2" @click="handleClick">Önskelista</h1>
-    <div v-for="plant in list" :key="plant.id">
-      <CartListElement :plant="plant" />
+    <div class="list-bg">
+      <ColumnTopInfo />
+      <div v-for="plant in list" :key="plant.id">
+        <ListElement :plant="plant" />
+      </div>
     </div>
   </div>
 </template>
@@ -35,7 +38,7 @@ const fetchList = async (id, count) => {
 
 const handleClick = () => {
   console.log(JSON.parse(localStorage.getItem('cart')))
-  fetchList(420)
+  fetchList(420, 8)
 }
 
 
@@ -50,3 +53,12 @@ if (typeof window !== 'undefined') {
   }
 }
 </script>
+
+<style>
+.list-container {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
+}
+</style>

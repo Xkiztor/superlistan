@@ -19,14 +19,28 @@
       <select name="sortBy" id="sortBySelector" v-model="props.sortBy.sortByWhat" @change="$emit('fetchList')">
         <option value="Namn">Namn</option>
         <option value="Pris">Pris</option>
-        <option value="Typ">Typ</option>
+        <!-- <option value="Typ">Typ</option> -->
+      </select>
+    </div>
+    <div class="filter-div">
+      <p>Filtrera typ:</p>
+      <select name="filterType" id="filterTypeSelector" v-model="type" :value="props.filterType"
+        @input="$emit('update:filterType', $event.target.value)" @change="$emit('fetchList')">
+        <option value="">Välj</option>
+        <option value="T">Träd</option>
+        <option value="B">Barrträd</option>
+        <option value="P">Perenner</option>
+        <option value="K">Klätterväxt</option>
+        <option value="O">Ormbunke</option>
+        <option value="G">Gräs</option>
+        <!-- <option value="Typ">Typ</option> -->
       </select>
     </div>
     <div class="filter-div bottom-one">
-      <ClientOnly fallbackTag="div">
-        <input type="text" placeholder=" Sök" :value="query" @input="$emit('update:query', $event.target.value)"
-          class="m-2 bg-gray-100 rounded-lg bordery" title="Lazy">
-      </ClientOnly>
+      <!-- <ClientOnly fallbackTag="div"> -->
+      <input type="text" placeholder=" Sök" :value="query" @input="$emit('update:query', $event.target.value)"
+        class="m-2 bg-gray-100 rounded-lg bordery" title="Lazy">
+      <!-- </ClientOnly> -->
       <button class="m-2 bg-gray-100" @click="$emit('fetchAllList')">Ladda Alla</button>
     </div>
 
@@ -34,9 +48,12 @@
 </template>
 
 <script setup>
-const props = defineProps(['sortBy', 'query'])
+const props = defineProps(['sortBy', 'query', 'filterType'])
+
+const type = ref('')
+type.value = props.filterType
 // defineProps(['query', 'sortBy'])
-defineEmits(['update:query', 'fetchAllList', 'fetchList', 'handleClick'])
+defineEmits(['update:query', 'update:filterType', 'fetchAllList', 'fetchList', 'handleClick'])
 </script>
 
 <style>

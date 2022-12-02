@@ -13,9 +13,10 @@
 .top-info {
   display: grid;
   /* max-width: 30rem; */
-  grid-template-columns: 3fr 40fr 15fr 8fr 10fr 3fr;
+  grid-template-columns: 4fr 38fr 15fr 8fr 10fr 3fr;
   place-items: center start;
   padding: 5px;
-  margin-left: 0.75rem;
+  /* margin-left: 0.75rem; */
+  border-bottom: 1px solid #e5e7eb;
 }
 </style>

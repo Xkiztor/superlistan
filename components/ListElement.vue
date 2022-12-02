@@ -23,18 +23,12 @@
     <p class="mr-2 on-right">{{ plant.Pris }} kr</p>
     <!-- <button class="bg-gray-100 rounded-full text-center btn-add p-2">+</button> -->
     <!-- <div class="bg-gray-100 rounded-full p-2 w-10 aspect-square"><p class="text-center">+</p></div> -->
-    <div>
-      <div class="on-right rounded-full grid px-2 aspect-square bg-gray-100">
-        <p v-if="!adding" class="my-auto mx-auto cursor-pointer" @click="adding = !adding">
-          <Icon name="material-symbols:keyboard-arrow-up-rounded" size="20" />
-        </p>
-        <p v-else class="my-auto mx-auto cursor-pointer" @click="adding = !adding">
-          <Icon name="material-symbols:keyboard-arrow-down-rounded" size="20" />
-        </p>
-        <!-- <p class="my-auto mx-auto" @click="handleAdd">+</p> -->
-      </div>
-
-    </div>
+    <button class="on-right rounded-full grid px-2 aspect-square bg-gray-100" @click="adding = !adding">
+      <Icon v-if="!adding" class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-up-rounded"
+        size="20" />
+      <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded"
+        size="20" />
+    </button>
     <div class="border-t-rinth-200 border-t-2 p-2 mt-2 mx-0 w-full adding h-14" v-if="adding">
       <div class="info-container">
         <p v-if="plant.Höjd">Höjd: {{ plant.Höjd }}</p>
@@ -201,6 +195,14 @@ const toolTipCalculator = (firstLetter) => {
 
 .on-right {
   place-self: center end;
+  background-color: transparent;
+  box-shadow: none;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
 }
 
 .t-green {
