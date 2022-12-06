@@ -37,7 +37,29 @@ useHead({
   },
   htmlAttrs: {
     lang: 'se',
-  }
+  },
+  link: [
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.googleapis.com'
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap',
+      crossorigin: ''
+    }
+  ],
+  link: [
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.googleapis.com'
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Rubik',
+      crossorigin: ''
+    }
+  ]
 })
 
 // const route = useRoute()
@@ -46,6 +68,22 @@ useHead({
 </script>
 
 <style>
+/* @font-face {
+  font-family: "Inter";
+  src: local("Inter"), url(./assets/fonts/Inter.ttf) format("truetype");
+} */
+
+
+* {
+  font-family: 'Roboto', 'Inter', 'Helvetica';
+}
+
+h1 {
+  font-family: 'Rubik', 'Roboto', 'Inter', 'Helvetica';
+  font-weight: 600 !important;
+  stroke: 2px solid #116fea;
+}
+
 html {
   background: #e5e7eb;
 }

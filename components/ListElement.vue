@@ -1,15 +1,15 @@
 <template>
-  <div @click="handleClick" class="bg-slate-50 md:max-w-4xl xl:max-w-4xl grid element rounded-[1rem]"
+  <div @click="handleClick" class="md:max-w-4xl xl:max-w-4xl grid element rounded-[1rem]"
     :class="adding ? 'if-adding' : ''">
-    <div class="rounded-full grid px-1 aspect-square place-items-center border-2"
+    <div class="plant-icon rounded-full grid px-1 aspect-square place-items-center border-2"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
       :title="toolTipCalculator(plant.Typ)">
-      <Icon name="noto:deciduous-tree" size="20" v-if="plant.Typ == 'T'" title="Träd" />
-      <Icon name="noto:evergreen-tree" size="20" v-if="plant.Typ == 'B'" />
-      <Icon name="noto:tulip" size="20" v-if="plant.Typ == 'P'" />
-      <Icon name="noto:potted-plant" size="20" v-if="plant.Typ == 'O'" />
-      <Icon name="noto:herb" size="20" v-if="plant.Typ == 'G'" />
-      <Icon name="noto:tanabata-tree" size="20" v-if="plant.Typ == 'K'" />
+      <Icon name="noto:deciduous-tree" size="16" v-if="plant.Typ == 'T'" title="Träd" />
+      <Icon name="noto:evergreen-tree" size="16" v-if="plant.Typ == 'B'" />
+      <Icon name="noto:tulip" size="16" v-if="plant.Typ == 'P'" />
+      <Icon name="noto:potted-plant" size="16" v-if="plant.Typ == 'O'" />
+      <Icon name="noto:herb" size="16" v-if="plant.Typ == 'G'" />
+      <Icon name="noto:tanabata-tree" size="16" v-if="plant.Typ == 'K'" />
     </div>
 
     <p class="mr-2 ml-4 overflow-hidden"><a
@@ -17,10 +17,12 @@
             plant.Namn
         }}</a></p>
 
-    <p v-if="plant.Höjd" class="mr-2 hide-on-phone">{{ plant.Höjd }} cm</p>
+    <p v-if="plant.Höjd && !isOnskeLista" class="mr-2 hide-on-phone">{{ plant.Höjd }} cm</p>
     <p v-else class="mr-2 hide-on-phone"></p>
-    <p class="mr-2 whitespace-nowrap hide-on-phone">{{ plant.Kruka }}</p>
-    <p class="mr-2 on-right">{{ plant.Pris }} kr</p>
+    <p v-if="!isOnskeLista" class="mr-2 whitespace-nowrap hide-on-phone">{{ plant.Kruka }}</p>
+    <p v-else class="mr-2 whitespace-nowrap hide-on-phone">{{ plant.Count }}</p>
+    <p v-if="isOnskeLista" class="mr-2 on-right">{{ formatNumber(plant.Pris * plant.Count) }} kr</p>
+    <p v-else class="mr-2 on-right">{{ formatNumber(plant.Pris) }} kr</p>
     <!-- <button class="bg-gray-100 rounded-full text-center btn-add p-2">+</button> -->
     <!-- <div class="bg-gray-100 rounded-full p-2 w-10 aspect-square"><p class="text-center">+</p></div> -->
     <button class="on-right rounded-full grid px-2 aspect-square bg-gray-100" @click="adding = !adding">
@@ -31,18 +33,23 @@
     </button>
     <div class="border-t-rinth-200 border-t-2 p-2 mt-2 mx-0 w-full adding h-14" v-if="adding">
       <div class="info-container">
-        <p v-if="plant.Höjd">Höjd: {{ plant.Höjd }}</p>
-        <p v-if="plant.Kruka">Kruka: {{ plant.Kruka }}</p>
+        <p v-if="plant.Höjd" class="hide-on-pc">Höjd: {{ plant.Höjd }}</p>
+        <p v-if="plant.Kruka" class="hide-on-pc">Kruka: {{ plant.Kruka }}</p>
         <p v-if="plant.Lager">Lager: {{ plant.Lager }}</p>
+        <p v-if="isOnskeLista">{{ plant.Pris }} kr/st</p>
         <p v-if="plant.MinOrder">Min. Order: {{ plant.MinOrder }}</p>
-        <a v-if="plant.Länk" :href="plant.Länk" class="link-color underline">Länk</a>
+        <a v-if="plant.Länk" :href="plant.Länk" target="_blank" class="link-color underline">Länk</a>
         <p v-if="plant.Storlekskommentar">{{ plant.Storlekskommentar }}</p>
         <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
         <p v-if="plant.Zon">Zon: {{ plant.Zon }}</p>
       </div>
-      <div class="add-section">
-        <input class="w-14 mr-3 btn-input" type="number" v-model.number="count">
+      <div v-if="!isOnskeLista" class="add-section">
+        <input class="w-14 mr-3 btn-input" type="number" min="0" v-model.number="count">
         <button @click="handleAdd">Lägg till</button>
+      </div>
+      <div v-else class="add-section">
+        <input class="w-14 mr-3 btn-input" type="number" v-model.number="count">
+        <button @click="handleDelete">Ta bort</button>
       </div>
     </div>
     <!-- <p class="bg-gray-100 rounded-full">Hello</p> -->
@@ -51,13 +58,13 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['addToCart'])
+const emit = defineEmits(['addToCart', 'handleDelete'])
 
 const props = defineProps({
   plant: Object,
   rowHeight: Number,
   textSize: Number,
-
+  isOnskeLista: Boolean,
 })
 
 
@@ -75,6 +82,19 @@ const handleAdd = () => {
   } else {
     adding.value = true
   }
+}
+
+const formatNumber = (x) => {
+  x = x.toString();
+  var pattern = /(-?\d+)(\d{3})/;
+  while (pattern.test(x))
+    x = x.replace(pattern, "$1,$2");
+  return x;
+}
+
+const handleDelete = () => {
+  console.log(props.plant.id)
+  emit('handleDelete', props.plant.id)
 }
 
 const handleClick = () => {
@@ -106,7 +126,8 @@ const toolTipCalculator = (firstLetter) => {
 }
 
 .element {
-  padding: 5px;
+  padding: 3px;
+  padding-left: 7px;
   width: fit-content;
   /* border: 1px solid rgb(225, 225, 225); */
   /* margin-left: 0.75rem; */
@@ -116,6 +137,11 @@ const toolTipCalculator = (firstLetter) => {
   /* min-width: 30rem; */
   font-size: v-bind(textSize + 'px');
   transition: all 100ms;
+  height: fit-content;
+}
+
+.element:not(.if-adding) {
+  border-radius: 2rem;
 }
 
 .element:hover:not(.if-adding) {
@@ -145,9 +171,9 @@ const toolTipCalculator = (firstLetter) => {
   margin: 1rem 0;
 }
 
-.adding>*:not(:nth-last-child(1)) {
+/* .adding>*:not(:nth-last-child(1)) {
   margin-right: 1rem;
-}
+} */
 
 .adding p,
 .adding a {
@@ -159,9 +185,11 @@ const toolTipCalculator = (firstLetter) => {
 
 .add-section {
   grid-column: 5;
-  margin-left: auto;
+  /* margin-left: auto; */
   display: grid;
   place-items: center end;
+  grid-column: 2 / 3;
+  width: 100%;
 }
 
 .info-container {
@@ -193,6 +221,19 @@ const toolTipCalculator = (firstLetter) => {
   }
 }
 
+@media only screen and (min-width: 900px) {
+  .add-section {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  .hide-on-pc {
+    display: none;
+  }
+}
+
 .on-right {
   place-self: center end;
   background-color: transparent;
@@ -204,6 +245,7 @@ const toolTipCalculator = (firstLetter) => {
   display: grid;
   place-items: center;
 }
+
 
 .t-green {
   border-color: rgb(117, 236, 117);

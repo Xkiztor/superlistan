@@ -19,10 +19,11 @@
 
 
     <div class="list-bg">
-      <ColumnTopInfo />
+      <ColumnTopInfo :isOnskeLista="false" />
       <div ref="listEl" class="">
         <div v-for="plant in list" :key="plant.id">
-          <ListElement :plant="plant" :rowHeight="rowHeight" :textSize="textSize" @add-to-cart="handleAdd" />
+          <ListElement :plant="plant" :rowHeight="rowHeight" :textSize="textSize" @add-to-cart="handleAdd"
+            :isOnskeLista="false" />
         </div>
       </div>
     </div>
@@ -48,6 +49,7 @@
     </div>
     <div class="center-bottom">
       {{ userMessage }}
+      <p>Om det inte laddes fler, tryck <a @click="fetchMoreList()">här</a></p>
     </div>
     <nuxt-link @click="scrollToTop" class="scroll-to-top  bg-white">Skolla till toppen
     </nuxt-link>
@@ -81,7 +83,8 @@ const userMessage = ref('Laddar')
 const observerTarget = ref(null)
 const targetIsVisible = ref(false)
 
-
+const onskeList = useStorage('onske-list', [{ id: 420, count: 2 }]);
+// console.log(onskeList.value);
 
 const { stop } = useIntersectionObserver(
   observerTarget,
@@ -89,6 +92,7 @@ const { stop } = useIntersectionObserver(
     targetIsVisible.value = isIntersecting
     if (targetIsVisible.value = true) {
       fetchMoreList()
+      console.log('Intersecting');
     }
   },
 )
@@ -101,12 +105,9 @@ const cart = ref([
 
 /* - - - - - - Adding to cart - - - - - - */
 const handleAdd = (id, count) => {
-  const array = JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : []
-  array.push({ id, count })
-  // console.log(array);
-  localStorage.setItem('cart', `${JSON.stringify(array)}`);
-  console.log(JSON.parse(localStorage.getItem('cart')));
-  cart.value = array
+  const arr = [{ id: id, count: count }]
+  onskeList.value.push(arr[0])
+  console.log(onskeList.value);
   // }
 }
 
@@ -294,6 +295,7 @@ if (typeof window !== 'undefined') {
 .observer {
   transform: translateY(-120rem);
   opacity: 0;
+  height: fit-content;
 }
 
 .scroll-to-top {
@@ -312,6 +314,18 @@ if (typeof window !== 'undefined') {
   grid-row-start: 2;
   margin: 1rem auto 5rem;
   font-size: 1.5rem;
+  text-align: center
+}
+
+.center-bottom>p,
+.center-bottom>a {
+  font-size: 0.8rem;
+  color: #6c6f87;
+}
+
+.center-bottom>p>a {
+  text-decoration: underline !important;
+  color: #0645AD;
 }
 
 /* .testing {
