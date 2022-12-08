@@ -131,7 +131,7 @@ watch(query, () => {
 
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
-  fetchList(0, 99)
+  fetchList(0, 49)
 })
 
 
@@ -216,8 +216,8 @@ const fetchMoreList = async () => {
     if (!data.length > 0) {
       userMessage.value = 'Listan är slut här'
     }
-    fetchRange.value.from += 100
-    fetchRange.value.to += 100
+    fetchRange.value.from += 20
+    fetchRange.value.to += 20
   }
 }
 

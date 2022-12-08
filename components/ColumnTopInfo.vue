@@ -5,7 +5,7 @@
     <p v-else class="name">Namn</p>
     <p v-if="props.isOnskeLista == false" class="hide-on-phone">Storlek</p>
     <p v-if="props.isOnskeLista == false" class="hide-on-phone">Krukstorlek</p>
-    <!-- <p v-if="props.isOnskeLista == true" class=""></p> -->
+    <p v-if="props.isOnskeLista == true" class=""></p>
     <p v-if="props.isOnskeLista == true" class="hide-on-phone">Antal</p>
     <p class="ml-14 pris">Pris</p>
     <div></div>

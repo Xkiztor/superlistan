@@ -1,7 +1,8 @@
 <template>
-  <div data-theme="light" class="main-layout" ref="el">
-    <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver"
-      :style="{ width: targetIsVisible ? '60rem' : '100%' }">
+  <div data-theme="light" class="main-layout tou-z65h9k" ref="el">
+    <!-- <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver"
+      :style="{ width: targetIsVisible ? '60rem' : '100%' }"> -->
+    <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver">
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">Hem</nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista">Lista</nuxt-link>
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista">Önskelista</nuxt-link>
