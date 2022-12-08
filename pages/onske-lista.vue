@@ -9,7 +9,7 @@
     </div>
     <div class="bottom-section">
       <OnskeListaTotal :onskeListFull="onskeListFull" />
-      <div class="list-bg order-plants"></div>
+      <OnskeListaOrder />
     </div>
   </div>
 </template>
@@ -100,7 +100,8 @@ const handleDelete = (n) => {
 .list-bg {
   border-radius: 1rem;
   padding: 1rem;
-  width: fit-content;
+  /* width: fit-content; */
+  width: 100%;
   margin: 0 auto;
   background: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -112,19 +113,11 @@ const handleDelete = (n) => {
   gap: 1rem;
 }
 
-.order-plants {
-  width: 100%;
-  margin-top: 1rem;
-}
 
 @media screen and (max-width:800px) {
   .bottom-section {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
-  }
-
-  .order-plants {
-    margin-top: 0;
   }
 }
 
