@@ -1,6 +1,7 @@
 <template>
-  <div data-theme="light" class="main-layout">
-    <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver">
+  <div data-theme="light" class="main-layout" ref="el">
+    <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver"
+      :style="{ width: targetIsVisible ? '60rem' : '100%' }">
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">Hem</nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista">Lista</nuxt-link>
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista">Önskelista</nuxt-link>
@@ -56,14 +57,21 @@ useHead({
     },
     {
       rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Rubik',
+      href: 'https://fonts.googleapis.com/css2?family=Rubik&display=swap',
       crossorigin: ''
     }
   ]
 })
 
+
 // const route = useRoute()
 // console.log(route.path)
+
+
+
+const el = ref(null)
+const { y, arrivedState } = useScroll(el)
+const { left, right, top, bottom } = toRefs(arrivedState)
 
 </script>
 
@@ -72,7 +80,6 @@ useHead({
   font-family: "Inter";
   src: local("Inter"), url(./assets/fonts/Inter.ttf) format("truetype");
 } */
-
 
 * {
   font-family: 'Roboto', 'Inter', 'Helvetica';
@@ -127,6 +134,15 @@ select {
   margin-bottom: 1rem;
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
+  position: sticky;
+  top: 1rem;
+  z-index: 11;
+  transition: all 0.5s
+}
+
+.nav-observer {
+  position: absolute;
+  top: 0;
 }
 
 .active {

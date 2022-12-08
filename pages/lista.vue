@@ -47,9 +47,9 @@
     <div class="observer" ref="observerTarget">
       <h1>Hello!</h1>
     </div>
-    <div class="center-bottom">
+    <div class="center-bottom" ref="observerTarget2">
       {{ userMessage }}
-      <p>Om det inte laddes fler, tryck <a @click="fetchMoreList()">här</a></p>
+      <p>Om det inte laddas fler, tryck <a @click="fetchMoreList()">här</a></p>
     </div>
     <nuxt-link @click="scrollToTop" class="scroll-to-top  bg-white">Skolla till toppen
     </nuxt-link>
@@ -81,6 +81,7 @@ const textSize = ref(16)
 const userMessage = ref('Laddar')
 
 const observerTarget = ref(null)
+const observerTarget2 = ref(null)
 const targetIsVisible = ref(false)
 
 const onskeList = useStorage('onske-list', [{ id: 420, count: 2 }]);
@@ -93,6 +94,16 @@ const { stop } = useIntersectionObserver(
     if (targetIsVisible.value = true) {
       fetchMoreList()
       console.log('Intersecting');
+    }
+  },
+)
+const { stop2 } = useIntersectionObserver(
+  observerTarget2,
+  ([{ isIntersecting }], observerElement) => {
+    targetIsVisible.value = isIntersecting
+    if (targetIsVisible.value = true) {
+      fetchMoreList()
+      console.log('Intersecting2');
     }
   },
 )
@@ -214,7 +225,7 @@ const fetchMoreList = async () => {
 /* - - - - - - Handling click - - - - - - */
 const handleClick = () => {
   sortBy.value.ascending = !sortBy.value.ascending
-  console.log('Hello')
+  // console.log('Hello')
   fetchList(0, 99)
 }
 
@@ -263,6 +274,13 @@ if (typeof window !== 'undefined') {
   .list-layout {
     display: flex;
     flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .list-bg {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }
 

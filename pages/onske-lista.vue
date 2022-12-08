@@ -1,13 +1,16 @@
 <template>
   <div>
-    <h1 class="text-5xl font-bold mb-2 ml-2" @click="handleClick">Önskelista</h1>
+    <!-- <h1 class="header" @click="handleClick">Önskelista</h1> -->
     <div class="list-bg">
       <ColumnTopInfo :isOnskeLista="true" />
       <div v-for="plant in onskeListFull" :key="plant.id">
         <ListElement :plant="plant" :isOnskeLista="true" @handle-delete="handleDelete" />
       </div>
     </div>
-    <OnskeListaTotal :onskeListFull="onskeListFull" />
+    <div class="bottom-section">
+      <OnskeListaTotal :onskeListFull="onskeListFull" />
+      <div></div>
+    </div>
   </div>
 </template>
 
@@ -101,5 +104,22 @@ const handleDelete = (n) => {
   margin: 0 auto;
   background: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.bottom-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media screen and (max-width:800px) {
+  .bottom-section {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
+.header {
+  font-size: 2rem
 }
 </style>

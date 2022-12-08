@@ -1,5 +1,5 @@
 <template>
-  <div class="filters bg-white w-fit sticky h-fit top-4 z-10 shadow-md rounded-[1rem]">
+  <div class="filters w-fit h-fit shadow-md rounded-[1rem]">
     <div class="filter-div">
       <p>Ordning:</p>
       <button class="bg-gray-100 text-black m-2" @click="$emit('handleClick')">
@@ -77,22 +77,8 @@ defineEmits(['update:query', 'update:filterType', 'fetchAllList', 'fetchList', '
   .element {
     grid-template-columns: 1fr 40fr 15fr 3fr !important;
   }
-
-  .top-info {
-    grid-template-columns: 3fr 40fr 15fr 3fr !important;
-  }
-
-  .top-info>.pris {
-    place-self: center end;
-    margin-right: 0.75rem;
-  }
 }
 
-@media screen and (max-width:481px) {
-  .top-info {
-    grid-template-columns: 7fr 40fr 15fr 8fr !important;
-  }
-}
 
 @media screen and (min-width: 1200px) {
   .filters {
@@ -109,6 +95,10 @@ defineEmits(['update:query', 'update:filterType', 'fetchAllList', 'fetchList', '
   display: grid;
   padding: 1rem;
   width: auto;
+  position: sticky;
+  top: 6rem;
+  z-index: 10;
+  background-color: #fff;
 }
 
 .filter-div {

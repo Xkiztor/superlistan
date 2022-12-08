@@ -1,23 +1,26 @@
 <template>
   <div class="list-bg total">
-    <h1>Totalt:</h1>
+    <h1>Totalt</h1>
     <div>
       <p>
         <i class="main-value">{{ totalCount }}</i>
-        stycken växter
+        stycken plantor
       </p>
     </div>
     <div>
       <p>
         <!-- <Icon name="material-symbols:table-rows-rounded" size="20" /> -->
         <i class="main-value">{{ props.onskeListFull.length }}</i>
-        rader
+        olika växter
       </p>
+    </div>
+    <div class="spacer">
+
     </div>
     <div>
       <p>
         <i class="main-value">{{ totalPrice }}</i>
-        kr
+        kr totalt
       </p>
     </div>
 
@@ -50,12 +53,16 @@ div .total {
   margin-top: 0.3rem;
 }
 
+.spacer {
+  height: 0.2rem;
+}
+
 i {
   font-style: normal;
 }
 
-h1 {
-  font-size: 2rem;
+.total h1 {
+  font-size: 1.4rem;
   font-weight: 800;
 }
 </style>

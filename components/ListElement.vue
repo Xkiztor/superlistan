@@ -12,7 +12,7 @@
       <Icon name="noto:tanabata-tree" size="16" v-if="plant.Typ == 'K'" />
     </div>
 
-    <p class="mr-2 ml-4 overflow-hidden"><a
+    <p class="plant-name mr-2 ml-4 overflow-hidden"><a
         :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">{{
             plant.Namn
         }}</a></p>
@@ -21,11 +21,12 @@
     <p v-else class="mr-2 hide-on-phone"></p>
     <p v-if="!isOnskeLista" class="mr-2 whitespace-nowrap hide-on-phone">{{ plant.Kruka }}</p>
     <p v-else class="mr-2 whitespace-nowrap hide-on-phone">{{ plant.Count }}</p>
-    <p v-if="isOnskeLista" class="mr-2 on-right">{{ formatNumber(plant.Pris * plant.Count) }} kr</p>
-    <p v-else class="mr-2 on-right">{{ formatNumber(plant.Pris) }} kr</p>
+    <p v-if="isOnskeLista" class="mr-2 on-right">{{ plant.Pris * plant.Count }} kr</p>
+    <p v-else class="mr-2 on-right">{{ plant.Pris }} kr</p>
     <!-- <button class="bg-gray-100 rounded-full text-center btn-add p-2">+</button> -->
     <!-- <div class="bg-gray-100 rounded-full p-2 w-10 aspect-square"><p class="text-center">+</p></div> -->
-    <button class="on-right rounded-full grid px-2 aspect-square bg-gray-100" @click="adding = !adding">
+    <button class="on-right rounded-full grid px-2 aspect-square bg-gray-100" aria-label="Expandera"
+      @click="adding = !adding">
       <Icon v-if="!adding" class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-up-rounded"
         size="20" />
       <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded"
@@ -48,7 +49,7 @@
         <button @click="handleAdd">Lägg till</button>
       </div>
       <div v-else class="add-section">
-        <input class="w-14 mr-3 btn-input" type="number" v-model.number="count">
+        <input class="w-14 mr-3 btn-input" type="number" min="0" v-model.number="count">
         <button @click="handleDelete">Ta bort</button>
       </div>
     </div>
@@ -82,14 +83,6 @@ const handleAdd = () => {
   } else {
     adding.value = true
   }
-}
-
-const formatNumber = (x) => {
-  x = x.toString();
-  var pattern = /(-?\d+)(\d{3})/;
-  while (pattern.test(x))
-    x = x.replace(pattern, "$1,$2");
-  return x;
 }
 
 const handleDelete = () => {
@@ -219,6 +212,10 @@ const toolTipCalculator = (firstLetter) => {
   .kommentar {
     grid-column: span 3;
   }
+
+  .plant-name {
+    margin-left: 0.6rem;
+  }
 }
 
 @media only screen and (min-width: 900px) {
@@ -270,28 +267,4 @@ const toolTipCalculator = (firstLetter) => {
 .g-lime {
   border-color: rgb(137, 189, 43);
 }
-
-/* .t-green {
-  background-color: rgb(117, 236, 117);
-}
-
-.p-blue {
-  background-color: rgb(117, 208, 236);
-}
-
-.b-green {
-  background-color: rgb(89, 161, 79);
-}
-
-.k-orange {
-  background-color: rgb(236, 143, 117);
-}
-
-.o-yellow {
-  background-color: rgb(236, 226, 117);
-}
-
-.g-pink {
-  background-color: rgb(246, 168, 255);
-} */
 </style>
