@@ -1,6 +1,6 @@
 <template>
   <div class="list-layout">
-    <div class="filter-container">
+    <div class="filter-container" v-if="!isCollapsed">
       <FilterModule :sortBy="sortBy" :filterType="filterType" :query="query" @fetch-list="fetchList(0, 99)"
         @handle-click="handleClick" @fetch-all-list="fetchAllList" v-model:query="query" v-model:filterType="filterType"
         :filterLetter="filterLetter" v-model:filterLetter="filterLetter" :hasFetchedAll="hasFetchedAll" />
@@ -11,8 +11,7 @@
       <div v-bind="containerProps" class="container-props">
         <div v-bind="wrapperProps" class="wrapper-props">
           <div v-for="{ index, data } in list" :key="index">
-            <ListElement :plant="data" :rowHeight="rowHeight" :textSize="textSize" @add-to-cart="handleAdd"
-              :isOnskeLista="false" />
+            <ListElement :plant="data" @add-to-cart="handleAdd" :isOnskeLista="false" />
           </div>
           <!-- <div class="observer" ref="observerTarget">
             <h1>above 1</h1>
@@ -26,39 +25,43 @@
 
       </div>
     </div>
-
-    <div class="list-bg jump-to-container">
-      <p>Hoppa till bokstav</p>
-      <div class="filter-div jump-to">
-        <button value="A">A</button>
-        <button value="B">B</button>
-        <button value="C">C</button>
-        <button value="D">D</button>
-        <button value="E">E</button>
-        <button value="F">F</button>
-        <button value="G">G</button>
-        <button value="H">H</button>
-        <button value="I">I</button>
-        <button value="J">J</button>
-        <button value="K">K</button>
-        <button value="L">L</button>
-        <button value="M">M</button>
-        <button value="N">N</button>
-        <button value="O">O</button>
-        <button value="P">P</button>
-        <button value="Q">Q</button>
-        <button value="R">R</button>
-        <button value="S">S</button>
-        <button value="T">T</button>
-        <button value="U">U</button>
-        <button value="V">V</button>
-        <button value="W">W</button>
-        <button value="X">X</button>
-        <button value="Y">Y</button>
-        <button value="Z">Z</button>
+    <div v-if="!isCollapsed">
+      <div class="list-bg jump-to-container">
+        <p>Hoppa till bokstav</p>
+        <!-- <p>{{ screenSize.width }} {{ isCollapsed }}</p> -->
+        <div class="filter-div jump-to">
+          <button value="A">A</button>
+          <button value="B">B</button>
+          <button value="C">C</button>
+          <button value="D">D</button>
+          <button value="E">E</button>
+          <button value="F">F</button>
+          <button value="G">G</button>
+          <button value="H">H</button>
+          <button value="I">I</button>
+          <button value="J">J</button>
+          <button value="K">K</button>
+          <button value="L">L</button>
+          <button value="M">M</button>
+          <button value="N">N</button>
+          <button value="O">O</button>
+          <button value="P">P</button>
+          <button value="Q">Q</button>
+          <button value="R">R</button>
+          <button value="S">S</button>
+          <button value="T">T</button>
+          <button value="U">U</button>
+          <button value="V">V</button>
+          <button value="W">W</button>
+          <button value="X">X</button>
+          <button value="Y">Y</button>
+          <button value="Z">Z</button>
+        </div>
       </div>
     </div>
-    <nuxt-link @click="handleScrollTo" class="scroll-to-top  bg-white">Skolla till toppen {{ fps }}</nuxt-link>
+
+    <nuxt-link @click="handleScrollTo" class="scroll-to-top hide-on-phone bg-white">Skolla till toppen {{ fps
+    }}</nuxt-link>
   </div>
 </template>
 
@@ -82,9 +85,6 @@ const filterType = ref("")
 const fetchRange = ref({ from: 0, to: 50 })
 const hasFetchedAll = ref(false)
 
-const rowHeight = ref(40)
-const textSize = ref(16)
-
 const userMessage = ref('Laddar')
 
 const filterLetter = ref('')
@@ -92,9 +92,13 @@ const filterLetter = ref('')
 const fps = useFps()
 
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(dataList, {
+  // itemHeight: i => (dataList.value[i].heigh),
   itemHeight: 40,
   overscan: 35,
 })
+
+const screenSize = useWindowSize()
+const isCollapsed = computed(() => { return screenSize.width.value <= 1200 ? true : false })
 
 const onskeList = useStorage('onske-list', [{ id: 420, count: 2 }]);
 
@@ -268,10 +272,17 @@ const scrollToTop = () => {
 
 <style>
 .container-props {
-  height: 100% !important;
+  /* margin-bottom: 5rem; */
+  /* height: 80vh !important; */
+  height: calc(95%) !important;
   padding: 1rem;
+  padding-right: 0.5rem;
+  overflow: hidden;
 }
 
+.wrapper-props {
+  /* overflow: hidden; */
+}
 
 .list-bg {
   border-radius: 1rem;
@@ -284,6 +295,38 @@ const scrollToTop = () => {
 
   height: 100%;
   overflow: hidden;
+}
+
+.main-list {
+  padding-right: 0.5rem;
+  /* height: calc(100vh - 80px - 5rem) !important; */
+  height: auto;
+  overflow: hidden;
+  grid-row: 1;
+  grid-column: 2;
+  /* display: inline-block; */
+}
+
+/* width */
+*::-webkit-scrollbar {
+  width: 10px;
+  margin-right: 5px;
+}
+
+* {
+  scrollbar-color: rgb(234, 234, 234) white;
+}
+
+/* Track */
+*::-webkit-scrollbar-track {
+  /* box-shadow: 0 0 5px grey; */
+  border-radius: 10px;
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb {
+  background: #e5e5e5;
+  border-radius: 10px;
 }
 
 .jump-to-container {
@@ -343,6 +386,18 @@ const scrollToTop = () => {
   .list-layout {
     display: flex;
     flex-direction: column;
+  }
+
+  .main-list.list-bg {
+    order: 3;
+    margin-top: 1rem;
+  }
+
+  .jump-to-container {
+    margin-right: 0;
+    width: auto;
+    max-width: 50rem;
+    margin: 0 auto;
   }
 }
 

@@ -3,7 +3,7 @@
     <p></p>
     <p v-if="isAboveAverage" class="name">Vetenskapligt Namn</p>
     <p v-else class="name">Namn</p>
-    <p v-if="props.isOnskeLista == false" class=""></p>
+    <!-- <p v-if="props.isOnskeLista == false" class=""></p> -->
     <p v-if="props.isOnskeLista == false" class="hide-on-phone">Storlek</p>
     <p v-if="props.isOnskeLista == false" class="hide-on-phone">Krukstorlek</p>
     <p v-if="props.isOnskeLista == true" class=""></p>
@@ -34,7 +34,7 @@ const isAboveAverage = useMediaQuery('(min-width: 481px)')
 
 @media screen and (max-width: 750px) {
   .top-info {
-    grid-template-columns: 3fr 40fr 15fr 8fr 8fr !important;
+    grid-template-columns: 3fr 40fr 15fr 8fr !important;
   }
 
   .top-info>.pris {

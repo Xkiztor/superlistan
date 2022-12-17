@@ -6,9 +6,6 @@
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">Hem</nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista">Lista</nuxt-link>
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista">Önskelista</nuxt-link>
-      <!-- <NuxtLink to="/loggain" v-if="!isLoggedIn">Logga in</NuxtLink>
-      <NuxtLink to="/registrera" v-if="!isLoggedIn">Registera dig</NuxtLink>
-      <button @click="handleSignOut" v-if="isLoggedIn">Logga ut</button> -->
     </nav>
     <NuxtPage />
   </div>
@@ -132,16 +129,17 @@ select,
 
 .naver {
   margin: 1rem 2rem;
+  place-self: end center;
   width: 100%;
   padding: 0;
   height: 4rem;
   display: grid;
   max-width: 100rem;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
-  position: sticky;
-  top: 1rem;
+  /* position: sticky; */
+  /* top: 1rem; */
   z-index: 11;
   transition: all 0.5s
 }
@@ -163,5 +161,16 @@ select,
 .el {
   width: fit-content;
   margin: 2px;
+}
+
+@media screen and (max-width:1200px) {
+  .naver {
+    grid-row: 2;
+  }
+
+  .main-layout {
+    grid-template-rows: min-content auto;
+    height: 100vh;
+  }
 }
 </style>

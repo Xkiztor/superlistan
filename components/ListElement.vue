@@ -337,7 +337,6 @@ const toolTipCalculator = (firstLetter) => {
   place-items: center;
 }
 
-
 .t-green {
   border-color: rgb(117, 236, 117);
 }
