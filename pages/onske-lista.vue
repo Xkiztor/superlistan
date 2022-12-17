@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="onske-list">
     <!-- <h1 class="header" @click="handleClick">Önskelista</h1> -->
     <div class="list-bg">
       <ColumnTopInfo :isOnskeLista="true" />
@@ -123,5 +123,9 @@ const handleDelete = (n) => {
 
 .header {
   font-size: 2rem
+}
+
+.onske-list {
+  place-self: start center;
 }
 </style>

@@ -101,7 +101,8 @@ button,
 .btn-input,
 .navigator>a,
 input,
-select {
+select,
+.info-container>* {
   /* border: 1px solid rgb(223, 223, 223); */
   padding: 0.4rem;
   border-radius: 0.5rem;
@@ -111,12 +112,16 @@ select {
   /* cfd1d6 */
 }
 
-/* .naver {} */
 
 .main-layout {
   display: grid;
   place-items: center;
   padding: 0 1rem;
+  grid-template-rows: min-content 87vh;
+  /* Temp */
+  height: 100vh !important;
+  /* Temp */
+
 }
 
 .naver>a {
