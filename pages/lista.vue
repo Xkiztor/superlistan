@@ -30,38 +30,38 @@
         <p>Hoppa till bokstav</p>
         <!-- <p>{{ screenSize.width }} {{ isCollapsed }}</p> -->
         <div class="filter-div jump-to">
-          <button value="A">A</button>
-          <button value="B">B</button>
-          <button value="C">C</button>
-          <button value="D">D</button>
-          <button value="E">E</button>
-          <button value="F">F</button>
-          <button value="G">G</button>
-          <button value="H">H</button>
-          <button value="I">I</button>
-          <button value="J">J</button>
-          <button value="K">K</button>
-          <button value="L">L</button>
-          <button value="M">M</button>
-          <button value="N">N</button>
-          <button value="O">O</button>
-          <button value="P">P</button>
-          <button value="Q">Q</button>
-          <button value="R">R</button>
-          <button value="S">S</button>
-          <button value="T">T</button>
-          <button value="U">U</button>
-          <button value="V">V</button>
-          <button value="W">W</button>
-          <button value="X">X</button>
-          <button value="Y">Y</button>
-          <button value="Z">Z</button>
+          <button @click="handleScrollTo('A')">A</button>
+          <button @click="handleScrollTo('B')">B</button>
+          <button @click="handleScrollTo('C')">C</button>
+          <button @click="handleScrollTo('D')">D</button>
+          <button @click="handleScrollTo('E')">E</button>
+          <button @click="handleScrollTo('F')">F</button>
+          <button @click="handleScrollTo('G')">G</button>
+          <button @click="handleScrollTo('H')">H</button>
+          <button @click="handleScrollTo('I')">I</button>
+          <button @click="handleScrollTo('J')">J</button>
+          <button @click="handleScrollTo('K')">K</button>
+          <button @click="handleScrollTo('L')">L</button>
+          <button @click="handleScrollTo('M')">M</button>
+          <button @click="handleScrollTo('N')">N</button>
+          <button @click="handleScrollTo('O')">O</button>
+          <button @click="handleScrollTo('P')">P</button>
+          <button @click="handleScrollTo('Q')">Q</button>
+          <button @click="handleScrollTo('R')">R</button>
+          <button @click="handleScrollTo('S')">S</button>
+          <button @click="handleScrollTo('T')">T</button>
+          <button @click="handleScrollTo('U')">U</button>
+          <button @click="handleScrollTo('V')">V</button>
+          <button @click="handleScrollTo('W')">W</button>
+          <button @click="handleScrollTo('X')">X</button>
+          <button @click="handleScrollTo('Y')">Y</button>
+          <button @click="handleScrollTo('Z')">Z</button>
         </div>
       </div>
     </div>
 
-    <nuxt-link @click="handleScrollTo" class="scroll-to-top hide-on-phone bg-white">Skolla till toppen {{ fps
-    }}</nuxt-link>
+    <!-- <nuxt-link @click="handleScrollTo" class="scroll-to-top hide-on-phone bg-white">Skolla till toppen {{ fps
+    }}</nuxt-link> -->
   </div>
 </template>
 
@@ -104,19 +104,26 @@ const onskeList = useStorage('onske-list', [{ id: 420, count: 2 }]);
 
 useInfiniteScroll(containerProps.ref, () => {
   console.log('yeeee');
-  fetchMoreList()
+  // fetchMoreList()
 },
   { distance: 800 }
 )
 useInfiniteScroll(containerProps.ref, () => {
   console.log('yeeeerrrrrrrrrrrrrrrrrr');
-  fetchMoreList()
+  // fetchMoreList()
 },
   { distance: 0 }
 )
 
-const handleScrollTo = () => {
-  scrollTo(5000)
+const handleScrollTo = (letter) => {
+  if (hasFetchedAll.value == false) {
+    console.log('fetching');
+    fetchAllList(letter)
+  } else {
+    console.log('scrolling');
+    scrollTo(5000)
+  }
+  console.log(letter);
 }
 
 /* - - - - - - Adding to cart - - - - - - */
@@ -136,7 +143,8 @@ watch(query, () => {
 
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
-  fetchList(0, 100)
+  // fetchList(0, 100)
+  fetchAllList()
 })
 
 const fetchTest = async () => {
@@ -190,7 +198,7 @@ const fetchList = async (from, to) => {
 }
 
 /* - - - - - - Fetch all list- - - - - - */
-const fetchAllList = async () => {
+const fetchAllList = async (scrolling) => {
   userMessage.value = 'laddar...'
   dataList.value = []
   hasFetchedAll.value = true;
@@ -215,6 +223,10 @@ const fetchAllList = async () => {
     // console.log(data)
     userMessage.value = 'Här är listan slut'
     dataList.value = data
+    if (scrolling) {
+      console.log(scrolling);
+      handleScrollTo(scrolling)
+    }
   }
 }
 
@@ -274,14 +286,11 @@ const scrollToTop = () => {
 .container-props {
   /* margin-bottom: 5rem; */
   /* height: 80vh !important; */
-  height: calc(95%) !important;
+  height: calc(80vh);
+  /* height: calc(95%) !important; */
   padding: 1rem;
   padding-right: 0.5rem;
   overflow: hidden;
-}
-
-.wrapper-props {
-  /* overflow: hidden; */
 }
 
 .list-bg {
@@ -294,13 +303,13 @@ const scrollToTop = () => {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .main-list {
   padding-right: 0.5rem;
   /* height: calc(100vh - 80px - 5rem) !important; */
-  height: auto;
+  height: 85vh;
   overflow: hidden;
   grid-row: 1;
   grid-column: 2;
