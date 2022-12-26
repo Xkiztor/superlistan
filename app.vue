@@ -3,9 +3,24 @@
     <!-- <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver"
       :style="{ width: targetIsVisible ? '60rem' : '100%' }"> -->
     <nav class="naver" v-if="isSmallScreen && $route.path == '/lista'">
-      <Icon class="grayed nav-icon" name="material-symbols:menu-rounded" size="30" />
-      <Icon class="grayed nav-icon" name="mdi:filter" size="30" @click="state.openFilter" />
-      <Icon class="grayed nav-icon" name="quill:jump-alt" size="32" @click="state.openJump" />
+      <div class="dropdown-menu">
+        <button @click.stop="openNav = !openNav">
+          <Icon class="grayed nav-icon" name="material-symbols:menu-rounded" size="30" />
+        </button>
+        <div class="dropdown" v-if="openNav" ref="target">
+          <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/" @click="openNav = false">Hem</nuxt-link>
+          <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista"
+            @click="openNav = false">Lista</nuxt-link>
+          <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista"
+            @click="openNav = false">Önskelista</nuxt-link>
+        </div>
+      </div>
+      <button @click="state.openFilter">
+        <Icon class="grayed nav-icon" name="mdi:filter" size="30" />
+      </button>
+      <button @click="state.openJump">
+        <Icon class="grayed nav-icon" name="quill:jump-alt" size="32" />
+      </button>
     </nav>
     <nav class="naver" v-else>
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">Hem</nuxt-link>
@@ -75,10 +90,18 @@ useHead({
 // }
 const state = useGlobalState()
 
+const openNav = ref(false)
+
 const screenSize = useWindowSize()
 const isSmallScreen = computed(() => { return screenSize.width.value <= 1200 ? true : false })
 // const route = useRoute()
 // console.log(route.path)
+const target = ref(null)
+
+onClickOutside(target, (event) => {
+  openNav.value = false
+})
+
 
 </script>
 
@@ -135,6 +158,38 @@ button:hover {
   height: 100vh !important;
   /* Temp */
 
+}
+
+.dropdown {
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+  /* top: 3rem; */
+  z-index: 5;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.dropdown>.active {
+  border: none;
+  opacity: 0.2;
+}
+
+
+.dropdown-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.naver>button,
+.naver>div>button {
+  background: none;
+  box-shadow: none;
 }
 
 .naver>a {
