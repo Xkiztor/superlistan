@@ -1,7 +1,7 @@
 <template>
   <div class="onske-list">
     <!-- <h1 class="header" @click="handleClick">Önskelista</h1> -->
-    <div class="list-bg">
+    <div class="onske-list-bg">
       <ColumnTopInfo :isOnskeLista="true" />
       <div v-for="plant in onskeListFull" :key="plant.id">
         <ListElement :plant="plant" :isOnskeLista="true" @handle-delete="handleDelete" />
@@ -97,7 +97,7 @@ const handleDelete = (n) => {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
 }
 
-.list-bg {
+.onske-list-bg {
   border-radius: 1rem;
   padding: 1rem;
   /* width: fit-content; */

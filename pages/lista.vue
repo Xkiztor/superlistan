@@ -1,7 +1,7 @@
 <template>
   <div class="list-layout">
-    <div class="filter-container" v-if="!isCollapsed">
-      <FilterModule :sortBy="sortBy" :filterType="filterType" :query="query" @fetch-list="fetchList(0, 99)"
+    <div class="filter-container" v-if="shouldFilterOpen">
+      <FilterModule :sortBy="sortBy" :filterType="filterType" :query="query" @fetch-list="fetchAllList"
         @handle-click="handleClick" @fetch-all-list="fetchAllList" v-model:query="query" v-model:filterType="filterType"
         :filterLetter="filterLetter" v-model:filterLetter="filterLetter" :hasFetchedAll="hasFetchedAll" />
     </div>
@@ -9,10 +9,10 @@
     <div class="list-bg main-list">
       <ColumnTopInfo :isOnskeLista="false" />
       <div v-bind="containerProps" class="container-props">
-        <div v-bind="wrapperProps" class="wrapper-props">
-          <div v-for="{ index, data } in list" :key="index">
+        <ul v-bind="wrapperProps" class="wrapper-props">
+          <li v-for="{ index, data } in list" :key="index">
             <ListElement :plant="data" @add-to-cart="handleAdd" :isOnskeLista="false" />
-          </div>
+          </li>
           <!-- <div class="observer" ref="observerTarget">
             <h1>above 1</h1>
           </div> -->
@@ -21,13 +21,14 @@
             <p v-if="userMessage != 'Här är listan slut'">Om det inte laddas fler, tryck <a class="pointer"
                 @click="fetchMoreList()">här</a></p>
           </div>
-        </div>
+        </ul>
 
       </div>
     </div>
-    <div v-if="!isCollapsed">
+    <div v-if="shouldJumpOpen" ref="testRef" class="jump-to-canister">
       <div class="list-bg jump-to-container">
-        <p>Hoppa till bokstav</p>
+        <p @click="handleTestAdd">Hoppa till bokstav</p>
+        <!-- <p>Hoppa till bokstav</p> -->
         <!-- <p>{{ screenSize.width }} {{ isCollapsed }}</p> -->
         <div class="filter-div jump-to">
           <button @click="handleScrollTo('A')">A</button>
@@ -89,12 +90,32 @@ const userMessage = ref('Laddar')
 
 const filterLetter = ref('')
 
-const fps = useFps()
+const state = useGlobalState()
+// console.log(state.isFilterOpen.value);
+
+// state.openFilter()
+
+// console.log(state.isFilterOpen.value);
+
+const shouldFilterOpen = computed(() => {
+  if (!isCollapsed.value) return true
+  else {
+    if (state.isFilterOpen.value) return true
+    else return false
+  }
+})
+const shouldJumpOpen = computed(() => {
+  if (!isCollapsed.value) return true
+  else {
+    if (state.isJumpOpen.value) return true
+    else return false
+  }
+})
 
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(dataList, {
   // itemHeight: i => (dataList.value[i].heigh),
-  itemHeight: 40,
-  overscan: 35,
+  itemHeight: 32.8,
+  overscan: 25,
 })
 
 const screenSize = useWindowSize()
@@ -137,13 +158,13 @@ const handleAdd = (id, count) => {
 
 /* - - - - - - Search - - - - - - */
 watch(query, () => {
-  fetchList(0, 50)
+  fetchAllList()
 })
 
 
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
-  // fetchList(0, 100)
+  // fetchList(0, 200)
   fetchAllList()
 })
 
@@ -167,7 +188,7 @@ fetchTest()
 
 
 const fetchList = async (from, to) => {
-  if (!hasFetchedAll.value) {
+  if (hasFetchedAll.value) {
     userMessage.value = 'laddar...'
     dataList.value = []
     let search = supabase
@@ -190,7 +211,7 @@ const fetchList = async (from, to) => {
       if (!data.length > 0) {
         userMessage.value = 'Inga resultat'
       }
-      // console.log(data)
+      console.log(data)
       dataList.value = data
     }
   }
@@ -202,6 +223,7 @@ const fetchAllList = async (scrolling) => {
   userMessage.value = 'laddar...'
   dataList.value = []
   hasFetchedAll.value = true;
+  console.log('fetching all');
 
   let search = supabase
     .from('superlista')
@@ -222,6 +244,7 @@ const fetchAllList = async (scrolling) => {
   if (data) {
     // console.log(data)
     userMessage.value = 'Här är listan slut'
+    console.log(data);
     dataList.value = data
     if (scrolling) {
       console.log(scrolling);
@@ -270,27 +293,41 @@ const fetchMoreList = async () => {
 const handleClick = () => {
   sortBy.value.ascending = !sortBy.value.ascending
   // console.log('Hello')
-  fetchList(0, 99)
+  fetchList(0, 990000000)
 }
 
-/* - - - - - - Scroll to top - - - - - - */
-const scrollToTop = () => {
-  window.scrollTo(0, 0);
+const handleTestAdd = async () => {
+  console.log(Math.floor(Math.random() * 1000000));
+  // console.log(dataList.value);
+  const { error } = await supabase
+    .from('Test')
+  // .insert([{ id: Math.floor(Math.random() * 1000000), list: dataList.value, personNamn: 'Bosse Larsson' }])
+  if (error) {
+    console.error(error);
+  }
 }
-
 
 </script>
 
 
 <style>
 .container-props {
+  transition: none;
   /* margin-bottom: 5rem; */
   /* height: 80vh !important; */
-  height: calc(80vh);
+  /* height: 60vh; */
+  /* height: auto; */
+  height: 96%;
   /* height: calc(95%) !important; */
-  padding: 1rem;
+  padding: 0.2rem 1rem;
   padding-right: 0.5rem;
-  overflow: hidden;
+  width: auto;
+  max-height: 100vh !important;
+  /* overflow: hidden; */
+}
+
+.wrapper-props {
+  transition: none;
 }
 
 .list-bg {
@@ -298,22 +335,26 @@ const scrollToTop = () => {
   padding-top: 1rem;
   /* padding: 1rem; */
   width: fit-content;
+  /* width: 100%; */
   margin: 0 auto;
   background: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
-  height: 100%;
+  /* height: 100%; */
   /* overflow: hidden; */
 }
 
 .main-list {
   padding-right: 0.5rem;
   /* height: calc(100vh - 80px - 5rem) !important; */
-  height: 85vh;
+  /* height: 85vh; */
+  height: auto;
   overflow: hidden;
-  grid-row: 1;
+  grid-row: 1/3;
   grid-column: 2;
+  padding-top: 0.5rem;
   /* display: inline-block; */
+  /* display: grid; */
 }
 
 /* width */
@@ -351,20 +392,27 @@ const scrollToTop = () => {
   margin-bottom: 0.5rem;
 }
 
-.jump-to>button {
-  margin: 0rem;
+.jump-to-canister {
+  width: auto;
+  height: auto;
 }
 
-.jump-to {
+.jump-to>button {
+  margin: 0rem;
+  max-width: calc(3rem);
+}
+
+.jump-to-container>.jump-to {
   display: grid;
   gap: 1rem;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  place-items: center;
 }
 
 
 .list-layout {
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 5fr 12fr 5fr;
   grid-template-rows: min-content 1fr;
   gap: 1rem 0;
   max-width: 100rem;
@@ -377,7 +425,7 @@ const scrollToTop = () => {
 
 @media screen and (max-width: 1600px) {
   .list-layout {
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 4fr 9fr;
   }
 
   .main-list {
@@ -397,16 +445,18 @@ const scrollToTop = () => {
     flex-direction: column;
   }
 
+
   .main-list.list-bg {
     order: 3;
     margin-top: 1rem;
+    height: 87vh;
   }
 
   .jump-to-container {
     margin-right: 0;
     width: auto;
     max-width: 50rem;
-    margin: 0 auto;
+    margin: 1rem auto;
   }
 }
 

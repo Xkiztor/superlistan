@@ -34,7 +34,7 @@ export default defineNuxtConfig({
   nitro: {
     compressPublicAssets: true,
   },
-  ssr: true,
+  // ssr: true,
   runtimeConfig: {
     // Private keys are only available on the server
     apiSecret: '123',

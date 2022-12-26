@@ -1,32 +1,51 @@
 <template>
   <div class="filters w-fit h-fit shadow-md rounded-[1rem]">
-    <div class="filter-div">
-      <p>Ordning:</p>
+    <form class="filter-div first-one">
+      <input type="text" placeholder=" Sök" :value="query" @input="$emit('update:query', $event.target.value)"
+        class="m-2" title="Lazy">
       <button class="bg-gray-100 text-black m-2" @click="$emit('handleClick')">
         <div v-if="props.sortBy.sortByWhat == 'Pris'">
-          <p v-if="props.sortBy.ascending">Stigande (1 - 9)</p>
-          <p v-if="!props.sortBy.ascending">Fallande (9 - 1)</p>
+          <p v-if="props.sortBy.ascending" class="icon-align">
+            <Icon class="grayed" name="mdi:sort-numeric-ascending" size="20" />
+            Stigande
+          </p>
+          <p v-if="!props.sortBy.ascending" class="icon-align">
+            <Icon class="grayed" name="mdi:sort-numeric-descending" size="20" />
+            Fallande
+          </p>
         </div>
         <div v-else>
-          <p v-if="props.sortBy.ascending">Stigande (A - Z)</p>
-          <p v-if="!props.sortBy.ascending">Fallande (Z - A)</p>
+          <p v-if="props.sortBy.ascending" class="icon-align">
+            <Icon class="grayed" name="mdi:order-alphabetical-ascending" size="20" />
+            Stigande
+          </p>
+          <p v-if="!props.sortBy.ascending" class="icon-align">
+            <Icon class="grayed" name="mdi:order-alphabetical-descending" size="20" />
+            Fallande
+          </p>
         </div>
       </button>
-    </div>
+    </form>
 
-    <div class="filter-div">
-      <p>Sortera efter:</p>
+    <form class="filter-div">
+      <div class="icon-align">
+        <Icon class="grayed" name="mdi:order-bool-ascending" size="20" />
+        <p>Sortera efter:</p>
+      </div>
       <select name="sortBy" id="sortBySelector" v-model="props.sortBy.sortByWhat" @change="$emit('fetchList')">
         <option value="Namn">Namn</option>
         <option value="Pris">Pris</option>
         <!-- <option value="Typ">Typ</option> -->
       </select>
-    </div>
-    <div class="filter-div">
-      <p>Filtrera typ:</p>
+    </form>
+    <form class="filter-div">
+      <div class="icon-align">
+        <Icon class="grayed" name="ic:round-filter-list" size="20" />
+        <p>Filtrera typ:</p>
+      </div>
       <select name="filterType" id="filterTypeSelector" v-model="type" :value="props.filterType"
         @input="$emit('update:filterType', $event.target.value)" @change="$emit('fetchList')">
-        <option value="" default disabled>Välj</option>
+        <!-- <option value="" default disabled>Välj</option> -->
         <option value="">Alla</option>
         <option value="T">Träd</option>
         <option value="B">Barrträd</option>
@@ -36,12 +55,15 @@
         <option value="G">Gräs</option>
         <!-- <option value="Typ">Typ</option> -->
       </select>
-    </div>
-    <div class="filter-div">
-      <p>Filtrera bokstav:</p>
+    </form>
+    <form class="filter-div">
+      <div class="icon-align">
+        <Icon class="grayed" name="ic:baseline-filter-alt" size="20" />
+        <p>Filtrera bokstav:</p>
+      </div>
       <select name="filterLetter" id="filterLetterSelector" v-model="letter" :value="props.filterLetter"
         @input="$emit('update:filterLetter', $event.target.value)" @change="$emit('fetchList')">
-        <option value="" default disabled>Välj</option>
+        <!-- <option value="" default disabled>Välj</option> -->
         <option value="">Alla</option>
         <option value="A">A</option>
         <option value="B">B</option>
@@ -71,15 +93,14 @@
         <option value="Z">Z</option>
         <!-- <option value="Typ">Typ</option> -->
       </select>
-    </div>
-    <div class="filter-div bottom-one">
-      <!-- <ClientOnly fallbackTag="div"> -->
-      <input type="text" placeholder=" Sök" :value="query" @input="$emit('update:query', $event.target.value)"
-        class="m-2 bg-gray-100 rounded-lg bordery" title="Lazy">
-      <!-- </ClientOnly> -->
-      <button v-if="!hasFetchedAll" class="" @click="$emit('fetchAllList')">Ladda Alla</button>
-      <button v-else class="disabled-btn">Ladda Alla</button>
-    </div>
+    </form>
+    <!-- <div class="filter-div bottom-one"> -->
+
+    <!-- <ClientOnly fallbackTag="div"> -->
+    <!-- </ClientOnly> -->
+    <!-- <button v-if="!hasFetchedAll" class="" @click="$emit('fetchAllList')">Ladda Alla</button> -->
+    <!-- <button v-else class="disabled-btn">Ladda Alla</button> -->
+    <!-- </div> -->
 
   </div>
 </template>
@@ -131,6 +152,10 @@ defineEmits(['update:query', 'update:filterType', 'update:filterLetter', 'fetchA
   }
 }
 
+div.bottom-one {
+  grid-template-columns: 1fr;
+}
+
 .filters {
   display: grid;
   padding: 1rem;
@@ -141,11 +166,24 @@ defineEmits(['update:query', 'update:filterType', 'update:filterLetter', 'fetchA
   background-color: #fff;
 }
 
+.grayed {
+  color: #383838;
+}
+
+.icon-align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
 .filter-div {
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
+  padding: 0.5rem 0;
   padding-top: 0;
   display: grid;
-  grid-template-columns: 4fr 5fr;
+  gap: 1rem;
+  grid-template-columns: 11fr 10fr;
   place-items: center start;
 
 }

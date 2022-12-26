@@ -1,5 +1,5 @@
 <template>
-  <div class="list-bg total">
+  <div class="onske-list-bg total">
     <h1>Totalt</h1>
     <div>
       <p>
@@ -28,11 +28,14 @@
 </template>
 
 <script setup>
-const props = defineProps(['onskeListFull'])
+const props = defineProps(['onskeListFull', 'changeCount'])
+
+// console.log(props.changeCount);
 
 const totalCount = computed(() => props.onskeListFull.map(e => e.Count).reduce((a, b) => a + b, 0))
 const totalPrice = computed(() => props.onskeListFull.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
-// const totalPrice = computed(() => props.onskeListFull.reduce((a, b) => a + b.Pris, 0))
+// const totalCount = computed(() => props.onskeListFull.map(e => props.changeCount).reduce((a, b) => a + b, 0))
+// const totalPrice = computed(() => props.onskeListFull.map(e => e.Pris * props.changeCount).reduce((a, b) => a + b, 0))
 </script>
 
 <style>

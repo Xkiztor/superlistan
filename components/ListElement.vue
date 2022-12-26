@@ -12,7 +12,7 @@
       <Icon name="noto:tanabata-tree" size="16" v-if="plant.Typ == 'K'" />
     </div>
 
-    <p class="plant-name mr-2 ml-4 overflow-hidden" :title="plant.Namn"><a
+    <p class="plant-name mr-2 ml-3 overflow-hidden" :title="plant.Namn"><a
         :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
         {{
             plant.Namn
@@ -104,6 +104,7 @@ const adding = ref(false)
 const onskeList = useStorage('onske-list', [])
 const onskeListFull = useStorage('onske-list-full', [])
 const changeCount = ref(props.plant.Count)
+
 watch(changeCount, () => {
   for (let obj of onskeList.value) {
     if (obj.id === props.plant.id) {
@@ -196,7 +197,7 @@ const toolTipCalculator = (firstLetter) => {
 }
 
 .element {
-  padding: 3px;
+  padding: 0.5px;
   overflow: hidden;
   min-width: 0px;
   padding-left: 7px;
@@ -224,6 +225,11 @@ const toolTipCalculator = (firstLetter) => {
   border-radius: 2rem;
 }
 
+.if-adding>p {
+  white-space: normal;
+  overflow: visible;
+}
+
 .element:hover:not(.if-adding) {
   /* border-color: rgb(173, 173, 173);
   border-width: 2px; */
@@ -236,10 +242,10 @@ const toolTipCalculator = (firstLetter) => {
 
 .adding {
   display: grid;
-  grid-template-columns: 4fr 1fr;
+  grid-template-columns: 15fr 4fr;
   /* grid-template-columns: 10fr 10fr 10fr 10fr 7fr;
   place-items: center; */
-  grid-column: 1 / 7;
+  grid-column: 1 / 8;
   /* box-shadow: 0 -5px 3px rgba(0, 0, 0, 0.1); */
   place-items: center;
   height: fit-content;

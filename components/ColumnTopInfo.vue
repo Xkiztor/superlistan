@@ -1,8 +1,10 @@
 <template>
   <div class="top-info md:max-w-4xl xl:max-w-4xl">
     <p></p>
-    <p v-if="isAboveAverage" class="name">Vetenskapligt Namn</p>
-    <p v-else class="name">Namn</p>
+    <client-only placeholder="Namn">
+      <p v-if="isAboveAverage" class="name">Vetenskapligt Namn</p>
+      <p v-else class="name">Namn</p>
+    </client-only>
     <!-- <p v-if="props.isOnskeLista == false" class=""></p> -->
     <p v-if="props.isOnskeLista == false" class="hide-on-phone">Storlek</p>
     <p v-if="props.isOnskeLista == false" class="hide-on-phone">Krukstorlek</p>

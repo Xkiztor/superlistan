@@ -2,7 +2,12 @@
   <div data-theme="light" class="main-layout tou-z65h9k" ref="el">
     <!-- <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver"
       :style="{ width: targetIsVisible ? '60rem' : '100%' }"> -->
-    <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver">
+    <nav class="naver" v-if="isSmallScreen && $route.path == '/lista'">
+      <Icon class="grayed nav-icon" name="material-symbols:menu-rounded" size="30" />
+      <Icon class="grayed nav-icon" name="mdi:filter" size="30" @click="state.openFilter" />
+      <Icon class="grayed nav-icon" name="quill:jump-alt" size="32" @click="state.openJump" />
+    </nav>
+    <nav class="naver" v-else>
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">Hem</nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista">Lista</nuxt-link>
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista">Önskelista</nuxt-link>
@@ -62,14 +67,18 @@ useHead({
 })
 
 
+
+// const emits = defineEmits(['testing'])
+
+// const handleTest = () => {
+//   console.log('hellooooooo');
+// }
+const state = useGlobalState()
+
+const screenSize = useWindowSize()
+const isSmallScreen = computed(() => { return screenSize.width.value <= 1200 ? true : false })
 // const route = useRoute()
 // console.log(route.path)
-
-
-
-const el = ref(null)
-const { y, arrivedState } = useScroll(el)
-const { left, right, top, bottom } = toRefs(arrivedState)
 
 </script>
 
@@ -81,6 +90,7 @@ const { left, right, top, bottom } = toRefs(arrivedState)
 
 * {
   font-family: 'Roboto', 'Inter', 'Helvetica';
+  transition: all 150ms;
 }
 
 h1 {
@@ -106,7 +116,13 @@ select,
   background-color: #ebedf1;
   box-shadow: inset 0 -0.5px 3px #cfd1d6;
   margin: 0.5rem;
+  cursor: pointer;
   /* cfd1d6 */
+}
+
+select:hover,
+button:hover {
+  background-color: #e0e2e6;
 }
 
 
@@ -127,17 +143,34 @@ select,
   margin: 0;
 }
 
+.nav-icon {
+  cursor: pointer;
+}
+
+.nav-icon:hover {
+  transform: scale(110%);
+}
+
+.nav-icon:active {
+  transform: scale(90%);
+}
+
 .naver {
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   margin: 1rem 2rem;
   place-self: end center;
   width: 100%;
   padding: 0;
   height: 4rem;
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
   max-width: 100rem;
   /* margin-bottom: 1rem; */
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
+  background: white;
   /* position: sticky; */
   /* top: 1rem; */
   z-index: 11;
@@ -164,9 +197,6 @@ select,
 }
 
 @media screen and (max-width:1200px) {
-  .naver {
-    grid-row: 2;
-  }
 
   .main-layout {
     grid-template-rows: min-content auto;
