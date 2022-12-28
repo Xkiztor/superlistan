@@ -1,5 +1,5 @@
 <template>
-  <div class="top-info md:max-w-4xl xl:max-w-4xl">
+  <div class="top-info">
     <p></p>
     <client-only placeholder="Namn">
       <p v-if="isAboveAverage" class="name">Vetenskapligt Namn</p>

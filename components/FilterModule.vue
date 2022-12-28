@@ -132,7 +132,7 @@ defineEmits(['update:query', 'update:filterType', 'update:filterLetter', 'fetchA
 
 @media screen and (max-width: 750px) {
   .hide-on-phone {
-    display: none;
+    display: none !important;
   }
 
   .element {

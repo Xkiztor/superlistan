@@ -3,6 +3,8 @@ import { createGlobalState } from '@vueuse/core'
 
 export const useGlobalState = createGlobalState(
   () => {
+    const countError = ref(false)
+
     const isNavOpen = ref(false)
     const isFilterOpen = ref(false)
     const isJumpOpen = ref(false)
@@ -17,6 +19,6 @@ export const useGlobalState = createGlobalState(
       isJumpOpen.value = !isJumpOpen.value
     }
 
-    return { openNav, isNavOpen, openFilter, isFilterOpen, openJump, isJumpOpen }
+    return { countError, openNav, isNavOpen, openFilter, isFilterOpen, openJump, isJumpOpen }
   }
 )

@@ -1,6 +1,5 @@
 <template>
-  <div @click="handleClick" class="md:max-w-4xl xl:max-w-4xl grid element rounded-[1rem]"
-    :class="adding ? 'if-adding' : ''">
+  <div @click="handleClick" class="grid element rounded-[1rem]" :class="adding ? 'if-adding' : ''">
     <div class="plant-icon rounded-full grid px-1 aspect-square place-items-center border-2"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
       :title="toolTipCalculator(plant.Typ)">
@@ -19,8 +18,10 @@
         }}</a>
     </p>
 
-    <div class="rekomenderas hide-on-phone">
-      <Icon v-if="plant.Rekommenderas" class="rekomenderas-icon" name="ph:heart-straight-fill" size="20" />
+    <div class="ikoner hide-on-phone">
+      <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
+      <Icon v-if="plant.Edible" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
+      <Icon v-if="plant.Kommentar" class="kommentar-icon" name="majesticons:comment-2-text" size="20" />
     </div>
 
     <!-- --- --- --- List Item Text --- --- --- -->
@@ -43,8 +44,9 @@
     </button>
     <div class="border-t-rinth-200 border-t-2 p-2 mt-2 mx-0 w-full adding h-14" v-if="adding">
       <div class="info-container">
-        <div v-if="plant.Rekommenderas" class="rekomenderas hide-on-pc">
-          <Icon class="rekomenderas-icon" name="ph:heart-straight-fill" size="20" />
+        <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas || !plant.Edible }">
+          <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
+          <Icon v-if="plant.Edible" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
         </div>
         <p v-if="isOnskeLista" class="hide-on-pc">Antal: {{ changeCount }}</p>
         <p v-if="plant.Höjd" class="hide-on-pc">Höjd: {{ plant.Höjd }}</p>
@@ -99,13 +101,27 @@ const props = defineProps({
 const count = ref(1)
 const adding = ref(false)
 
+const state = useGlobalState()
+
 // console.log(props.plant);
 
 const onskeList = useStorage('onske-list', [])
 const onskeListFull = useStorage('onske-list-full', [])
 const changeCount = ref(props.plant.Count)
 
+
+const validate = () => {
+  if (changeCount.value > props.plant.Lager && props.plant.Lager != null || changeCount.value < props.plant.MinOrder && props.plant.MinOrder != null) {
+    state.countError.value = true
+    console.log('erroorrr');
+  } else {
+    state.countError.value = false
+  }
+}
+validate()
+
 watch(changeCount, () => {
+  validate()
   for (let obj of onskeList.value) {
     if (obj.id === props.plant.id) {
       // console.log('yee');
@@ -136,12 +152,11 @@ const handleAdd = () => {
   }
 }
 
+
+
 const handleDelete = () => {
   console.log(props.plant.id)
   emit('handleDelete', props.plant.id)
-}
-
-const handleClick = () => {
 }
 
 const toolTipCalculator = (firstLetter) => {
@@ -174,11 +189,11 @@ const toolTipCalculator = (firstLetter) => {
 }
 
 .error-borderr {
-  outline: 3px solid #ffc95e;
+  outline: 3px solid #ff5e5e;
 }
 
 .error-borderrr {
-  outline: 3px solid #ffc95e;
+  outline: 3px solid #ff5e5e;
 }
 
 .error-color {
@@ -198,13 +213,14 @@ const toolTipCalculator = (firstLetter) => {
 
 .element {
   padding: 0.5px;
+  max-width: 64rem;
   overflow: hidden;
   min-width: 0px;
   padding-left: 7px;
   width: fit-content;
   /* border: 1px solid rgb(225, 225, 225); */
   /* margin-left: 0.75rem; */
-  grid-template-columns: 1fr 35fr 3fr 15fr 8fr 10fr 3fr;
+  grid-template-columns: 1fr 35fr 8fr 15fr 8fr 10fr 3fr;
   /* grid-template-rows: 1fr 1fr; */
   place-items: center start;
   /* min-width: 30rem; */
@@ -257,9 +273,26 @@ const toolTipCalculator = (firstLetter) => {
   margin: 1rem 0;
 }
 
-.rekomenderas {
-  color: #ff5e5e;
+.ikoner {
+  color: rgb(128, 128, 128);
   place-self: center start;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+  gap: 4px;
+}
+
+.rekommenderas-icon {
+  color: #ff5e5e;
+  grid-column: 1;
+}
+
+.edible-icon {
+  grid-column: 2;
+}
+
+.kommentar-icon {
+  grid-column: 3;
 }
 
 /* .adding>*:not(:nth-last-child(1)) {
@@ -295,6 +328,10 @@ const toolTipCalculator = (firstLetter) => {
   justify-content: center;
 }
 
+.info-container>p {
+  cursor: text;
+}
+
 .kommentar {
   grid-column: 1 / 3;
   text-align: center;
@@ -327,7 +364,7 @@ const toolTipCalculator = (firstLetter) => {
 
 @media only screen and (min-width: 750px) {
   .hide-on-pc {
-    display: none;
+    display: none !important;
   }
 }
 

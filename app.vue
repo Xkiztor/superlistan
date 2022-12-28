@@ -221,7 +221,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  max-width: 100rem;
+  max-width: 110rem;
   /* margin-bottom: 1rem; */
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;

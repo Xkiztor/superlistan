@@ -114,7 +114,7 @@ const shouldJumpOpen = computed(() => {
 
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(dataList, {
   // itemHeight: i => (dataList.value[i].heigh),
-  itemHeight: 35.2,
+  itemHeight: 33.55,
   overscan: 25,
 })
 
@@ -375,10 +375,10 @@ const handleClick = () => {
 
 .list-layout {
   display: grid;
-  grid-template-columns: 5fr 12fr 5fr;
+  grid-template-columns: 5fr 15fr 5fr;
   grid-template-rows: min-content 1fr;
   gap: 1rem 0;
-  max-width: 100rem;
+  max-width: 110rem;
   margin: 0 auto;
   width: 100%;
 

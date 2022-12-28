@@ -15,11 +15,15 @@
     </div>
     <div class="input-layout">
       <label for="user-adress">Din adress: </label>
-      <input v-model="orderAdress" id="user-adress" type="text" placeholder="Köinge 6902, 242 92 Hörby">
+      <input v-model="orderAdress" id="user-adress" type="text" placeholder="Ex. Köinge 6902, 242 92 Hörby">
     </div>
     <div class="input-layout">
       <label for="user-phone">Telefonnummer: </label>
-      <input v-model="orderPhone" id="user-phone" type="tel" placeholder="0733518716">
+      <input v-model="orderPhone" id="user-phone" type="tel" placeholder="Ex. 0733518716">
+    </div>
+    <div class="input-layout">
+      <label for="user-comment">Egen Kommentar: </label>
+      <input v-model="orderComment" id="user-comment" type="text" placeholder="(Frivilligt)">
     </div>
     <button @click="handleSend" :class="hasSent ? 'grayed' : ''" class="send">Skicka in</button>
   </div>
@@ -49,6 +53,11 @@
         Är du säker?
       </h1>
     </Modal>
+    <Modal v-if="showModalCountError" @close-modal="showModalCountError = false">
+      <h1 class="modal-text">
+        Vänligen ange korrekt antal växter!
+      </h1>
+    </Modal>
     <Modal v-if="showModalNoName" @close-modal="showModalNoName = false">
       <h1 class="modal-text">
         Vänligen fyll i alla fält!
@@ -68,6 +77,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 const showModal = ref(false)
 const showModalError = ref(false)
 const showModalNoName = ref(false)
+const showModalCountError = ref(false)
 const showConfirmModal = ref(false)
 
 const errorMessage = ref({})
@@ -76,10 +86,18 @@ const orderName = ref('')
 const orderMail = ref('')
 const orderAdress = ref('')
 const orderPhone = ref('')
+const orderComment = ref('')
 
 const onskeListFull = useStorage('onske-list-full', [])
 // const hasSent = ref(false)
 const hasSent = useStorage('has-sent', false)
+
+const state = useGlobalState()
+
+watch(state.countError, () => {
+  console.log('yer');
+})
+
 
 watchEffect(() => {
   // console.log(orderName.value);
@@ -92,6 +110,9 @@ const handleSend = () => {
     showModalNoName.value = true
     return
   }
+  if (state.countError.value == true) {
+    showModalCountError.value = true
+  }
   console.log(orderName.value);
 
   const listWithName = onskeListFull.value.map((e) => {
@@ -99,6 +120,7 @@ const handleSend = () => {
     e.Mail = orderMail.value
     e.Adress = orderAdress.value
     e.Phone = orderPhone.value
+    e.Comment = orderComment.value
     delete e.count
     return e
   })
