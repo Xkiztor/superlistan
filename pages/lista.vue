@@ -138,7 +138,6 @@ useInfiniteScroll(containerProps.ref, () => {
 
 const handleScrollTo = (letter) => {
   scrollTo(dataList.value.map(e => {
-    // console.log(e.Namn == 'Acorus calamus');
     return Array.from(e.Namn)[0]
   }).indexOf(letter))
 }

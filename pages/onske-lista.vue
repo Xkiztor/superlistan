@@ -117,7 +117,7 @@ const handleDelete = (n) => {
 @media screen and (max-width:800px) {
   .bottom-section {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: max-content max-content;
   }
 }
 
@@ -127,5 +127,6 @@ const handleDelete = (n) => {
 
 .onske-list {
   place-self: start center;
+  max-width: 56rem;
 }
 </style>

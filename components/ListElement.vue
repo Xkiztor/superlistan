@@ -187,12 +187,12 @@ const toolTipCalculator = (firstLetter) => {
 }
 
 .error-colorr {
-  color: #ffc95e;
+  color: #ff5e5e;
   font-weight: bold;
 }
 
 .error-colorrr {
-  color: #ffc95e;
+  color: #ff5e5e;
   font-weight: bold;
 }
 
