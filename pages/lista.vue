@@ -27,7 +27,7 @@
     </div>
     <div v-if="shouldJumpOpen" ref="testRef" class="jump-to-canister">
       <div class="list-bg jump-to-container">
-        <p @click="handleTestAdd">Hoppa till bokstav</p>
+        <p>Hoppa till bokstav</p>
         <!-- <p>Hoppa till bokstav</p> -->
         <!-- <p>{{ screenSize.width }} {{ isCollapsed }}</p> -->
         <div class="filter-div jump-to">
@@ -54,7 +54,7 @@
           <button @click="handleScrollTo('U')">U</button>
           <button @click="handleScrollTo('V')">V</button>
           <button @click="handleScrollTo('W')">W</button>
-          <button @click="handleScrollTo('X')">X</button>
+          <!-- <button @click="handleScrollTo('X')">X</button> -->
           <button @click="handleScrollTo('Y')">Y</button>
           <button @click="handleScrollTo('Z')">Z</button>
         </div>
@@ -114,7 +114,7 @@ const shouldJumpOpen = computed(() => {
 
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(dataList, {
   // itemHeight: i => (dataList.value[i].heigh),
-  itemHeight: 32.8,
+  itemHeight: 35.2,
   overscan: 25,
 })
 
@@ -137,14 +137,10 @@ useInfiniteScroll(containerProps.ref, () => {
 )
 
 const handleScrollTo = (letter) => {
-  if (hasFetchedAll.value == false) {
-    console.log('fetching');
-    fetchAllList(letter)
-  } else {
-    console.log('scrolling');
-    scrollTo(5000)
-  }
-  console.log(letter);
+  scrollTo(dataList.value.map(e => {
+    // console.log(e.Namn == 'Acorus calamus');
+    return Array.from(e.Namn)[0]
+  }).indexOf(letter))
 }
 
 /* - - - - - - Adding to cart - - - - - - */
@@ -161,31 +157,11 @@ watch(query, () => {
   fetchAllList()
 })
 
-
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
   // fetchList(0, 200)
   fetchAllList()
 })
-
-const fetchTest = async () => {
-  let search = supabase
-    .from('superlista')
-    .select()
-    .ilike('Namn', 'u%')
-
-  const { data, error } = await search
-
-  if (error) {
-    console.error(error);
-  }
-  if (data) {
-    // console.log(data);
-  }
-}
-
-fetchTest()
-
 
 const fetchList = async (from, to) => {
   if (hasFetchedAll.value) {
@@ -295,18 +271,6 @@ const handleClick = () => {
   // console.log('Hello')
   fetchList(0, 990000000)
 }
-
-const handleTestAdd = async () => {
-  console.log(Math.floor(Math.random() * 1000000));
-  // console.log(dataList.value);
-  const { error } = await supabase
-    .from('Test')
-  // .insert([{ id: Math.floor(Math.random() * 1000000), list: dataList.value, personNamn: 'Bosse Larsson' }])
-  if (error) {
-    console.error(error);
-  }
-}
-
 </script>
 
 
