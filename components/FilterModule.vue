@@ -1,38 +1,37 @@
 <template>
   <div class="filters w-fit h-fit shadow-md rounded-[1rem]">
-    <form class="filter-div first-one">
-      <input type="text" placeholder=" Sök" :value="query" @input="$emit('update:query', $event.target.value)"
-        class="m-2" title="Lazy">
-      <button class="bg-gray-100 text-black m-2" @click="$emit('handleClick')">
-        <div v-if="props.sortBy.sortByWhat == 'Pris'">
-          <p v-if="props.sortBy.ascending" class="icon-align">
+    <div class="filter-div first-one">
+      <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök">
+      <button class="bg-gray-100 text-black m-2" @click.prevent="state.switchFilterDirection()">
+        <div v-if="state.sortBy.value.sortByWhat == 'Pris'">
+          <p v-if="state.sortBy.value.ascending" class="icon-align">
             <Icon class="grayed" name="mdi:sort-numeric-ascending" size="20" />
             Stigande
           </p>
-          <p v-if="!props.sortBy.ascending" class="icon-align">
+          <p v-if="!state.sortBy.value.ascending" class="icon-align">
             <Icon class="grayed" name="mdi:sort-numeric-descending" size="20" />
             Fallande
           </p>
         </div>
         <div v-else>
-          <p v-if="props.sortBy.ascending" class="icon-align">
+          <p v-if="state.sortBy.value.ascending" class="icon-align">
             <Icon class="grayed" name="mdi:order-alphabetical-ascending" size="20" />
             Stigande
           </p>
-          <p v-if="!props.sortBy.ascending" class="icon-align">
+          <p v-if="!state.sortBy.value.ascending" class="icon-align">
             <Icon class="grayed" name="mdi:order-alphabetical-descending" size="20" />
             Fallande
           </p>
         </div>
       </button>
-    </form>
+    </div>
 
     <form class="filter-div">
       <div class="icon-align">
         <Icon class="grayed" name="mdi:order-bool-ascending" size="20" />
         <p>Sortera efter:</p>
       </div>
-      <select name="sortBy" id="sortBySelector" v-model="props.sortBy.sortByWhat" @change="$emit('fetchList')">
+      <select name="sortBy" id="sortBySelector" v-model="state.sortBy.value.sortByWhat">
         <option value="Namn">Namn</option>
         <option value="Pris">Pris</option>
         <!-- <option value="Typ">Typ</option> -->
@@ -43,8 +42,7 @@
         <Icon class="grayed" name="ic:round-filter-list" size="20" />
         <p>Filtrera typ:</p>
       </div>
-      <select name="filterType" id="filterTypeSelector" v-model="type" :value="props.filterType"
-        @input="$emit('update:filterType', $event.target.value)" @change="$emit('fetchList')">
+      <select name="filterType" id="filterTypeSelector" v-model="state.typeFilter.value">
         <!-- <option value="" default disabled>Välj</option> -->
         <option value="">Alla</option>
         <option value="T">Träd</option>
@@ -56,14 +54,12 @@
         <!-- <option value="Typ">Typ</option> -->
       </select>
     </form>
-    <form class="filter-div">
+    <!-- <form class="filter-div">
       <div class="icon-align">
         <Icon class="grayed" name="ic:baseline-filter-alt" size="20" />
         <p>Filtrera bokstav:</p>
       </div>
-      <select name="filterLetter" id="filterLetterSelector" v-model="letter" :value="props.filterLetter"
-        @input="$emit('update:filterLetter', $event.target.value)" @change="$emit('fetchList')">
-        <!-- <option value="" default disabled>Välj</option> -->
+      <select name="filterLetter" id="filterLetterSelector" v-model="letterFilter">
         <option value="">Alla</option>
         <option value="A">A</option>
         <option value="B">B</option>
@@ -91,30 +87,19 @@
         <option value="X">X</option>
         <option value="Y">Y</option>
         <option value="Z">Z</option>
-        <!-- <option value="Typ">Typ</option> -->
       </select>
-    </form>
+    </form> -->
     <!-- <div class="filter-div bottom-one"> -->
-
-    <!-- <ClientOnly fallbackTag="div"> -->
-    <!-- </ClientOnly> -->
-    <!-- <button v-if="!hasFetchedAll" class="" @click="$emit('fetchAllList')">Ladda Alla</button> -->
-    <!-- <button v-else class="disabled-btn">Ladda Alla</button> -->
-    <!-- </div> -->
-
   </div>
 </template>
 
 <script setup>
-const props = defineProps(['sortBy', 'query', 'filterType', 'filterLetter', 'hasFetchedAll'])
+defineEmits(['fetchList', 'handleClick'])
+const state = useGlobalState()
 
-const type = ref('')
-type.value = props.filterType
-
-const letter = ref('')
-letter.value = props.filterLetter
-// defineProps(['query', 'sortBy'])
-defineEmits(['update:query', 'update:filterType', 'update:filterLetter', 'fetchAllList', 'fetchList', 'handleClick'])
+function handleTest() {
+  console.log('chicken');
+}
 </script>
 
 <style>

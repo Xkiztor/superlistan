@@ -1,9 +1,7 @@
 <template>
   <div class="list-layout">
     <div class="filter-container" v-if="shouldFilterOpen">
-      <FilterModule :sortBy="sortBy" :filterType="filterType" :query="query" @fetch-list="fetchAllList"
-        @handle-click="handleClick" @fetch-all-list="fetchAllList" v-model:query="query" v-model:filterType="filterType"
-        :filterLetter="filterLetter" v-model:filterLetter="filterLetter" :hasFetchedAll="hasFetchedAll" />
+      <FilterModule @fetch-list="fetchAllList" @handle-click="handleClick" />
     </div>
 
     <div class="list-bg main-list">
@@ -70,7 +68,7 @@
 // import { useCounterStore } from '../stores/counter.js'
 /* - - - - - - Supabase Setup - - - - - - */
 import { createClient } from '@supabase/supabase-js'
-import { useElementVisibility, useIntersectionObserver, useStorage } from '@vueuse/core'
+import { useStorage } from '@vueuse/core'
 
 const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
@@ -91,7 +89,19 @@ const userMessage = ref('Laddar')
 
 const filterLetter = ref('')
 
+watch(state.query, () => {
+  console.log('changed');
+})
 
+const compTest = computed(() => {
+  let newList = dataList.value
+  newList = newList.filter(e => e.Namn.toLowerCase().includes(state.query.value.toLowerCase()))
+  return newList
+})
+
+watch(compTest, () => {
+  console.log(compTest.value);
+})
 // console.log(state.isFilterOpen.value);
 
 // state.openFilter()
@@ -113,7 +123,7 @@ const shouldJumpOpen = computed(() => {
   }
 })
 
-const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(dataList, {
+const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(compTest, {
   // itemHeight: i => (dataList.value[i].heigh),
   itemHeight: 33,
   overscan: 25,

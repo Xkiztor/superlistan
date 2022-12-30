@@ -37,6 +37,8 @@
     <p v-else class="mr-2 whitespace-nowrap hide-on-phone"
       :class="{ 'error-colorr': changeCount > plant.Lager && plant.Lager != null, 'error-colorrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
       {{ changeCount }}</p>
+    <p v-if="plant.MinOrder && !isOnskeLista" class="mr-2 hide-on-phone red">{{ plant.MinOrder }} </p>
+    <p v-else class="mr-2 hide-on-phone"></p>
     <p v-if="isOnskeLista" class="mr-2 on-right">{{ plant.Pris * changeCount }} kr</p>
     <p v-else class="mr-2 on-right">{{ plant.Pris }} kr</p>
 
@@ -256,7 +258,7 @@ function mouseLeave() {
   width: fit-content;
   /* border: 1px solid rgb(225, 225, 225); */
   /* margin-left: 0.75rem; */
-  grid-template-columns: 1fr 35fr 8fr 15fr 8fr 10fr 3fr;
+  grid-template-columns: 1fr 35fr 8fr 15fr 8fr 2fr 8fr 3fr;
   /* grid-template-rows: 1fr 1fr; */
   place-items: center start;
   /* min-width: 30rem; */
@@ -423,6 +425,10 @@ function mouseLeave() {
   padding: 0;
   display: grid;
   place-items: center;
+}
+
+.red {
+  /* color: red; */
 }
 
 .t-green {

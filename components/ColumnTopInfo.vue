@@ -6,11 +6,12 @@
       <p v-else class="name">Namn</p>
     </client-only>
     <!-- <p v-if="props.isOnskeLista == false" class=""></p> -->
-    <p v-if="props.isOnskeLista == false" class="hide-on-phone">Storlek</p>
-    <p v-if="props.isOnskeLista == false" class="hide-on-phone">Krukstorlek</p>
+    <p v-if="props.isOnskeLista == false" class="hide-on-phone">Höjd</p>
+    <p v-if="props.isOnskeLista == false" class="hide-on-phone">Kruka</p>
+    <p v-if="props.isOnskeLista == false" class="hide-on-phone" title="minsta order">Min.</p>
     <p v-if="props.isOnskeLista == true" class=""></p>
     <p v-if="props.isOnskeLista == true" class="hide-on-phone">Antal</p>
-    <p class="ml-14 pris">Pris</p>
+    <p class="pris">Pris</p>
     <div></div>
   </div>
 </template>
@@ -26,7 +27,8 @@ const isAboveAverage = useMediaQuery('(min-width: 481px)')
 .top-info {
   display: grid;
   /* max-width: 30rem; */
-  grid-template-columns: 5fr 40fr 14fr 8fr 10fr 3fr;
+  /* grid-template-columns: 5fr 40fr 6fr 10fr 7fr 2fr 5fr; */
+  grid-template-columns: 6% 50% 17% 8% 7% 5% 5%;
   place-items: center start;
   padding: 5px;
   /* margin-left: 0.75rem; */
