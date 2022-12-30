@@ -26,7 +26,7 @@ const isAboveAverage = useMediaQuery('(min-width: 481px)')
 .top-info {
   display: grid;
   /* max-width: 30rem; */
-  grid-template-columns: 4fr 38fr 15fr 8fr 10fr 3fr;
+  grid-template-columns: 5fr 40fr 14fr 8fr 10fr 3fr;
   place-items: center start;
   padding: 5px;
   /* margin-left: 0.75rem; */

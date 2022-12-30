@@ -90,6 +90,10 @@ const handleDelete = (n) => {
 </script>
 
 <style>
+.main-layout {
+  scrollbar-gutter: stable;
+}
+
 .list-container {
   background-color: #fff;
   padding: 1rem;

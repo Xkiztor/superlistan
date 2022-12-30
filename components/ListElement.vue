@@ -1,27 +1,33 @@
 <template>
-  <div @click="handleClick" class="grid element rounded-[1rem]" :class="adding ? 'if-adding' : ''">
+  <li @click="handleClick" class="grid element rounded-[1rem]" :class="adding ? 'if-adding' : ''" ref="testRef">
     <div class="plant-icon rounded-full grid px-1 aspect-square place-items-center border-2"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
-      :title="toolTipCalculator(plant.Typ)">
+      :title="toolTipCalculator(plant.Typ)" @click="testClick" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
       <Icon name="noto:deciduous-tree" size="16" v-if="plant.Typ == 'T'" title="Träd" />
       <Icon name="noto:evergreen-tree" size="16" v-if="plant.Typ == 'B'" />
-      <Icon name="noto:tulip" size="16" v-if="plant.Typ == 'P'" />
+      <Icon name="fxemoji:rosette" size="16" v-if="plant.Typ == 'P'" />
       <Icon name="noto:potted-plant" size="16" v-if="plant.Typ == 'O'" />
-      <Icon name="noto:herb" size="16" v-if="plant.Typ == 'G'" />
+      <Icon name="twemoji:sheaf-of-rice" size="16" v-if="plant.Typ == 'G'" />
       <Icon name="noto:tanabata-tree" size="16" v-if="plant.Typ == 'K'" />
     </div>
 
     <p class="plant-name mr-2 ml-3 overflow-hidden" :title="plant.Namn"><a
         :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
         {{
-            plant.Namn
-        }}</a>
+    plant.Namn
+}}</a>
     </p>
 
     <div class="ikoner hide-on-phone">
-      <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
-      <Icon v-if="plant.Edible" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
-      <Icon v-if="plant.Kommentar" class="kommentar-icon" name="majesticons:comment-2-text" size="20" />
+      <Icon v-if="plant.Rekommenderas" title="Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill"
+        size="20" />
+      <Icon v-if="plant.Edible" title="Ätbar" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
+      <Icon v-if="plant.Kommentar" title="Kommentar" class="kommentar-icon" name="majesticons:comment-2-text"
+        size="20" />
+      <a :href="plant.Länk" :title="plant.Länk" target="_blank">
+        <Icon v-if="plant.Länk" class="länk-icon" name="mdi:link-variant" size="20" />
+        <!-- <Icon v-if="plant.Länk" class="länk-icon" name="iconoir:internet" size="20" /> -->
+      </a>
     </div>
 
     <!-- --- --- --- List Item Text --- --- --- -->
@@ -42,6 +48,8 @@
       <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded"
         size="20" />
     </button>
+
+    <!-- --- --- --- Expanded --- --- --- -->
     <div class="border-t-rinth-200 border-t-2 p-2 mt-2 mx-0 w-full adding h-14" v-if="adding">
       <div class="info-container">
         <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas || !plant.Edible }">
@@ -56,8 +64,8 @@
         <p v-if="plant.Lager"
           :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': count > plant.Lager && plant.Lager != null }">
           Lager: {{
-              plant.Lager
-          }}</p>
+    plant.Lager
+}}</p>
         <p v-if="isOnskeLista">{{ plant.Pris }} kr/st</p>
         <p v-if="plant.MinOrder"
           :class="{ 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null, 'error-borderr': count < plant.MinOrder && plant.MinOrder != null }">
@@ -82,7 +90,7 @@
     </div>
     <!-- <p class="bg-gray-100 rounded-full">Hello</p> -->
 
-  </div>
+  </li>
 </template>
 
 <script setup>
@@ -96,6 +104,7 @@ const props = defineProps({
   textSize: Number,
   isOnskeLista: Boolean,
 })
+
 
 
 const count = ref(1)
@@ -174,7 +183,34 @@ const toolTipCalculator = (firstLetter) => {
 //     console.log(localStorage.getItem('cart'));
 //   }
 // }
+const testClick = () => {
+  console.log('Clicked');
+  window.open(
+    `https://www.google.com/search?q=${props.plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`,
+    'newwindow',
+    'width=1000, height=1000'
+  );
+  return false;
+}
 
+var timeout
+
+function mouseEnter() {
+  console.log('enter');
+  timeout = setTimeout(() => {
+    window.open(
+      `https://www.google.com/search?q=${props.plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`,
+      'newwindow',
+      'width=1000, height=1000'
+    );
+    return false;
+  }, 300)
+}
+
+function mouseLeave() {
+  console.log('leave');
+  clearTimeout(timeout);
+}
 
 </script>
 
@@ -213,7 +249,7 @@ const toolTipCalculator = (firstLetter) => {
 
 .element {
   padding: 0.5px;
-  max-width: 64rem;
+  max-width: 90rem;
   overflow: hidden;
   min-width: 0px;
   padding-left: 7px;
@@ -224,9 +260,10 @@ const toolTipCalculator = (firstLetter) => {
   /* grid-template-rows: 1fr 1fr; */
   place-items: center start;
   /* min-width: 30rem; */
-  font-size: v-bind(textSize + 'px');
+  /* font-size: v-bind(textSize + 'px'); */
   transition: all 100ms;
-  height: fit-content;
+  min-height: 32px;
+  /* max-height: 2rem; */
 }
 
 .element>p {
@@ -277,9 +314,16 @@ const toolTipCalculator = (firstLetter) => {
   color: rgb(128, 128, 128);
   place-self: center start;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   place-items: center;
   gap: 4px;
+}
+
+.ikoner>a {
+  grid-column: 4;
+  /* height: 20px; */
+  overflow: hidden;
+  font-size: 0;
 }
 
 .rekommenderas-icon {
@@ -372,7 +416,8 @@ const toolTipCalculator = (firstLetter) => {
   place-self: center end;
   background-color: transparent;
   box-shadow: none;
-  height: 100%;
+  /* height: 100%; */
+  max-height: 32px;
   width: 100%;
   margin: 0;
   padding: 0;

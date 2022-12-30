@@ -16,7 +16,7 @@ const emit = defineEmits(['closeModal'])
 const target = ref(null)
 
 onClickOutside(target, (event) => {
-  console.log('outside');
+  // console.log('outside');
   emit('closeModal')
 })
 </script>
@@ -26,7 +26,7 @@ onClickOutside(target, (event) => {
   display: grid;
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 20;

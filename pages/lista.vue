@@ -10,9 +10,8 @@
       <ColumnTopInfo :isOnskeLista="false" />
       <div v-bind="containerProps" class="container-props">
         <ul v-bind="wrapperProps" class="wrapper-props">
-          <li v-for="{ index, data } in list" :key="index">
-            <ListElement :plant="data" @add-to-cart="handleAdd" :isOnskeLista="false" />
-          </li>
+          <ListElement v-for="{ index, data } in list" :key="index" :plant="data" @add-to-cart="handleAdd"
+            :isOnskeLista="false" />
           <!-- <div class="observer" ref="observerTarget">
             <h1>above 1</h1>
           </div> -->
@@ -78,6 +77,8 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 /* - - - - - - Refs - - - - - - */
+const state = useGlobalState()
+
 const sortBy = ref({ sortByWhat: 'Namn', ascending: true })
 const query = ref("")
 const dataList = ref([])
@@ -90,7 +91,7 @@ const userMessage = ref('Laddar')
 
 const filterLetter = ref('')
 
-const state = useGlobalState()
+
 // console.log(state.isFilterOpen.value);
 
 // state.openFilter()
@@ -114,7 +115,7 @@ const shouldJumpOpen = computed(() => {
 
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(dataList, {
   // itemHeight: i => (dataList.value[i].heigh),
-  itemHeight: 33.55,
+  itemHeight: 33,
   overscan: 25,
 })
 
@@ -218,6 +219,7 @@ const fetchAllList = async (scrolling) => {
   }
   if (data) {
     // console.log(data)
+    scrollTo(0)
     userMessage.value = 'Här är listan slut'
     console.log(data);
     dataList.value = data
@@ -378,7 +380,7 @@ const handleClick = () => {
   grid-template-columns: 5fr 15fr 5fr;
   grid-template-rows: min-content 1fr;
   gap: 1rem 0;
-  max-width: 110rem;
+  max-width: 115rem;
   margin: 0 auto;
   width: 100%;
 

@@ -126,7 +126,6 @@ html {
   background: #e5e7eb;
 }
 
-
 button,
 .btn-input,
 .navigator>a,
@@ -221,7 +220,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  max-width: 110rem;
+  max-width: 115rem;
   /* margin-bottom: 1rem; */
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;

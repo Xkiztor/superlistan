@@ -112,6 +112,7 @@ const handleSend = () => {
   }
   if (state.countError.value == true) {
     showModalCountError.value = true
+    return
   }
   console.log(orderName.value);
 

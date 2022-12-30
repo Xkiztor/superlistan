@@ -19,6 +19,11 @@ export const useGlobalState = createGlobalState(
       isJumpOpen.value = !isJumpOpen.value
     }
 
-    return { countError, openNav, isNavOpen, openFilter, isFilterOpen, openJump, isJumpOpen }
+    const type = ref('')
+    const letter = ref('')
+    const query = ref('')
+    const sortBy = ref({ sortByWhat: 'Namn', ascending: true })
+
+    return { countError, openNav, isNavOpen, openFilter, isFilterOpen, openJump, isJumpOpen, type, letter, query, sortBy }
   }
 )
