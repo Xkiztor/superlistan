@@ -126,7 +126,30 @@ const shouldJumpOpen = computed(() => {
 const compTest = computed(() => {
   let newList = dataList.value
   newList = newList.filter(e => e.Namn.toLowerCase().includes(state.query.value.toLowerCase()))
-
+  newList = newList.filter(e => {
+    if (state.favoriteFilter.value == true) {
+      if (e.Rekommenderas == true) return 1
+      else return 0
+    } else return 1
+  })
+  newList = newList.filter(e => {
+    if (state.edibleFilter.value == true) {
+      if (e.Edible == true) return 1
+      else return 0
+    } else return 1
+  })
+  newList = newList.filter(e => {
+    if (state.commentFilter.value == true) {
+      if (e.Kommentar != null) return 1
+      else return 0
+    } else return 1
+  })
+  newList = newList.filter(e => {
+    if (state.linkFilter.value == true) {
+      if (e.Länk != null) return 1
+      else return 0
+    } else return 1
+  })
   return newList
 })
 

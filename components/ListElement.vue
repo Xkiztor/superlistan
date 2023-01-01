@@ -256,6 +256,7 @@ function mouseLeave() {
   min-width: 0px;
   padding-left: 7px;
   width: fit-content;
+  background-color: white;
   /* border: 1px solid rgb(225, 225, 225); */
   /* margin-left: 0.75rem; */
   grid-template-columns: 1fr 35fr 8fr 15fr 8fr 2fr 8fr 3fr;
@@ -266,6 +267,8 @@ function mouseLeave() {
   transition: all 100ms;
   min-height: 32px;
   /* max-height: 2rem; */
+  z-index: 2;
+  position: relative;
 }
 
 .element>p {
@@ -335,10 +338,17 @@ function mouseLeave() {
 
 .edible-icon {
   grid-column: 2;
+  color: rgb(128, 128, 128);
 }
 
 .kommentar-icon {
   grid-column: 3;
+  color: rgb(128, 128, 128);
+}
+
+.länk-icon {
+  grid-column: 4;
+  color: rgb(128, 128, 128);
 }
 
 /* .adding>*:not(:nth-last-child(1)) {

@@ -20,6 +20,10 @@ export const useGlobalState = createGlobalState(
     }
 
     const typeFilter = ref('')
+    const favoriteFilter = ref(false)
+    const edibleFilter = ref(false)
+    const commentFilter = ref(false)
+    const linkFilter = ref(false)
     const query = ref('')
 
     const sortByWhat = ref('Namn')
@@ -29,6 +33,9 @@ export const useGlobalState = createGlobalState(
       sortAscending.value = !sortAscending.value
     }
 
-    return { countError, openNav, isNavOpen, openFilter, isFilterOpen, openJump, isJumpOpen, typeFilter, query, switchFilterDirection, sortByWhat, sortAscending }
+    return {
+      countError, openNav, isNavOpen, openFilter, isFilterOpen, openJump, isJumpOpen,
+      typeFilter, favoriteFilter, edibleFilter, commentFilter, linkFilter, query, switchFilterDirection, sortByWhat, sortAscending,
+    }
   }
 )

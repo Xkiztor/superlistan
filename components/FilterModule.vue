@@ -54,9 +54,79 @@
         <!-- <option value="Typ">Typ</option> -->
       </select>
     </form>
-    <div class="fitler-div">
-      <div v-if="state.typeFilter.value">{{ state.typeFilter.value }}</div>
-      <div v-if="state.sortByWhat.value">{{ state.sortByWhat.value }}</div>
+    <h1>Filterar ikoner:</h1>
+    <form class="check-filter-div">
+      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.favoriteFilter.value">
+      <div class="icon-align">
+        <Icon class="grayed rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
+        <p>Favorit</p>
+      </div>
+    </form>
+    <form class="check-filter-div">
+      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.edibleFilter.value">
+      <div class="icon-align">
+        <Icon class="grayed edible-icon" name="twemoji:fork-and-knife" size="20" />
+        <p>Ätlig</p>
+      </div>
+    </form>
+    <form class="check-filter-div">
+      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.commentFilter.value">
+      <div class="icon-align">
+        <Icon class="grayed kommentar-icon" name="majesticons:comment-2-text" size="20" />
+        <p>Kommentar</p>
+      </div>
+    </form>
+    <form class="check-filter-div">
+      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.linkFilter.value">
+      <div class="icon-align">
+        <Icon class="grayed länk-icon" name="mdi:link-variant" size="20" />
+        <p>Länk</p>
+      </div>
+    </form>
+
+    <div class="filter-tags">
+      <div v-if="state.typeFilter.value">
+        <div v-if="state.typeFilter.value == 'T'">Träd</div>
+        <div v-if="state.typeFilter.value == 'B'">Barrräd</div>
+        <div v-if="state.typeFilter.value == 'P'">Perenner</div>
+        <div v-if="state.typeFilter.value == 'K'">Klätterväxter</div>
+        <div v-if="state.typeFilter.value == 'O'">Ormbunke</div>
+        <div v-if="state.typeFilter.value == 'G'">Gräs</div>
+        <button @click="state.typeFilter.value = ''">
+          <Icon class="grayed" name="ion:close-round" size="14" />
+        </button>
+      </div>
+      <div v-if="state.query.value">
+        "{{ state.query.value }}"
+        <button @click="state.query.value = ''">
+          <Icon class="grayed" name="ion:close-round" size="14" />
+        </button>
+      </div>
+      <div v-if="state.favoriteFilter.value">
+        Favoriter
+        <button @click="state.favoriteFilter.value = false">
+          <Icon class="grayed" name="ion:close-round" size="14" />
+        </button>
+      </div>
+      <div v-if="state.edibleFilter.value">
+        Ätliga
+        <button @click="state.edibleFilter.value = false">
+          <Icon class="grayed" name="ion:close-round" size="14" />
+        </button>
+      </div>
+      <div v-if="state.commentFilter.value">
+        Kommentar
+        <button @click="state.commentFilter.value = false">
+          <Icon class="grayed" name="ion:close-round" size="14" />
+        </button>
+      </div>
+      <div v-if="state.linkFilter.value">
+        Länk
+        <button @click="state.linkFilter.value = false">
+          <Icon class="grayed" name="ion:close-round" size="14" />
+        </button>
+      </div>
+      <!-- <div v-if="state.sortByWhat.value">{{ state.sortByWhat.value }}</div> -->
     </div>
     <!-- <form class="filter-div">
       <div class="icon-align">
@@ -89,7 +159,7 @@
         <option value="V">V</option>
         <option value="W">W</option>
         <option value="X">X</option>
-        <option value="Y">Y</option>
+Y">Y</option>
         <option value="Z">Z</option>
       </select>
     </form> -->
@@ -156,7 +226,7 @@ div.bottom-one {
 }
 
 .grayed {
-  color: #383838;
+  color: #454545;
 }
 
 .icon-align {
@@ -199,5 +269,48 @@ div.bottom-one {
 
 .disabled-btn {
   color: #9ca3af;
+}
+
+input.checkboxer {
+  /* height: 1rem; */
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: 0.2rem auto;
+  border-radius: 0.5rem;
+
+}
+
+.check-filter-div {
+  display: grid;
+  margin: 0.2rem;
+  grid-template-columns: 10% 90%;
+  place-items: center start;
+}
+
+.filter-tags {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filter-tags>div {
+  padding: 0.3rem 0.6rem;
+  background-color: #ebedf1;
+  margin: 0.1rem;
+  width: fit-content;
+  border-radius: 10000rem;
+}
+
+.filter-tags>div>button {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
+.filter-tags>div>div {
+  display: inline;
 }
 </style>
