@@ -12,7 +12,7 @@
     <p v-if="props.isOnskeLista == true" class=""></p>
     <p v-if="props.isOnskeLista == true" class="hide-on-phone">Antal</p>
     <p class="pris">Pris</p>
-    <div></div>
+    <div class="hide-on-phone"></div>
   </div>
 </template>
 
@@ -26,19 +26,16 @@ const isAboveAverage = useMediaQuery('(min-width: 481px)')
 <style>
 .top-info {
   display: grid;
-  /* max-width: 30rem; */
-  /* grid-template-columns: 5fr 40fr 6fr 10fr 7fr 2fr 5fr; */
   grid-template-columns: 6% 50% 17% 8% 7% 5% 5%;
   place-items: center start;
   padding: 5px;
-  /* margin-left: 0.75rem; */
   border-bottom: 1px solid #e5e7eb;
   color: rgb(63, 63, 63);
 }
 
 @media screen and (max-width: 750px) {
   .top-info {
-    grid-template-columns: 3fr 40fr 15fr 8fr !important;
+    grid-template-columns: 5fr 57fr 15fr !important;
   }
 
   .top-info>.pris {
@@ -53,7 +50,7 @@ const isAboveAverage = useMediaQuery('(min-width: 481px)')
 @media screen and (max-width:481px) {
   .top-info {
     place-self: center end;
-    grid-template-columns: 7fr 40fr 15fr 8fr !important;
+    grid-template-columns: 5fr 50fr 15fr !important;
   }
 
   .name {

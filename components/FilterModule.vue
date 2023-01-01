@@ -3,22 +3,22 @@
     <div class="filter-div first-one">
       <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök">
       <button class="bg-gray-100 text-black m-2" @click.prevent="state.switchFilterDirection()">
-        <div v-if="state.sortBy.value.sortByWhat == 'Pris'">
-          <p v-if="state.sortBy.value.ascending" class="icon-align">
+        <div v-if="state.sortByWhat.value == 'Pris'">
+          <p v-if="state.sortAscending.value" class="icon-align">
             <Icon class="grayed" name="mdi:sort-numeric-ascending" size="20" />
             Stigande
           </p>
-          <p v-if="!state.sortBy.value.ascending" class="icon-align">
+          <p v-if="!state.sortAscending.value" class="icon-align">
             <Icon class="grayed" name="mdi:sort-numeric-descending" size="20" />
             Fallande
           </p>
         </div>
         <div v-else>
-          <p v-if="state.sortBy.value.ascending" class="icon-align">
+          <p v-if="state.sortAscending.value" class="icon-align">
             <Icon class="grayed" name="mdi:order-alphabetical-ascending" size="20" />
             Stigande
           </p>
-          <p v-if="!state.sortBy.value.ascending" class="icon-align">
+          <p v-if="!state.sortAscending.value" class="icon-align">
             <Icon class="grayed" name="mdi:order-alphabetical-descending" size="20" />
             Fallande
           </p>
@@ -31,7 +31,7 @@
         <Icon class="grayed" name="mdi:order-bool-ascending" size="20" />
         <p>Sortera efter:</p>
       </div>
-      <select name="sortBy" id="sortBySelector" v-model="state.sortBy.value.sortByWhat">
+      <select name="sortBy" id="sortBySelector" v-model="state.sortByWhat.value">
         <option value="Namn">Namn</option>
         <option value="Pris">Pris</option>
         <!-- <option value="Typ">Typ</option> -->
@@ -54,6 +54,10 @@
         <!-- <option value="Typ">Typ</option> -->
       </select>
     </form>
+    <div class="fitler-div">
+      <div v-if="state.typeFilter.value">{{ state.typeFilter.value }}</div>
+      <div v-if="state.sortByWhat.value">{{ state.sortByWhat.value }}</div>
+    </div>
     <!-- <form class="filter-div">
       <div class="icon-align">
         <Icon class="grayed" name="ic:baseline-filter-alt" size="20" />

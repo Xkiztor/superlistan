@@ -22,7 +22,7 @@
       <input v-model="orderPhone" id="user-phone" type="tel" placeholder="Ex. 0733518716">
     </div>
     <div class="input-layout">
-      <label for="user-comment">Egen Kommentar: </label>
+      <label for="user-comment">Kommentar: </label>
       <input v-model="orderComment" id="user-comment" type="text" placeholder="(Frivilligt)">
     </div>
     <button @click="handleSend" :class="hasSent ? 'grayed' : ''" class="send">Skicka in</button>

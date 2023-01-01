@@ -13,6 +13,7 @@
           <!-- <div class="observer" ref="observerTarget">
             <h1>above 1</h1>
           </div> -->
+          <div class="bottom-spacer"></div>
           <div class="center-bottom" ref="observerTarget2">
             {{ userMessage }}
             <p v-if="userMessage != 'Här är listan slut'">Om det inte laddas fler, tryck <a class="pointer"
@@ -76,11 +77,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 /* - - - - - - Refs - - - - - - */
 const state = useGlobalState()
-
-const sortBy = ref({ sortByWhat: 'Namn', ascending: true })
-const query = ref("")
 const dataList = ref([])
-const filterType = ref("")
 // const list = useStorage('list', [])
 const fetchRange = ref({ from: 0, to: 50 })
 const hasFetchedAll = ref(false)
@@ -92,16 +89,19 @@ const filterLetter = ref('')
 watch(state.query, () => {
   console.log('changed');
 })
-
-const compTest = computed(() => {
-  let newList = dataList.value
-  newList = newList.filter(e => e.Namn.toLowerCase().includes(state.query.value.toLowerCase()))
-  return newList
+watch(state.sortAscending, () => {
+  console.log('test');
+  fetchAllList()
+})
+watch(state.sortByWhat, () => {
+  console.log('test');
+  fetchAllList()
+})
+watch(state.typeFilter, () => {
+  console.log('test');
+  fetchAllList()
 })
 
-watch(compTest, () => {
-  console.log(compTest.value);
-})
 // console.log(state.isFilterOpen.value);
 
 // state.openFilter()
@@ -123,6 +123,13 @@ const shouldJumpOpen = computed(() => {
   }
 })
 
+const compTest = computed(() => {
+  let newList = dataList.value
+  newList = newList.filter(e => e.Namn.toLowerCase().includes(state.query.value.toLowerCase()))
+
+  return newList
+})
+
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(compTest, {
   // itemHeight: i => (dataList.value[i].heigh),
   itemHeight: 33,
@@ -134,24 +141,17 @@ const isCollapsed = computed(() => { return screenSize.width.value <= 1200 ? tru
 
 const onskeList = useStorage('onske-list', [{ id: 420, count: 2 }]);
 
-useInfiniteScroll(containerProps.ref, () => {
-  console.log('yeeee');
-  // fetchMoreList()
-},
-  { distance: 800 }
-)
-useInfiniteScroll(containerProps.ref, () => {
-  console.log('yeeeerrrrrrrrrrrrrrrrrr');
-  // fetchMoreList()
-},
-  { distance: 0 }
-)
-
 const handleScrollTo = (letter) => {
   scrollTo(dataList.value.map(e => {
     return Array.from(e.Namn)[0]
   }).indexOf(letter))
 }
+
+
+watch(compTest, () => {
+  scrollTo(0)
+  console.log(compTest.value);
+})
 
 /* - - - - - - Adding to cart - - - - - - */
 const handleAdd = (id, count) => {
@@ -163,9 +163,9 @@ const handleAdd = (id, count) => {
 
 
 /* - - - - - - Search - - - - - - */
-watch(query, () => {
-  fetchAllList()
-})
+// watch(query, () => {
+//   fetchAllList()
+// })
 
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
@@ -180,11 +180,11 @@ const fetchList = async (from, to) => {
     let search = supabase
       .from('superlista')
       .select()
-      .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
-      .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
+      .ilike('Namn', `%${state.query.value.replace(/\s+/g, '%')}%`)
+      .order(`${state.sortByWhat.value}`, { ascending: state.sortAscending.value })
       .range(from, to)
-    if (!filterType.value == '') { search = search.eq('Typ', `${filterType.value}`) }
-    if (!filterLetter.value == '') { search = search.ilike('Namn', `${filterLetter.value}%`) }
+    if (!state.typeFilter.value == '') { search = search.eq('Typ', `${state.typeFilter.value}`) }
+    // if (!state.filterLetter.value == '') { search = search.ilike('Namn', `${state.filterLetter.value}%`) }
 
     const { data, error } = await search
 
@@ -214,10 +214,10 @@ const fetchAllList = async (scrolling) => {
   let search = supabase
     .from('superlista')
     .select()
-    .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
-    .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
-  if (!filterType.value == '') { search = search.eq('Typ', `${filterType.value}`) }
-  if (!filterLetter.value == '') { search = search.ilike('Namn', `${filterLetter.value}%`) }
+    .ilike('Namn', `%${state.query.value.replace(/\s+/g, '%')}%`)
+    .order(`${state.sortByWhat.value}`, { ascending: state.sortAscending.value })
+  if (!state.typeFilter.value == '') { search = search.eq('Typ', `${state.typeFilter.value}`) }
+  // if (!state.filterLetter.value == '') { search = search.ilike('Namn', `${state.filterLetter.value}%`) }
 
   const { data, error } = await search
 
@@ -242,38 +242,38 @@ const fetchAllList = async (scrolling) => {
 
 
 /* - - - - - - Infinite scrolling - - - - - - */
-const fetchMoreList = async () => {
-  if (!hasFetchedAll.value) {
-    userMessage.value = 'laddar...'
-    console.log('fetching more');
-    let search = supabase
-      .from('superlista')
-      .select()
-      .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
-      .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
-      .range(fetchRange.value.from, fetchRange.value.to)
-    if (!filterType.value == '') { search = search.eq('Typ', `${filterType.value}`) }
-    if (!filterLetter.value == '') { search = search.ilike('Namn', `${filterLetter.value}%`) }
+// const fetchMoreList = async () => {
+//   if (!hasFetchedAll.value) {
+//     userMessage.value = 'laddar...'
+//     console.log('fetching more');
+//     let search = supabase
+//       .from('superlista')
+//       .select()
+//       .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
+//       .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
+//       .range(fetchRange.value.from, fetchRange.value.to)
+//     if (!typeFilter.value == '') { search = search.eq('Typ', `${typeFilter.value}`) }
+//     if (!filterLetter.value == '') { search = search.ilike('Namn', `${filterLetter.value}%`) }
 
-    const { data, error } = await search
+//     const { data, error } = await search
 
-    if (error) {
-      console.log(error)
-    }
-    if (data) {
-      if (fetchRange.value.from >= 100) {
-        dataList.value.push(...data)
-        console.log(data)
-      }
-      if (!data.length > 0) {
-        userMessage.value = 'Här är listan slut'
-      }
-      fetchRange.value.from += 50
-      fetchRange.value.to += 50
-    }
-  }
+//     if (error) {
+//       console.log(error)
+//     }
+//     if (data) {
+//       if (fetchRange.value.from >= 100) {
+//         dataList.value.push(...data)
+//         console.log(data)
+//       }
+//       if (!data.length > 0) {
+//         userMessage.value = 'Här är listan slut'
+//       }
+//       fetchRange.value.from += 50
+//       fetchRange.value.to += 50
+//     }
+//   }
 
-}
+// }
 
 
 /* - - - - - - Handling click - - - - - - */
@@ -303,6 +303,8 @@ const handleClick = () => {
 
 .wrapper-props {
   transition: none;
+  position: relative;
+  /* padding-bottom: 5rem; */
 }
 
 .list-bg {
@@ -446,6 +448,13 @@ const handleClick = () => {
   }
 }
 
+@media screen and (min-width: 1200px) {
+  .list-bg.main-list {
+    min-width: 100%;
+  }
+}
+
+
 .navigator {
   max-width: 20rem;
   margin: 0 auto;
@@ -492,12 +501,24 @@ const handleClick = () => {
   border-radius: 1rem;
 }
 
-.center-bottom {
+.bottom-spacer {
+  height: 5rem;
   grid-column-start: 2;
   grid-row-start: 2;
   margin: 1rem auto 5rem;
   font-size: 1.5rem;
-  text-align: center
+  text-align: center;
+}
+
+.center-bottom {
+  /* grid-column-start: 2; */
+  /* grid-row-start: 2; */
+  margin: 1rem auto;
+  font-size: 1.5rem;
+  text-align: center;
+  position: absolute;
+  bottom: -5rem;
+  width: 100%;
 }
 
 .center-bottom>p,

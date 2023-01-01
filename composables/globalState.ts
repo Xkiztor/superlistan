@@ -21,12 +21,14 @@ export const useGlobalState = createGlobalState(
 
     const typeFilter = ref('')
     const query = ref('')
-    const sortBy = ref({ sortByWhat: 'Namn', ascending: true })
+
+    const sortByWhat = ref('Namn')
+    const sortAscending = ref(true)
 
     function switchFilterDirection() {
-      sortBy.value.ascending = !sortBy.value.ascending
+      sortAscending.value = !sortAscending.value
     }
 
-    return { countError, openNav, isNavOpen, openFilter, isFilterOpen, openJump, isJumpOpen, typeFilter, query, sortBy, switchFilterDirection }
+    return { countError, openNav, isNavOpen, openFilter, isFilterOpen, openJump, isJumpOpen, typeFilter, query, switchFilterDirection, sortByWhat, sortAscending }
   }
 )

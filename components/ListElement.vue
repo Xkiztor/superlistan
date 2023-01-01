@@ -4,11 +4,11 @@
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
       :title="toolTipCalculator(plant.Typ)" @click="testClick" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
       <Icon name="noto:deciduous-tree" size="16" v-if="plant.Typ == 'T'" title="Träd" />
-      <Icon name="noto:evergreen-tree" size="16" v-if="plant.Typ == 'B'" />
-      <Icon name="fxemoji:rosette" size="16" v-if="plant.Typ == 'P'" />
-      <Icon name="noto:potted-plant" size="16" v-if="plant.Typ == 'O'" />
-      <Icon name="twemoji:sheaf-of-rice" size="16" v-if="plant.Typ == 'G'" />
-      <Icon name="noto:tanabata-tree" size="16" v-if="plant.Typ == 'K'" />
+      <Icon name="noto:evergreen-tree" size="16" v-if="plant.Typ == 'B'" title="Barrträd" />
+      <Icon name="fxemoji:rosette" size="16" v-if="plant.Typ == 'P'" title="Perenner" />
+      <Icon name="noto:potted-plant" size="16" v-if="plant.Typ == 'O'" title="Ormbunke" />
+      <Icon name="twemoji:sheaf-of-rice" size="16" v-if="plant.Typ == 'G'" title="Gräs" />
+      <Icon name="noto:tanabata-tree" size="16" v-if="plant.Typ == 'K'" title="Klätterväxt" />
     </div>
 
     <p class="plant-name mr-2 ml-3 overflow-hidden" :title="plant.Namn"><a
@@ -425,10 +425,6 @@ function mouseLeave() {
   padding: 0;
   display: grid;
   place-items: center;
-}
-
-.red {
-  /* color: red; */
 }
 
 .t-green {

@@ -1,5 +1,5 @@
 <template>
-  <div data-theme="light" class="main-layout tou-z65h9k" ref="el">
+  <div data-theme="light" class="main-layout tou-z65h9k" ref="el" :class="$route.path == '/lista' ? 'page-lista' : ''">
     <!-- <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver"
       :style="{ width: targetIsVisible ? '60rem' : '100%' }"> -->
     <nav class="naver" v-if="isSmallScreen && $route.path == '/lista'">
@@ -10,9 +10,9 @@
         <div class="dropdown" v-if="openNav" ref="target">
           <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/" @click="openNav = false">Hem</nuxt-link>
           <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista"
-            @click="openNav = false">Lista</nuxt-link>
+            @click="openNav = false">Listan</nuxt-link>
           <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista"
-            @click="openNav = false">Önskelista</nuxt-link>
+            @click="openNav = false">Önskelistan</nuxt-link>
         </div>
       </div>
       <button @click="state.openFilter">
@@ -24,8 +24,9 @@
     </nav>
     <nav class="naver" v-else>
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">Hem</nuxt-link>
-      <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista">Lista</nuxt-link>
-      <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista">Önskelista</nuxt-link>
+      <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-if="isSmallScreen">Listan</nuxt-link>
+      <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>Linders Superlista 2023</nuxt-link>
+      <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista">Önskelistan</nuxt-link>
     </nav>
     <NuxtPage />
   </div>
@@ -152,11 +153,15 @@ button:hover {
   display: grid;
   place-items: center;
   padding: 0 1rem;
-  grid-template-rows: min-content 87vh;
+  grid-template-rows: min-content auto;
   /* Temp */
   height: 100vh !important;
   /* Temp */
 
+}
+
+.page-lista {
+  grid-template-rows: min-content 87vh;
 }
 
 .dropdown {
@@ -228,7 +233,8 @@ button:hover {
   /* position: sticky; */
   /* top: 1rem; */
   z-index: 11;
-  transition: all 0.5s
+  transition: all 0.5s;
+  letter-spacing: 0.05rem;
 }
 
 .nav-observer {
