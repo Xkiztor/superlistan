@@ -77,6 +77,9 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 /* - - - - - - Refs - - - - - - */
 const state = useGlobalState()
+
+const onskeList = useGlobalOnskeList()
+
 const dataList = ref([])
 // const list = useStorage('list', [])
 const fetchRange = ref({ from: 0, to: 50 })
@@ -123,7 +126,7 @@ const shouldJumpOpen = computed(() => {
   }
 })
 
-const compTest = computed(() => {
+const computedList = computed(() => {
   let newList = dataList.value
   newList = newList.filter(e => e.Namn.toLowerCase().includes(state.query.value.toLowerCase()))
   newList = newList.filter(e => {
@@ -153,7 +156,7 @@ const compTest = computed(() => {
   return newList
 })
 
-const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(compTest, {
+const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(computedList, {
   // itemHeight: i => (dataList.value[i].heigh),
   itemHeight: 33,
   overscan: 25,
@@ -162,7 +165,7 @@ const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(compTest
 const screenSize = useWindowSize()
 const isCollapsed = computed(() => { return screenSize.width.value <= 1200 ? true : false })
 
-const onskeList = useStorage('onske-list', []);
+// const onskeList = useStorage('onske-list', []);
 
 const handleScrollTo = (letter) => {
   scrollTo(dataList.value.map(e => {
@@ -171,16 +174,16 @@ const handleScrollTo = (letter) => {
 }
 
 
-watch(compTest, () => {
+watch(computedList, () => {
   scrollTo(0)
-  console.log(compTest.value);
+  console.log(computedList.value);
 })
 
 /* - - - - - - Adding to cart - - - - - - */
 const handleAdd = (id, count) => {
   const arr = [{ id: id, count: count }]
-  onskeList.value.push(arr[0])
-  console.log(onskeList.value);
+  onskeList.value.onskeList.push(arr[0])
+  console.log(onskeList.value.onskeList);
   // }
 }
 

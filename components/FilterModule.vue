@@ -275,15 +275,16 @@ input.checkboxer {
   /* height: 1rem; */
   width: 1.2rem;
   height: 1.2rem;
-  margin: 0.2rem auto;
+  margin: 0.2rem;
   border-radius: 0.5rem;
-  margin-right: 0.5rem;
+  /* margin-right: 1rem; */
+  /* appearance: none; */
 }
 
 .check-filter-div {
   display: grid;
   margin: 0.2rem;
-  grid-template-columns: 7% 93%;
+  grid-template-columns: 10% 90%;
   place-items: center start;
   margin-left: 0;
 }
@@ -292,6 +293,7 @@ input.checkboxer {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  margin-top: 1rem;
 }
 
 .filter-tags:has(+ div) {

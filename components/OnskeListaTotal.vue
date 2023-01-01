@@ -10,7 +10,7 @@
     <div>
       <p>
         <!-- <Icon name="material-symbols:table-rows-rounded" size="20" /> -->
-        <i class="main-value">{{ props.onskeListFull.length }}</i>
+        <i class="main-value">{{ onskeList.onskeListFull.length }}</i>
         olika växter
       </p>
     </div>
@@ -22,20 +22,23 @@
         <i class="main-value">{{ totalPrice }}</i>
         kr totalt
       </p>
+      <p v-if="totalPrice < 2000" class="disclaimer"><strong>OBS</strong> Lägsta ordersumman är 2000kr</p>
     </div>
 
   </div>
 </template>
 
 <script setup>
-const props = defineProps(['onskeListFull', 'changeCount'])
+// const props = defineProps(['onskeListFull', 'changeCount'])
 
 // console.log(props.changeCount);
+const onskeList = useGlobalOnskeList()
+console.log(onskeList.value.onskeListFull);
 
-const totalCount = computed(() => props.onskeListFull.map(e => e.Count).reduce((a, b) => a + b, 0))
-const totalPrice = computed(() => props.onskeListFull.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
-// const totalCount = computed(() => props.onskeListFull.map(e => props.changeCount).reduce((a, b) => a + b, 0))
-// const totalPrice = computed(() => props.onskeListFull.map(e => e.Pris * props.changeCount).reduce((a, b) => a + b, 0))
+const totalCount = computed(() => onskeList.value.onskeListFull.map(e => e.Count).reduce((a, b) => a + b, 0))
+const totalPrice = computed(() => onskeList.value.onskeListFull.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
+// const totalCount = computed(() => onskeList.value.onskeListFull.map(e => props.changeCount).reduce((a, b) => a + b, 0))
+// const totalPrice = computed(() => onskeList.value.onskeListFull.map(e => e.Pris * props.changeCount).reduce((a, b) => a + b, 0))
 </script>
 
 <style>
@@ -46,10 +49,6 @@ div .total {
 
 .main-value {
   font-weight: 600;
-}
-
-.total>div>p {
-  display: inline;
 }
 
 .total>div {
@@ -67,5 +66,9 @@ i {
 .total h1 {
   font-size: 1.4rem;
   font-weight: 800;
+}
+
+.disclaimer {
+  display: block;
 }
 </style>

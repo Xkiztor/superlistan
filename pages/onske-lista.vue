@@ -3,12 +3,12 @@
     <!-- <h1 class="header" @click="handleClick">Önskelista</h1> -->
     <div class="onske-list-bg">
       <ColumnTopInfo :isOnskeLista="true" />
-      <div v-for="plant in onskeListFull" :key="plant.id">
+      <div v-for="plant in onskeList.onskeListFull" :key="plant.id">
         <ListElement :plant="plant" :isOnskeLista="true" @handle-delete="handleDelete" />
       </div>
     </div>
     <div class="bottom-section">
-      <OnskeListaTotal :onskeListFull="onskeListFull" />
+      <OnskeListaTotal />
       <OnskeListaOrder />
     </div>
   </div>
@@ -23,10 +23,15 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 const list = ref([])
-const onskeList = useStorage('onske-list', [])
-const onskeListFull = useStorage('onske-list-full', [])
 
-watch(onskeList, () => {
+const state = useGlobalState()
+
+const onskeList = useGlobalOnskeList()
+
+// const onskeList = useStorage('onske-list', [])
+// const onskeListFull = useStorage('onske-list-full', [])
+
+watch(onskeList.value.onskeList, () => {
   listFetcher()
 })
 
@@ -46,22 +51,22 @@ const fetchList = async (id, count) => {
     list.value.push(data[0])
     // console.log(list.value)
 
-    // console.log(onskeListFull.value.length);
-    if (onskeListFull.value.length == 0) {
+    // console.log(onskeList.value.onskeListFull.length);
+    if (onskeList.value.onskeListFull.length == 0) {
       console.log('empty');
-      onskeListFull.value.push(data[0])
-      // console.log(onskeListFull.value.length);
+      onskeList.value.onskeListFull.push(data[0])
+      // console.log(onskeList.value.onskeListFull.length);
     } else {
-      // console.log(onskeListFull.value.map(e => e.id).indexOf(id));
-      if (onskeListFull.value.map(e => e.id).indexOf(id) == -1) {
-        onskeListFull.value.push(data[0])
+      // console.log(onskeList.value.onskeListFull.map(e => e.id).indexOf(id));
+      if (onskeList.value.onskeListFull.map(e => e.id).indexOf(id) == -1) {
+        onskeList.value.onskeListFull.push(data[0])
       }
     }
   }
 }
 
 const listFetcher = () => {
-  onskeList.value.forEach(plant => {
+  onskeList.value.onskeList.forEach(plant => {
     fetchList(plant.id, plant.count)
   })
 }
@@ -69,11 +74,11 @@ listFetcher()
 
 const handleDelete = (n) => {
   console.log(n)
-  onskeList.value = onskeList.value.filter(b => b.id != n)
-  onskeListFull.value = onskeListFull.value.filter(b => b.id != n)
+  onskeList.value.onskeList = onskeList.value.onskeList.filter(b => b.id != n)
+  onskeList.value.onskeListFull = onskeList.value.onskeListFull.filter(b => b.id != n)
   list.value = []
   // list.value = list.value.filter(a => a.id != n)
-  console.log(onskeList.value);
+  console.log(onskeList.value.onskeList);
 }
 
 

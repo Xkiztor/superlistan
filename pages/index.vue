@@ -21,7 +21,7 @@
       <ul>
         <li>
           <strong>Typ:</strong> Det finns en kolumn för typ och där betyder:
-          <ul class="indent">
+          <ul class="indent type-desc">
             <li>
               <Icon name="noto:deciduous-tree" size="21" title="Träd" /> = Träd o buskar
             </li>
@@ -42,6 +42,8 @@
               <Icon name="noto:potted-plant" size="21" title="Ormbunke" /> = Ormbunkar
             </li>
           </ul>
+          <p>Om man klickar eller håller över ikonen öppnas ett nytt fönster med Googles bildsök. Lägg denna rutan till
+            sidan av skärmen, så sätt kan du snabbt se dom olika växterna.</p>
         </li>
         <li>
           <strong>Länk:</strong> Om du klickar på växtnamnet öppnas en länk till Googles bildsök för växten ifråga så du
@@ -60,18 +62,23 @@
           <ul class="indent">
             <li>
               <Icon title="Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" /> =
-              Rekommenderas: Det är kolumnen med hjärtan för växter jag vill rekommendera. Mina
-              personliga
-              favoriter och växter jag tycker ni inte ska missa att spana in.
+              <strong>Rekommenderas:</strong> Det är kolumnen med hjärtan för växter jag vill rekommendera. Mina
+              personliga favoriter och växter jag tycker ni inte ska missa att spana in.
             </li>
             <li>
-              <Icon title="Ätbar" class="edible-icon" name="twemoji:fork-and-knife" size="20" /> = Ätlig
+              <Icon title="Ätbar" class="edible-icon" name="twemoji:fork-and-knife" size="20" /> =
+              <strong>Ätlig:</strong> Visar om
+              växten är ätlig eller inte.
             </li>
             <li>
-              <Icon title="Kommentar" class="kommentar-icon" name="majesticons:comment-2-text" size="20" /> = Kommentar
+              <Icon title="Kommentar" class="kommentar-icon" name="majesticons:comment-2-text" size="20" /> =
+              <strong>Kommentar:</strong>
+              Denna ikoner visar om det finns en kommentar till växten ifråga.
             </li>
             <li>
-              <Icon class="länk-icon" name="mdi:link-variant" size="20" /> = Länk
+              <Icon class="länk-icon" name="mdi:link-variant" size="20" /> = <strong>Länk:</strong> Visar om det fins en
+              länk till
+              växten. Du kan även klicka på ikonen för att öppna länken direkt.
             </li>
           </ul>
         </li>
@@ -109,7 +116,7 @@
         </li>
         <li>
           <strong>Zon:</strong> Vad gäller härdighet är det stor variation över listan och mycket är otillräckligt
-          prövat i Sverige. På en del växter har jag angivit svensk zon-tålighet. Zon 0 står för innerstadsmiljöer i zon
+          0 står för innerstadsmiljöer i zon
           1.
         </li>
       </ul>
@@ -133,6 +140,12 @@ li>svg {
 
 .indent>li {
   margin-left: 1rem;
+  margin-bottom: 0.6rem;
+  line-height: 1;
+}
+
+.indent>li>strong {
+  font-weight: 500;
 }
 
 .text-stycke {
@@ -170,5 +183,10 @@ li>a {
 .home-container {
   /* margin-top: 12rem; */
   max-width: 100ch;
+}
+
+
+.type-desc {
+  margin-bottom: 0.5rem;
 }
 </style>

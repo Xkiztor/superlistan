@@ -91,6 +91,8 @@ useHead({
 // }
 const state = useGlobalState()
 
+const onskeList = useGlobalOnskeList()
+
 const openNav = ref(false)
 
 const screenSize = useWindowSize()

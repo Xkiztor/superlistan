@@ -105,15 +105,15 @@ const props = defineProps({
   isOnskeLista: Boolean,
 })
 
-console.log(props.plant.Count);
-
 const count = ref(1)
 const adding = ref(false)
 
 const state = useGlobalState()
 
-const onskeList = useStorage('onske-list', [])
-const onskeListFull = useStorage('onske-list-full', [])
+const onskeList = useGlobalOnskeList()
+
+// const onskeList = useStorage('onske-list', [])
+// const onskeListFull = useStorage('onske-list-full', [])
 const changeCount = ref(props.plant.Count)
 
 if (props.plant.MinOrder && !props.isOnskeLista) {
@@ -132,14 +132,14 @@ validate()
 
 watch(changeCount, () => {
   validate()
-  for (let obj of onskeList.value) {
+  for (let obj of onskeList.value.onskeList) {
     if (obj.id === props.plant.id) {
       // console.log('yee');
       obj.count = changeCount.value;
       break;
     }
   }
-  for (let obj of onskeListFull.value) {
+  for (let obj of onskeList.value.onskeListFull) {
     if (obj.id === props.plant.id) {
       // console.log('yee');
       obj.Count = changeCount.value;
@@ -189,7 +189,7 @@ const testClick = () => {
   window.open(
     `https://www.google.com/search?q=${props.plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`,
     'newwindow',
-    'width=1000, height=1000'
+    'width=1000, height=2000'
   );
   return false;
 }
@@ -197,7 +197,7 @@ const testClick = () => {
 var timeout
 
 function mouseEnter() {
-  console.log('enter');
+  // console.log('enter');
   timeout = setTimeout(() => {
     window.open(
       `https://www.google.com/search?q=${props.plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`,
@@ -209,7 +209,7 @@ function mouseEnter() {
 }
 
 function mouseLeave() {
-  console.log('leave');
+  // console.log('leave');
   clearTimeout(timeout);
 }
 
@@ -294,6 +294,7 @@ function mouseLeave() {
   /* margin: 0 1.5rem; */
   translate: 7px 0;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 3;
 
 }
 
