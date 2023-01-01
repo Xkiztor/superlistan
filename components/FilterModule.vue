@@ -54,7 +54,7 @@
         <!-- <option value="Typ">Typ</option> -->
       </select>
     </form>
-    <h1>Filterar ikoner:</h1>
+    <!-- <h1>Filterar ikoner:</h1> -->
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.favoriteFilter.value">
       <div class="icon-align">
@@ -277,21 +277,25 @@ input.checkboxer {
   height: 1.2rem;
   margin: 0.2rem auto;
   border-radius: 0.5rem;
-
+  margin-right: 0.5rem;
 }
 
 .check-filter-div {
   display: grid;
   margin: 0.2rem;
-  grid-template-columns: 10% 90%;
+  grid-template-columns: 7% 93%;
   place-items: center start;
+  margin-left: 0;
 }
 
 .filter-tags {
-  margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.filter-tags:has(+ div) {
+  margin-top: 1rem;
 }
 
 .filter-tags>div {
@@ -301,6 +305,10 @@ input.checkboxer {
   width: fit-content;
   border-radius: 10000rem;
 }
+
+/* .filter-div>div:nth-child(-n + 1) {
+  margin-top: 1rem;
+} */
 
 .filter-tags>div>button {
   background: none;

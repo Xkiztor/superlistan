@@ -25,8 +25,6 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 const list = ref([])
 const onskeList = useStorage('onske-list', [])
 const onskeListFull = useStorage('onske-list-full', [])
-// onskeList.value = [{ id: 420, count: 2 }]
-
 
 watch(onskeList, () => {
   listFetcher()
@@ -60,14 +58,6 @@ const fetchList = async (id, count) => {
       }
     }
   }
-}
-
-const handleClick = () => {
-  fetchList(4269, 8)
-
-  const test = [{ id: 69, count: 42 }]
-  onskeList.value.push(test[0])
-  console.log(onskeList.value);
 }
 
 const listFetcher = () => {

@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { createGlobalState } from '@vueuse/core'
+import { createGlobalState, useStorage } from '@vueuse/core'
 
 export const useGlobalState = createGlobalState(
   () => {
@@ -32,6 +32,11 @@ export const useGlobalState = createGlobalState(
     function switchFilterDirection() {
       sortAscending.value = !sortAscending.value
     }
+
+    useStorage('vue-use-local-storage', {
+      onskeList: [],
+      onskeListFull: [],
+    })
 
     return {
       countError, openNav, isNavOpen, openFilter, isFilterOpen, openJump, isJumpOpen,

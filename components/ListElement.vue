@@ -65,12 +65,10 @@
         <p v-if="plant.Kruka && isOnskeLista">Kruka: {{ plant.Kruka }}</p>
         <p v-if="plant.Lager"
           :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': count > plant.Lager && plant.Lager != null }">
-          Lager: {{
-    plant.Lager
-}}</p>
+          Lager: {{ plant.Lager }}</p>
         <p v-if="isOnskeLista">{{ plant.Pris }} kr/st</p>
         <p v-if="plant.MinOrder"
-          :class="{ 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null, 'error-borderr': count < plant.MinOrder && plant.MinOrder != null }">
+          :class="{ 'error-borderrr': changeCount < plant.MinOrder && changeCount != 0 && plant.MinOrder != null, 'error-borderr': count < plant.MinOrder && !isOnskeLista && plant.MinOrder != null }">
           Min. Order: {{ plant.MinOrder }}</p>
         <a v-if="plant.Länk" :href="plant.Länk" target="_blank" class="link-color underline">Länk</a>
         <p v-if="plant.Zon">Zon: {{ plant.Zon }}</p>
@@ -107,24 +105,25 @@ const props = defineProps({
   isOnskeLista: Boolean,
 })
 
-
+console.log(props.plant.Count);
 
 const count = ref(1)
 const adding = ref(false)
 
 const state = useGlobalState()
 
-// console.log(props.plant);
-
 const onskeList = useStorage('onske-list', [])
 const onskeListFull = useStorage('onske-list-full', [])
 const changeCount = ref(props.plant.Count)
 
+if (props.plant.MinOrder && !props.isOnskeLista) {
+  count.value = props.plant.MinOrder
+}
 
 const validate = () => {
   if (changeCount.value > props.plant.Lager && props.plant.Lager != null || changeCount.value < props.plant.MinOrder && props.plant.MinOrder != null) {
     state.countError.value = true
-    console.log('erroorrr');
+    console.log('count erroorrr');
   } else {
     state.countError.value = false
   }

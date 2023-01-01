@@ -162,7 +162,7 @@ const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(compTest
 const screenSize = useWindowSize()
 const isCollapsed = computed(() => { return screenSize.width.value <= 1200 ? true : false })
 
-const onskeList = useStorage('onske-list', [{ id: 420, count: 2 }]);
+const onskeList = useStorage('onske-list', []);
 
 const handleScrollTo = (letter) => {
   scrollTo(dataList.value.map(e => {
