@@ -11,6 +11,7 @@
     <p v-if="props.isOnskeLista == false" class="hide-on-phone" title="minsta order">Min.</p>
     <p v-if="props.isOnskeLista == true" class=""></p>
     <p v-if="props.isOnskeLista == true" class="hide-on-phone">Antal</p>
+    <p v-if="props.isOnskeLista == true" class=""></p>
     <p class="pris">Pris</p>
     <div class="hide-on-phone"></div>
   </div>

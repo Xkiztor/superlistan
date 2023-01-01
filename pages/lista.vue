@@ -100,10 +100,10 @@ watch(state.sortByWhat, () => {
   console.log('test');
   fetchAllList()
 })
-watch(state.typeFilter, () => {
-  console.log('test');
-  fetchAllList()
-})
+// watch(state.typeFilter, () => {
+//   console.log('test');
+//   fetchAllList()
+// })
 
 // console.log(state.isFilterOpen.value);
 
@@ -153,6 +153,7 @@ const computedList = computed(() => {
       else return 0
     } else return 1
   })
+  if (state.typeFilter.value) newList = newList.filter(e => e.Typ == state.typeFilter.value)
   return newList
 })
 
