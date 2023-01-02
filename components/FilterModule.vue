@@ -327,13 +327,13 @@ input.checkboxer {
 .tags-move,
 .tags-enter-active,
 .tags-leave-active {
-  transition: all 0.5s cubic-bezier(.58, 1.02, 1, -1.17);
+  transition: all 0.5s ease;
 }
 
 .tags-enter-from,
 .tags-leave-to {
   opacity: 0;
-  transform: translateY(-3.2rem);
+  transform: translateX(-1rem);
 }
 
 
