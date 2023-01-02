@@ -5,21 +5,21 @@
       <button class="bg-gray-100 text-black m-2" @click.prevent="state.switchFilterDirection()">
         <div v-if="state.sortByWhat.value == 'Pris'">
           <p v-if="state.sortAscending.value" class="icon-align">
-            <Icon class="grayed" name="mdi:sort-numeric-ascending" size="20" />
+            <Icon class="grayed" name="mdi:sort-numeric-ascending" size="23" />
             Stigande
           </p>
           <p v-if="!state.sortAscending.value" class="icon-align">
-            <Icon class="grayed" name="mdi:sort-numeric-descending" size="20" />
+            <Icon class="grayed" name="mdi:sort-numeric-descending" size="23" />
             Fallande
           </p>
         </div>
         <div v-else>
           <p v-if="state.sortAscending.value" class="icon-align">
-            <Icon class="grayed" name="mdi:order-alphabetical-ascending" size="20" />
+            <Icon class="grayed" name="mdi:order-alphabetical-ascending" size="23" />
             Stigande
           </p>
           <p v-if="!state.sortAscending.value" class="icon-align">
-            <Icon class="grayed" name="mdi:order-alphabetical-descending" size="20" />
+            <Icon class="grayed" name="mdi:order-alphabetical-descending" size="23" />
             Fallande
           </p>
         </div>
@@ -84,8 +84,8 @@
       </div>
     </form>
 
-    <div class="filter-tags">
-      <div v-if="state.typeFilter.value">
+    <transition-group tag="div" name="tags" class="filter-tags">
+      <div v-if="state.typeFilter.value" key="typeFilter">
         <div v-if="state.typeFilter.value == 'T'">Träd</div>
         <div v-if="state.typeFilter.value == 'B'">Barrräd</div>
         <div v-if="state.typeFilter.value == 'P'">Perenner</div>
@@ -96,38 +96,38 @@
           <Icon class="grayed" name="ion:close-round" size="14" />
         </button>
       </div>
-      <div v-if="state.query.value">
+      <div v-if="state.query.value" key="query">
         "{{ state.query.value }}"
         <button @click="state.query.value = ''">
           <Icon class="grayed" name="ion:close-round" size="14" />
         </button>
       </div>
-      <div v-if="state.favoriteFilter.value">
+      <div v-if="state.favoriteFilter.value" key="favoriteFilter">
         Favoriter
         <button @click="state.favoriteFilter.value = false">
           <Icon class="grayed" name="ion:close-round" size="14" />
         </button>
       </div>
-      <div v-if="state.edibleFilter.value">
+      <div v-if="state.edibleFilter.value" key="edibleFilter">
         Ätliga
         <button @click="state.edibleFilter.value = false">
           <Icon class="grayed" name="ion:close-round" size="14" />
         </button>
       </div>
-      <div v-if="state.commentFilter.value">
+      <div v-if="state.commentFilter.value" key="commentFilter">
         Kommentar
         <button @click="state.commentFilter.value = false">
           <Icon class="grayed" name="ion:close-round" size="14" />
         </button>
       </div>
-      <div v-if="state.linkFilter.value">
+      <div v-if="state.linkFilter.value" key="linkFilter">
         Länk
         <button @click="state.linkFilter.value = false">
           <Icon class="grayed" name="ion:close-round" size="14" />
         </button>
       </div>
       <!-- <div v-if="state.sortByWhat.value">{{ state.sortByWhat.value }}</div> -->
-    </div>
+    </transition-group>
     <!-- <form class="filter-div">
       <div class="icon-align">
         <Icon class="grayed" name="ic:baseline-filter-alt" size="20" />
@@ -322,5 +322,22 @@ input.checkboxer {
 
 .filter-tags>div>div {
   display: inline;
+}
+
+.tags-move,
+.tags-enter-active,
+.tags-leave-active {
+  transition: all 0.5s cubic-bezier(.58, 1.02, 1, -1.17);
+}
+
+.tags-enter-from,
+.tags-leave-to {
+  opacity: 0;
+  transform: translateY(-3.2rem);
+}
+
+
+.tags-leave-active {
+  position: absolute;
 }
 </style>

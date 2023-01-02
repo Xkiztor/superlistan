@@ -28,7 +28,11 @@
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>Linders Superlista 2023</nuxt-link>
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista">Önskelistan</nuxt-link>
     </nav>
-    <NuxtPage />
+    <!-- <transition name="page" mode="default"> -->
+    <KeepAlive>
+      <NuxtPage :keepalive="{}" />
+    </KeepAlive>
+    <!-- </transition> -->
   </div>
   <!-- <div class="grid bg-gray-50 the-grid">
     <div class="bg-red-500 el">1</div>
@@ -81,7 +85,6 @@ useHead({
     }
   ]
 })
-
 
 
 // const emits = defineEmits(['testing'])
@@ -265,4 +268,19 @@ button:hover {
     height: 100vh;
   }
 }
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.2s ease;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  /* transform: translateX(100vw); */
+}
+
+/* .page-leave-active {
+  position: absolute;
+} */
 </style>

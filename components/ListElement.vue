@@ -1,8 +1,9 @@
 <template>
-  <li @click="handleClick" class="grid element rounded-[1rem]" :class="adding ? 'if-adding' : ''" ref="testRef">
+  <li @click.stop="adding = !adding" class="grid element rounded-[1rem]" :class="adding ? 'if-adding' : ''"
+    ref="testRef">
     <div class="plant-icon rounded-full grid px-1 aspect-square place-items-center border-2"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
-      :title="toolTipCalculator(plant.Typ)" @click="testClick" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
+      :title="toolTipCalculator(plant.Typ)" @click.stop="testClick" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
       <Icon name="noto:deciduous-tree" size="16" v-if="plant.Typ == 'T'" title="Träd" />
       <Icon name="noto:evergreen-tree" size="16" v-if="plant.Typ == 'B'" title="Barrträd" />
       <Icon name="fxemoji:rosette" size="16" v-if="plant.Typ == 'P'" title="Perenner" />
@@ -12,7 +13,8 @@
     </div>
 
     <p class="plant-name mr-2 ml-3 overflow-hidden" :title="plant.Namn"><a
-        :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
+        :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank"
+        @click.stop>
         {{
     plant.Namn
 }}</a>
@@ -24,7 +26,7 @@
       <Icon v-if="plant.Edible" title="Ätbar" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
       <Icon v-if="plant.Kommentar" title="Kommentar" class="kommentar-icon" name="majesticons:comment-2-text"
         size="20" />
-      <a :href="plant.Länk" :title="plant.Länk" target="_blank">
+      <a :href="plant.Länk" @click.stop :title="plant.Länk" target="_blank">
         <Icon v-if="plant.Länk" class="länk-icon" name="mdi:link-variant" size="20" />
         <!-- <Icon v-if="plant.Länk" class="länk-icon" name="iconoir:internet" size="20" /> -->
       </a>
@@ -44,7 +46,7 @@
 
 
     <button class="on-right rounded-full grid px-2 aspect-square bg-gray-100" aria-label="Expandera"
-      @click="adding = !adding">
+      @click.stop="adding = !adding">
       <Icon v-if="!adding" class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-up-rounded"
         size="20" />
       <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded"
@@ -52,7 +54,7 @@
     </button>
 
     <!-- --- --- --- Expanded --- --- --- -->
-    <div class="border-t-rinth-200 border-t-2 p-2 mt-2 mx-0 w-full adding h-14" v-if="adding">
+    <div class="border-t-rinth-200 border-t-2 p-2 mt-2 mx-0 w-full adding h-14" @click.stop v-if="adding">
       <div class="info-container">
         <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas || !plant.Edible }">
           <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
@@ -249,7 +251,7 @@ function mouseLeave() {
 }
 
 .element {
-  padding: 0.5px;
+  /* padding: 0.5px; */
   max-width: 90rem;
   overflow: hidden;
   min-width: 0px;
@@ -258,7 +260,7 @@ function mouseLeave() {
   background-color: white;
   /* border: 1px solid rgb(225, 225, 225); */
   /* margin-left: 0.75rem; */
-  grid-template-columns: 1fr 35fr 8fr 15fr 8fr 2fr 8fr 3fr;
+  grid-template-columns: 1fr 33fr 10fr 15fr 8fr 2fr 8fr 3fr;
   /* grid-template-rows: 1fr 1fr; */
   place-items: center start;
   /* min-width: 30rem; */

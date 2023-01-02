@@ -14,7 +14,7 @@
             <h1>above 1</h1>
           </div> -->
           <div class="bottom-spacer"></div>
-          <div class="center-bottom" ref="observerTarget2">
+          <div class="center-bottom" @click="fetchAllList()">
             {{ userMessage }}
             <p v-if="userMessage != 'Här är listan slut'">Om det inte laddas fler, tryck <a class="pointer"
                 @click="fetchMoreList()">här</a></p>
@@ -75,13 +75,23 @@ const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
+definePageMeta({
+  keepalive: true
+})
+
+useHead({
+  title: 'Linders Superlista 2022'
+})
 /* - - - - - - Refs - - - - - - */
 const state = useGlobalState()
 
 const onskeList = useGlobalOnskeList()
 
-const dataList = ref([])
-// const list = useStorage('list', [])
+// const dataList = ref([])
+const dataList = useStorage('datalist', [])
+
+console.log(dataList.value);
+
 const fetchRange = ref({ from: 0, to: 50 })
 const hasFetchedAll = ref(false)
 
@@ -159,7 +169,7 @@ const computedList = computed(() => {
 
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(computedList, {
   // itemHeight: i => (dataList.value[i].heigh),
-  itemHeight: 33,
+  itemHeight: 32,
   overscan: 25,
 })
 
@@ -197,7 +207,9 @@ const handleAdd = (id, count) => {
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
   // fetchList(0, 200)
-  fetchAllList()
+  if (dataList.value.length <= 0) {
+    fetchAllList()
+  }
 })
 
 const fetchList = async (from, to) => {
@@ -232,7 +244,7 @@ const fetchList = async (from, to) => {
 }
 
 /* - - - - - - Fetch all list- - - - - - */
-const fetchAllList = async (scrolling) => {
+const fetchAllList = async () => {
   userMessage.value = 'laddar...'
   dataList.value = []
   hasFetchedAll.value = true;
@@ -243,7 +255,7 @@ const fetchAllList = async (scrolling) => {
     .select()
     .ilike('Namn', `%${state.query.value.replace(/\s+/g, '%')}%`)
     .order(`${state.sortByWhat.value}`, { ascending: state.sortAscending.value })
-  if (!state.typeFilter.value == '') { search = search.eq('Typ', `${state.typeFilter.value}`) }
+  // if (!state.typeFilter.value == '') { search = search.eq('Typ', `${state.typeFilter.value}`) }
   // if (!state.filterLetter.value == '') { search = search.ilike('Namn', `${state.filterLetter.value}%`) }
 
   const { data, error } = await search
@@ -260,10 +272,6 @@ const fetchAllList = async (scrolling) => {
     userMessage.value = 'Här är listan slut'
     console.log(data);
     dataList.value = data
-    if (scrolling) {
-      console.log(scrolling);
-      handleScrollTo(scrolling)
-    }
   }
 }
 
@@ -307,7 +315,7 @@ const fetchAllList = async (scrolling) => {
 const handleClick = () => {
   sortBy.value.ascending = !sortBy.value.ascending
   // console.log('Hello')
-  fetchList(0, 990000000)
+  fetchAllList()
 }
 </script>
 

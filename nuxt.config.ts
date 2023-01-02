@@ -45,4 +45,8 @@ export default defineNuxtConfig({
       anonKey: process.env.ANON_KEY
     }
   },
+  app: {
+    keepalive: true
+  },
+  keepalive: true
 })
