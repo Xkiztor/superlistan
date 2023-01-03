@@ -32,17 +32,20 @@
       <div class="list-example">
         <ListElementExample :plant="testPlant" />
       </div>
-      <p>
       <h1 class="underrubrik">Filter</h1>
-      På vänster sida finns det en filterfunktion där man kan filtrera och söka i listan för att snabbare hitta det du
-      letar efter. Den kan du använda för att
-      söka efter exempelvis ätliga växter, bara träd eller mina tipsade favoriter.
-      <h1 class="underrubrik">Sortera</h1>
-      Om du vill sortera växtlistan efter något annat än växtnamnet (t.ex pris) kan du klicka på kolumens titel ovanför
-      listan.
-      Klicka på den igen för att byta riktning.
-      <!-- Det finns även en ruta där man kan hoppa till begynnelsebokstaven av det man leter efter. -->
+      <p>
+        På vänster sida finns det en filterfunktion där man kan filtrera och söka i listan för att snabbare hitta det du
+        letar efter. Den kan du använda för att
+        söka efter exempelvis ätliga växter, bara träd eller mina tipsade favoriter.
       </p>
+      <h1 class="underrubrik">Sortera</h1>
+      <p>
+        Om du vill sortera växtlistan efter något annat än växtnamnet (t.ex pris) kan du klicka på kolumens titel
+        ovanför
+        listan.
+        Klicka på den igen för att byta riktning.
+      </p>
+      <!-- Det finns även en ruta där man kan hoppa till begynnelsebokstaven av det man leter efter. -->
     </section>
     <section class="text-stycke">
       <h1>Beskrivningar</h1>
