@@ -1,7 +1,5 @@
 <template>
   <div data-theme="light" class="main-layout tou-z65h9k" ref="el" :class="$route.path == '/lista' ? 'page-lista' : ''">
-    <!-- <nav class="bg-white p-2 shadow-md m-2 px-4 rounded-[1rem] naver"
-      :style="{ width: targetIsVisible ? '60rem' : '100%' }"> -->
     <nav class="naver" v-if="isSmallScreen && $route.path == '/lista'">
       <div class="dropdown-menu">
         <button @click.stop="openNav = !openNav">
@@ -28,19 +26,8 @@
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>Linders Superlista 2023</nuxt-link>
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">Varukorg</nuxt-link>
     </nav>
-    <!-- <transition name="page" mode="default"> -->
-    <!-- <KeepAlive> -->
     <NuxtPage />
-    <!-- <NuxtPage :keepalive="{}" /> -->
-    <!-- </KeepAlive> -->
-    <!-- </transition> -->
   </div>
-  <!-- <div class="grid bg-gray-50 the-grid">
-    <div class="bg-red-500 el">1</div>
-    <div class="bg-green-500 el">Elemtn 2 long text</div>
-    <div class="bg-blue-500 el">3 price</div>
->4 add</div>
-  </div> -->
 </template>
 
 <script setup>
@@ -88,11 +75,6 @@ useHead({
 })
 
 
-// const emits = defineEmits(['testing'])
-
-// const handleTest = () => {
-//   console.log('hellooooooo');
-// }
 const state = useGlobalState()
 
 const onskeList = useGlobalOnskeList()
@@ -113,11 +95,6 @@ onClickOutside(target, (event) => {
 </script>
 
 <style>
-/* @font-face {
-  font-family: "Inter";
-  src: local("Inter"), url(./assets/fonts/Inter.ttf) format("truetype");
-} */
-
 * {
   font-family: 'Roboto', 'Inter', 'Helvetica';
   transition: all 150ms;
@@ -139,7 +116,6 @@ button,
 input,
 select,
 .info-container>* {
-  /* border: 1px solid rgb(223, 223, 223); */
   padding: 0.4rem;
   border-radius: 0.5rem;
   background-color: #ebedf1;
@@ -160,9 +136,7 @@ button:hover {
   place-items: center;
   padding: 0 1rem;
   grid-template-rows: min-content auto;
-  /* Temp */
   height: 100vh !important;
-  /* Temp */
 
 }
 
@@ -174,7 +148,6 @@ button:hover {
   background-color: #fff;
   position: absolute;
   left: 0;
-  /* top: 3rem; */
   z-index: 5;
   border-radius: 1rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -234,12 +207,9 @@ button:hover {
   justify-content: space-evenly;
   gap: 3rem;
   max-width: 115rem;
-  /* margin-bottom: 1rem; */
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
   background: white;
-  /* position: sticky; */
-  /* top: 1rem; */
   z-index: 11;
   transition: all 0.5s;
   letter-spacing: 0.05rem;
@@ -247,7 +217,6 @@ button:hover {
 
 .big-screen-naver>a:hover {
   transform: scale(105%);
-  /* text-shadow: 0 0 1px rgba(0, 0, 0, 1); */
   font-weight: 800;
 }
 
@@ -286,10 +255,5 @@ button:hover {
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
-  /* transform: translateX(100vw); */
 }
-
-/* .page-leave-active {
-  position: absolute;
-} */
 </style>

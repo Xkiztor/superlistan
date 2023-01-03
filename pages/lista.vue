@@ -80,9 +80,6 @@ definePageMeta({
   // keepalive: true
 })
 
-
-// useHead({
-//   title: 'Linders Superlista 2023'
 // })
 /* - - - - - - Refs - - - - - - */
 const state = useGlobalState()
@@ -109,16 +106,6 @@ watch(state.sortByWhat, () => {
   console.log('test');
   fetchAllList()
 })
-// watch(state.typeFilter, () => {
-//   console.log('test');
-// fetchAllList()
-// })
-
-// console.log(state.isFilterOpen.value);
-
-// state.openFilter()
-
-// console.log(state.isFilterOpen.value);
 
 const shouldFilterOpen = computed(() => {
   if (!isCollapsed.value) return true
@@ -237,15 +224,7 @@ const isCollapsed = computed(() => { return screenSize.width.value <= 1200 ? tru
 // const onskeList = useStorage('onske-list', []);
 
 const handleScrollTo = (letter) => {
-  // if (computedList.value.map(e => Array.from(e.Namn)[0]).indexOf(letter) == -1) {
-  //   letterExist.value = false
-  // }
-  // if (computedList.value.map(e => {
-  //   return Array.from(e.Namn)[0]
-  // }).indexOf(letter) == -1) {
-  //   console.log('banana');
-  //   letterExist.value = false
-  // }
+
   scrollTo(computedList.value.map(e => {
     return Array.from(e.Namn)[0]
   }).indexOf(letter))
@@ -265,11 +244,6 @@ const handleAdd = (id, count) => {
   // }
 }
 
-
-/* - - - - - - Search - - - - - - */
-// watch(query, () => {
-//   fetchAllList()
-// })
 
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
@@ -316,15 +290,7 @@ const fetchAllList = async () => {
   let search = supabase
     .from('superlista')
     .select()
-  // .ilike('Namn', `%${state.query.value.replace(/\s+/g, '%')}%`)
-  // .order(`${state.sortByWhat.value}`, { ascending: state.sortAscending.value })
-  // if (!state.typeFilter.value == '') { search = search.eq('Typ', `${state.typeFilter.value}`) }
-  // if (!state.filterLetter.value == '') { search = search.ilike('Namn', `${state.filterLetter.value}%`) }
-
   const { data, error } = await search
-
-  // .range(fetchRange.value.from, fetchRange.value.to)
-  // .order(orderBy.value, {ascending: ascending.value})
 
   if (error) {
     console.error(error)
@@ -339,45 +305,9 @@ const fetchAllList = async () => {
 }
 
 
-/* - - - - - - Infinite scrolling - - - - - - */
-// const fetchMoreList = async () => {
-//   if (!hasFetchedAll.value) {
-//     userMessage.value = 'laddar...'
-//     console.log('fetching more');
-//     let search = supabase
-//       .from('superlista')
-//       .select()
-//       .ilike('Namn', `%${query.value.replace(/\s+/g, '%')}%`)
-//       .order(`${sortBy.value.sortByWhat}`, { ascending: sortBy.value.ascending })
-//       .range(fetchRange.value.from, fetchRange.value.to)
-//     if (!typeFilter.value == '') { search = search.eq('Typ', `${typeFilter.value}`) }
-//     if (!filterLetter.value == '') { search = search.ilike('Namn', `${filterLetter.value}%`) }
-
-//     const { data, error } = await search
-
-//     if (error) {
-//       console.log(error)
-//     }
-//     if (data) {
-//       if (fetchRange.value.from >= 100) {
-//         dataList.value.push(...data)
-//         console.log(data)
-//       }
-//       if (!data.length > 0) {
-//         userMessage.value = 'Här är listan slut'
-//       }
-//       fetchRange.value.from += 50
-//       fetchRange.value.to += 50
-//     }
-//   }
-
-// }
-
-
 /* - - - - - - Handling click - - - - - - */
 const handleClick = () => {
   sortBy.value.ascending = !sortBy.value.ascending
-  // console.log('Hello')
   fetchAllList()
 }
 </script>
@@ -386,12 +316,9 @@ const handleClick = () => {
 <style>
 .container-props {
   transition: none;
-  /* margin-bottom: 5rem; */
-  /* height: 80vh !important; */
-  /* height: 60vh; */
-  /* height: auto; */
+
   height: 96%;
-  /* height: calc(95%) !important; */
+
   padding: 0.2rem 1rem;
   padding-right: 0.5rem;
   width: auto;

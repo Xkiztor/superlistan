@@ -136,7 +136,6 @@ const handleSend = () => {
     showModalCountError.value = true
     return
   }
-  // console.log(orderName.value);
 
   const listWithName = onskeList.value.onskeListFull.map((e) => {
     e.Person = orderName.value
@@ -148,10 +147,6 @@ const handleSend = () => {
     return e
   })
   console.log(listWithName);
-
-  // showModal.value = true
-  // hasSent.value = true
-  // return
 
   const sendList = async (index) => {
     const { error, data } = await supabase

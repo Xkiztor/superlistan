@@ -87,7 +87,6 @@
         <button @click="handleDelete">Ta bort</button>
       </div>
     </div>
-    <!-- <p class="bg-gray-100 rounded-full">Hello</p> -->
 
   </li>
 </template>
@@ -110,8 +109,6 @@ const state = useGlobalState()
 
 const onskeList = useGlobalOnskeList()
 
-// const onskeList = useStorage('onske-list', [])
-// const onskeListFull = useStorage('onske-list-full', [])
 const changeCount = ref(props.plant.Count)
 
 if (props.plant.MinOrder && !props.isOnskeLista) {
@@ -132,22 +129,18 @@ watch(changeCount, () => {
   validate()
   for (let obj of onskeList.value.onskeList) {
     if (obj.id === props.plant.id) {
-      // console.log('yee');
       obj.count = changeCount.value;
       break;
     }
   }
   for (let obj of onskeList.value.onskeListFull) {
     if (obj.id === props.plant.id) {
-      // console.log('yee');
       obj.Count = changeCount.value;
       break;
     }
   }
-  // console.log(onskeList.value);
 })
 
-// console.log(props.rowHeight)
 
 const handleAdd = () => {
   if (adding) {
@@ -177,12 +170,6 @@ const toolTipCalculator = (firstLetter) => {
   if (firstLetter === 'P') return 'Perenner'
 }
 
-// const handleAdd = () => {
-//   if (typeof window !== 'undefined') {
-//     localStorage.setItem('cart', `${'test'}`);
-//     console.log(localStorage.getItem('cart'));
-//   }
-// }
 const testClick = () => {
   console.log('Clicked');
   window.open(
@@ -196,7 +183,6 @@ const testClick = () => {
 var timeout
 
 function mouseEnter() {
-  // console.log('enter');
   timeout = setTimeout(() => {
     window.open(
       `https://www.google.com/search?q=${props.plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`,
@@ -216,7 +202,6 @@ function mouseLeave() {
 
 <style>
 .btn-add {
-  /* border: 1px solid rgb(235, 235, 235); */
   aspect-ratio: 1;
 }
 
@@ -248,23 +233,16 @@ function mouseLeave() {
 }
 
 .element {
-  /* padding: 0.5px; */
   max-width: 90rem;
   overflow: hidden;
   min-width: 0px;
   padding-left: 7px;
   width: fit-content;
   background-color: white;
-  /* border: 1px solid rgb(225, 225, 225); */
-  /* margin-left: 0.75rem; */
   grid-template-columns: 1fr 33fr 10fr 15fr 8fr 2fr 8fr 3fr;
-  /* grid-template-rows: 1fr 1fr; */
   place-items: center start;
-  /* min-width: 30rem; */
-  /* font-size: v-bind(textSize + 'px'); */
   transition: all 100ms;
   min-height: 32px;
-  /* max-height: 2rem; */
   z-index: 2;
   position: relative;
 }
@@ -287,10 +265,6 @@ function mouseLeave() {
 }
 
 .element:hover:not(.if-adding) {
-  /* border-color: rgb(173, 173, 173);
-  border-width: 2px; */
-  /* border: 1px solid rgb(173, 173, 173); */
-  /* margin: 0 1.5rem; */
   translate: 7px 0;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
   z-index: 3;
@@ -300,13 +274,9 @@ function mouseLeave() {
 .adding {
   display: grid;
   grid-template-columns: 15fr 4fr;
-  /* grid-template-columns: 10fr 10fr 10fr 10fr 7fr;
-  place-items: center; */
   grid-column: 1 / 8;
-  /* box-shadow: 0 -5px 3px rgba(0, 0, 0, 0.1); */
   place-items: center;
   height: fit-content;
-  /* justify-content: space-evenly; */
 }
 
 .if-adding {
@@ -350,16 +320,11 @@ function mouseLeave() {
   color: rgb(128, 128, 128);
 }
 
-/* .adding>*:not(:nth-last-child(1)) {
-  margin-right: 1rem;
-} */
 
 .adding p,
 .adding a {
-  /* border: 1px solid rgb(223, 223, 223); */
   padding: 0.4rem 0.9rem;
   border-radius: 10rem;
-  /* background-color: rgb(236, 236, 236); */
 }
 
 .add-section {

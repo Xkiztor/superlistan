@@ -16,14 +16,12 @@
 
 <script setup>
 import { createClient } from '@supabase/supabase-js'
-import { useStorage } from '@vueuse/core'
 
 const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 definePageMeta({
-  // keepalive: true
 })
 
 
@@ -47,9 +45,6 @@ const computedList = computed(() => {
   return newList
 })
 
-// const onskeList = useStorage('onske-list', [])
-// const onskeListFull = useStorage('onske-list-full', [])
-
 watch(onskeList.value.onskeList, () => {
   listFetcher()
 })
@@ -65,18 +60,13 @@ const fetchList = async (id, count) => {
     getList.value = null
   }
   if (data) {
-    // console.log(data)
     data[0].Count = count
     list.value.push(data[0])
-    // console.log(list.value)
 
-    // console.log(onskeList.value.onskeListFull.length);
     if (onskeList.value.onskeListFull.length == 0) {
       console.log('empty');
       onskeList.value.onskeListFull.push(data[0])
-      // console.log(onskeList.value.onskeListFull.length);
     } else {
-      // console.log(onskeList.value.onskeListFull.map(e => e.id).indexOf(id));
       if (onskeList.value.onskeListFull.map(e => e.id).indexOf(id) == -1) {
         onskeList.value.onskeListFull.push(data[0])
       }
@@ -96,7 +86,6 @@ const handleDelete = (n) => {
   onskeList.value.onskeList = onskeList.value.onskeList.filter(b => b.id != n)
   onskeList.value.onskeListFull = onskeList.value.onskeListFull.filter(b => b.id != n)
   list.value = []
-  // list.value = list.value.filter(a => a.id != n)
   console.log(onskeList.value.onskeList);
 }
 

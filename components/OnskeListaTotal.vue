@@ -34,16 +34,11 @@
 </template>
 
 <script setup>
-// const props = defineProps(['onskeListFull', 'changeCount'])
-
-// console.log(props.changeCount);
 const onskeList = useGlobalOnskeList()
 console.log(onskeList.value.onskeListFull);
 
 const totalCount = computed(() => onskeList.value.onskeListFull.map(e => e.Count).reduce((a, b) => a + b, 0))
 const totalPrice = computed(() => onskeList.value.onskeListFull.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
-// const totalCount = computed(() => onskeList.value.onskeListFull.map(e => props.changeCount).reduce((a, b) => a + b, 0))
-// const totalPrice = computed(() => onskeList.value.onskeListFull.map(e => e.Pris * props.changeCount).reduce((a, b) => a + b, 0))
 </script>
 
 <style>

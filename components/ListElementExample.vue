@@ -176,12 +176,6 @@ const toolTipCalculator = (firstLetter) => {
   if (firstLetter === 'P') return 'Perenner'
 }
 
-// const handleAdd = () => {
-//   if (typeof window !== 'undefined') {
-//     localStorage.setItem('cart', `${'test'}`);
-//     console.log(localStorage.getItem('cart'));
-//   }
-// }
 const testClick = () => {
   console.log('Clicked');
   window.open(
