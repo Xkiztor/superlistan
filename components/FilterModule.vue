@@ -2,7 +2,7 @@
   <div class="filters w-fit h-fit shadow-md rounded-[1rem]">
     <div class="filter-div first-one">
       <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök">
-      <button class="bg-gray-100 text-black m-2" @click.prevent="state.switchFilterDirection()">
+      <!-- <button class="bg-gray-100 text-black m-2" @click.prevent="state.switchFilterDirection()">
         <div v-if="state.sortByWhat.value == 'Pris'">
           <p v-if="state.sortAscending.value" class="icon-align">
             <Icon class="grayed" name="mdi:sort-numeric-ascending" size="23" />
@@ -23,10 +23,10 @@
             Fallande
           </p>
         </div>
-      </button>
+      </button> -->
     </div>
 
-    <form class="filter-div">
+    <!-- <form class="filter-div">
       <div class="icon-align">
         <Icon class="grayed" name="mdi:order-bool-ascending" size="20" />
         <p>Sortera efter:</p>
@@ -34,16 +34,14 @@
       <select name="sortBy" id="sortBySelector" v-model="state.sortByWhat.value">
         <option value="Namn">Namn</option>
         <option value="Pris">Pris</option>
-        <!-- <option value="Typ">Typ</option> -->
       </select>
-    </form>
-    <form class="filter-div">
+    </form> -->
+    <!-- <form class="filter-div">
       <div class="icon-align">
         <Icon class="grayed" name="ic:round-filter-list" size="20" />
         <p>Filtrera typ:</p>
       </div>
       <select name="filterType" id="filterTypeSelector" v-model="state.typeFilter.value">
-        <!-- <option value="" default disabled>Välj</option> -->
         <option value="">Alla</option>
         <option value="T">Träd</option>
         <option value="B">Barrträd</option>
@@ -51,9 +49,8 @@
         <option value="K">Klätterväxt</option>
         <option value="O">Ormbunke</option>
         <option value="G">Gräs</option>
-        <!-- <option value="Typ">Typ</option> -->
       </select>
-    </form>
+    </form> -->
     <!-- <h1>Filterar ikoner:</h1> -->
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.favoriteFilter.value">
@@ -84,18 +81,72 @@
       </div>
     </form>
 
-    <transition-group tag="div" name="tags" class="filter-tags">
-      <div v-if="state.typeFilter.value" key="typeFilter">
-        <div v-if="state.typeFilter.value == 'T'">Träd</div>
-        <div v-if="state.typeFilter.value == 'B'">Barrräd</div>
-        <div v-if="state.typeFilter.value == 'P'">Perenner</div>
-        <div v-if="state.typeFilter.value == 'K'">Klätterväxter</div>
-        <div v-if="state.typeFilter.value == 'O'">Ormbunke</div>
-        <div v-if="state.typeFilter.value == 'G'">Gräs</div>
+    <!-------------  ----------------->
+
+    <form class="check-filter-div">
+      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.T">
+      <div class="icon-align">
+        <Icon name="noto:deciduous-tree" size="16" title="Träd" />
+        <p>Träd</p>
+      </div>
+    </form>
+    <form class="check-filter-div">
+      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.B">
+      <div class="icon-align">
+        <Icon name="noto:evergreen-tree" size="16" title="Barrträd" />
+        <p>Barrträd</p>
+      </div>
+    </form>
+    <form class="check-filter-div">
+      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.P">
+      <div class="icon-align">
+        <Icon name="fxemoji:rosette" size="16" title="Perenner" />
+        <p>Perenner</p>
+      </div>
+    </form>
+    <form class="check-filter-div">
+      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.K">
+      <div class="icon-align">
+        <Icon name="noto:tanabata-tree" size="16" title="Klätterväxt" />
+        <p>Klätterväxter</p>
+      </div>
+    </form>
+    <form class="check-filter-div">
+      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.O">
+      <div class="icon-align">
+        <Icon name="noto:potted-plant" size="16" title="Ormbunke" />
+        <p>Ormbunke</p>
+      </div>
+    </form>
+    <form class="check-filter-div">
+      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.G">
+      <div class="icon-align">
+        <Icon name="twemoji:sheaf-of-rice" size="16" title="Gräs" />
+        <p>Gräs</p>
+      </div>
+    </form>
+
+    <!-- <transition-group tag="div" name="tags" class="filter-tags">
+      <div v-if="state.typeFilter.value.T === true" key="typeFilter">
+        Träd
         <button @click="state.typeFilter.value = ''">
           <Icon class="grayed" name="ion:close-round" size="14" />
         </button>
       </div>
+      <div v-if="state.typeFilter.value.B === true" key="typeFilter">
+        Barrräd</div>
+      <div v-if="state.typeFilter.value.P === true" key="typeFilter">Perenner
+      </div>
+      <div v-if="state.typeFilter.value.K === true" key="typeFilter">
+        Klätterväxter
+      </div>
+      <div v-if="state.typeFilter.value.O === true" key="typeFilter">
+        Ormbunke
+      </div>
+      <div v-if="state.typeFilter.value.G === true" key="typeFilter">
+        Gräs
+      </div>
+
       <div v-if="state.query.value" key="query">
         "{{ state.query.value }}"
         <button @click="state.query.value = ''">
@@ -126,8 +177,7 @@
           <Icon class="grayed" name="ion:close-round" size="14" />
         </button>
       </div>
-      <!-- <div v-if="state.sortByWhat.value">{{ state.sortByWhat.value }}</div> -->
-    </transition-group>
+    </transition-group> -->
     <!-- <form class="filter-div">
       <div class="icon-align">
         <Icon class="grayed" name="ic:baseline-filter-alt" size="20" />
@@ -170,6 +220,8 @@ Y">Y</option>
 <script setup>
 defineEmits(['fetchList', 'handleClick'])
 const state = useGlobalState()
+
+console.log(state.typeFilter.value.G);
 
 function handleTest() {
   console.log('chicken');
@@ -245,6 +297,10 @@ div.bottom-one {
   grid-template-columns: 11fr 10fr;
   place-items: center start;
 
+}
+
+.first-one {
+  grid-template-columns: 1fr;
 }
 
 .filter-div>p {

@@ -1,0 +1,330 @@
+<template>
+  <li class="grid element rounded-[1rem]">
+    <!-- @click.stop="adding = !adding" -->
+    <div class="plant-icon rounded-full grid px-1 aspect-square place-items-center border-2">
+      <Icon name="noto:deciduous-tree" size="16" title="Träd" />
+      <Icon name="noto:evergreen-tree" size="16" title="Barrträd" />
+      <Icon name="fxemoji:rosette" size="16" title="Perenner" />
+      <Icon name="noto:potted-plant" size="16" title="Ormbunke" />
+      <Icon name="twemoji:sheaf-of-rice" size="16" title="Gräs" />
+      <Icon name="noto:tanabata-tree" size="16" title="Klätterväxt" />
+    </div>
+
+    <p class="plant-name mr-2 ml-3 overflow-hidden" :title="plant.Namn"><a
+        :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
+        {{
+    plant.Namn
+}}</a>
+    </p>
+
+    <div class="ikoner hide-on-phone">
+      <Icon title="Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
+      <Icon title="Ätbar" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
+      <Icon :title="plant.Kommentar" class="kommentar-icon" name="majesticons:comment-2-text" size="20" />
+      <a :href="plant.Länk" :title="plant.Länk" target="_blank">
+        <Icon class="länk-icon" name="mdi:link-variant" size="20" />
+      </a>
+    </div>
+
+    <!-- --- --- --- List Item Text --- --- --- -->
+    <p :title="plant.Höjd" class="mr-2 hide-on-phone">{{ plant.Höjd }} cm</p>
+    <p class="mr-2 hide-on-phone"></p>
+    <p class="mr-2 whitespace-nowrap hide-on-phone">{{ plant.Kruka }}</p>
+    <p class="mr-2 whitespace-nowrap hide-on-phone"
+      :class="{ 'error-colorr': changeCount > plant.Lager && plant.Lager != null, 'error-colorrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
+      {{ changeCount }}</p>
+    <p class="mr-2 hide-on-phone red">{{ plant.MinOrder }} </p>
+    <p class="mr-2 hide-on-phone"></p>
+    <p class="mr-2 on-right">{{ plant.Pris * changeCount }} kr</p>
+    <p class="mr-2 on-right">{{ plant.Pris }} kr</p>
+
+
+    <button class="on-right rounded-full grid px-2 aspect-square bg-gray-100" aria-label="Expandera"
+      @click.stop="adding = !adding">
+      <Icon class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-up-rounded" size="20" />
+      <Icon class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
+    </button>
+
+    <!-- --- --- --- Expanded --- --- --- -->
+    <div class="border-t-rinth-200 border-t-2 p-2 mt-2 mx-0 w-full adding h-14" v-if="adding">
+      <div class="info-container">
+        <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas || !plant.Edible }">
+          <Icon class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
+          <Icon class="edible-icon" name="twemoji:fork-and-knife" size="20" />
+        </div>
+        <p class="hide-on-pc">Antal: {{ changeCount }}</p>
+        <p class="hide-on-pc">Höjd: {{ plant.Höjd }}</p>
+        <p class="hide-on-pc">Kruka: {{ plant.Kruka }}</p>
+        <p>{{ plant.Höjd }}</p>
+        <p>Kruka: {{ plant.Kruka }}</p>
+        <p>
+          Lager: {{ plant.Lager }}</p>
+        <p>{{ plant.Pris }} kr/st</p>
+        <p>
+          Min. Order: {{ plant.MinOrder }}</p>
+        <a :href="plant.Länk" target="_blank" class="link-color underline">Länk</a>
+        <p>Zon: {{ plant.Zon }}</p>
+        <p>{{ plant.Storlekskommentar }}</p>
+        <p class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
+      </div>
+      <div class="add-section">
+        <input :class="{ 'error-borderrr': count < plant.MinOrder && plant.MinOrder != null }"
+          class="w-14 mr-3 btn-input" type="number" min="0" v-model.number="count">
+        <button @click="handleAdd">Lägg till i varukorg</button>
+      </div>
+    </div>
+    <!-- <p class="bg-gray-100 rounded-full">Hello</p> -->
+
+  </li>
+</template>
+
+<script setup>
+
+</script>
+
+<style>
+.btn-add {
+  /* border: 1px solid rgb(235, 235, 235); */
+  aspect-ratio: 1;
+}
+
+.error-border {
+  outline: 3px solid #ff5e5e;
+}
+
+.error-borderr {
+  outline: 3px solid #ff5e5e;
+}
+
+.error-borderrr {
+  outline: 3px solid #ff5e5e;
+}
+
+.error-color {
+  color: #ff5e5e;
+  font-weight: bold;
+}
+
+.error-colorr {
+  color: #ff5e5e;
+  font-weight: bold;
+}
+
+.error-colorrr {
+  color: #ff5e5e;
+  font-weight: bold;
+}
+
+.element {
+  /* padding: 0.5px; */
+  max-width: 90rem;
+  overflow: hidden;
+  min-width: 0px;
+  padding-left: 7px;
+  width: fit-content;
+  background-color: white;
+  /* border: 1px solid rgb(225, 225, 225); */
+  /* margin-left: 0.75rem; */
+  grid-template-columns: 1fr 33fr 10fr 15fr 8fr 2fr 8fr 3fr;
+  /* grid-template-rows: 1fr 1fr; */
+  place-items: center start;
+  /* min-width: 30rem; */
+  /* font-size: v-bind(textSize + 'px'); */
+  transition: all 100ms;
+  min-height: 32px;
+  /* max-height: 2rem; */
+  z-index: 2;
+  position: relative;
+}
+
+.element>p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  min-width: 0px;
+  white-space: nowrap;
+  max-width: 90%;
+}
+
+.element:not(.if-adding) {
+  border-radius: 2rem;
+}
+
+.if-adding>p {
+  white-space: normal;
+  overflow: visible;
+}
+
+.element:hover:not(.if-adding) {
+  /* border-color: rgb(173, 173, 173);
+  border-width: 2px; */
+  /* border: 1px solid rgb(173, 173, 173); */
+  /* margin: 0 1.5rem; */
+  translate: 7px 0;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+
+}
+
+.adding {
+  display: grid;
+  grid-template-columns: 15fr 4fr;
+  /* grid-template-columns: 10fr 10fr 10fr 10fr 7fr;
+  place-items: center; */
+  grid-column: 1 / 8;
+  /* box-shadow: 0 -5px 3px rgba(0, 0, 0, 0.1); */
+  place-items: center;
+  height: fit-content;
+  /* justify-content: space-evenly; */
+}
+
+.if-adding {
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  margin: 1rem 0;
+}
+
+.ikoner {
+  color: rgb(128, 128, 128);
+  place-self: center start;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  place-items: center;
+  gap: 4px;
+}
+
+.ikoner>a {
+  grid-column: 4;
+  /* height: 20px; */
+  overflow: hidden;
+  font-size: 0;
+}
+
+.rekommenderas-icon {
+  color: #ff5e5e;
+  grid-column: 1;
+}
+
+.edible-icon {
+  grid-column: 2;
+  color: rgb(128, 128, 128);
+}
+
+.kommentar-icon {
+  grid-column: 3;
+  color: rgb(128, 128, 128);
+}
+
+.länk-icon {
+  grid-column: 4;
+  color: rgb(128, 128, 128);
+}
+
+/* .adding>*:not(:nth-last-child(1)) {
+  margin-right: 1rem;
+} */
+
+.adding p,
+.adding a {
+  /* border: 1px solid rgb(223, 223, 223); */
+  padding: 0.4rem 0.9rem;
+  border-radius: 10rem;
+  /* background-color: rgb(236, 236, 236); */
+}
+
+.add-section {
+  grid-column: 5;
+  /* margin-left: auto; */
+  display: grid;
+  place-items: center end;
+  grid-column: 2 / 3;
+  width: 100%;
+}
+
+.info-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  place-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-container>p {
+  cursor: text;
+}
+
+.kommentar {
+  grid-column: 1 / 3;
+  text-align: center;
+}
+
+.link-color {
+  color: #0000EE;
+}
+
+@media only screen and (max-width: 600px) {
+  .element {
+    font-size: 0.9rem
+  }
+
+  .kommentar {
+    grid-column: span 3;
+  }
+
+  .plant-name {
+    margin-left: 0.6rem;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .add-section {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  .hide-on-pc {
+    display: none !important;
+  }
+}
+
+.on-right {
+  place-self: center end;
+  background-color: transparent;
+  box-shadow: none;
+  /* height: 100%; */
+  max-height: 32px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.t-green {
+  border-color: rgb(117, 236, 117);
+}
+
+.p-blue {
+  border-color: rgb(117, 208, 236);
+}
+
+.b-green {
+  border-color: rgb(89, 161, 79);
+}
+
+.k-orange {
+  border-color: rgb(236, 127, 117);
+}
+
+.o-yellow {
+  border-color: rgb(236, 226, 117);
+}
+
+.g-lime {
+  border-color: rgb(137, 189, 43);
+}
+</style>

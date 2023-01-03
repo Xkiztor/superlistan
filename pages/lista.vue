@@ -17,15 +17,16 @@
           <div class="center-bottom" @click="fetchAllList()">
             {{ userMessage }}
             <p v-if="userMessage != 'Här är listan slut'">Om det inte laddas fler, tryck <a class="pointer"
-                @click="fetchMoreList()">här</a></p>
+                @click="fetchAllList()">här</a></p>
           </div>
         </ul>
 
       </div>
     </div>
-    <div v-if="shouldJumpOpen" ref="testRef" class="jump-to-canister">
+    <div v-if="shouldJumpOpen" class="jump-to-canister">
       <div class="list-bg jump-to-container">
         <p>Hoppa till bokstav</p>
+
         <!-- <p>Hoppa till bokstav</p> -->
         <!-- <p>{{ screenSize.width }} {{ isCollapsed }}</p> -->
         <div class="filter-div jump-to">
@@ -76,12 +77,13 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 definePageMeta({
-  keepalive: true
+  // keepalive: true
 })
 
-useHead({
-  title: 'Linders Superlista 2022'
-})
+
+// useHead({
+//   title: 'Linders Superlista 2023'
+// })
 /* - - - - - - Refs - - - - - - */
 const state = useGlobalState()
 
@@ -90,14 +92,11 @@ const onskeList = useGlobalOnskeList()
 // const dataList = ref([])
 const dataList = useStorage('datalist', [])
 
+console.log('Lista från local storage');
 console.log(dataList.value);
-
-const fetchRange = ref({ from: 0, to: 50 })
-const hasFetchedAll = ref(false)
 
 const userMessage = ref('Laddar')
 
-const filterLetter = ref('')
 
 watch(state.query, () => {
   console.log('changed');
@@ -112,7 +111,7 @@ watch(state.sortByWhat, () => {
 })
 // watch(state.typeFilter, () => {
 //   console.log('test');
-//   fetchAllList()
+// fetchAllList()
 // })
 
 // console.log(state.isFilterOpen.value);
@@ -135,6 +134,9 @@ const shouldJumpOpen = computed(() => {
     else return false
   }
 })
+
+console.log(state.typeFilter.value.K);
+
 
 const computedList = computed(() => {
   let newList = dataList.value
@@ -163,7 +165,63 @@ const computedList = computed(() => {
       else return 0
     } else return 1
   })
-  if (state.typeFilter.value) newList = newList.filter(e => e.Typ == state.typeFilter.value)
+  newList = newList.sort((a, b) => {
+    console.log('heho');
+    if (state.sortByWhat.value == 'Namn') {
+      if (a.Namn.toLowerCase() < b.Namn.toLowerCase()) {
+        if (state.sortAscending.value) return -1
+        else return 1
+      }
+      if (a.Namn.toLowerCase() > b.Namn.toLowerCase()) {
+        if (state.sortAscending.value) return 1
+        else return -1
+      }
+      return 0
+    } else if (state.sortByWhat.value == 'Pris') {
+      if (a.Pris < b.Pris) {
+        if (state.sortAscending.value) return -1
+        else return 1
+      }
+      if (a.Pris > b.Pris) {
+        if (state.sortAscending.value) return 1
+        else return -1
+      }
+      return 0
+    } else if (state.sortByWhat.value == 'Höjd') {
+      if (a.Höjd < b.Höjd) {
+        if (state.sortAscending.value) return -1
+        else return 1
+      }
+      if (a.Höjd > b.Höjd) {
+        if (state.sortAscending.value) return 1
+        else return -1
+      }
+      return 0
+    } else if (state.sortByWhat.value == 'Kruka') {
+      if (a.Kruka < b.Kruka) {
+        if (state.sortAscending.value) return -1
+        else return 1
+      }
+      if (a.Kruka > b.Kruka) {
+        if (state.sortAscending.value) return 1
+        else return -1
+      }
+      return 0
+    } else if (state.sortByWhat.value == 'MinOrder') {
+      if (a.MinOrder < b.MinOrder) {
+        if (state.sortAscending.value) return -1
+        else return 1
+      }
+      if (a.MinOrder > b.MinOrder) {
+        if (state.sortAscending.value) return 1
+        else return -1
+      }
+      return 0
+    }
+  })
+  if (state.typeFilter.value.T || state.typeFilter.value.B || state.typeFilter.value.P || state.typeFilter.value.K || state.typeFilter.value.O || state.typeFilter.value.G) {
+    newList = newList.filter(e => state.typeFilter.value[e.Typ])
+  }
   return newList
 })
 
@@ -179,7 +237,16 @@ const isCollapsed = computed(() => { return screenSize.width.value <= 1200 ? tru
 // const onskeList = useStorage('onske-list', []);
 
 const handleScrollTo = (letter) => {
-  scrollTo(dataList.value.map(e => {
+  // if (computedList.value.map(e => Array.from(e.Namn)[0]).indexOf(letter) == -1) {
+  //   letterExist.value = false
+  // }
+  // if (computedList.value.map(e => {
+  //   return Array.from(e.Namn)[0]
+  // }).indexOf(letter) == -1) {
+  //   console.log('banana');
+  //   letterExist.value = false
+  // }
+  scrollTo(computedList.value.map(e => {
     return Array.from(e.Namn)[0]
   }).indexOf(letter))
 }
@@ -213,48 +280,44 @@ onMounted(() => {
 })
 
 const fetchList = async (from, to) => {
-  if (hasFetchedAll.value) {
-    userMessage.value = 'laddar...'
-    dataList.value = []
-    let search = supabase
-      .from('superlista')
-      .select()
-      .ilike('Namn', `%${state.query.value.replace(/\s+/g, '%')}%`)
-      .order(`${state.sortByWhat.value}`, { ascending: state.sortAscending.value })
-      .range(from, to)
-    if (!state.typeFilter.value == '') { search = search.eq('Typ', `${state.typeFilter.value}`) }
-    // if (!state.filterLetter.value == '') { search = search.ilike('Namn', `${state.filterLetter.value}%`) }
+  userMessage.value = 'laddar...'
+  dataList.value = []
+  let search = supabase
+    .from('superlista')
+    .select()
+    .ilike('Namn', `%${state.query.value.replace(/\s+/g, '%')}%`)
+    .order(`${state.sortByWhat.value}`, { ascending: state.sortAscending.value })
+    .range(from, to)
+  if (!state.typeFilter.value == '') { search = search.eq('Typ', `${state.typeFilter.value}`) }
+  // if (!state.filterLetter.value == '') { search = search.ilike('Namn', `${state.filterLetter.value}%`) }
 
-    const { data, error } = await search
+  const { data, error } = await search
 
-    if (error) {
-      console.error(error)
-      dataList.value = null
-    }
-    if (data) {
-      userMessage.value = 'Här är listan slut'
-      if (!data.length > 0) {
-        userMessage.value = 'Inga resultat'
-      }
-      console.log(data)
-      dataList.value = data
-    }
+  if (error) {
+    console.error(error)
+    dataList.value = null
   }
-
+  if (data) {
+    userMessage.value = 'Här är listan slut'
+    if (!data.length > 0) {
+      userMessage.value = 'Inga resultat'
+    }
+    console.log(data)
+    dataList.value = data
+  }
 }
 
 /* - - - - - - Fetch all list- - - - - - */
 const fetchAllList = async () => {
   userMessage.value = 'laddar...'
   dataList.value = []
-  hasFetchedAll.value = true;
   console.log('fetching all');
 
   let search = supabase
     .from('superlista')
     .select()
-    .ilike('Namn', `%${state.query.value.replace(/\s+/g, '%')}%`)
-    .order(`${state.sortByWhat.value}`, { ascending: state.sortAscending.value })
+  // .ilike('Namn', `%${state.query.value.replace(/\s+/g, '%')}%`)
+  // .order(`${state.sortByWhat.value}`, { ascending: state.sortAscending.value })
   // if (!state.typeFilter.value == '') { search = search.eq('Typ', `${state.typeFilter.value}`) }
   // if (!state.filterLetter.value == '') { search = search.ilike('Namn', `${state.filterLetter.value}%`) }
 

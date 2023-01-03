@@ -3,7 +3,7 @@
     <!-- <h1 class="header" @click="handleClick">Önskelista</h1> -->
     <div class="onske-list-bg">
       <ColumnTopInfo :isOnskeLista="true" />
-      <div v-for="plant in onskeList.onskeListFull" :key="plant.id">
+      <div v-for="plant in computedList" :key="plant.id">
         <ListElement :plant="plant" :isOnskeLista="true" @handle-delete="handleDelete" />
       </div>
     </div>
@@ -23,14 +23,29 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 definePageMeta({
-  keepalive: true
+  // keepalive: true
 })
+
+
 
 const list = ref([])
 
 const state = useGlobalState()
 
 const onskeList = useGlobalOnskeList()
+
+const computedList = computed(() => {
+  var newList = onskeList.value.onskeListFull
+  newList = newList.sort((a, b) => {
+    if (a.Namn.toLowerCase() < b.Namn.toLowerCase()) {
+      return -1
+    }
+    if (a.Namn.toLowerCase() > b.Namn.toLowerCase()) {
+      return 1
+    }
+  })
+  return newList
+})
 
 // const onskeList = useStorage('onske-list', [])
 // const onskeListFull = useStorage('onske-list-full', [])

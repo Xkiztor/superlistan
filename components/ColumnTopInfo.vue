@@ -2,32 +2,77 @@
   <div class="top-info">
     <p></p>
     <client-only placeholder="Namn">
-      <p v-if="isAboveAverage" class="name">Vetenskapligt Namn</p>
-      <p v-else class="name">Namn</p>
+      <p v-if="isAboveAverage" @click="handleSort('Namn')" class="name clickable">
+        Vetenskapligt Namn
+        <i v-if="state.sortByWhat.value === 'Namn'">
+          <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
+          <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+        </i>
+      </p>
+      <p v-else @click="handleSort('Namn')" class="name clickable">
+        Namn
+        <i v-if="state.sortByWhat.value === 'Namn'">
+          <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
+          <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+        </i>
+      </p>
     </client-only>
     <!-- <p v-if="props.isOnskeLista == false" class=""></p> -->
-    <p v-if="props.isOnskeLista == false" class="hide-on-phone">Höjd</p>
-    <p v-if="props.isOnskeLista == false" class="hide-on-phone">Kruka</p>
-    <p v-if="props.isOnskeLista == false" class="hide-on-phone" title="minsta order">Min.</p>
+    <p v-if="props.isOnskeLista == false" @click="handleSort('Höjd')" class="hide-on-phone clickable">
+      Höjd
+      <i v-if="state.sortByWhat.value === 'Höjd'">
+        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
+        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+      </i>
+    </p>
+    <p v-if="props.isOnskeLista == false" @click="handleSort('Kruka')" class="hide-on-phone clickable">
+      Kruka
+      <i v-if="state.sortByWhat.value === 'Kruka'">
+        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
+        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+      </i>
+    </p>
+    <p v-if="props.isOnskeLista == false" @click="handleSort('MinOrder')" class="hide-on-phone clickable"
+      title="minsta order">
+      Min.
+      <i v-if="state.sortByWhat.value === 'MinOrder'">
+        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
+        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+      </i>
+    </p>
     <p v-if="props.isOnskeLista == true" class=""></p>
     <p v-if="props.isOnskeLista == true" class="hide-on-phone">Antal</p>
     <p v-if="props.isOnskeLista == true" class=""></p>
-    <p class="pris">Pris</p>
+    <p @click="handleSort('Pris')" class="pris clickable">
+      Pris
+      <i v-if="state.sortByWhat.value === 'Pris'">
+        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
+        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+      </i>
+    </p>
     <div class="hide-on-phone"></div>
   </div>
 </template>
 
 <script setup>
 const props = defineProps(['isOnskeLista'])
-
+const state = useGlobalState()
 const isAboveAverage = useMediaQuery('(min-width: 481px)')
 
+
+const handleSort = (what) => {
+  if (state.sortByWhat.value === what) {
+    state.sortAscending.value = !state.sortAscending.value
+  } else {
+    state.sortByWhat.value = what
+  }
+}
 </script>
 
 <style>
 .top-info {
   display: grid;
-  grid-template-columns: 6% 50% 17% 8% 7% 5% 5%;
+  grid-template-columns: 6% 49% 17% 8% 7% 8% 2%;
   place-items: center start;
   padding: 5px;
   border-bottom: 1px solid #e5e7eb;
@@ -57,5 +102,20 @@ const isAboveAverage = useMediaQuery('(min-width: 481px)')
   .name {
     margin-left: 1.4rem;
   }
+}
+
+.clickable,
+.clickable>* {
+  cursor: pointer;
+}
+
+.clickable {
+  position: relative;
+}
+
+.clickable>svg,
+.clickable>i {
+  position: absolute;
+  right: -1.5rem;
 }
 </style>

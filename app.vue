@@ -11,8 +11,8 @@
           <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/" @click="openNav = false">Hem</nuxt-link>
           <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista"
             @click="openNav = false">Listan</nuxt-link>
-          <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista"
-            @click="openNav = false">Önskelistan</nuxt-link>
+          <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg"
+            @click="openNav = false">Varukorg</nuxt-link>
         </div>
       </div>
       <button @click="state.openFilter">
@@ -22,29 +22,30 @@
         <Icon class="grayed nav-icon" name="quill:jump-alt" size="32" />
       </button>
     </nav>
-    <nav class="naver" v-else>
+    <nav class="naver big-screen-naver" v-else>
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">Hem</nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-if="isSmallScreen">Listan</nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>Linders Superlista 2023</nuxt-link>
-      <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/onske-lista">Önskelistan</nuxt-link>
+      <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">Varukorg</nuxt-link>
     </nav>
     <!-- <transition name="page" mode="default"> -->
-    <KeepAlive>
-      <NuxtPage :keepalive="{}" />
-    </KeepAlive>
+    <!-- <KeepAlive> -->
+    <NuxtPage />
+    <!-- <NuxtPage :keepalive="{}" /> -->
+    <!-- </KeepAlive> -->
     <!-- </transition> -->
   </div>
   <!-- <div class="grid bg-gray-50 the-grid">
     <div class="bg-red-500 el">1</div>
     <div class="bg-green-500 el">Elemtn 2 long text</div>
     <div class="bg-blue-500 el">3 price</div>
-    <div class="bg-yellow-500 el">4 add</div>
+>4 add</div>
   </div> -->
 </template>
 
 <script setup>
 useHead({
-  title: 'Super-lista',
+  title: 'Linders Superlista',
   // or, instead:
   // titleTemplate: (title) => `My App - ${title}`,
   lang: 'se',
@@ -105,7 +106,7 @@ const isSmallScreen = computed(() => { return screenSize.width.value <= 1200 ? t
 const target = ref(null)
 
 onClickOutside(target, (event) => {
-  openNav.value = false
+  penNav.value = false
 })
 
 
@@ -124,7 +125,7 @@ onClickOutside(target, (event) => {
 
 h1 {
   font-family: 'Rubik', 'Roboto', 'Inter', 'Helvetica';
-  font-weight: 600 !important;
+  font-weight: 600;
   stroke: 2px solid #116fea;
 }
 
@@ -226,10 +227,12 @@ button:hover {
   place-self: end center;
   width: 100%;
   padding: 0;
+  padding-left: 2rem;
   height: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  gap: 3rem;
   max-width: 115rem;
   /* margin-bottom: 1rem; */
   grid-template-columns: 1fr 1fr 1fr;
@@ -240,6 +243,12 @@ button:hover {
   z-index: 11;
   transition: all 0.5s;
   letter-spacing: 0.05rem;
+}
+
+.big-screen-naver>a:hover {
+  transform: scale(105%);
+  /* text-shadow: 0 0 1px rgba(0, 0, 0, 1); */
+  font-weight: 800;
 }
 
 .nav-observer {

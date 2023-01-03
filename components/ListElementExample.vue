@@ -1,5 +1,5 @@
 <template>
-  <li class="grid element rounded-[1rem]" :class="adding ? 'if-adding' : ''" ref="testRef">
+  <li class="grid element-ex rounded-[1rem]" :class="adding ? 'if-adding' : ''" ref="testRef">
     <!-- @click.stop="adding = !adding" -->
     <div class="plant-icon rounded-full grid px-1 aspect-square place-items-center border-2"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
@@ -153,7 +153,6 @@ const handleAdd = () => {
   if (adding) {
     console.log(props.plant.id);
     console.log(count.value);
-    console.log(props.plant);
     emit('addToCart', props.plant.id, count.value)
     adding.value = false
   } else {
@@ -247,7 +246,7 @@ function mouseLeave() {
   font-weight: bold;
 }
 
-.element {
+.element-ex {
   /* padding: 0.5px; */
   max-width: 90rem;
   overflow: hidden;
@@ -267,9 +266,11 @@ function mouseLeave() {
   /* max-height: 2rem; */
   z-index: 2;
   position: relative;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 3;
 }
 
-.element>p {
+.element-ex>p {
   text-overflow: ellipsis;
   overflow: hidden;
   min-width: 0px;
@@ -277,7 +278,7 @@ function mouseLeave() {
   max-width: 90%;
 }
 
-.element:not(.if-adding) {
+.element-ex:not(.if-adding) {
   border-radius: 2rem;
 }
 
@@ -286,14 +287,14 @@ function mouseLeave() {
   overflow: visible;
 }
 
-.element:hover:not(.if-adding) {
+.element-ex:hover:not(.if-adding) {
   /* border-color: rgb(173, 173, 173);
   border-width: 2px; */
   /* border: 1px solid rgb(173, 173, 173); */
   /* margin: 0 1.5rem; */
-  translate: 7px 0;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 3;
+  transform: none;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
+
 
 }
 
@@ -397,7 +398,7 @@ function mouseLeave() {
 }
 
 @media only screen and (max-width: 600px) {
-  .element {
+  .element-ex {
     font-size: 0.9rem
   }
 

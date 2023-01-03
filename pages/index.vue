@@ -1,26 +1,57 @@
 <template>
   <div class="home-container">
     <section class="text-stycke">
-      <a href="https://lindersplantskola.se/" target="_blank"><img src="/lindersplantskola-logo.svg" alt="logo"></a>
+
       <h1>Linders Superlista 2023</h1>
       <p>
-        Beställ senast 20 feb 2022, hämta i maj på Linders Plantskola, www.lindersplantskola.se
+        En chans att hitta det du länge letat efter!
+        Linders superlista är en härligt späckad lista med 17 000 rader av ovanliga och odlingsvärda växter att beställa
+        ifrån. Beställningen gör du senast 26 februari 2023 för att sedan
+        hämta dina beställda växter på <a href="https://lindersplantskola.se/hitta-hit/">Linders plantskola</a> utanför
+        Hörby i Skåne under maj 2023.
+        Tack vare att du gör beställningen i förväg och själv hämtar ut dina växter kan jag hålla låga priser i Linders
+        superlista. Alla priser är inklusive moms. Lägsta ordersumma är 2000 kr. (Gå ihop med en vän om det är svårt att
+        komma upp i den summan).
       </p>
+    </section>
+    <section class="text-stycke">
+      <h1>Hur gör jag?</h1>
+      <p class="top-desc">
+        Listan med växter hittar du under fliken <nuxt-link class="link" to="/lista">Linders Superlista
+          2023</nuxt-link> överst på denna sida. I listan kan du söka
+        och ange hur många av en viss växt som du vill ha. Under fliken <nuxt-link class="link"
+          to="/varukorg">Varukorg</nuxt-link> kan du sedan se vilka växter du valt,
+        justera antal, fylla i dina kontaktuppgifter och sedan skicka in din beställning.
+      </p>
+      <p class="paragraph-spacing">
+        Om du trycker på symbolen
+        <Icon class="" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
+        till höger i exemplet nedan öppnas en flik med mer info om växten. Där
+        kan du ange hur många du vill ha av växten och trycka “Lägg till i varukorg”.
+      </p>
+      <div class="list-example">
+        <ListElementExample :plant="testPlant" />
+      </div>
       <p>
-        Jag älskar växtlistor och detta är andra året jag sätter ihop en "Linders Superlista" till er att beställa
-        ifrån.
-        Gör din beställning senast 20 feb 2022.
-        Sen hämtar du växterna under maj månad. På detta vis kan jag också erbjuda bra priser. Alla priser är inkl.
-        moms.
-        <strong>Lägsta ordersumma 2000 kr. </strong>
-        Du hittar växtlistan under fliken "Linders Superlista 2022" där uppe. Det är där du lägger in din beställning.
+      <h1 class="underrubrik">Filter</h1>
+      På vänster sida finns det en filterfunktion där man kan filtrera och söka i listan för att snabbare hitta det du
+      letar efter. Den kan du använda för att
+      söka efter exempelvis ätliga växter, bara träd eller mina tipsade favoriter.
+      <h1 class="underrubrik">Sortera</h1>
+      Om du vill sortera växtlistan efter något annat än växtnamnet (t.ex pris) kan du klicka på kolumens titel ovanför
+      listan.
+      Klicka på den igen för att byta riktning.
+      <!-- Det finns även en ruta där man kan hoppa till begynnelsebokstaven av det man leter efter. -->
       </p>
     </section>
     <section class="text-stycke">
       <h1>Beskrivningar</h1>
+      <p class="top-desc">
+        Nedan beskrivs de symboler och information som finns i Linders Superlista.
+      </p>
       <ul>
         <li>
-          <strong>Typ:</strong> Det finns en kolumn för typ och där betyder:
+          <strong>Typ:</strong> Det finns en kolumn för växttypen och där betyder:
           <ul class="indent type-desc">
             <li>
               <Icon name="noto:deciduous-tree" size="21" title="Träd" /> = Träd o buskar
@@ -42,13 +73,17 @@
               <Icon name="noto:potted-plant" size="21" title="Ormbunke" /> = Ormbunkar
             </li>
           </ul>
-          <p>Om man klickar eller håller över ikonen öppnas ett nytt fönster med Googles bildsök. Lägg denna rutan till
-            sidan av skärmen, så sätt kan du snabbt se dom olika växterna.</p>
-        </li>
-        <li>
-          <strong>Länk:</strong> Om du klickar på växtnamnet öppnas en länk till Googles bildsök för växten ifråga så du
-          snabbt kan hitta
-          mer info.
+          <p>Om man klickar eller håller över <i class="lite-tjockare">ikonen</i> öppnas ett nytt fönster med Googles
+            bildsök. Lägg denna
+            rutan till
+            sidan av skärmen, på så sätt kan du snabbt se dom olika växterna. Dela gärna skärmen i 2/3 för listan och
+            1/3 för bilderna.
+          </p>
+          <p>
+            Om du istället klickar på själva <i class="lite-tjockare">växtnamnet</i> öppnas en ny
+            flik (med Googles
+            bildsök) i det fönster du är i.
+          </p>
         </li>
         <li>
           <strong>Vetenskapligt namn:</strong> Det latinska (och ofta grekiska) namnet på växterna. Är du dålig på latin
@@ -56,13 +91,14 @@
           av <a href="https://skud.slu.se/nav/taxa" target="_blank">Skuds hemsida</a>. Då kan du söka på ett svenskt
           namn och snabbt få
           ut det vetenskapliga.
+
         </li>
         <li>
           <strong>Ikoner:</strong>
           <ul class="indent">
             <li>
               <Icon title="Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" /> =
-              <strong>Rekommenderas:</strong> Det är kolumnen med hjärtan för växter jag vill rekommendera. Mina
+              <strong>Rekommenderas:</strong> Jag har satt hjärtan för växter jag vill rekommendera. Mina
               personliga favoriter och växter jag tycker ni inte ska missa att spana in.
             </li>
             <li>
@@ -76,9 +112,11 @@
               Denna ikoner visar om det finns en kommentar till växten ifråga.
             </li>
             <li>
-              <Icon class="länk-icon" name="mdi:link-variant" size="20" /> = <strong>Länk:</strong> Visar om det fins en
+              <Icon class="länk-icon" name="mdi:link-variant" size="20" /> = <strong>Länk:</strong> Visar om det finns
+              en
               länk till
-              växten. Du kan även klicka på ikonen för att öppna länken direkt.
+              växten. Du kan även klicka på ikonen för att öppna länken direkt. Kan vara bilder, videos,
+              blogghemsidor m.m.
             </li>
           </ul>
         </li>
@@ -87,6 +125,8 @@
           är en
           fyrkantskruka
           med sida 9 cm, P11 en fyrkantskruka med sida 11 cm osv.
+          Ibland finns detta tecken "#" vilket betyder att trädet har odlats i marken. Har ingen större betydelse, ofta
+          är det positivt och ger kraftiga plantor. Leveraras som klump eller i kruka.
         </li>
         <li>
           <strong>Höjd:</strong> Här anges ungefärlig höjd i cm på plantan som säljs.
@@ -94,7 +134,7 @@
         <li>
           <strong>Minsta order:</strong> här är angivit det minimumantal som gäller för en viss växt (främst perenner i
           P9-kruka där det
-          ibland är 12 st som är minimum).
+          ofta är 12 st som är minimum).
         </li>
         <li>
           <strong>Pris:</strong> Pris med moms per styck
@@ -111,18 +151,64 @@
           upp.
         </li>
         <li>
-          <strong>Länk:</strong> Här finns i vissa fall ytterligare länktips för mer info. Kan vara bilder, videos,
-          blogghemsidor m.m.
-        </li>
-        <li>
           <strong>Zon:</strong> Vad gäller härdighet är det stor variation över listan och mycket är otillräckligt
-          0 står för innerstadsmiljöer i zon
+          prövat i Sverige. På en del växter har jag angivit svensk zon-tålighet. Zon 0 står för innerstadsmiljöer i zon
           1.
         </li>
       </ul>
     </section>
+    <section class="text-stycke">
+      <h1>Betalning och Hämtning</h1>
+      <p class="paragraph-spacing">
+        När jag fått din beställning svarar jag med en faktura på halva beloppet. Resten betalas när du hämtar växterna
+        i maj och vi ser exakt vad
+        som har gått att få tag på (jag räknar med att få tag på ungefär 60-80 % av det du beställt).
+        Jag kan inte skicka växterna utan dom hämtas här i plantskolan utanför Hörby under maj månad.
+      </p>
+      <p class="paragraph-spacing">
+        Hemkörning kan erbjudas till Malmö/Lund-området samt Hörby/Höör och kostar 750 kr.
+        Även till Göteborg kan hemkörning erbjudas, för 1250 kr.
+      </p>
+      <p>
+        Anmäl dig gärna till mitt nyhetsbrev där jag bland annat kommer att presentera växter ur
+        Superlistan löpande under jan-feb.
+        Direktlänk till nyhetsbrevet
+        <a target="_blank"
+          href="https://us7.campaign-archive.com/home/?u=0e9eb9946e9781ae0c59149df&id=9e50a747e2">här!</a>
+        Där kan du också läsa tidigare nyhetsbrev.
+      </p>
+      <p class="hälsningar">
+        Med gröna hälsningar / Peter Linder, 0733-518 716,
+        peter@lindersplantskola.se
+      </p>
+      <a class="logo" href="https://lindersplantskola.se/" target="_blank"><img src="/lindersplantskola-logo.svg"
+          alt="logo"></a>
+    </section>
   </div>
 </template>
+
+<script setup>
+
+const testPlant = {
+  Edible: null,
+  "Höjd": "40-50",
+  Kommentar: "rosablommig vinterbuske, som en ljusrosa forsythia!",
+  Kruka: "C7,5",
+  Lager: "1",
+  "Länk": "https://www.youtube.com/watch?v=C3j75pn6s3c",
+  MinOrder: null,
+  Namn: "Abeliophyllum distichum 'Roseum'",
+  Order: null,
+  Plantskola: "A",
+  Pris: 490,
+  Rekommenderas: true,
+  Storlekskommentar: null,
+  Typ: "T",
+  Zon: "2",
+  id: 25,
+}
+
+</script>
 
 <style>
 li {
@@ -170,12 +256,14 @@ li>svg {
 
 .text-stycke>a,
 .text-stycke>img {
-  width: 70%;
   display: block;
+  width: 50%;
   margin: 0 auto 2rem;
 }
 
-li>a {
+li>a,
+.text-stycke>p>a,
+.link {
   text-decoration: underline;
   color: #0645AD;
 }
@@ -188,5 +276,30 @@ li>a {
 
 .type-desc {
   margin-bottom: 0.5rem;
+}
+
+.top-desc {
+  margin-bottom: 1rem;
+}
+
+.hälsningar {
+  text-align: center;
+  margin: 2rem 0 1rem;
+  font-size: large;
+}
+
+.paragraph-spacing {
+  margin-bottom: 0.5rem;
+}
+
+.underrubrik {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.lite-tjockare {
+  font-weight: 600;
 }
 </style>

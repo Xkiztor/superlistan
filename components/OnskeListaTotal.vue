@@ -24,6 +24,11 @@
       </p>
       <p v-if="totalPrice < 2000" class="disclaimer"><strong>OBS</strong> Lägsta ordersumman är 2000kr</p>
     </div>
+    <div class="lite-mer-plats-där-uppe">
+      <p>Beställningen gör du senast 26 februari 2023</p>
+      <p>Dina beställda växter hämtar du på Linders plantskola under Maj 2023.</p>
+      <p>Betalningen sker i två steg, se under <nuxt-link class="link" to="/">hem</nuxt-link>.</p>
+    </div>
 
   </div>
 </template>
@@ -70,5 +75,9 @@ i {
 
 .disclaimer {
   display: block;
+}
+
+div.lite-mer-plats-där-uppe {
+  margin-top: 2rem;
 }
 </style>

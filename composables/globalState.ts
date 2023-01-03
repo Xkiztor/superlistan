@@ -19,7 +19,14 @@ export const useGlobalState = createGlobalState(
       isJumpOpen.value = !isJumpOpen.value
     }
 
-    const typeFilter = ref('')
+    const typeFilter = ref({
+      T: false,
+      B: false,
+      P: false,
+      K: false,
+      O: false,
+      G: false
+    })
     const favoriteFilter = ref(false)
     const edibleFilter = ref(false)
     const commentFilter = ref(false)
@@ -28,6 +35,7 @@ export const useGlobalState = createGlobalState(
 
     const sortByWhat = ref('Namn')
     const sortAscending = ref(true)
+
 
     function switchFilterDirection() {
       sortAscending.value = !sortAscending.value

@@ -6,15 +6,15 @@
       <h1>Du har redan skickat in!</h1>
     </div>
     <div class="input-layout">
-      <label for="user-name">Ditt fulla namn: </label>
+      <label for="user-name">Namn: </label>
       <input v-model="orderName" id="user-name" type="text" placeholder="Ex. Peter Linder">
     </div>
     <div class="input-layout">
-      <label for="user-mail">Din mailadress: </label>
+      <label for="user-mail">Mailadress: </label>
       <input v-model="orderMail" id="user-mail" type="text" placeholder="Ex. peter@lindersplantskola.se">
     </div>
     <div class="input-layout">
-      <label for="user-adress">Din adress: </label>
+      <label for="user-adress">Adress: </label>
       <input v-model="orderAdress" id="user-adress" type="text" placeholder="Ex. Köinge 6902, 242 92 Hörby">
     </div>
     <div class="input-layout">
@@ -35,6 +35,7 @@
     </Modal>
     <Modal v-if="showModalError" @close-modal="showModalError = false">
       <div>
+        <Icon class="warning" name="mi:warning" size="60" />
         <h1 class="modal-text">Det blev ett litet fel</h1>
         <h1>Försök igen</h1>
         <p>Om problemet kvarstår, kontakta peter@lindersplantskola.se</p>
@@ -54,14 +55,28 @@
       </h1>
     </Modal>
     <Modal v-if="showModalCountError" @close-modal="showModalCountError = false">
-      <h1 class="modal-text">
-        Vänligen ange korrekt antal växter!
-      </h1>
+      <div>
+        <Icon class="warning" name="mi:warning" size="60" />
+        <h1 class="modal-text">
+          Vänligen ange korrekt antal växter!
+        </h1>
+      </div>
+    </Modal>
+    <Modal v-if="showModalPriceError" @close-modal="showModalPriceError = false">
+      <div>
+        <Icon class="warning" name="mi:warning" size="60" />
+        <h1 class="modal-text">
+          Lägsta ordersumman är 2000kr
+        </h1>
+      </div>
     </Modal>
     <Modal v-if="showModalNoName" @close-modal="showModalNoName = false">
-      <h1 class="modal-text">
-        Vänligen fyll i alla fält!
-      </h1>
+      <div>
+        <Icon class="warning" name="mi:warning" size="60" />
+        <h1 class="modal-text">
+          Vänligen fyll i alla fält!
+        </h1>
+      </div>
     </Modal>
   </div>
 </template>
@@ -74,10 +89,13 @@ const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
+const onskeList = useGlobalOnskeList()
+
 const showModal = ref(false)
 const showModalError = ref(false)
 const showModalNoName = ref(false)
 const showModalCountError = ref(false)
+const showModalPriceError = ref(false)
 const showConfirmModal = ref(false)
 
 const errorMessage = ref({})
@@ -104,7 +122,11 @@ watchEffect(() => {
 })
 
 const handleSend = () => {
-  if (hasSent.value == true) { }
+  // if (hasSent.value == true) { }
+  if (onskeList.value.onskeListFull.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) < 2000) {
+    showModalPriceError.value = true
+    return
+  }
   if (orderName.value == '' || orderMail.value == '' || orderAdress.value == '' || orderPhone.value == '') {
     console.log('no name');
     showModalNoName.value = true
@@ -114,9 +136,9 @@ const handleSend = () => {
     showModalCountError.value = true
     return
   }
-  console.log(orderName.value);
+  // console.log(orderName.value);
 
-  const listWithName = onskeListFull.value.map((e) => {
+  const listWithName = onskeList.value.onskeListFull.map((e) => {
     e.Person = orderName.value
     e.Mail = orderMail.value
     e.Adress = orderAdress.value
@@ -214,5 +236,9 @@ const handleSend = () => {
 
 .sent-in-badge>svg {
   color: #32a748;
+}
+
+.warning {
+  color: red;
 }
 </style>
