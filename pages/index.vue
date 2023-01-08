@@ -272,6 +272,16 @@ li>a,
   color: #0645AD;
 }
 
+@media screen and (max-width: 750px) {
+  .main-layout {
+    padding: 1rem;
+  }
+
+  .text-stycke {
+    padding: 1rem 1rem;
+  }
+}
+
 .home-container {
   /* margin-top: 12rem; */
   max-width: 100ch;

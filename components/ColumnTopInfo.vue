@@ -40,9 +40,9 @@
         <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
       </i>
     </p>
-    <p v-if="props.isOnskeLista == true" class=""></p>
+    <p v-if="props.isOnskeLista == true" class="hide-on-phone"></p>
     <p v-if="props.isOnskeLista == true" class="hide-on-phone">Antal</p>
-    <p v-if="props.isOnskeLista == true" class=""></p>
+    <p v-if="props.isOnskeLista == true" class="hide-on-phone"></p>
     <p @click="handleSort('Pris')" class="pris clickable">
       Pris
       <i v-if="state.sortByWhat.value === 'Pris' && !isOnskeLista">

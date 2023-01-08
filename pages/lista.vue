@@ -251,6 +251,8 @@ onMounted(() => {
   // fetchList(0, 200)
   if (dataList.value.length <= 0) {
     fetchAllList()
+  } else {
+    userMessage.value = 'Här är listan slut'
   }
 })
 
