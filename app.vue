@@ -217,7 +217,7 @@ button:hover {
 
 .big-screen-naver>a:hover {
   transform: scale(105%);
-  font-weight: 800;
+  /* font-weight: 800; */
 }
 
 .nav-observer {

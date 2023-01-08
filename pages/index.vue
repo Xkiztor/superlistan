@@ -22,6 +22,7 @@
         och ange hur många av en viss växt som du vill ha. Under fliken <nuxt-link class="link"
           to="/varukorg">Varukorg</nuxt-link> kan du sedan se vilka växter du valt,
         justera antal, fylla i dina kontaktuppgifter och sedan skicka in din beställning.
+        Du kan lungt jobba vidare en annan dag eftersom växterna sparas automatiskt tills nästa gång.
       </p>
       <p class="paragraph-spacing">
         Om du trycker på symbolen

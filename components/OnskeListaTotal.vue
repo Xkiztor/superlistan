@@ -29,6 +29,11 @@
       <p>Dina beställda växter hämtar du på Linders plantskola under Maj 2023.</p>
       <p>Betalningen sker i två steg, se under <nuxt-link class="link" to="/">hem</nuxt-link>.</p>
     </div>
+    <div>
+      <p>Vill du beställa fler växter?</p>
+      <p>Gör en ny order genom att ta bort dom växter du redan skickat in, lägg till nya och lägg till en 2:a efter ditt
+        namn och skicka in igen.</p>
+    </div>
 
   </div>
 </template>
@@ -73,6 +78,6 @@ i {
 }
 
 div.lite-mer-plats-där-uppe {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 </style>

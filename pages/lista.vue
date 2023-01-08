@@ -206,6 +206,7 @@ const computedList = computed(() => {
       return 0
     }
   })
+
   if (state.typeFilter.value.T || state.typeFilter.value.B || state.typeFilter.value.P || state.typeFilter.value.K || state.typeFilter.value.O || state.typeFilter.value.G) {
     newList = newList.filter(e => state.typeFilter.value[e.Typ])
   }
