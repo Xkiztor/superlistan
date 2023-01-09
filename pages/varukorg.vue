@@ -53,6 +53,7 @@ onMounted(() => {
   if (hasUpdatedVarukorg.value === false) {
     hasUpdatedVarukorg.value = true
     onskeList.value.onskeListFull = []
+    listFetcher()
   }
 })
 
