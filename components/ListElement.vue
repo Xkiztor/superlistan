@@ -15,8 +15,8 @@
     <p class="plant-name mr-2 ml-3 overflow-hidden" :title="plant.Namn"><a
         :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
         {{
-    plant.Namn
-}}</a>
+          plant.Namn
+        }}</a>
     </p>
 
     <div class="ikoner hide-on-phone">
@@ -64,7 +64,8 @@
         <p v-if="plant.Kruka" class="hide-on-pc">Kruka: {{ plant.Kruka }}</p>
         <p v-if="plant.Höjd && isOnskeLista">Höjd: {{ plant.Höjd }}</p>
         <p v-if="plant.Kruka && isOnskeLista">Kruka: {{ plant.Kruka }}</p>
-        <p v-if="plant.Lager" :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null }">
+        <p v-if="plant.Lager"
+          :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': count > plant.Lager && plant.Lager != null }">
           Lager: {{ plant.Lager }}</p>
         <p v-if="isOnskeLista">{{ plant.Pris }} kr/st</p>
         <p v-if="plant.MinOrder"
@@ -76,7 +77,8 @@
         <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
       </div>
       <div v-if="!isOnskeLista" class="add-section">
-        <input :class="{ 'error-borderrr': count < plant.MinOrder && plant.MinOrder != null }"
+        <input
+          :class="{ 'error-borderr': count > plant.Lager && plant.Lager != null, 'error-borderrr': count < plant.MinOrder && plant.MinOrder != null }"
           class="w-14 mr-3 btn-input" type="number" min="0" v-model.number="count">
         <button @click="handleAdd">Lägg till i varukorg</button>
       </div>

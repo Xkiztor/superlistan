@@ -116,14 +116,13 @@ watch(state.countError, () => {
   console.log('yer');
 })
 
-
 watchEffect(() => {
   // console.log(orderName.value);
 })
 
 const handleSend = () => {
   // if (hasSent.value == true) { }
-  if (onskeList.value.onskeListFull.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) < 2000) {
+  if (onskeList.value.onskeListFull.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) < 2000 && hasSent.value === false) {
     showModalPriceError.value = true
     return
   }

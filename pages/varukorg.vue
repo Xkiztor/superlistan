@@ -16,6 +16,7 @@
 
 <script setup>
 import { createClient } from '@supabase/supabase-js'
+import { useStorage } from '@vueuse/core'
 
 const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
@@ -27,6 +28,8 @@ definePageMeta({
 
 
 const list = ref([])
+
+const hasUpdatedVarukorg = useStorage('has-updated-varukorg', false)
 
 const state = useGlobalState()
 
@@ -45,11 +48,20 @@ const computedList = computed(() => {
   return newList
 })
 
+onMounted(() => {
+  console.log(hasUpdatedVarukorg.value);
+  if (hasUpdatedVarukorg.value === false) {
+    hasUpdatedVarukorg.value = true
+    onskeList.value.onskeListFull = []
+  }
+})
+
 watch(onskeList.value.onskeList, () => {
   listFetcher()
 })
 
 const fetchList = async (id, count) => {
+  console.log('heeoasd');
   const { data, error } = await supabase
     .from('superlista')
     .select()
@@ -67,16 +79,16 @@ const fetchList = async (id, count) => {
       console.log('empty');
       onskeList.value.onskeListFull.push(data[0])
     } else {
-      if (onskeList.value.onskeListFull.map(e => e.id).indexOf(id) == -1) {
-        onskeList.value.onskeListFull.push(data[0])
-      }
+      onskeList.value.onskeListFull.push(data[0])
     }
   }
 }
 
 const listFetcher = () => {
   onskeList.value.onskeList.forEach(plant => {
-    fetchList(plant.id, plant.count)
+    if (onskeList.value.onskeListFull.map(e => e.id).indexOf(plant.id) === -1) {
+      fetchList(plant.id, plant.count)
+    }
   })
 }
 listFetcher()

@@ -89,6 +89,8 @@ const onskeList = useGlobalOnskeList()
 // const dataList = ref([])
 const dataList = useStorage('datalist', [])
 
+const hasUpdated = useStorage('has-updated', false)
+
 console.log('Lista från local storage');
 console.log(dataList.value);
 
@@ -153,7 +155,7 @@ const computedList = computed(() => {
     } else return 1
   })
   newList = newList.sort((a, b) => {
-    console.log('heho');
+    // console.log('heho');
     if (state.sortByWhat.value == 'Namn') {
       if (a.Namn.toLowerCase() < b.Namn.toLowerCase()) {
         if (state.sortAscending.value) return -1
@@ -251,39 +253,17 @@ onMounted(() => {
   // fetchList(0, 200)
   if (dataList.value.length <= 0) {
     fetchAllList()
+    return
   } else {
     userMessage.value = 'Här är listan slut'
   }
+
+  if (hasUpdated.value === false) {
+    hasUpdated.value = true
+    fetchAllList()
+  }
+
 })
-
-const fetchList = async (from, to) => {
-  userMessage.value = 'laddar...'
-  dataList.value = []
-  let search = supabase
-    .from('superlista')
-    .select()
-    .ilike('Namn', `%${state.query.value.replace(/\s+/g, '%')}%`)
-    .order(`${state.sortByWhat.value}`, { ascending: state.sortAscending.value })
-    .range(from, to)
-  if (!state.typeFilter.value == '') { search = search.eq('Typ', `${state.typeFilter.value}`) }
-  // if (!state.filterLetter.value == '') { search = search.ilike('Namn', `${state.filterLetter.value}%`) }
-
-  const { data, error } = await search
-
-  if (error) {
-    console.error(error)
-    dataList.value = null
-  }
-  if (data) {
-    userMessage.value = 'Här är listan slut'
-    if (!data.length > 0) {
-      userMessage.value = 'Inga resultat'
-    }
-    console.log(data)
-    dataList.value = data
-  }
-}
-
 /* - - - - - - Fetch all list- - - - - - */
 const fetchAllList = async () => {
   userMessage.value = 'laddar...'
