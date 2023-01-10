@@ -1,12 +1,12 @@
 <template>
   <div class="onske-list-bg total">
     <h1>Totalt</h1>
-    <div>
+    <!--<div>
       <p>
         <i class="main-value">{{ totalCount }}</i>
         stycken plantor
       </p>
-    </div>
+    </div>-->
     <div>
       <p>
         <!-- <Icon name="material-symbols:table-rows-rounded" size="20" /> -->
