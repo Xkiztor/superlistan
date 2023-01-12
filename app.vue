@@ -40,7 +40,7 @@ useHead({
   viewport: 'width=device-width, initial-scale=1, maximum-scale=6',
   charset: 'utf-8',
   meta: [
-    { name: 'description', content: 'En lista med tusentals växter att beställa från' },
+    { name: 'description', content: 'En lista med tusentals växter att beställa från.' },
     { name: 'keywords', content: 'Lista, Lindersplantskola, superlista, Växter' },
     { name: 'author', content: 'Ugo Linder, Peter Linder' },
   ],

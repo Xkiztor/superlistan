@@ -11,7 +11,7 @@
     <p>asd</p> -->
   </div>
   <div v-if="firstOfDate" class="spacer-line"></div>
-  <div class="list-element">
+  <div class="list-element" :class="{ 'is-expanded': isExpanded }">
     <div class="the-element" @click="isExpanded = !isExpanded">
       <p>{{ el.created_at }}</p>
       <p>{{ el.Person }}</p>
@@ -22,12 +22,12 @@
       <p>{{ el.Pris * el.Count }}</p>
     </div>
     <div v-if="isExpanded" class="expanded-info">
+      <Icon v-if="el.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
       <p>{{ el.Adress }}</p>
       <p>{{ el.Phone }}</p>
       <p>{{ el.Mail }}</p>
       <p v-if="el.Comment">{{ el.Comment }}</p>
       <p>platnskola: {{ el.Plantskola }}</p>
-      <Icon v-if="el.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
     </div>
   </div>
 </template>

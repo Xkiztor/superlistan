@@ -212,6 +212,8 @@ const computedList = computed(() => {
   if (state.typeFilter.value.T || state.typeFilter.value.B || state.typeFilter.value.P || state.typeFilter.value.K || state.typeFilter.value.O || state.typeFilter.value.G) {
     newList = newList.filter(e => state.typeFilter.value[e.Typ])
   }
+
+  console.log(newList.map(e => e.Rekommenderas).reduce((a, b) => a + b, 0) / newList.length * 100);
   return newList
 })
 

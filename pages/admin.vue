@@ -16,9 +16,13 @@
           <div>
             <p>{{ totalCount }} stycken växter</p>
             <p>{{ userData.length }} stycken rader</p>
+            <div></div>
             <p>{{ totalPrice }} kr totalt</p>
             <p>{{ Math.round(totalPrice * 0.8) }} kr utan moms</p>
             <p>{{ peopleCount }} personer</p>
+            <p>{{ Math.round(totalCount / peopleCount * 100) / 100 }} plantor per person</p>
+            <div></div>
+            <p>{{ recomendedCount }}% hjärtan (8.6% på hela listan)</p>
           </div>
         </div>
         <button @click="showTable = !showTable">
@@ -141,6 +145,7 @@ const userData = computed(() => {
 const totalCount = computed(() => userData.value.map(e => e.Count).reduce((a, b) => a + b, 0))
 const totalPrice = computed(() => userData.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
 const peopleCount = computed(() => new Set(userData.value.map(item => item.Person)).size)
+const recomendedCount = computed(() => Math.round(userData.value.map(e => e.Rekommenderas).reduce((a, b) => a + b, 0) / userData.value.length * 100 * 100) / 100)
 
 fetchUserData()
 </script>
@@ -201,10 +206,15 @@ fetchUserData()
   cursor: pointer;
 }
 
-.list-element:hover {
+.list-element:hover,
+.is-expanded {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   position: relative;
   z-index: 2;
+}
+
+.is-expanded {
+  margin: 1rem 0;
 }
 
 .list-element>* {
@@ -228,10 +238,14 @@ fetchUserData()
   margin-bottom: 2rem;
 }
 
+.admin-layout>button {
+  max-height: 3rem;
+}
+
 .statistik>div {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 0.3fr 1fr 1fr;
   grid-auto-flow: column;
 }
 
