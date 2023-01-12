@@ -23,6 +23,7 @@
             <p>{{ Math.round(totalCount / peopleCount * 100) / 100 }} plantor per person</p>
             <div></div>
             <p>{{ recomendedCount }}% hjärtan (8.6% på hela listan)</p>
+            <p>{{ Math.round(totalPrice / peopleCount * 100) / 100 }} kr/person</p>
           </div>
         </div>
         <button @click="showTable = !showTable">
@@ -43,7 +44,7 @@
       </div>
       <ul class="list-container" v-if="!showTable">
         <li v-for="(item, index) in userData">
-          <AdminListElement :el="item" :index="index" :userData="userData" />
+          <AdminListElement :el="item" :index="index" :userData="userData" :isPersonPage="false" />
         </li>
       </ul>
       <table v-if="showTable">
@@ -88,7 +89,7 @@ const typedPassword = ref('')
 
 const showTable = ref(false)
 
-const rawData = ref([])
+const rawUserData = useStorage('raw-user-data', [])
 
 const loggIn = () => {
   if (typedPassword.value === password.value) {
@@ -112,19 +113,21 @@ const fetchUserData = async () => {
     console.error(error)
   }
   if (data) {
-    rawData.value = data
-    console.log(data);
+    rawUserData.value = data
+    // console.log(data);
 
-    rawData.value.map(e => e.created_at = e.created_at.replace('2023-', ''))
-    rawData.value.map(e => e.created_at = e.created_at.replace('T', ' | '))
-    rawData.value.map(e => e.created_at = e.created_at.slice(0, -6))
-    rawData.value.map(e => e.created_at = e.created_at.replace('.', ''))
+    rawUserData.value.map(e => e.created_at = e.created_at.replace('2023-', ''))
+    rawUserData.value.map(e => e.created_at = e.created_at.replace('T', ' | '))
+    rawUserData.value.map(e => e.created_at = e.created_at.slice(0, -6))
+    rawUserData.value.map(e => e.created_at = e.created_at.replace('.', ''))
+
+    console.log(rawUserData.value);
   }
 }
 
 const userData = computed(() => {
   let list
-  list = rawData.value.sort((a, b) => {
+  list = rawUserData.value.sort((a, b) => {
     if (a.Namn > b.Namn) return 1
     if (a.Namn < b.Namn) return -1
     else return 0

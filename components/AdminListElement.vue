@@ -4,7 +4,7 @@
     <p>{{ currentDateCount }} st</p>
     <p>{{ totalCount }} st totalt</p>
     <p>{{ totalPrice }} kr</p>
-    <p>{{ peopleCount }} personer</p>
+    <p v-if="!isPersonPage">{{ peopleCount }} personer</p>
     <!-- <p>asd</p>
     <p>asd</p>
     <p>asd</p>
@@ -14,7 +14,9 @@
   <div class="list-element" :class="{ 'is-expanded': isExpanded }">
     <div class="the-element" @click="isExpanded = !isExpanded">
       <p>{{ el.created_at }}</p>
-      <p>{{ el.Person }}</p>
+      <nuxt-link :to="`/admin/${el.Person.replace(' ', '+')}`">
+        <p>{{ el.Person }}</p>
+      </nuxt-link>
       <p>{{ el.Namn }}</p>
       <!-- <p :title="`${el.Pris} kr  ${el.Count} st`">{{ el.Pris * el.Count }}</p> -->
       <p>{{ el.Pris }}</p>
@@ -23,7 +25,7 @@
     </div>
     <div v-if="isExpanded" class="expanded-info">
       <Icon v-if="el.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
-      <p>{{ el.Adress }}</p>
+      <a :href="`https://www.google.se/maps/search/${el.Adress}`" target="_blank">{{ el.Adress }}</a>
       <p>{{ el.Phone }}</p>
       <p>{{ el.Mail }}</p>
       <p v-if="el.Comment">{{ el.Comment }}</p>
@@ -33,7 +35,7 @@
 </template>
 
 <script setup>
-const props = defineProps(['el', 'index', 'userData'])
+const props = defineProps(['el', 'index', 'userData', 'isPersonPage'])
 
 const firstOfDate = ref(false)
 
@@ -90,5 +92,19 @@ const peopleCount = computed(() => new Set(listWithCurrentDate.map(item => item.
   gap: 1rem;
   padding: 1rem;
   margin-bottom: 1rem;
+}
+
+.expanded-info>a {
+  text-decoration: underline !important;
+  color: #0645AD;
+}
+
+.the-element>a {
+  width: fit-content;
+}
+
+.the-element>a:hover {
+  text-decoration: underline;
+  color: #0645AD;
 }
 </style>

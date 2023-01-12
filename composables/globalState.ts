@@ -41,10 +41,13 @@ export const useGlobalState = createGlobalState(
       sortAscending.value = !sortAscending.value
     }
 
+    const rawUserData = ref([])
+
 
     return {
       countError, openNav, isNavOpen, openFilter, isFilterOpen, openJump, isJumpOpen,
-      typeFilter, favoriteFilter, edibleFilter, commentFilter, linkFilter, query, switchFilterDirection, sortByWhat, sortAscending, useStorage
+      typeFilter, favoriteFilter, edibleFilter, commentFilter, linkFilter, query,
+      switchFilterDirection, sortByWhat, sortAscending, useStorage, rawUserData
     }
   }
 )
