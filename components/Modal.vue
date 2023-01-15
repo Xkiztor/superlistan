@@ -36,7 +36,10 @@ onClickOutside(target, (event) => {
 
 .modal-container {
   position: relative;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
   width: fit-content;
   padding: 1rem 5rem;
   place-items: center;
