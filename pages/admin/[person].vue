@@ -110,7 +110,7 @@
           <p>Betalningssätt:</p>
           <p class="indent"><b>Swish till 0733-518 716</b></p>
           <p class="indent"><b>Bankgiro (Linders Plantskola): 872-3934</b></p>
-          <p class="indent">Märk betalningen med "Li-" samt fakturanummer.</p>
+          <!-- <p class="indent">Märk betalningen med "Li-" samt fakturanummer.</p> -->
         </g>
         <p>—————————————————————————————————————</p>
         <!-- <br> -->
