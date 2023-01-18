@@ -29,9 +29,14 @@
   </div>
   <div class="modals">
     <Modal v-if="showModal" @close-modal="showModal = false">
-      <h1 class="modal-text">
-        Din lista är inskickad!
-      </h1>
+      <div>
+        <h1 class="modal-text">
+          Tack!
+        </h1>
+        <h1 class="modal-text">
+          Din lista är inskickad!
+        </h1>
+      </div>
     </Modal>
     <Modal v-if="showModalError" @close-modal="showModalError = false">
       <div>

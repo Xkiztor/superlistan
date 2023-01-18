@@ -1,16 +1,18 @@
 <template>
   <div v-if="firstOfDate" class="first-of-date">
-    <h1>{{ props.el.created_at.substring(3, 5) }}</h1>
-    <p>{{ currentDateCount }} st</p>
-    <p>{{ totalCount }} st totalt</p>
-    <p>{{ totalPrice }} kr</p>
-    <p v-if="!isPersonPage">{{ peopleCount }} personer</p>
+    <div class="first-of-date-flex">
+      <h1>{{ props.el.created_at.substring(3, 5) }}</h1>
+      <p>{{ currentDateCount }} st</p>
+      <p>{{ totalCount }} st totalt</p>
+      <p>{{ totalPrice }} kr</p>
+      <p v-if="!isPersonPage">{{ peopleCount }} personer</p>
+    </div>
     <!-- <p>asd</p>
     <p>asd</p>
     <p>asd</p>
     <p>asd</p> -->
+    <div v-if="firstOfDate" class="spacer-line"></div>
   </div>
-  <div v-if="firstOfDate" class="spacer-line"></div>
   <div class="list-element" :class="{ 'is-expanded': isExpanded }">
     <div class="the-element" @click="isExpanded = !isExpanded">
       <p>{{ el.created_at }}</p>
@@ -62,11 +64,20 @@ const peopleCount = computed(() => new Set(listWithCurrentDate.map(item => item.
 .first-of-date {
   margin-left: 0.5rem;
   margin-top: 1rem;
+  width: 100%;
+}
+
+.first-of-date-flex {
   display: flex;
   flex-direction: row;
   gap: 1rem;
   align-items: center;
   width: fit-content;
+}
+
+.first-of-date h1 {
+  font-size: 2.2rem;
+  line-height: 1;
 }
 
 .spacer-line {
@@ -77,12 +88,10 @@ const peopleCount = computed(() => new Set(listWithCurrentDate.map(item => item.
   background: #e5e7eb;
   content: "";
   float: left;
+  /* position: absolute; */
+  position: static;
 }
 
-.first-of-date>h1 {
-  font-size: 2.2rem;
-  line-height: 1;
-}
 
 .expanded-info {
   display: flex;
@@ -106,5 +115,9 @@ const peopleCount = computed(() => new Set(listWithCurrentDate.map(item => item.
 .the-element>a:hover {
   text-decoration: underline;
   color: #0645AD;
+}
+
+.list-element:hover~.spacer-line {
+  display: none;
 }
 </style>

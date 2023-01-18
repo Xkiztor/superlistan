@@ -41,7 +41,7 @@
         börja om.</p>
       <Modal v-if="showModal" @close-modal="showModal = false">
         <div>
-          <h1>Är du säker du vill nollställa listan?</h1>
+          <h1>Är du säker du vill nollställa varukorgen?</h1>
           <p>Detta kan inte ångras.</p>
         </div>
         <div>

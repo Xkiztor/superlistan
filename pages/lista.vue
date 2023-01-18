@@ -325,7 +325,7 @@ const handleClick = () => {
   /* width: 100%; */
   margin: 0 auto;
   background: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
 
   /* height: 100%; */
   /* overflow: hidden; */

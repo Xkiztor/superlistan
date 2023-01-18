@@ -43,7 +43,7 @@
         <p>Total</p>
       </div>
       <ul class="list-container" v-if="!showTable">
-        <li v-for="(item, index) in userData">
+        <li v-for="(item, index) in userData" class="list-el">
           <AdminListElement :el="item" :index="index" :userData="userData" :isPersonPage="false" />
         </li>
       </ul>
@@ -183,6 +183,12 @@ fetchUserData()
   width: auto;
 }
 
+.list-el {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
 .list-header {
   display: grid;
   grid-template-columns: 20% 20% 42% 6% 6% 6%;
@@ -261,11 +267,13 @@ table {
   font-weight: 400;
 }
 
-th>p {
+th p,
+td p {
   font-weight: 400;
 }
 
-th {
+th,
+td {
   border: 1px solid #cacaca;
 }
 </style>
