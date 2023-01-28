@@ -419,13 +419,6 @@ function mouseLeave() {
   }
 }
 
-.btn-input {
-  -webkit-appearance: textfield;
-  -moz-appearance: textfield;
-  appearance: textfield;
-
-}
-
 .increment {
   display: grid;
   grid-template-columns: 3fr 2fr;
@@ -453,7 +446,15 @@ function mouseLeave() {
   grid-row: 1/3;
   border-right: 1px solid rgb(219, 219, 219);
   text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
+
+.increment input::-webkit-outer-spin-button,
+.increment input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
 
 .increment input:focus {
   box-shadow: inset 0 -0.5px 3px 1px #cfd1d6;

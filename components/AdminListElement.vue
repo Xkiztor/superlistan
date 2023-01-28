@@ -16,7 +16,7 @@
   <div class="list-element" :class="{ 'is-expanded': isExpanded }">
     <div class="the-element" @click="isExpanded = !isExpanded">
       <p>{{ el.created_at }}</p>
-      <nuxt-link :to="`/admin/${el.Person.replace(' ', '+')}`">
+      <nuxt-link :to="`/admin/${el.Person.replace(' ', '+')}`" class="no-link">
         <p>{{ el.Person }}</p>
       </nuxt-link>
       <p>{{ el.Namn }}</p>
@@ -121,13 +121,18 @@ const peopleCount = computed(() => new Set(listWithCurrentDate.map(item => item.
   color: #0645AD;
 }
 
+.dark .expanded-info>a {
+  color: #3e7fe6;
+}
+
+
+
 .the-element>a {
   width: fit-content;
 }
 
-.the-element>a:hover {
-  text-decoration: underline;
-  color: #0645AD;
+.dark .the-element>a:hover>p {
+  color: #ffffff !important;
 }
 
 .list-element:hover~.spacer-line {

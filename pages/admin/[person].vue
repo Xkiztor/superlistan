@@ -214,6 +214,10 @@ li {
 }
 
 .the-faktura * {
+  color: black !important;
+}
+
+.the-faktura * {
   font-family: 'Times New Roman', Times, serif;
 }
 
