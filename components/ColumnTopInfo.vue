@@ -72,11 +72,20 @@ const handleSort = (what) => {
 <style>
 .top-info {
   display: grid;
-  grid-template-columns: 6% 49% 17% 8% 7% 8% 2%;
+  grid-template-columns: 6% 49% 19% 9% 6% 9% 2%;
   place-items: center start;
   padding: 5px;
   border-bottom: 1px solid #e5e7eb;
   color: rgb(63, 63, 63);
+}
+
+.dark .top-info {
+  color: #b0bac5;
+  border-color: #373c46;
+}
+
+.dark .top-info>p:hover {
+  color: #e7f2ff;
 }
 
 @media screen and (max-width: 750px) {

@@ -75,6 +75,15 @@ const peopleCount = computed(() => new Set(listWithCurrentDate.map(item => item.
   width: fit-content;
 }
 
+.dark .list-element {
+  color: #b0bac5;
+  background-color: #26292f;
+}
+
+.dark .list-element:hover {
+  background-color: #35383f;
+}
+
 .first-of-date h1 {
   font-size: 2.2rem;
   line-height: 1;
@@ -90,6 +99,10 @@ const peopleCount = computed(() => new Set(listWithCurrentDate.map(item => item.
   float: left;
   /* position: absolute; */
   position: static;
+}
+
+.dark .spacer-line {
+  background-color: #32363c;
 }
 
 

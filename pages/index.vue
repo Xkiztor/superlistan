@@ -248,6 +248,15 @@ li>svg {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.dark .text-stycke {
+  background: #26292f;
+  color: #bec8d3;
+}
+
+.dark .text-stycke h1 {
+  color: #ecf9fb;
+}
+
 .text-stycke>ul>li {
   margin-bottom: 1rem;
 }
@@ -270,6 +279,13 @@ li>a,
 .link {
   text-decoration: underline;
   color: #0645AD;
+}
+
+.dark li>a,
+.dark .text-stycke>p>a,
+.dark .link {
+  text-decoration: underline;
+  color: #75b4f8;
 }
 
 @media screen and (max-width: 750px) {
@@ -315,5 +331,9 @@ li>a,
 
 .lite-tjockare {
   font-weight: 600;
+}
+
+.dark .logo img {
+  display: none;
 }
 </style>

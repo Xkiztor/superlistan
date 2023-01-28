@@ -8,7 +8,7 @@
       <ColumnTopInfo :isOnskeLista="false" />
       <div v-bind="containerProps" class="container-props">
         <ul v-bind="wrapperProps" class="wrapper-props">
-          <ListElement v-for="{ index, data } in list" :key="index" :plant="data" @add-to-cart="handleAdd"
+          <ListElement v-for="{ index, data } in list" :key="data.id" :plant="data" @add-to-cart="handleAdd"
             :isOnskeLista="false" />
           <!-- <div class="observer" ref="observerTarget">
             <h1>above 1</h1>
@@ -16,8 +16,8 @@
           <div class="bottom-spacer"></div>
           <div class="center-bottom" @click="fetchAllList()">
             {{ userMessage }}
-            <p v-if="userMessage != 'Här är listan slut'">Om det inte laddas fler, tryck <a class="pointer"
-                @click="fetchAllList()">här</a></p>
+            <!-- <p v-if="userMessage != 'Här är listan slut'">Om det inte laddas fler, tryck <a class="pointer"
+                @click="fetchAllList()">här</a></p> -->
           </div>
         </ul>
 
@@ -331,6 +331,11 @@ const handleClick = () => {
   /* overflow: hidden; */
 }
 
+.dark .list-bg {
+  background: #26292f;
+  color: #b0bac5;
+}
+
 .main-list {
   padding-right: 0.5rem;
   /* height: calc(100vh - 80px - 5rem) !important; */
@@ -354,6 +359,10 @@ const handleClick = () => {
   scrollbar-color: rgb(234, 234, 234) white;
 }
 
+.dark * {
+  scrollbar-color: #6d747b #2a2d34;
+}
+
 /* Track */
 *::-webkit-scrollbar-track {
   /* box-shadow: 0 0 5px grey; */
@@ -363,6 +372,11 @@ const handleClick = () => {
 /* Handle */
 *::-webkit-scrollbar-thumb {
   background: #e5e5e5;
+  border-radius: 10px;
+}
+
+.dark *::-webkit-scrollbar-thumb {
+  background: #6d747b;
   border-radius: 10px;
 }
 
@@ -376,7 +390,11 @@ const handleClick = () => {
 .jump-to-container>p {
   width: 100%;
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.7rem;
+}
+
+.dark .jump-to-container>p {
+  color: #e5e5e5;
 }
 
 .jump-to-canister {

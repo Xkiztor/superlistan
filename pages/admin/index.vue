@@ -13,6 +13,7 @@
       <div class="admin-layout">
         <div class="statistik">
           <h1>Statistik:</h1>
+          <h1 @click="toggleDark()" class="dark-test">{{ isDark }}</h1>
           <div>
             <p>{{ totalCount }} stycken växter</p>
             <p>{{ userData.length }} stycken rader</p>
@@ -151,6 +152,9 @@ const peopleCount = computed(() => new Set(userData.value.map(item => item.Perso
 const recomendedCount = computed(() => Math.round(userData.value.map(e => e.Rekommenderas).reduce((a, b) => a + b, 0) / userData.value.length * 100 * 100) / 100)
 
 fetchUserData()
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 </script>
 
 
@@ -164,6 +168,17 @@ fetchUserData()
   margin: 0 auto;
   background: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* #16181c */
+
+.dark .admin-bg {
+  background-color: #26292f;
+  color: #ecf9fb;
+}
+
+.dark .admin-bg p {
+  color: #b0bac5;
 }
 
 .login {

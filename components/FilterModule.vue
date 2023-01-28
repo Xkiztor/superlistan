@@ -6,7 +6,7 @@
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.favoriteFilter.value">
       <div class="icon-align">
-        <Icon class="grayed rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
+        <Icon class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
         <p>Favorit</p>
       </div>
     </form>
@@ -139,6 +139,61 @@ div.bottom-one {
   background-color: #fff;
 }
 
+form p {
+  line-height: 1;
+}
+
+.dark .filters {
+  background: #26292f;
+  color: #ecf9fb;
+}
+
+.dark input[type="checkbox"] {
+  /* background-color: #26292f; */
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #30343b;
+  margin: 0;
+  font: inherit;
+  color: rgb(237, 18, 18);
+  width: 1.3em;
+  height: 1.3em;
+  /* border: 0.15em solid #454545; */
+  box-shadow: inset 0 -0.5px 3px #32373f, 0 0 0.1rem 0 rgba(0, 0, 0, 0.1);
+  border-radius: 0.4em;
+  transform: translateY(-0.075em);
+  display: grid;
+  place-content: center;
+}
+
+.dark input[type="checkbox"]:hover {
+  background-color: #373c44;
+}
+
+.dark input[type="checkbox"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 80ms transform;
+  /* box-shadow: inset 3em 3em #606060; */
+  border-radius: 0.2em;
+  border: 0.15em solid #e0e0e0;
+  /* box-shadow: inset 1em 1em rgb(35, 128, 40); */
+  transform-origin: center;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.dark input[type="checkbox"]:checked::before {
+  transform: scale(1.3);
+  background-color: #e0e0e0;
+}
+
+.dark input[type="checkbox"]:checked {
+  /* transform: scale(1.3); */
+  background-color: #565d69;
+}
+
 .grayed {
   color: #454545;
 }
@@ -201,61 +256,13 @@ input.checkboxer {
 
 .check-filter-div {
   display: grid;
-  margin: 0.2rem;
+  margin: 0.15rem;
   grid-template-columns: 10% 90%;
   place-items: center start;
   margin-left: 0;
 }
 
-.filter-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.filter-tags:has(+ div) {
-  margin-top: 1rem;
-}
-
-.filter-tags>div {
-  padding: 0.3rem 0.6rem;
-  background-color: #ebedf1;
-  margin: 0.1rem;
-  width: fit-content;
-  border-radius: 10000rem;
-}
-
-/* .filter-div>div:nth-child(-n + 1) {
-  margin-top: 1rem;
-} */
-
-.filter-tags>div>button {
-  background: none;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  margin: 0;
-}
-
-.filter-tags>div>div {
-  display: inline;
-}
-
-.tags-move,
-.tags-enter-active,
-.tags-leave-active {
-  transition: all 0.5s ease;
-}
-
-.tags-enter-from,
-.tags-leave-to {
-  opacity: 0;
-  transform: translateX(-1rem);
-}
-
-
-.tags-leave-active {
-  position: absolute;
+.dark .check-filter-div {
+  margin: 0.3rem 0.2rem;
 }
 </style>

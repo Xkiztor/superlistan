@@ -11,6 +11,7 @@
             @click="openNav = false">Listan</nuxt-link>
           <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg"
             @click="openNav = false">Varukorg</nuxt-link>
+          <ThemeToggle />
         </div>
       </div>
       <button @click="state.openFilter">
@@ -25,6 +26,7 @@
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-if="isSmallScreen">Listan</nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>Linders Superlista 2023</nuxt-link>
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">Varukorg</nuxt-link>
+      <ThemeToggle />
     </nav>
     <NuxtPage />
   </div>
@@ -108,6 +110,11 @@ h1 {
 
 html {
   background: #e5e7eb;
+  /* background: #16181c; */
+}
+
+html.dark {
+  background: #16181c;
 }
 
 button,
@@ -125,6 +132,24 @@ select,
   /* cfd1d6 */
 }
 
+.dark button,
+.dark input,
+.dark .info-container>* {
+  background: #30343b;
+  box-shadow: inset 0 -0.5px 3px #32373f;
+  color: #9ea8b2;
+}
+
+.dark input {
+  color: #ebedf1;
+}
+
+.dark button:hover,
+.dark input:hover {
+  background: #3b3f47;
+  box-shadow: inset 0 -0.5px 3px #3a3e47;
+}
+
 select:hover,
 button:hover {
   background-color: #e0e2e6;
@@ -138,6 +163,10 @@ button:hover {
   grid-template-rows: min-content auto;
   height: 100vh !important;
 
+}
+
+.dark .main-layout {
+  background: #16181c;
 }
 
 .page-lista {
@@ -156,6 +185,20 @@ button:hover {
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
+}
+
+.dark .dropdown {
+  background: #30343b;
+}
+
+.dropdown .theme-toggle {
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown .theme-toggle:not(.dark) {
+  background: none;
+  box-shadow: none;
 }
 
 .dropdown>.active {
@@ -183,6 +226,10 @@ button:hover {
 
 .nav-icon {
   cursor: pointer;
+}
+
+.dark .grayed {
+  color: #cfd1d6;
 }
 
 .nav-icon:hover {
@@ -213,11 +260,28 @@ button:hover {
   z-index: 11;
   transition: all 0.5s;
   letter-spacing: 0.05rem;
+  position: relative;
+}
+
+.big-screen-naver>.theme-toggle {
+  position: absolute;
+  right: 1rem;
+  margin: 0;
+}
+
+.dark .naver {
+  background: #26292f;
+  color: #ecf9fb;
 }
 
 .big-screen-naver>a:hover {
   transform: scale(105%);
   /* font-weight: 800; */
+
+}
+
+.dark .big-screen-naver>a:hover {
+  color: white;
 }
 
 .nav-observer {

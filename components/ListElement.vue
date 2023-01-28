@@ -77,15 +77,21 @@
         <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
       </div>
       <div v-if="!isOnskeLista" class="add-section">
-        <input
-          :class="{ 'error-borderr': count > plant.Lager && plant.Lager != null, 'error-borderrr': count < plant.MinOrder && plant.MinOrder != null }"
-          class="w-14 mr-3 btn-input" type="number" min="0" v-model.number="count">
+        <div class="increment"
+          :class="{ 'error-borderr': count > plant.Lager && plant.Lager != null, 'error-borderrr': count < plant.MinOrder && plant.MinOrder != null }">
+          <input class="w-14 btn-input" type="number" min="0" v-model.number="count">
+          <button class="add" @click="count++">+</button>
+          <button class="subtract" @click="count -= 1">-</button>
+        </div>
         <button @click="handleAdd">Lägg till i varukorg</button>
       </div>
       <div v-else class="add-section">
-        <input
-          :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null }"
-          class="w-14 mr-3 btn-input" type="number" min="0" v-model.number="changeCount">
+        <div class="increment"
+          :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
+          <input class="w-14 mr-3 btn-input" type="number" min="0" v-model.number="changeCount">
+          <button class="add" @click="changeCount++">+</button>
+          <button class="subtract" @click="changeCount -= 1">-</button>
+        </div>
         <button @click="handleDelete">Ta bort</button>
       </div>
     </div>
@@ -249,6 +255,25 @@ function mouseLeave() {
   position: relative;
 }
 
+.dark .element {
+  background: #26292f;
+  color: #d7dae0;
+}
+
+.dark .element:hover:not(.if-adding) {
+  translate: none;
+  background: #2f3239;
+}
+
+.dark .element.if-adding {
+  background: #272a30
+}
+
+.dark .element>button {
+  background: none;
+  box-shadow: none;
+}
+
 .element>p {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -276,9 +301,13 @@ function mouseLeave() {
 .adding {
   display: grid;
   grid-template-columns: 15fr 4fr;
-  grid-column: 1 / 8;
+  grid-column: 1 / 9;
   place-items: center;
   height: fit-content;
+}
+
+.dark .adding {
+  border-color: #373c46;
 }
 
 .if-adding {
@@ -390,6 +419,64 @@ function mouseLeave() {
   }
 }
 
+.btn-input {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+
+}
+
+.increment {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  /* height: 3rem; */
+  border-radius: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.increment *,
+.increment>input {
+  margin: 0;
+  box-shadow: none;
+}
+
+.increment button {
+  padding: 0 0.2rem;
+}
+
+.increment input {
+  border-radius: 0.5rem 0 0 0.5rem;
+  width: 2.5rem;
+  outline-width: 0;
+  outline: none;
+  grid-row: 1/3;
+  border-right: 1px solid rgb(219, 219, 219);
+  text-align: center;
+}
+
+.increment input:focus {
+  box-shadow: inset 0 -0.5px 3px 1px #cfd1d6;
+}
+
+.dark .increment input:focus {
+  box-shadow: inset 0 -0.5px 0px 2px #434a54;
+}
+
+.dark .increment input {
+  border-color: #3b3f47;
+}
+
+.increment .add {
+  border-radius: 0 0.5rem 0 0;
+}
+
+.increment .subtract {
+  border-radius: 0 0 0.5rem 0;
+}
+
+
+
 .on-right {
   place-self: center end;
   background-color: transparent;
@@ -404,11 +491,11 @@ function mouseLeave() {
 }
 
 .t-green {
-  border-color: rgb(117, 236, 117);
+  border-color: rgb(130, 203, 130);
 }
 
 .p-blue {
-  border-color: rgb(117, 208, 236);
+  border-color: rgb(255, 146, 157);
 }
 
 .b-green {
@@ -416,7 +503,7 @@ function mouseLeave() {
 }
 
 .k-orange {
-  border-color: rgb(236, 127, 117);
+  border-color: rgb(253, 50, 44);
 }
 
 .o-yellow {
@@ -425,5 +512,17 @@ function mouseLeave() {
 
 .g-lime {
   border-color: rgb(137, 189, 43);
+}
+
+.dark .b-green {
+  border-color: rgb(25, 89, 45);
+}
+
+.dark .p-blue {
+  border-color: rgb(255, 146, 157);
+}
+
+.dark .k-orange {
+  border-color: rgb(238, 100, 88);
 }
 </style>

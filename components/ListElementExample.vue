@@ -15,8 +15,8 @@
     <p class="plant-name mr-2 ml-3 overflow-hidden" :title="plant.Namn"><a
         :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
         {{
-    plant.Namn
-}}</a>
+          plant.Namn
+        }}</a>
     </p>
 
     <div class="ikoner hide-on-phone">
@@ -40,8 +40,13 @@
       {{ changeCount }}</p>
     <p v-if="plant.MinOrder && !isOnskeLista" class="mr-2 hide-on-phone red">{{ plant.MinOrder }} </p>
     <p v-else class="mr-2 hide-on-phone"></p>
+    <p class="hide-on-pc"></p>
+    <p class="hide-on-pc"></p>
+    <p class="hide-on-pc"></p>
+    <p class="hide-on-pc"></p>
     <p v-if="isOnskeLista" class="mr-2 on-right">{{ plant.Pris * changeCount }} kr</p>
     <p v-else class="mr-2 on-right">{{ plant.Pris }} kr</p>
+
 
 
     <button class="on-right rounded-full grid px-2 aspect-square bg-gray-100" aria-label="Expandera"
@@ -262,6 +267,10 @@ function mouseLeave() {
   position: relative;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
   z-index: 3;
+}
+
+.dark .element-ex {
+  background-color: #26292f;
 }
 
 .element-ex>p {

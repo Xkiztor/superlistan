@@ -34,6 +34,10 @@ onClickOutside(target, (event) => {
   place-items: center;
 }
 
+.dark .modal-screen-cover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
 .modal-container {
   position: relative;
   display: flex;
@@ -56,6 +60,11 @@ onClickOutside(target, (event) => {
   left: 50%;
   margin-left: -45vw;
   margin-top: -15vh; */
+}
+
+.dark .modal-container {
+  background: #26292f;
+  color: #ecf9fb;
 }
 
 .modal-container>* {

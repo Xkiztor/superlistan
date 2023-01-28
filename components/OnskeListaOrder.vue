@@ -199,6 +199,10 @@ const handleSend = () => {
   margin-left: 0;
 }
 
+.dark .send {
+  color: #ecf9fb;
+}
+
 .modal-text {
   font-size: 1.7rem;
 }
@@ -238,6 +242,6 @@ const handleSend = () => {
 }
 
 .warning {
-  color: red;
+  color: rgb(240, 93, 67);
 }
 </style>
