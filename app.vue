@@ -284,13 +284,39 @@ button:hover {
   color: white;
 }
 
+.dark .big-screen-naver>a:hover {
+  background: #30343b;
+  transform: none;
+}
+
+.dark .big-screen-naver>a {
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+}
+
 .nav-observer {
   position: absolute;
   top: 0;
 }
 
-.active {
+.router-link-active {
   border-bottom: 2.5px ridge #116fea;
+}
+
+.dark .router-link-active {
+  border: none;
+  position: relative;
+}
+
+.dark .router-link-active::after {
+  content: "";
+  width: calc(100% - 1rem);
+  height: 3px;
+  border-radius: 1rem;
+  background: #116fea;
+  position: absolute;
+  bottom: 0;
+  left: 0.5rem;
 }
 
 .the-grid {

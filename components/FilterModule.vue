@@ -1,7 +1,10 @@
 <template>
   <div class="filters w-fit h-fit shadow-md rounded-[1rem]">
-    <div class="filter-div first-one">
+    <div class="filter-div search-filter-div" :class="{ 'has-content': state.query.value }">
       <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök">
+      <button @click="state.query.value = ''">
+        <Icon name="ion:close-round" />
+      </button>
     </div>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.favoriteFilter.value">
@@ -148,6 +151,12 @@ form p {
   color: #ecf9fb;
 }
 
+.dark input[type="text"].has-content {
+  /* box-shadow: inset 0 -0.5px 3px 5px #5d636c; */
+  /* outline: 2.5px solid #116fea; */
+  /* box-shadow: inset 0 -0.5px 3px #32373f; */
+}
+
 .dark input[type="checkbox"] {
   /* background-color: #26292f; */
   -webkit-appearance: none;
@@ -155,7 +164,7 @@ form p {
   background-color: #30343b;
   margin: 0;
   font: inherit;
-  color: rgb(237, 18, 18);
+  /* color: rgb(237, 18, 18); */
   width: 1.3em;
   height: 1.3em;
   /* border: 0.15em solid #454545; */
@@ -185,13 +194,14 @@ form p {
 }
 
 .dark input[type="checkbox"]:checked::before {
-  transform: scale(1.3);
+  transform: scale(1.4);
   background-color: #e0e0e0;
 }
 
 .dark input[type="checkbox"]:checked {
   /* transform: scale(1.3); */
-  background-color: #565d69;
+  background-color: #116fea;
+  /* background-color: #565d69; */
 }
 
 .grayed {
@@ -216,8 +226,56 @@ form p {
 
 }
 
-.first-one {
-  grid-template-columns: 1fr;
+.search-filter-div {
+  grid-template-columns: 10fr 1fr;
+  gap: 0;
+  display: flex;
+  position: relative;
+}
+
+.search-filter-div * {
+  box-shadow: none;
+}
+
+.search-filter-div button {
+  width: 2rem !important;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: auto;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  z-index: 2;
+}
+
+.search-filter-div.has-content input {
+  border-radius: 0.5rem;
+  /* border-right: 1px solid #d0d5dd; */
+}
+
+.search-filter-div.has-content button {
+  opacity: 1;
+}
+
+.search-filter-div input {
+  /* border-color: #d0d5dd; */
+}
+
+.search-filter-div input:focus {
+  /* outline: 2px solid #3b3f47 !important; */
+  box-shadow: 0 0 0 2px #116fea;
+  outline: none;
+}
+
+.search-filter-div input:focus:hover {
+  box-shadow: 0 0 0 2px #116fea;
+}
+
+.dark .search-filter-div input:hover+button {
+  background: #3b3f47;
+}
+
+.dark .search-filter-div input {
+  /* border-color: #3b3f47; */
 }
 
 .filter-div>p {
