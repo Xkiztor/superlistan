@@ -45,8 +45,8 @@ const isExpanded = ref(false)
 
 // console.log(props.el.created_at.substring(3, 5));
 
-const listOfDates = props.userData.map(e => e.created_at.substring(3, 5))
-if (listOfDates.indexOf(props.el.created_at.substring(3, 5)) === props.index) {
+const listOfDates = props.userData.map(e => e.created_at.substring(1, 5))
+if (listOfDates.indexOf(props.el.created_at.substring(1, 5)) === props.index) {
   firstOfDate.value = true
 }
 
