@@ -1,10 +1,10 @@
 <template>
   <div class="onske-list-bg order">
-    <h1 class="title">Beställ</h1>
-    <div class="sent-in-badge" v-if="hasSent">
+    <h1 class="title">Beställ - OBS senast 26 februari!</h1>
+    <!-- <div class="sent-in-badge" v-if="hasSent">
       <Icon name="material-symbols:check-circle-rounded" size="20" />
       <h1>Du har redan skickat in!</h1>
-    </div>
+    </div> -->
     <div class="input-layout">
       <label for="user-name">Namn: </label>
       <input v-model="orderName" id="user-name" type="text" placeholder="Ex. Peter Linder">

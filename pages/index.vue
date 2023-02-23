@@ -6,7 +6,8 @@
       <p>
         En chans att hitta det du länge letat efter!
         Linders superlista är en härligt späckad lista med 17 000 rader av ovanliga och odlingsvärda växter att beställa
-        ifrån. Beställningen gör du senast 26 februari 2023 för att sedan
+        ifrån.
+        <i class="red">Beställningen gör du senast 26 februari 2023</i> för att sedan
         hämta dina beställda växter på <a href="https://lindersplantskola.se/hitta-hit/">Linders plantskola</a> utanför
         Hörby i Skåne under maj 2023.
         Tack vare att du gör beställningen i förväg och själv hämtar ut dina växter kan jag hålla låga priser i Linders
@@ -335,5 +336,13 @@ li>a,
 
 .dark .logo img {
   display: none;
+}
+
+i.red {
+  color: #ff0000;
+}
+
+.dark i.red {
+  color: #f36161;
 }
 </style>

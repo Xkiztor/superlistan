@@ -96,10 +96,20 @@ listFetcher()
 
 const handleDelete = (n) => {
   console.log(n)
-  onskeList.value.onskeList = onskeList.value.onskeList.filter(b => b.id != n)
-  onskeList.value.onskeListFull = onskeList.value.onskeListFull.filter(b => b.id != n)
-  list.value = []
-  console.log(onskeList.value.onskeList);
+  const index = onskeList.value.onskeList.findIndex(b => b.id === n)
+  const indexFull = onskeList.value.onskeListFull.findIndex(b => b.id === n)
+  console.log(index);
+  console.log(indexFull);
+  if (index !== -1) {
+    onskeList.value.onskeList.splice(index, 1);
+  }
+  if (indexFull !== -1) {
+    onskeList.value.onskeListFull.splice(indexFull, 1);
+  }
+  // onskeList.value.onskeList = onskeList.value.onskeList.filter(b => b.id != n)
+  // onskeList.value.onskeListFull = onskeList.value.onskeListFull.filter(b => b.id != n)
+  // list.value = []
+  // console.log(onskeList.value.onskeList);
 }
 
 

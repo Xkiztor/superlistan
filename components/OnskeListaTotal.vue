@@ -34,6 +34,11 @@
       <p>Gör en ny order genom att ta bort dom växter du redan skickat in, lägg till nya och lägg till en 2:a efter ditt
         namn och skicka in igen.</p>
     </div>
+    <div>
+      <p>Blir det några
+        problem kan du alltid maila mig.</p>
+      <p>peter@lindersplantskola.se</p>
+    </div>
     <div class="clear">
       <button @click="showModal = !showModal">Nollställ Varukorg</button>
       <Icon size="22" name="ic:round-help-outline" ref="helpRef" />
