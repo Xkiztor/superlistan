@@ -48,8 +48,7 @@
       @click="expanded = !expanded">
       <Icon v-if="!expanded" class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-up-rounded"
         size="20" />
-      <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded"
-        size="20" />
+      <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
     </button>
 
     <!-- --- --- --- Expanded --- --- --- -->

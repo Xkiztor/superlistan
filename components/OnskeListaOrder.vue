@@ -1,6 +1,6 @@
 <template>
   <div class="onske-list-bg order">
-    <h1 class="title">Beställ - OBS senast 26 februari!</h1>
+    <h1 class="title">Beställ</h1>
     <!-- <div class="sent-in-badge" v-if="hasSent">
       <Icon name="material-symbols:check-circle-rounded" size="20" />
       <h1>Du har redan skickat in!</h1>
@@ -211,6 +211,7 @@ const handleSend = () => {
   grid-template-columns: 1fr 2fr;
   place-items: center start;
   padding-right: 0.5rem;
+  margin: 0.3rem 0;
 }
 
 .input-layout>input {

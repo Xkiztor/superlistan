@@ -40,8 +40,6 @@ useHead({
   title: 'Linders Superlista',
   // or, instead:
   // titleTemplate: (title) => `My App - ${title}`,
-  lang: 'se',
-
   viewport: 'width=device-width, initial-scale=1, maximum-scale=6',
   charset: 'utf-8',
   meta: [
@@ -65,17 +63,6 @@ useHead({
       href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap',
       crossorigin: ''
     }
-  ],
-  link: [
-    {
-      rel: 'preconnect',
-      href: 'https://fonts.googleapis.com'
-    },
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Rubik&display=swap',
-      crossorigin: ''
-    }
   ]
 })
 
@@ -87,11 +74,6 @@ const onskeListOld = useGlobalOnskeListOld()
 
 const openNav = ref(false)
 
-// --- Ta bart tills nästa års superlista --- //
-const hasMigrated = useStorage('has-migrated', false)
-// --- ---------------------------------- --- //
-
-
 const screenSize = useWindowSize()
 const isSmallScreen = computed(() => { return screenSize.width.value <= 1200 ? true : false })
 // const route = useRoute()
@@ -100,21 +82,6 @@ const target = ref(null)
 
 onClickOutside(target, (event) => {
   penNav.value = false
-})
-
-onMounted(() => {
-  if (!hasMigrated.value) {
-    if (onskeListOld.value.onskeList.length) {
-      console.log('bää');
-      onskeList.onskeList.value = onskeListOld.value.onskeList
-      hasMigrated.value = true
-    }
-    if (onskeListOld.value.onskeListFull.length) {
-      console.log('bääa');
-      onskeList.onskeListFull.value = onskeListOld.value.onskeListFull
-      hasMigrated.value = true
-    }
-  }
 })
 
 

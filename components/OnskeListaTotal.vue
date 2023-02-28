@@ -40,8 +40,10 @@
       <p>peter@lindersplantskola.se</p>
     </div>
     <div class="clear">
-      <button @click="showModal = !showModal">Nollställ Varukorg</button>
-      <Icon size="22" name="ic:round-help-outline" ref="helpRef" />
+      <button @click="showModal = !showModal" title="Nollställ om det blir något problem eller om du vill rensa din varukorg och
+            börja om.">Nollställ Varukorg</button>
+      <Icon size="22" name="ic:round-help-outline" ref="helpRef" title="Nollställ om det blir något problem eller om du vill rensa din varukorg och
+            börja om." />
       <p class="help-text" v-if="showHelp">Nollställ om det blir något problem eller om du vill rensa din varukorg och
         börja om.</p>
       <Modal v-if="showModal" @close-modal="showModal = false">

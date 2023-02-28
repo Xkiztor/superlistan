@@ -97,17 +97,17 @@ console.log(' ');
 const userMessage = ref('Laddar')
 
 
-watch(state.query, () => {
-  console.log('changed');
-})
-watch(state.sortAscending, () => {
-  console.log('test');
-  fetchAllList()
-})
-watch(state.sortByWhat, () => {
-  console.log('test');
-  fetchAllList()
-})
+// watch(state.query, () => {
+//   console.log('changed');
+// })
+// watch(state.sortAscending, () => {
+//   console.log('test');
+//   fetchAllList()
+// })
+// watch(state.sortByWhat, () => {
+//   console.log('test');
+//   fetchAllList()
+// })
 
 const shouldFilterOpen = computed(() => {
   if (!isCollapsed.value) return true
@@ -126,31 +126,27 @@ const shouldJumpOpen = computed(() => {
 
 const computedList = computed(() => {
   let newList = dataList.value
-  newList = newList.filter(e => e.Namn.toLowerCase().includes(state.query.value.toLowerCase()))
-  newList = newList.filter(e => {
-    if (state.favoriteFilter.value == true) {
-      if (e.Rekommenderas == true) return 1
-      else return 0
-    } else return 1
-  })
-  newList = newList.filter(e => {
-    if (state.edibleFilter.value == true) {
-      if (e.Edible == true) return 1
-      else return 0
-    } else return 1
-  })
-  newList = newList.filter(e => {
-    if (state.commentFilter.value == true) {
-      if (e.Kommentar != null) return 1
-      else return 0
-    } else return 1
-  })
-  newList = newList.filter(e => {
-    if (state.linkFilter.value == true) {
-      if (e.Länk != null) return 1
-      else return 0
-    } else return 1
-  })
+
+  let queryArray = state.query.value.toLowerCase().split(" ")
+
+  console.log(queryArray);
+
+  newList = newList.filter(item => queryArray.every(str => item.Namn.toLowerCase().includes(str)))
+  // .filter(item => queryArray.length === item.split(' ').filter(str => queryArray.includes(str)).length);
+
+  // newList = newList.filter(e => e.Namn.toLowerCase().includes(queryArray))
+  // newList = newList.filter(e => !queryArray.includes(e.Namn.toLowerCase()))
+
+  // newList = newList.filter(e => e.Namn.toLowerCase().includes(state.query.value.toLowerCase()))
+
+  if (state.favoriteFilter.value) newList = newList.filter(e => e.Rekommenderas == true)
+
+  if (state.edibleFilter.value) newList = newList.filter(e => e.Edible == true)
+
+  if (state.commentFilter.value) newList = newList.filter(e => e.Kommentar != null)
+
+  if (state.linkFilter.value) newList = newList.filter(e => e.Länk != null)
+
   newList = newList.sort((a, b) => {
     // console.log('heho');
     if (state.sortByWhat.value == 'Namn') {

@@ -50,9 +50,10 @@ const handleDelete = (n) => {
   if (indexFull !== -1) {
     onskeList.value.onskeListFull.splice(indexFull, 1);
   }
+
+
   onskeList.onskeList.value = onskeList.onskeList.value.filter(b => b.id != n)
   onskeList.onskeListFull.value = onskeList.onskeListFull.value.filter(b => b.id != n)
-  list.value = []
 }
 </script>
 
