@@ -1,6 +1,5 @@
 <template>
   <div class="onske-list">
-    <!-- <h1 class="header" @click="handleClick">Önskelista</h1> -->
     <div class="onske-list-bg">
       <ColumnTopInfo :isOnskeLista="true" />
       <div v-for="plant in computedList" :key="plant.id">
@@ -16,27 +15,18 @@
 
 <script setup>
 import { createClient } from '@supabase/supabase-js'
-import { useStorage } from '@vueuse/core'
 
 const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-definePageMeta({
-})
-
-
-
 const list = ref([])
 
-const hasUpdatedVarukorg = useStorage('has-updated-varukorg', false)
-
 const state = useGlobalState()
-
 const onskeList = useGlobalOnskeList()
 
 const computedList = computed(() => {
-  var newList = onskeList.value.onskeListFull
+  var newList = onskeList.onskeListFull.value
   newList = newList.sort((a, b) => {
     if (a.Namn.toLowerCase() < b.Namn.toLowerCase()) {
       return -1
@@ -47,52 +37,6 @@ const computedList = computed(() => {
   })
   return newList
 })
-
-onMounted(() => {
-  console.log(hasUpdatedVarukorg.value);
-  if (hasUpdatedVarukorg.value === false) {
-    hasUpdatedVarukorg.value = true
-    onskeList.value.onskeListFull = []
-    listFetcher()
-  }
-})
-
-watch(onskeList.value.onskeList, () => {
-  listFetcher()
-})
-
-const fetchList = async (id, count) => {
-  console.log('heeoasd');
-  const { data, error } = await supabase
-    .from('superlista')
-    .select()
-    .eq('id', `${id}`)
-    .order(`Namn`, { ascending: true })
-  if (error) {
-    console.error(error)
-    getList.value = null
-  }
-  if (data) {
-    data[0].Count = count
-    list.value.push(data[0])
-
-    if (onskeList.value.onskeListFull.length == 0) {
-      console.log('empty');
-      onskeList.value.onskeListFull.push(data[0])
-    } else {
-      onskeList.value.onskeListFull.push(data[0])
-    }
-  }
-}
-
-const listFetcher = () => {
-  onskeList.value.onskeList.forEach(plant => {
-    if (onskeList.value.onskeListFull.map(e => e.id).indexOf(plant.id) === -1) {
-      fetchList(plant.id, plant.count)
-    }
-  })
-}
-listFetcher()
 
 const handleDelete = (n) => {
   console.log(n)
@@ -106,13 +50,10 @@ const handleDelete = (n) => {
   if (indexFull !== -1) {
     onskeList.value.onskeListFull.splice(indexFull, 1);
   }
-  // onskeList.value.onskeList = onskeList.value.onskeList.filter(b => b.id != n)
-  // onskeList.value.onskeListFull = onskeList.value.onskeListFull.filter(b => b.id != n)
-  // list.value = []
-  // console.log(onskeList.value.onskeList);
+  onskeList.onskeList.value = onskeList.onskeList.value.filter(b => b.id != n)
+  onskeList.onskeListFull.value = onskeList.onskeListFull.value.filter(b => b.id != n)
+  list.value = []
 }
-
-
 </script>
 
 <style>

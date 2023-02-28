@@ -10,7 +10,7 @@
     <div>
       <p>
         <!-- <Icon name="material-symbols:table-rows-rounded" size="20" /> -->
-        <i class="main-value">{{ onskeList.onskeListFull.length }}</i>
+        <i class="main-value">{{ onskeList.onskeListFull.value.length }}</i>
         olika växter
       </p>
     </div>
@@ -60,10 +60,9 @@
 
 <script setup>
 const onskeList = useGlobalOnskeList()
-console.log(onskeList.value.onskeListFull);
 
-const totalCount = computed(() => onskeList.value.onskeListFull.map(e => e.Count).reduce((a, b) => a + b, 0))
-const totalPrice = computed(() => onskeList.value.onskeListFull.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
+const totalCount = computed(() => onskeList.onskeListFull.value.map(e => e.Count).reduce((a, b) => a + b, 0))
+const totalPrice = computed(() => onskeList.onskeListFull.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
 
 
 const helpRef = ref(null)
@@ -74,8 +73,8 @@ const showHelp = ref(false)
 const nollställ = () => {
   console.log('nollställd');
   showModal.value = false
-  onskeList.value.onskeList = []
-  onskeList.value.onskeListFull = []
+  onskeList.onskeList.value = []
+  onskeList.onskeListFull.value = []
 }
 
 var timeout

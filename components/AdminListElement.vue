@@ -19,7 +19,9 @@
       <nuxt-link :to="`/admin/${el.Person.replace(' ', '+')}`" class="no-link">
         <p>{{ el.Person }}</p>
       </nuxt-link>
-      <p>{{ el.Namn }}</p>
+      <a :href="`https://www.google.com/search?q=${el.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">{{
+        el.Namn
+      }}</a>
       <!-- <p :title="`${el.Pris} kr  ${el.Count} st`">{{ el.Pris * el.Count }}</p> -->
       <p>{{ el.Pris }}</p>
       <p>{{ el.Count }}</p>

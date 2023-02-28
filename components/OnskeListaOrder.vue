@@ -111,7 +111,6 @@ const orderAdress = ref('')
 const orderPhone = ref('')
 const orderComment = ref('')
 
-const onskeListFull = useStorage('onske-list-full', [])
 // const hasSent = ref(false)
 const hasSent = useStorage('has-sent', false)
 
@@ -127,7 +126,7 @@ watchEffect(() => {
 
 const handleSend = () => {
   // if (hasSent.value == true) { }
-  if (onskeList.value.onskeListFull.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) < 2000 && hasSent.value === false) {
+  if (onskeList.onskeListFull.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) < 2000 && hasSent.value === false) {
     showModalPriceError.value = true
     return
   }
@@ -141,7 +140,7 @@ const handleSend = () => {
     return
   }
 
-  const listWithName = onskeList.value.onskeListFull.map((e) => {
+  const listWithName = onskeList.onskeListFull.value.map((e) => {
     e.Person = orderName.value
     e.Mail = orderMail.value
     e.Adress = orderAdress.value
@@ -235,6 +234,11 @@ const handleSend = () => {
   margin: 0.5rem 0;
   border: 1px solid #32a748;
   /* box-shadow: inset 0 -0.5px 3px #cfd1d6; */
+}
+
+.dark .sent-in-badge {
+  background: #30343b;
+  color: #9ea8b2;
 }
 
 .sent-in-badge>svg {

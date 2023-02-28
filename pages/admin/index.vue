@@ -13,7 +13,6 @@
       <div class="admin-layout">
         <div class="statistik">
           <h1>Statistik:</h1>
-          <h1 @click="toggleDark()" class="dark-test">{{ isDark }}</h1>
           <div>
             <p>{{ totalCount }} stycken växter</p>
             <p>{{ userData.length }} stycken rader</p>

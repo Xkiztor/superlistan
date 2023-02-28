@@ -28,11 +28,14 @@
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">Varukorg</nuxt-link>
       <ThemeToggle />
     </nav>
-    <NuxtPage />
+    <KeepAlive>
+      <NuxtPage />
+    </KeepAlive>
   </div>
 </template>
 
 <script setup>
+import { useStorage } from '@vueuse/core'
 useHead({
   title: 'Linders Superlista',
   // or, instead:
@@ -80,8 +83,14 @@ useHead({
 const state = useGlobalState()
 
 const onskeList = useGlobalOnskeList()
+const onskeListOld = useGlobalOnskeListOld()
 
 const openNav = ref(false)
+
+// --- Ta bart tills nästa års superlista --- //
+const hasMigrated = useStorage('has-migrated', false)
+// --- ---------------------------------- --- //
+
 
 const screenSize = useWindowSize()
 const isSmallScreen = computed(() => { return screenSize.width.value <= 1200 ? true : false })
@@ -91,6 +100,21 @@ const target = ref(null)
 
 onClickOutside(target, (event) => {
   penNav.value = false
+})
+
+onMounted(() => {
+  if (!hasMigrated.value) {
+    if (onskeListOld.value.onskeList.length) {
+      console.log('bää');
+      onskeList.onskeList.value = onskeListOld.value.onskeList
+      hasMigrated.value = true
+    }
+    if (onskeListOld.value.onskeListFull.length) {
+      console.log('bääa');
+      onskeList.onskeListFull.value = onskeListOld.value.onskeListFull
+      hasMigrated.value = true
+    }
+  }
 })
 
 
@@ -299,16 +323,16 @@ button:hover {
   top: 0;
 }
 
-.router-link-active {
+.big-screen-naver .router-link-active {
   border-bottom: 2.5px ridge #116fea;
 }
 
-.dark .router-link-active {
+.dark .big-screen-naver .router-link-active {
   border: none;
   position: relative;
 }
 
-.dark .router-link-active::after {
+.dark .big-screen-naver .router-link-active::after {
   content: "";
   width: calc(100% - 1rem);
   height: 3px;
@@ -346,4 +370,13 @@ button:hover {
 .page-leave-to {
   opacity: 0;
 }
+
+/* 
+.page-enter-from {
+  transform: rotate(360deg);
+}
+
+.page-leave-to {
+  transform: rotate(-360deg);
+} */
 </style>

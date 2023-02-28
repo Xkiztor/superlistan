@@ -1,6 +1,6 @@
 <template>
-  <li class="grid element rounded-[1rem]" :class="adding ? 'if-adding' : ''" ref="testRef">
-    <!-- @click.stop="adding = !adding" -->
+  <li class="grid element rounded-[1rem]" :class="expanded ? 'if-expanded' : ''" ref="testRef">
+    <!-- @click.stop="expanded = !expanded" -->
     <div class="plant-icon rounded-full grid px-1 aspect-square place-items-center border-2"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
       :title="toolTipCalculator(plant.Typ)" @click.stop="testClick" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
@@ -45,15 +45,15 @@
 
 
     <button class="on-right rounded-full grid px-2 aspect-square bg-gray-100" aria-label="Expandera"
-      @click.stop="adding = !adding">
-      <Icon v-if="!adding" class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-up-rounded"
+      @click="expanded = !expanded">
+      <Icon v-if="!expanded" class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-up-rounded"
         size="20" />
       <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded"
         size="20" />
     </button>
 
     <!-- --- --- --- Expanded --- --- --- -->
-    <div class="border-t-rinth-200 border-t-2 p-2 mt-2 mx-0 w-full adding h-14" v-if="adding">
+    <div class="border-t-rinth-200 border-t-2 p-2 mt-2 mx-0 w-full expanded h-14" v-if="expanded">
       <div class="info-container">
         <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas || !plant.Edible }">
           <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
@@ -100,8 +100,6 @@
 </template>
 
 <script setup>
-import { useStorage } from '@vueuse/core'
-
 const emit = defineEmits(['addToCart', 'handleDelete'])
 
 const props = defineProps({
@@ -111,10 +109,9 @@ const props = defineProps({
 
 
 const count = ref(1)
-const adding = ref(false)
+const expanded = ref(false)
 
 const state = useGlobalState()
-
 const onskeList = useGlobalOnskeList()
 
 const changeCount = ref(props.plant.Count)
@@ -135,13 +132,13 @@ validate()
 
 watch(changeCount, () => {
   validate()
-  for (let obj of onskeList.value.onskeList) {
+  for (let obj of onskeList.onskeList.value) {
     if (obj.id === props.plant.id) {
       obj.count = changeCount.value;
       break;
     }
   }
-  for (let obj of onskeList.value.onskeListFull) {
+  for (let obj of onskeList.onskeListFull.value) {
     if (obj.id === props.plant.id) {
       obj.Count = changeCount.value;
       break;
@@ -151,14 +148,14 @@ watch(changeCount, () => {
 
 
 const handleAdd = () => {
-  if (adding) {
+  if (expanded) {
     console.log(props.plant.id);
     console.log(count.value);
     console.log(props.plant);
     emit('addToCart', props.plant.id, count.value)
-    adding.value = false
+    expanded.value = false
   } else {
-    adding.value = true
+    expanded.value = true
   }
 }
 
@@ -260,12 +257,12 @@ function mouseLeave() {
   color: #d7dae0;
 }
 
-.dark .element:hover:not(.if-adding) {
+.dark .element:hover:not(.if-expanded) {
   translate: none;
   background: #2f3239;
 }
 
-.dark .element.if-adding {
+.dark .element.if-expanded {
   background: #272a30
 }
 
@@ -282,23 +279,23 @@ function mouseLeave() {
   max-width: 90%;
 }
 
-.element:not(.if-adding) {
+.element:not(.if-expanded) {
   border-radius: 2rem;
 }
 
-.if-adding>p {
+.if-expanded>p {
   white-space: normal;
   overflow: visible;
 }
 
-.element:hover:not(.if-adding) {
+.element:hover:not(.if-expanded) {
   translate: 7px 0;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
   z-index: 3;
 
 }
 
-.adding {
+.expanded {
   display: grid;
   grid-template-columns: 15fr 4fr;
   grid-column: 1 / 9;
@@ -306,11 +303,11 @@ function mouseLeave() {
   height: fit-content;
 }
 
-.dark .adding {
+.dark .expanded {
   border-color: #373c46;
 }
 
-.if-adding {
+.if-expanded {
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
   margin: 1rem 0;
 }
@@ -352,8 +349,8 @@ function mouseLeave() {
 }
 
 
-.adding p,
-.adding a {
+.expanded p,
+.expanded a {
   padding: 0.4rem 0.9rem;
   border-radius: 10rem;
 }

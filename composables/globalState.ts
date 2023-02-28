@@ -47,7 +47,7 @@ export const useGlobalState = createGlobalState(
     return {
       countError, openNav, isNavOpen, openFilter, isFilterOpen, openJump, isJumpOpen,
       typeFilter, favoriteFilter, edibleFilter, commentFilter, linkFilter, query,
-      switchFilterDirection, sortByWhat, sortAscending, useStorage, rawUserData
+      switchFilterDirection, sortByWhat, sortAscending, rawUserData
     }
   }
 )
