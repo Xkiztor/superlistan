@@ -101,7 +101,7 @@
         <p>
           Moms ingår med
           {{
-  Math.round((filteredArray.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) / 2 * 100) * 0.2) / 100
+            Math.round((filteredArray.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) / 2 * 100) * 0.2) / 100
           }}
           kr
         </p>
@@ -143,9 +143,11 @@ const filteredArray = computed(() => {
 })
 
 const rawDate = new Date()
-const date = rawDate.getFullYear() + '-' + '0' + (rawDate.getMonth() + 1) + '-' + rawDate.getDate()
+console.log(rawDate.getDate().toString().length);
+console.log(rawDate.getDate().toString().length === 2 ? '' : '0');
+const date = rawDate.getFullYear() + '-' + '0' + (rawDate.getMonth() + 1) + '-' + `${rawDate.getDate().toString().length === 2 ? '' : '0'}` + rawDate.getDate()
 console.log(date);
-const förfallDate = rawDate.getFullYear() + '-' + '0' + (rawDate.getMonth() + 2) + '-' + rawDate.getDate()
+const förfallDate = rawDate.getFullYear() + '-' + '0' + (rawDate.getMonth() + 2) + '-' + `${rawDate.getDate().toString().length === 2 ? '' : '0'}` + rawDate.getDate()
 
 
 useHead({

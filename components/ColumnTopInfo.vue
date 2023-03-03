@@ -5,15 +5,15 @@
       <p v-if="isAboveAverage" @click="handleSort('Namn')" class="name clickable">
         Vetenskapligt Namn
         <i v-if="state.sortByWhat.value === 'Namn' && !isOnskeLista">
-          <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
-          <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+          <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="26" />
+          <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="26" />
         </i>
       </p>
       <p v-else @click="handleSort('Namn')" class="name clickable">
         Namn
         <i v-if="state.sortByWhat.value === 'Namn' && !isOnskeLista">
-          <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
-          <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+          <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="26" />
+          <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="26" />
         </i>
       </p>
     </client-only>
@@ -21,23 +21,23 @@
     <p v-if="props.isOnskeLista == false" @click="handleSort('Höjd')" class="hide-on-phone clickable">
       Höjd
       <i v-if="state.sortByWhat.value === 'Höjd' && !isOnskeLista">
-        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
-        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="26" />
+        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="26" />
       </i>
     </p>
     <p v-if="props.isOnskeLista == false" @click="handleSort('Kruka')" class="hide-on-phone clickable">
       Kruka
       <i v-if="state.sortByWhat.value === 'Kruka' && !isOnskeLista">
-        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
-        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="26" />
+        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="26" />
       </i>
     </p>
     <p v-if="props.isOnskeLista == false" @click="handleSort('MinOrder')" class="hide-on-phone clickable"
       title="minsta order">
       Min.
       <i v-if="state.sortByWhat.value === 'MinOrder' && !isOnskeLista">
-        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
-        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="26" />
+        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="26" />
       </i>
     </p>
     <p v-if="props.isOnskeLista == true" class="hide-on-phone"></p>
@@ -46,8 +46,8 @@
     <p @click="handleSort('Pris')" class="pris clickable">
       Pris
       <i v-if="state.sortByWhat.value === 'Pris' && !isOnskeLista">
-        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="24" />
-        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="24" />
+        <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="26" />
+        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="26" />
       </i>
     </p>
     <div class="hide-on-phone"></div>
