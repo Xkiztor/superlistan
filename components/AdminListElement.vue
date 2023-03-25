@@ -52,7 +52,8 @@ if (listOfDates.indexOf(props.el.created_at.substring(1, 5)) === props.index) {
   firstOfDate.value = true
 }
 
-const listWithCurrentDate = props.userData.filter(e => e.created_at.substring(3, 5) === props.el.created_at.substring(3, 5))
+const listWithCurrentDate = props.userData.filter(e => e.created_at.substring(1, 5) === props.el.created_at.substring(1, 5))
+// console.log(listWithCurrentDate);
 const currentDateCount = computed(() => {
   return listWithCurrentDate.length
 })
