@@ -226,7 +226,7 @@ p {
 }
 
 li>svg {
-  color: rgb(128, 128, 128);
+  color: var(--text-mute-dark);
 }
 
 .indent>li {
@@ -245,17 +245,17 @@ li>svg {
   padding: 1rem 2rem;
   width: fit-content;
   margin: 0 auto 1rem;
-  background: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background: var(--element-bg-light);
+  box-shadow: var(--box-shadow);
 }
 
 .dark .text-stycke {
-  background: #26292f;
-  color: #bec8d3;
+  background: var(--element-bg-dark);
+  color: var(--text-mute-dark);
 }
 
 .dark .text-stycke h1 {
-  color: #ecf9fb;
+  color: var(--text-white);
 }
 
 .text-stycke>ul>li {
@@ -279,14 +279,14 @@ li>a,
 .text-stycke>p>a,
 .link {
   text-decoration: underline;
-  color: #0645AD;
+  color: var(--link-light);
 }
 
 .dark li>a,
 .dark .text-stycke>p>a,
 .dark .link {
   text-decoration: underline;
-  color: #75b4f8;
+  color: var(--link-dark);
 }
 
 @media screen and (max-width: 750px) {
@@ -339,10 +339,11 @@ li>a,
 }
 
 i.red {
-  color: #ff0000;
+  color: var(--primary-red-light);
+  font-weight: 700;
 }
 
 .dark i.red {
-  color: #f36161;
+  color: var(--primary-red-dark);
 }
 </style>

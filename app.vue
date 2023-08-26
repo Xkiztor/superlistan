@@ -81,13 +81,51 @@ const isSmallScreen = computed(() => { return screenSize.width.value <= 1200 ? t
 const target = ref(null)
 
 onClickOutside(target, (event) => {
-  penNav.value = false
+  openNav.value = false
 })
 
 
 </script>
 
 <style>
+:root {
+  --primary-blue: #116fea;
+
+  --primary-red-light: #ff0000;
+  --primary-red-dark: #f36161;
+
+  --link-light: #0645AD;
+  --link-dark: #75b4f8;
+
+  --bg-light: #e5e7eb;
+  --bg-dark: #16181c;
+
+  --element-bg-light: #ffffff;
+  --element-bg-dark: #26292f;
+
+  --element-top-light: #ebedf1;
+  --element-top-dark: #30343b;
+
+  --element-top-hover-light: #e0e2e6;
+  --element-top-hover-dark: #3b3f47;
+
+  --box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  --box-shadow-inset-light: inset 0 -0.5px 3px #cfd1d6;
+  --box-shadow-inset-dark: inset 0 -0.5px 3px #3a3e47e0;
+
+  --text-mute-dark: #b0bac5;
+
+  --text-white: #fff;
+
+  --text-light: #000000;
+  --text-dark: #ebebeb;
+
+  --border-color-light: #e5e7eb;
+  --border-color-dark: #373c46;
+}
+
+
 * {
   font-family: 'Roboto', 'Inter', 'Helvetica';
   transition: all 150ms;
@@ -96,16 +134,16 @@ onClickOutside(target, (event) => {
 h1 {
   font-family: 'Rubik', 'Roboto', 'Inter', 'Helvetica';
   font-weight: 600;
-  stroke: 2px solid #116fea;
+  /* stroke: 2px solid #116fea; */
 }
 
 html {
-  background: #e5e7eb;
+  background: var(--bg-light);
   /* background: #16181c; */
 }
 
 html.dark {
-  background: #16181c;
+  background: var(--bg-dark);
 }
 
 button,
@@ -116,8 +154,8 @@ select,
 .info-container>* {
   padding: 0.4rem;
   border-radius: 0.5rem;
-  background-color: #ebedf1;
-  box-shadow: inset 0 -0.5px 3px #cfd1d6;
+  background-color: var(--element-top-light);
+  box-shadow: var(--box-shadow-inset-light);
   margin: 0.5rem;
   cursor: pointer;
   /* cfd1d6 */
@@ -126,24 +164,20 @@ select,
 .dark button,
 .dark input,
 .dark .info-container>* {
-  background: #30343b;
-  box-shadow: inset 0 -0.5px 3px #32373f;
-  color: #9ea8b2;
-}
-
-.dark input {
-  color: #ebedf1;
+  background: var(--element-top-dark);
+  box-shadow: var(--box-shadow-inset-dark);
+  color: var(--text-mute-dark);
 }
 
 .dark button:hover,
 .dark input:hover {
-  background: #3b3f47;
-  box-shadow: inset 0 -0.5px 3px #3a3e47;
+  background: var(--element-top-hover-dark);
+  box-shadow: var(--box-shadow-inset-dark);
 }
 
 select:hover,
 button:hover {
-  background-color: #e0e2e6;
+  background-color: var(--element-top-hover-light);
 }
 
 
@@ -157,7 +191,7 @@ button:hover {
 }
 
 .dark .main-layout {
-  background: #16181c;
+  background: var(--bg-dark);
 }
 
 .page-lista {
@@ -165,7 +199,7 @@ button:hover {
 }
 
 .dropdown {
-  background-color: #fff;
+  background-color: var(--element-bg-light);
   position: absolute;
   left: 0;
   z-index: 5;
@@ -179,7 +213,7 @@ button:hover {
 }
 
 .dark .dropdown {
-  background: #30343b;
+  background: var(--element-top-dark);
 }
 
 .dropdown .theme-toggle {
@@ -220,7 +254,7 @@ button:hover {
 }
 
 .dark .grayed {
-  color: #cfd1d6;
+  color: var(--text-mute-dark);
 }
 
 .nav-icon:hover {
@@ -233,7 +267,7 @@ button:hover {
 
 .naver {
   border-radius: 1rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow);
   margin: 1rem 2rem;
   place-self: end center;
   width: 100%;
@@ -247,7 +281,7 @@ button:hover {
   max-width: 115rem;
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
-  background: white;
+  background: var(--element-bg-light);
   z-index: 11;
   transition: all 0.5s;
   letter-spacing: 0.05rem;
@@ -261,8 +295,8 @@ button:hover {
 }
 
 .dark .naver {
-  background: #26292f;
-  color: #ecf9fb;
+  background: var(--element-bg-dark);
+  color: var(--text-dark);
 }
 
 .big-screen-naver>a:hover {
@@ -272,11 +306,11 @@ button:hover {
 }
 
 .dark .big-screen-naver>a:hover {
-  color: white;
+  color: var(--text-white);
 }
 
 .dark .big-screen-naver>a:hover {
-  background: #30343b;
+  background: var(--element-top-dark);
   transform: none;
 }
 
@@ -291,7 +325,7 @@ button:hover {
 }
 
 .big-screen-naver .router-link-active {
-  border-bottom: 2.5px ridge #116fea;
+  border-bottom: 2.5px ridge var(--primary-blue);
 }
 
 .dark .big-screen-naver .router-link-active {
@@ -304,7 +338,7 @@ button:hover {
   width: calc(100% - 1rem);
   height: 3px;
   border-radius: 1rem;
-  background: #116fea;
+  background: var(--primary-blue);
   position: absolute;
   bottom: 0;
   left: 0.5rem;

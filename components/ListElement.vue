@@ -1,7 +1,7 @@
 <template>
-  <li class="grid element rounded-[1rem]" :class="expanded ? 'if-expanded' : ''" ref="testRef">
+  <li class="element" :class="expanded ? 'if-expanded' : ''" ref="testRef">
     <!-- @click.stop="expanded = !expanded" -->
-    <div class="plant-icon rounded-full grid px-1 aspect-square place-items-center border-2"
+    <div class="plant-icon"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
       :title="toolTipCalculator(plant.Typ)" @click.stop="testClick" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
       <Icon name="noto:deciduous-tree" size="16" v-if="plant.Typ == 'T'" title="Träd" />
@@ -12,7 +12,7 @@
       <Icon name="noto:tanabata-tree" size="16" v-if="plant.Typ == 'K'" title="Klätterväxt" />
     </div>
 
-    <p class="plant-name mr-2 ml-3 overflow-hidden" :title="plant.Namn"><a
+    <p class="plant-name" :title="plant.Namn"><a
         :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
         {{
           plant.Namn
@@ -52,7 +52,7 @@
     </button>
 
     <!-- --- --- --- Expanded --- --- --- -->
-    <div class="border-t-rinth-200 border-t-2 p-2 mt-2 mx-0 w-full expanded h-14" v-if="expanded">
+    <div class="expanded" v-if="expanded">
       <div class="info-container">
         <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas || !plant.Edible }">
           <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
@@ -78,7 +78,7 @@
       <div v-if="!isOnskeLista" class="add-section">
         <div class="increment"
           :class="{ 'error-borderr': count > plant.Lager && plant.Lager != null, 'error-borderrr': count < plant.MinOrder && plant.MinOrder != null }">
-          <input class="w-14 btn-input" type="number" min="0" v-model.number="count">
+          <input class="btn-input" type="number" min="0" v-model.number="count">
           <button class="add" @click="count++">+</button>
           <button class="subtract" @click="count -= 1">-</button>
         </div>
@@ -87,7 +87,7 @@
       <div v-else class="add-section">
         <div class="increment"
           :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
-          <input class="w-14 mr-3 btn-input" type="number" min="0" v-model.number="changeCount">
+          <input class="btn-input" type="number" min="0" v-model.number="changeCount">
           <button class="add" @click="changeCount++">+</button>
           <button class="subtract" @click="changeCount -= 1">-</button>
         </div>
@@ -237,32 +237,37 @@ function mouseLeave() {
 }
 
 .element {
+  display: grid;
+  border-radius: 1rem;
   max-width: 90rem;
   overflow: hidden;
   min-width: 0px;
   padding-left: 7px;
   width: fit-content;
-  background-color: white;
+  /* background-color: var(--element-bg-light); */
   grid-template-columns: 1fr 33fr 10fr 15fr 8fr 2fr 8fr 3fr;
   place-items: center start;
   transition: all 100ms;
   min-height: 32px;
   z-index: 2;
   position: relative;
+  border: 1px solid transparent;
 }
 
 .dark .element {
-  background: #26292f;
-  color: #d7dae0;
+  /* background: ; */
+  color: var(--text-dark);
 }
 
 .dark .element:hover:not(.if-expanded) {
   translate: none;
-  background: #2f3239;
+  background: var(--element-top-dark);
 }
 
 .dark .element.if-expanded {
-  background: #272a30
+  /* background: #272a30; */
+  border: 1px solid var(--border-color-dark);
+  padding-top: 7px;
 }
 
 .dark .element>button {
@@ -289,7 +294,7 @@ function mouseLeave() {
 
 .element:hover:not(.if-expanded) {
   translate: 7px 0;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow);
   z-index: 3;
 
 }
@@ -300,15 +305,16 @@ function mouseLeave() {
   grid-column: 1 / 9;
   place-items: center;
   height: fit-content;
-}
-
-.dark .expanded {
-  border-color: #373c46;
+  width: 100%;
 }
 
 .if-expanded {
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow);
   margin: 1rem 0;
+}
+
+.plant-name {
+  margin-left: 0.75rem;
 }
 
 .ikoner {
@@ -325,6 +331,16 @@ function mouseLeave() {
   /* height: 20px; */
   overflow: hidden;
   font-size: 0;
+}
+
+.plant-icon {
+  display: grid;
+  place-items: center;
+  border-width: 2px;
+  aspect-ratio: 1 / 1;
+  border-radius: 10000rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
 }
 
 .rekommenderas-icon {
@@ -385,7 +401,11 @@ function mouseLeave() {
 }
 
 .link-color {
-  color: #0000EE;
+  color: var(--link-light);
+}
+
+.dark a.link-color {
+  color: var(--link-dark);
 }
 
 @media only screen and (max-width: 600px) {
@@ -440,7 +460,7 @@ function mouseLeave() {
   outline-width: 0;
   outline: none;
   grid-row: 1/3;
-  border-right: 1px solid rgb(219, 219, 219);
+  border-right: 1px solid transparent;
   text-align: center;
   -moz-appearance: textfield;
   appearance: textfield;
@@ -452,16 +472,17 @@ function mouseLeave() {
 }
 
 
-.increment input:focus {
-  box-shadow: inset 0 -0.5px 3px 1px #cfd1d6;
+.increment input:focus,
+.increment input:hover {
+  box-shadow: var(--box-shadow-inset-light);
 }
 
 .dark .increment input:focus {
-  box-shadow: inset 0 -0.5px 0px 2px #434a54;
+  box-shadow: var(--box-shadow-inset-dark);
 }
 
 .dark .increment input {
-  border-color: #3b3f47;
+  border-color: var(--border-color-dark);
 }
 
 .increment .add {

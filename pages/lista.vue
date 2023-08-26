@@ -131,13 +131,11 @@ const computedList = computed(() => {
 
   console.log(queryArray);
 
+
+
   newList = newList.filter(item => queryArray.every(str => item.Namn.toLowerCase().includes(str)))
-  // .filter(item => queryArray.length === item.split(' ').filter(str => queryArray.includes(str)).length);
 
-  // newList = newList.filter(e => e.Namn.toLowerCase().includes(queryArray))
-  // newList = newList.filter(e => !queryArray.includes(e.Namn.toLowerCase()))
 
-  // newList = newList.filter(e => e.Namn.toLowerCase().includes(state.query.value.toLowerCase()))
 
   if (state.favoriteFilter.value) newList = newList.filter(e => e.Rekommenderas == true)
 
@@ -318,7 +316,7 @@ const handleClick = () => {
   width: fit-content;
   /* width: 100%; */
   margin: 0 auto;
-  background: #ffffff;
+  background: var(--element-bg-light);
 
 
   /* height: 100%; */
@@ -326,8 +324,8 @@ const handleClick = () => {
 }
 
 .dark .list-bg {
-  background: #26292f;
-  color: #b0bac5;
+  background: var(--element-bg-dark);
+  color: var(--text-mute-dark);
 }
 
 .main-list {
@@ -388,7 +386,7 @@ const handleClick = () => {
 }
 
 .dark .jump-to-container>p {
-  color: #e5e5e5;
+  color: var(--text-dark);
 }
 
 .jump-to-canister {
@@ -477,23 +475,9 @@ const handleClick = () => {
 }
 
 
-.navigator {
-  max-width: 20rem;
-  margin: 0 auto;
-  background: white;
-  padding: 1rem;
-  height: fit-content;
-  border-radius: 1rem;
-}
-
 .pointer {
   cursor: pointer;
 }
-
-
-/* .navigator>a {
-  background: #e5e7eb;
-} */
 
 
 .html {
@@ -512,16 +496,14 @@ const handleClick = () => {
   height: fit-content;
 }
 
-.scroll-to-top {
+/* .scroll-to-top {
   position: fixed;
   bottom: 1rem;
   right: 1rem;
   padding: 0.7rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  /* transition: all 100ms; */
-  /* translate: 10rem 0; */
   border-radius: 1rem;
-}
+} */
 
 .bottom-spacer {
   height: 5rem;
@@ -553,11 +535,4 @@ const handleClick = () => {
   text-decoration: underline !important;
   color: #0645AD;
 }
-
-/* .testing {
-  resize: horizontal;
-  background-color: gray;
-  width: v-bind(widthTest + 'px');
-  overflow: auto;
-} */
 </style>

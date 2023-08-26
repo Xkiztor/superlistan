@@ -139,7 +139,7 @@ div.bottom-one {
   /* position: sticky; */
   top: 6rem;
   z-index: 10;
-  background-color: #fff;
+  background-color: var(--element-bg-light);
 }
 
 form p {
@@ -147,28 +147,18 @@ form p {
 }
 
 .dark .filters {
-  background: #26292f;
-  color: #ecf9fb;
-}
-
-.dark input[type="text"].has-content {
-  /* box-shadow: inset 0 -0.5px 3px 5px #5d636c; */
-  /* outline: 2.5px solid #116fea; */
-  /* box-shadow: inset 0 -0.5px 3px #32373f; */
+  background: var(--element-bg-dark);
+  color: var(--text-dark);
 }
 
 .dark input[type="checkbox"] {
-  /* background-color: #26292f; */
   -webkit-appearance: none;
   appearance: none;
-  background-color: #30343b;
   margin: 0;
   font: inherit;
-  /* color: rgb(237, 18, 18); */
   width: 1.3em;
   height: 1.3em;
-  /* border: 0.15em solid #454545; */
-  box-shadow: inset 0 -0.5px 3px #32373f, 0 0 0.1rem 0 rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow-inset-dark), var(--box-shadow);
   border-radius: 0.4em;
   transform: translateY(-0.075em);
   display: grid;
@@ -176,7 +166,7 @@ form p {
 }
 
 .dark input[type="checkbox"]:hover {
-  background-color: #373c44;
+  background-color: var(--element-top-hover-dark);
 }
 
 .dark input[type="checkbox"]::before {
@@ -187,7 +177,7 @@ form p {
   transition: 80ms transform;
   /* box-shadow: inset 3em 3em #606060; */
   border-radius: 0.2em;
-  border: 0.15em solid #e0e0e0;
+  border: 0.15em solid var(--text-dark);
   /* box-shadow: inset 1em 1em rgb(35, 128, 40); */
   transform-origin: center;
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
@@ -195,17 +185,17 @@ form p {
 
 .dark input[type="checkbox"]:checked::before {
   transform: scale(1.4);
-  background-color: #e0e0e0;
+  background-color: var(--text-dark);
 }
 
 .dark input[type="checkbox"]:checked {
   /* transform: scale(1.3); */
-  background-color: #116fea;
+  background-color: var(--primary-blue);
   /* background-color: #565d69; */
 }
 
 .grayed {
-  color: #454545;
+  color: var(--text-mute-dark);
 }
 
 .icon-align {
@@ -234,7 +224,7 @@ form p {
 }
 
 .search-filter-div * {
-  box-shadow: none;
+  /* box-shadow: none; */
 }
 
 .search-filter-div button {
@@ -262,20 +252,12 @@ form p {
 
 .search-filter-div input:focus {
   /* outline: 2px solid #3b3f47 !important; */
-  box-shadow: 0 0 0 2px #116fea;
+  box-shadow: 0 0 0 2px var(--primary-blue);
   outline: none;
 }
 
 .search-filter-div input:focus:hover {
-  box-shadow: 0 0 0 2px #116fea;
-}
-
-.dark .search-filter-div input:hover+button {
-  background: #3b3f47;
-}
-
-.dark .search-filter-div input {
-  /* border-color: #3b3f47; */
+  box-shadow: 0 0 0 2px var(--primary-blue);
 }
 
 .filter-div>p {
@@ -296,10 +278,6 @@ form p {
 
 .filter-div>select {
   text-align: center;
-}
-
-.disabled-btn {
-  color: #9ca3af;
 }
 
 input.checkboxer {

@@ -75,17 +75,17 @@ const handleSort = (what) => {
   grid-template-columns: 6% 49% 19% 9% 6% 9% 2%;
   place-items: center start;
   padding: 5px;
-  border-bottom: 1px solid #e5e7eb;
-  color: rgb(63, 63, 63);
+  border-bottom: 1px solid var(--border-color-light);
+  /* color: rgb(63, 63, 63); */
 }
 
 .dark .top-info {
-  color: #b0bac5;
-  border-color: #373c46;
+  color: var(--text-mute-dark);
+  border-color: var(--border-color-dark);
 }
 
 .dark .top-info>p:hover {
-  color: #e7f2ff;
+  color: var(--text-dark);
 }
 
 @media screen and (max-width: 750px) {
