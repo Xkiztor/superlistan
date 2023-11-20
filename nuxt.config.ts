@@ -1,12 +1,9 @@
-import { defineNuxtConfig } from 'nuxt'
+// import { defineNuxtConfig } from 'nuxt'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  modules: [
-    '@vueuse/nuxt',
-    'nuxt-icon'
-  ],
-  // modules: [[    
+  modules: ['@vueuse/nuxt', 'nuxt-icon'],
+  // modules: [[
   //   '@pinia/nuxt',
   //   {
   //     autoImports: [
@@ -20,15 +17,21 @@ export default defineNuxtConfig({
   // modules: [
   //   '@pinia/nuxt',
   // ],
-  css: ["@/assets/css/styles.css"],
-  build: {
-    postcss: {
-      postcssOptions: {
-        plugins: {
-          tailwindcss: {},
-          autoprefixer: {},
-        },
-      },
+  css: ['@/assets/css/styles.css'],
+  // build: {
+  //   postcss: {
+  //     postcssOptions: {
+  //       plugins: {
+  //         tailwindcss: {},
+  //         autoprefixer: {},
+  //       },
+  //     },
+  //   },
+  // },
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
     },
   },
   nitro: {
@@ -42,11 +45,11 @@ export default defineNuxtConfig({
     // Public keys that are exposed to the client
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
-      anonKey: process.env.ANON_KEY
-    }
+      anonKey: process.env.ANON_KEY,
+    },
   },
   app: {
-    keepalive: true
+    keepalive: true,
   },
-  keepalive: true
-})
+  keepalive: true,
+});

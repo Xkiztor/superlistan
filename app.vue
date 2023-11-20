@@ -26,7 +26,7 @@
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-if="isSmallScreen">Listan</nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>Linders Superlista 2023</nuxt-link>
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">Varukorg</nuxt-link>
-      <ThemeToggle />
+      <ThemeToggle v-if="$route.path == '/lista'" />
     </nav>
     <KeepAlive>
       <NuxtPage />
@@ -48,7 +48,7 @@ useHead({
     { name: 'author', content: 'Ugo Linder, Peter Linder' },
   ],
   bodyAttrs: {
-    class: 'test'
+    // class: 'test'
   },
   htmlAttrs: {
     lang: 'se',
@@ -60,7 +60,7 @@ useHead({
     },
     {
       rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap',
+      href: 'https://fonts.googleapis.com/css2?family=Inter&display=swap',
       crossorigin: ''
     }
   ]
@@ -98,10 +98,10 @@ onClickOutside(target, (event) => {
   --link-dark: #75b4f8;
 
   --bg-light: #e5e7eb;
-  --bg-dark: #16181c;
+  --bg-dark: #131519;
 
   --element-bg-light: #ffffff;
-  --element-bg-dark: #26292f;
+  --element-bg-dark: #23252b;
 
   --element-top-light: #ebedf1;
   --element-top-dark: #30343b;
@@ -127,8 +127,9 @@ onClickOutside(target, (event) => {
 
 
 * {
-  font-family: 'Roboto', 'Inter', 'Helvetica';
+  font-family: 'Robotoo', 'Inter', 'Helvetica';
   transition: all 150ms;
+  letter-spacing: -0.25px;
 }
 
 h1 {
@@ -272,12 +273,10 @@ button:hover {
   place-self: end center;
   width: 100%;
   padding: 0;
-  padding-left: 2rem;
   height: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  gap: 3rem;
   max-width: 115rem;
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;

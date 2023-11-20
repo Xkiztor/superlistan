@@ -53,8 +53,7 @@
       @click.stop="adding = !adding">
       <Icon v-if="!adding" class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-up-rounded"
         size="20" />
-      <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded"
-        size="20" />
+      <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
     </button>
 
     <!-- --- --- --- Expanded --- --- --- -->
@@ -81,8 +80,8 @@
         <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
       </div>
       <div v-if="!isOnskeLista" class="add-section">
-        <input :class="{ 'error-borderrr': count < plant.MinOrder && plant.MinOrder != null }"
-          class="w-14 mr-3 btn-input" type="number" min="0" v-model.number="count">
+        <input :class="{ 'error-borderrr': count < plant.MinOrder && plant.MinOrder != null }" class="w-14 mr-3 btn-input"
+          type="number" min="0" v-model.number="count">
         <button @click="handleAdd">Lägg till i varukorg</button>
       </div>
       <div v-else class="add-section">
@@ -366,14 +365,6 @@ function mouseLeave() {
   /* background-color: rgb(236, 236, 236); */
 }
 
-.add-section {
-  grid-column: 5;
-  /* margin-left: auto; */
-  display: grid;
-  place-items: center end;
-  grid-column: 2 / 3;
-  width: 100%;
-}
 
 .info-container {
   display: flex;

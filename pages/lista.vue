@@ -296,11 +296,17 @@ const handleClick = () => {
 
   height: 96%;
 
-  padding: 0.2rem 1rem;
+  padding: 0.2rem 0;
   padding-right: 0.5rem;
   width: auto;
   max-height: 100vh !important;
   /* overflow: hidden; */
+}
+
+@media screen and (min-width: 480px) {
+  .container-props {
+    padding: 0.2rem 1rem;
+  }
 }
 
 .wrapper-props {
