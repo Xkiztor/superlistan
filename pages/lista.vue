@@ -301,11 +301,12 @@ const handleClick = () => {
   width: auto;
   max-height: 100vh !important;
   /* overflow: hidden; */
+  padding: 0.2rem 1rem;
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (max-width: 500px) {
   .container-props {
-    padding: 0.2rem 1rem;
+    padding: 0.2rem 0.5rem;
   }
 }
 
@@ -335,6 +336,7 @@ const handleClick = () => {
 }
 
 .main-list {
+  /* padding-left: 0; */
   padding-right: 0.5rem;
   /* height: calc(100vh - 80px - 5rem) !important; */
   /* height: 85vh; */
@@ -345,6 +347,10 @@ const handleClick = () => {
   padding-top: 0.5rem;
   /* display: inline-block; */
   /* display: grid; */
+}
+
+div.main-list {
+  padding-left: 0;
 }
 
 /* width */
@@ -451,7 +457,6 @@ const handleClick = () => {
 
   .main-list.list-bg {
     order: 3;
-    margin-top: 1rem;
     height: 87vh;
   }
 

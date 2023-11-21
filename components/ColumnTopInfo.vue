@@ -72,7 +72,7 @@ const handleSort = (what) => {
 <style>
 .top-info {
   display: grid;
-  grid-template-columns: 6% 49% 19% 9% 6% 9% 2%;
+  grid-template-columns: 5% 50.5% 18% 9% 6% 9% 2%;
   place-items: center start;
   padding: 5px;
   border-bottom: 1px solid var(--border-color-light);

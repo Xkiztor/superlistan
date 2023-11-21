@@ -42,7 +42,7 @@
     <div class="clear">
       <button @click="showModal = !showModal" title="Nollställ om det blir något problem eller om du vill rensa din varukorg och
             börja om.">Nollställ Varukorg</button>
-      <Icon size="22" name="ic:round-help-outline" ref="helpRef" title="Nollställ om det blir något problem eller om du vill rensa din varukorg och
+      <Icon @click="showHelp = !showHelp" size="22" name="ic:round-help-outline" ref="helpRef" title="Nollställ om det blir något problem eller om du vill rensa din varukorg och
             börja om." />
       <p class="help-text" v-if="showHelp">Nollställ om det blir något problem eller om du vill rensa din varukorg och
         börja om.</p>
@@ -67,8 +67,8 @@ const totalCount = computed(() => onskeList.onskeListFull.value.map(e => e.Count
 const totalPrice = computed(() => onskeList.onskeListFull.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
 
 
-const helpRef = ref(null)
-const isHovered = useElementHover(helpRef)
+// const helpRef = ref()
+// const isHovered = useElementHover(helpRef)
 const showModal = ref(false)
 const showHelp = ref(false)
 
@@ -81,22 +81,22 @@ const nollställ = () => {
 
 var timeout
 
-watch(isHovered, () => {
-  if (isHovered.value === true) {
-    timeout = setTimeout(() => {
-      showHelp.value = true
-    }, 300)
-  }
-  if (isHovered.value === false) {
-    clearTimeout(timeout);
-    showHelp.value = false
-  }
-})
+// watch(isHovered, () => {
+//   if (isHovered.value === true) {
+//     timeout = setTimeout(() => {
+//       showHelp.value = true
+//     }, 300)
+//   }
+//   if (isHovered.value === false) {
+//     clearTimeout(timeout);
+//     showHelp.value = false
+//   }
+// })
 
-watchEffect(() => {
-  console.log(showHelp.value);
-  console.log(isHovered.value);
-})
+// watchEffect(() => {
+//   console.log(showHelp.value);
+//   console.log(isHovered.value);
+// })
 </script>
 
 <style>

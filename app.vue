@@ -26,7 +26,7 @@
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-if="isSmallScreen">Listan</nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>Linders Superlista 2023</nuxt-link>
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">Varukorg</nuxt-link>
-      <ThemeToggle v-if="$route.path == '/lista'" />
+      <ThemeToggle v-if="$route.path == '/lista' || !isSmallScreen" />
     </nav>
     <KeepAlive>
       <NuxtPage />
@@ -65,7 +65,7 @@ useHead({
     }
   ]
 })
-
+const isDark = useDark()
 
 const state = useGlobalState()
 
@@ -127,13 +127,13 @@ onClickOutside(target, (event) => {
 
 
 * {
-  font-family: 'Robotoo', 'Inter', 'Helvetica';
+  font-family: 'Inter', 'Helvetica';
   transition: all 150ms;
   letter-spacing: -0.25px;
 }
 
 h1 {
-  font-family: 'Rubik', 'Roboto', 'Inter', 'Helvetica';
+  font-family: 'Inter', 'Helvetica';
   font-weight: 600;
   /* stroke: 2px solid #116fea; */
 }

@@ -20,7 +20,6 @@ module.exports = {
   // ],
   // theme: {
   //   // extend: {
-
   //   // },
   //   colors: {
   //     rinth: {

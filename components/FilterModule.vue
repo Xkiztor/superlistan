@@ -223,10 +223,6 @@ form p {
   position: relative;
 }
 
-.search-filter-div * {
-  /* box-shadow: none; */
-}
-
 .search-filter-div button {
   width: 2rem !important;
   border-radius: 0 0.5rem 0.5rem 0;
@@ -240,6 +236,7 @@ form p {
 .search-filter-div.has-content input {
   border-radius: 0.5rem;
   /* border-right: 1px solid #d0d5dd; */
+  padding-left: 0.75rem;
 }
 
 .search-filter-div.has-content button {
@@ -247,7 +244,7 @@ form p {
 }
 
 .search-filter-div input {
-  /* border-color: #d0d5dd; */
+  padding: 0.5rem;
 }
 
 .search-filter-div input:focus {

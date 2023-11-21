@@ -1,7 +1,7 @@
 <template>
   <li class="grid element-ex rounded-[1rem]" :class="adding ? 'if-adding' : ''" ref="testRef">
     <!-- @click.stop="adding = !adding" -->
-    <div class="plant-icon rounded-full grid px-1 aspect-square place-items-center border-2"
+    <div class="plant-icon "
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
       :title="toolTipCalculator(plant.Typ)" @click.stop="testClick" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
       <Icon name="noto:deciduous-tree" size="16" v-if="plant.Typ == 'T'" title="Träd" />
@@ -12,7 +12,7 @@
       <Icon name="noto:tanabata-tree" size="16" v-if="plant.Typ == 'K'" title="Klätterväxt" />
     </div>
 
-    <p class="plant-name mr-2 ml-3 overflow-hidden" :title="plant.Namn"><a
+    <p class="plant-name " :title="plant.Namn"><a
         :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
         {{
           plant.Namn
@@ -32,32 +32,31 @@
     </div>
 
     <!-- --- --- --- List Item Text --- --- --- -->
-    <p v-if="plant.Höjd && !isOnskeLista" :title="plant.Höjd" class="mr-2 hide-on-phone">{{ plant.Höjd }} cm</p>
-    <p v-else class="mr-2 hide-on-phone"></p>
-    <p v-if="!isOnskeLista" :title="plant.Kruka" class="mr-2 whitespace-nowrap hide-on-phone">{{ plant.Kruka }}</p>
-    <p v-else class="mr-2 whitespace-nowrap hide-on-phone"
+    <p v-if="plant.Höjd && !isOnskeLista" :title="plant.Höjd" class="hide-on-phone">{{ plant.Höjd }} cm</p>
+    <p v-else class="hide-on-phone"></p>
+    <p v-if="!isOnskeLista" :title="plant.Kruka" class="nowrap hide-on-phone">{{ plant.Kruka }}</p>
+    <p v-else class="nowrap hide-on-phone"
       :class="{ 'error-colorr': changeCount > plant.Lager && plant.Lager != null, 'error-colorrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
       {{ changeCount }}</p>
-    <p v-if="plant.MinOrder && !isOnskeLista" class="mr-2 hide-on-phone red">{{ plant.MinOrder }} </p>
-    <p v-else class="mr-2 hide-on-phone"></p>
+    <p v-if="plant.MinOrder && !isOnskeLista" class="hide-on-phone red">{{ plant.MinOrder }} </p>
+    <p v-else class="hide-on-phone"></p>
     <p class="hide-on-pc"></p>
     <p class="hide-on-pc"></p>
     <p class="hide-on-pc"></p>
     <p class="hide-on-pc"></p>
-    <p v-if="isOnskeLista" class="mr-2 on-right">{{ plant.Pris * changeCount }} kr</p>
-    <p v-else class="mr-2 on-right">{{ plant.Pris }} kr</p>
+    <p v-if="isOnskeLista" class="on-right">{{ plant.Pris * changeCount }} kr</p>
+    <p v-else class="on-right">{{ plant.Pris }} kr</p>
 
 
 
-    <button class="on-right rounded-full grid px-2 aspect-square bg-gray-100" aria-label="Expandera"
-      @click.stop="adding = !adding">
+    <button class="on-right" aria-label="Expandera" @click.stop="adding = !adding">
       <Icon v-if="!adding" class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-up-rounded"
         size="20" />
       <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
     </button>
 
     <!-- --- --- --- Expanded --- --- --- -->
-    <div class="border-t-rinth-200 border-t-2 p-2 mt-2 mx-0 w-full adding h-14" v-if="adding">
+    <div class="adding" v-if="adding">
       <div class="info-container">
         <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas || !plant.Edible }">
           <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
@@ -266,6 +265,7 @@ function mouseLeave() {
   position: relative;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
   z-index: 3;
+  margin-bottom: 1.5rem;
 }
 
 .dark .element-ex {
@@ -284,6 +284,11 @@ function mouseLeave() {
   border-radius: 2rem;
 }
 
+.element-ex button.on-right {
+  background: none;
+  box-shadow: none;
+}
+
 .if-adding>p {
   white-space: normal;
   overflow: visible;
@@ -298,6 +303,11 @@ function mouseLeave() {
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
 
 
+}
+
+.element-ex .adding {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .adding {

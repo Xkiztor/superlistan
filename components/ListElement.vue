@@ -32,23 +32,21 @@
     </div>
 
     <!-- --- --- --- List Item Text --- --- --- -->
-    <p v-if="plant.Höjd && !isOnskeLista" :title="plant.Höjd" class="mr-2 hide-on-phone">{{ plant.Höjd }} cm</p>
-    <p v-else class="mr-2 hide-on-phone"></p>
-    <p v-if="!isOnskeLista" :title="plant.Kruka" class="mr-2 whitespace-nowrap hide-on-phone">{{ plant.Kruka }}</p>
-    <p v-else class="mr-2 whitespace-nowrap hide-on-phone"
+    <p v-if="plant.Höjd && !isOnskeLista" :title="plant.Höjd" class="hide-on-phone">{{ plant.Höjd }} cm</p>
+    <p v-else class="hide-on-phone"></p>
+    <p v-if="!isOnskeLista" :title="plant.Kruka" class="nowrap hide-on-phone">{{ plant.Kruka }}</p>
+    <p v-else class="nowrap hide-on-phone"
       :class="{ 'error-colorr': changeCount > plant.Lager && plant.Lager != null, 'error-colorrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
       {{ changeCount }}</p>
-    <p v-if="plant.MinOrder && !isOnskeLista" class="mr-2 hide-on-phone red">{{ plant.MinOrder }} </p>
-    <p v-else class="mr-2 hide-on-phone"></p>
-    <p v-if="isOnskeLista" class="mr-2 on-right">{{ plant.Pris * changeCount }} kr</p>
-    <p v-else class="mr-2 on-right">{{ plant.Pris }} kr</p>
+    <p v-if="plant.MinOrder && !isOnskeLista" class="hide-on-phone red">{{ plant.MinOrder }} </p>
+    <p v-else class="hide-on-phone"></p>
+    <p v-if="isOnskeLista" class="on-right">{{ plant.Pris * changeCount }} kr</p>
+    <p v-else class="on-right">{{ plant.Pris }} kr</p>
 
 
-    <button class="on-right rounded-full grid px-2 aspect-square bg-gray-100" aria-label="Expandera"
-      @click="expanded = !expanded">
-      <Icon v-if="!expanded" class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-up-rounded"
-        size="20" />
-      <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
+    <button class="on-right" aria-label="Expandera" @click="expanded = !expanded">
+      <Icon v-if="!expanded" class="" name="material-symbols:keyboard-arrow-up-rounded" size="20" />
+      <Icon v-else class="" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
     </button>
 
     <!-- --- --- --- Expanded --- --- --- -->
@@ -242,7 +240,7 @@ function mouseLeave() {
   max-width: 90rem;
   overflow: hidden;
   min-width: 0px;
-  padding-left: 7px;
+  /* padding-left: 7px; */
   width: fit-content;
   /* background-color: var(--element-bg-light); */
   grid-template-columns: 1fr 33fr 10fr 15fr 8fr 2fr 8fr 3fr;
@@ -252,6 +250,10 @@ function mouseLeave() {
   z-index: 2;
   position: relative;
   border: 1px solid transparent;
+}
+
+.element p {
+  margin-right: 0.5rem;
 }
 
 .dark .element {
@@ -345,8 +347,14 @@ function mouseLeave() {
   font-size: 0;
 }
 
+.info-container .ikoner {
+  grid-template-columns: auto;
+}
+
 .plant-icon {
   display: grid;
+  cursor: pointer;
+  /* cursor: alias; */
   place-items: center;
   border-width: 2px;
   aspect-ratio: 1 / 1;
@@ -530,6 +538,9 @@ function mouseLeave() {
   border-radius: 0 0 0.5rem 0;
 }
 
+.no-wrap {
+  white-space: nowrap;
+}
 
 
 .on-right {

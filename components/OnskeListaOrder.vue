@@ -153,7 +153,7 @@ const handleSend = () => {
 
   const sendList = async (index) => {
     const { error, data } = await supabase
-      .from('user-data')
+      .from('user-data-2023')
       .insert(listWithName[index])
 
     if (error) {
