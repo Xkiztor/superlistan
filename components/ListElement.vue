@@ -301,6 +301,16 @@ function mouseLeave() {
 
 }
 
+@media screen and (max-width: 750px) {
+  .hide-on-phone {
+    display: none !important;
+  }
+
+  .element {
+    grid-template-columns: 1fr 40fr 15fr 3fr !important;
+  }
+}
+
 .expanded {
   grid-column: 1 / 9;
   place-items: center;

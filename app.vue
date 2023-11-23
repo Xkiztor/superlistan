@@ -22,10 +22,19 @@
       </button>
     </nav>
     <nav class="naver big-screen-naver" v-else>
-      <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">Hem</nuxt-link>
-      <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-if="isSmallScreen">Listan</nuxt-link>
-      <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>Linders Superlista 2023</nuxt-link>
-      <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">Varukorg</nuxt-link>
+
+      <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">
+        <Icon name="ic:round-home" />Hem
+      </nuxt-link>
+      <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista">
+        <Icon name="ph:list-dashes-fill" />Listan
+      </nuxt-link>
+      <!-- <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>
+        <Icon name="ph:list-dashes-fill" />Linders Superlista 2023
+      </nuxt-link> -->
+      <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">
+        <Icon name="ic:round-shopping-cart" />Varukorg
+      </nuxt-link>
       <ThemeToggle v-if="$route.path == '/lista' || !isSmallScreen" />
     </nav>
     <KeepAlive>
@@ -109,10 +118,10 @@ onClickOutside(target, (event) => {
   --element-top-hover-light: #e0e2e6;
   --element-top-hover-dark: #3b3f47;
 
-  --box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* --box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
 
-  --box-shadow-inset-light: inset 0 -0.5px 3px #cfd1d6;
-  --box-shadow-inset-dark: inset 0 -0.5px 3px #3a3e47e0;
+  /* --box-shadow-inset-light: inset 0 -0.5px 3px #cfd1d6; */
+  /* --box-shadow-inset-dark: inset 0 -0.5px 3px #3a3e47e0; */
 
   --text-mute-dark: #b0bac5;
 
@@ -244,11 +253,7 @@ button:hover {
   box-shadow: none;
 }
 
-.naver>a {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0;
-}
+
 
 .nav-icon {
   cursor: pointer;
@@ -298,6 +303,20 @@ button:hover {
   color: var(--text-dark);
 }
 
+.naver>a {
+  /* font-size: 16px; */
+  font-size: 1.075rem;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.naver>a .icon {
+  font-size: 1.3em;
+}
+
 .big-screen-naver>a:hover {
   transform: scale(105%);
   /* font-weight: 800; */
@@ -313,9 +332,28 @@ button:hover {
   transform: none;
 }
 
+.big-screen-naver>a {
+  padding: 0.7rem 1rem;
+  border-radius: 1rem;
+}
+
 .dark .big-screen-naver>a {
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.5rem;
+  /* border: 2.5px solid var(--primary-blue); */
+  /* padding: 0.2rem 0.5rem; */
+  /* border-radius: 0.5rem; */
+}
+
+@media screen and (max-width: 500px) {
+  .naver>a {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.6rem;
+    border-radius: 0.75rem;
+  }
+
+  .naver {
+    gap: 0;
+    margin: 1rem 0;
+  }
 }
 
 .nav-observer {
@@ -324,23 +362,24 @@ button:hover {
 }
 
 .big-screen-naver .router-link-active {
-  border-bottom: 2.5px ridge var(--primary-blue);
+  background: var(--element-top-light);
 }
 
 .dark .big-screen-naver .router-link-active {
-  border: none;
+  background: var(--element-top-dark);
+  /* border: none; */
   position: relative;
 }
 
 .dark .big-screen-naver .router-link-active::after {
-  content: "";
+  /* content: "";
   width: calc(100% - 1rem);
   height: 3px;
   border-radius: 1rem;
   background: var(--primary-blue);
   position: absolute;
   bottom: 0;
-  left: 0.5rem;
+  left: 0.5rem; */
 }
 
 .the-grid {

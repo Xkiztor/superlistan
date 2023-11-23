@@ -1,7 +1,7 @@
 <template>
-  <li class="grid element-ex rounded-[1rem]" :class="adding ? 'if-adding' : ''" ref="testRef">
+  <li class="grid element-ex" :class="expanded ? 'if-expanded' : ''" ref="testRef">
     <!-- @click.stop="adding = !adding" -->
-    <div class="plant-icon "
+    <div class="plant-icon"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
       :title="toolTipCalculator(plant.Typ)" @click.stop="testClick" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
       <Icon name="noto:deciduous-tree" size="16" v-if="plant.Typ == 'T'" title="Träd" />
@@ -12,7 +12,7 @@
       <Icon name="noto:tanabata-tree" size="16" v-if="plant.Typ == 'K'" title="Klätterväxt" />
     </div>
 
-    <p class="plant-name " :title="plant.Namn"><a
+    <p class="plant-name" :title="plant.Namn"><a
         :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
         {{
           plant.Namn
@@ -40,23 +40,18 @@
       {{ changeCount }}</p>
     <p v-if="plant.MinOrder && !isOnskeLista" class="hide-on-phone red">{{ plant.MinOrder }} </p>
     <p v-else class="hide-on-phone"></p>
-    <p class="hide-on-pc"></p>
-    <p class="hide-on-pc"></p>
-    <p class="hide-on-pc"></p>
-    <p class="hide-on-pc"></p>
     <p v-if="isOnskeLista" class="on-right">{{ plant.Pris * changeCount }} kr</p>
     <p v-else class="on-right">{{ plant.Pris }} kr</p>
 
 
 
-    <button class="on-right" aria-label="Expandera" @click.stop="adding = !adding">
-      <Icon v-if="!adding" class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-up-rounded"
-        size="20" />
-      <Icon v-else class="my-auto mx-auto cursor-pointer" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
+    <button class="on-right" aria-label="Expandera" @click="expanded = !expanded">
+      <Icon v-if="!expanded" class="" name="material-symbols:keyboard-arrow-up-rounded" size="20" />
+      <Icon v-else class="" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
     </button>
 
     <!-- --- --- --- Expanded --- --- --- -->
-    <div class="adding" v-if="adding">
+    <div class="expanded" v-if="expanded">
       <div class="info-container">
         <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas || !plant.Edible }">
           <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
@@ -67,7 +62,8 @@
         <p v-if="plant.Kruka" class="hide-on-pc">Kruka: {{ plant.Kruka }}</p>
         <p v-if="plant.Höjd && isOnskeLista">Höjd: {{ plant.Höjd }}</p>
         <p v-if="plant.Kruka && isOnskeLista">Kruka: {{ plant.Kruka }}</p>
-        <p v-if="plant.Lager" :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null }">
+        <p v-if="plant.Lager"
+          :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': count > plant.Lager && plant.Lager != null }">
           Lager: {{ plant.Lager }}</p>
         <p v-if="isOnskeLista">{{ plant.Pris }} kr/st</p>
         <p v-if="plant.MinOrder"
@@ -79,14 +75,21 @@
         <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
       </div>
       <div v-if="!isOnskeLista" class="add-section">
-        <input :class="{ 'error-borderrr': count < plant.MinOrder && plant.MinOrder != null }" class="w-14 mr-3 btn-input"
-          type="number" min="0" v-model.number="count">
+        <div class="increment"
+          :class="{ 'error-borderr': count > plant.Lager && plant.Lager != null, 'error-borderrr': count < plant.MinOrder && plant.MinOrder != null }">
+          <input class="btn-input" type="number" min="0" v-model.number="count">
+          <button class="add" @click="count++">+</button>
+          <button class="subtract" @click="count -= 1">-</button>
+        </div>
         <button @click="handleAdd">Lägg till i varukorg</button>
       </div>
       <div v-else class="add-section">
-        <input
-          :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null }"
-          class="w-14 mr-3 btn-input" type="number" min="0" v-model.number="changeCount">
+        <div class="increment"
+          :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
+          <input class="btn-input" type="number" min="0" v-model.number="changeCount">
+          <button class="add" @click="changeCount++">+</button>
+          <button class="subtract" @click="changeCount -= 1">-</button>
+        </div>
         <button @click="handleDelete">Ta bort</button>
       </div>
     </div>
@@ -107,7 +110,7 @@ const props = defineProps({
 
 
 const count = ref(1)
-const adding = ref(false)
+const expanded = ref(false)
 
 const state = useGlobalState()
 
@@ -212,7 +215,6 @@ function mouseLeave() {
 
 <style>
 .btn-add {
-  /* border: 1px solid rgb(235, 235, 235); */
   aspect-ratio: 1;
 }
 
@@ -244,32 +246,46 @@ function mouseLeave() {
 }
 
 .element-ex {
-  /* padding: 0.5px; */
+  display: grid;
+  border-radius: 1rem;
   max-width: 90rem;
   overflow: hidden;
   min-width: 0px;
-  padding-left: 7px;
+  /* padding-left: 7px; */
   width: fit-content;
-  background-color: white;
-  /* border: 1px solid rgb(225, 225, 225); */
-  /* margin-left: 0.75rem; */
+  /* background-color: var(--element-bg-light); */
   grid-template-columns: 1fr 33fr 10fr 15fr 8fr 2fr 8fr 3fr;
-  /* grid-template-rows: 1fr 1fr; */
   place-items: center start;
-  /* min-width: 30rem; */
-  /* font-size: v-bind(textSize + 'px'); */
   transition: all 100ms;
   min-height: 32px;
-  /* max-height: 2rem; */
   z-index: 2;
   position: relative;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 3;
-  margin-bottom: 1.5rem;
+  border: 1px solid transparent;
+}
+
+.element p {
+  margin-right: 0.5rem;
 }
 
 .dark .element-ex {
-  background-color: #26292f;
+  /* background: ; */
+  color: var(--text-dark);
+}
+
+.dark .element-ex:hover:not(.if-expanded) {
+  translate: none;
+  background: var(--element-top-dark);
+}
+
+.dark .element-ex.if-expanded {
+  /* background: #272a30; */
+  border: 1px solid var(--border-color-dark);
+  padding-top: 7px;
+}
+
+.dark .element-ex>button {
+  background: none;
+  box-shadow: none;
 }
 
 .element-ex>p {
@@ -280,51 +296,60 @@ function mouseLeave() {
   max-width: 90%;
 }
 
-.element-ex:not(.if-adding) {
+.element-ex:not(.if-expanded) {
   border-radius: 2rem;
 }
 
-.element-ex button.on-right {
-  background: none;
-  box-shadow: none;
-}
-
-.if-adding>p {
+.if-expanded>p {
   white-space: normal;
   overflow: visible;
 }
 
-.element-ex:hover:not(.if-adding) {
-  /* border-color: rgb(173, 173, 173);
-  border-width: 2px; */
-  /* border: 1px solid rgb(173, 173, 173); */
-  /* margin: 0 1.5rem; */
-  transform: none;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
-
+.element-ex:hover:not(.if-expanded) {
+  translate: 7px 0;
+  box-shadow: var(--box-shadow);
+  z-index: 3;
 
 }
 
-.element-ex .adding {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+@media screen and (max-width: 750px) {
+  .hide-on-phone {
+    display: none !important;
+  }
+
+  .element-ex {
+    grid-template-columns: 1fr 40fr 15fr 3fr !important;
+  }
 }
 
-.adding {
-  display: grid;
-  grid-template-columns: 15fr 4fr;
-  /* grid-template-columns: 10fr 10fr 10fr 10fr 7fr;
-  place-items: center; */
-  grid-column: 1 / 8;
-  /* box-shadow: 0 -5px 3px rgba(0, 0, 0, 0.1); */
+.expanded {
+  grid-column: 1 / 9;
   place-items: center;
   height: fit-content;
-  /* justify-content: space-evenly; */
+  width: 100%;
+  border-top: 1px solid var(--border-color-dark);
+  margin-top: 0.5rem;
+  /* padding-top: 0.5rem; */
 }
 
-.if-adding {
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+@media screen and (min-width: 500px) {
+  .expanded {
+    display: grid;
+    grid-template-columns: 15fr 4fr;
+  }
+}
+
+/* @media screen and (max-width: 500px) {
+  .expanded {}
+} */
+
+.if-expanded {
+  box-shadow: var(--box-shadow);
   margin: 1rem 0;
+}
+
+.plant-name {
+  margin-left: 0.75rem;
 }
 
 .ikoner {
@@ -341,6 +366,22 @@ function mouseLeave() {
   /* height: 20px; */
   overflow: hidden;
   font-size: 0;
+}
+
+.info-container .ikoner {
+  grid-template-columns: auto;
+}
+
+.plant-icon {
+  display: grid;
+  cursor: pointer;
+  /* cursor: alias; */
+  place-items: center;
+  border-width: 2px;
+  aspect-ratio: 1 / 1;
+  border-radius: 10000rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
 }
 
 .rekommenderas-icon {
@@ -363,18 +404,39 @@ function mouseLeave() {
   color: rgb(128, 128, 128);
 }
 
-/* .adding>*:not(:nth-last-child(1)) {
-  margin-right: 1rem;
-} */
 
-.adding p,
-.adding a {
-  /* border: 1px solid rgb(223, 223, 223); */
+.expanded p,
+.expanded a {
   padding: 0.4rem 0.9rem;
   border-radius: 10rem;
-  /* background-color: rgb(236, 236, 236); */
 }
 
+.add-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  grid-column: 5;
+  /* margin-left: auto; */
+  grid-column: 2 / 3;
+  width: 100%;
+}
+
+@media screen and (min-width: 500px) {
+  .add-section {
+    display: grid;
+    place-items: center;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .add-section {
+    border-top: 1px solid var(--border-color-dark);
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+}
 
 .info-container {
   display: flex;
@@ -388,6 +450,13 @@ function mouseLeave() {
   justify-content: center;
 }
 
+@media screen and (max-width: 500px) {
+  .info-container {
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color-dark);
+  }
+}
+
 .info-container>p {
   cursor: text;
 }
@@ -398,11 +467,15 @@ function mouseLeave() {
 }
 
 .link-color {
-  color: #0000EE;
+  color: var(--link-light);
+}
+
+.dark a.link-color {
+  color: var(--link-dark);
 }
 
 @media only screen and (max-width: 600px) {
-  .element-ex {
+  .element {
     font-size: 0.9rem
   }
 
@@ -428,6 +501,69 @@ function mouseLeave() {
   }
 }
 
+.increment {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  /* height: 3rem; */
+  border-radius: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.increment *,
+.increment>input {
+  margin: 0;
+  box-shadow: none;
+}
+
+.increment button {
+  padding: 0 0.2rem;
+}
+
+.increment input {
+  border-radius: 0.5rem 0 0 0.5rem;
+  width: 2.5rem;
+  outline-width: 0;
+  outline: none;
+  grid-row: 1/3;
+  border-right: 1px solid transparent;
+  text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.increment input::-webkit-outer-spin-button,
+.increment input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+
+.increment input:focus,
+.increment input:hover {
+  box-shadow: var(--box-shadow-inset-light);
+}
+
+.dark .increment input:focus {
+  box-shadow: var(--box-shadow-inset-dark);
+}
+
+.dark .increment input {
+  border-color: var(--border-color-dark);
+}
+
+.increment .add {
+  border-radius: 0 0.5rem 0 0;
+}
+
+.increment .subtract {
+  border-radius: 0 0 0.5rem 0;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+
 .on-right {
   place-self: center end;
   background-color: transparent;
@@ -442,11 +578,11 @@ function mouseLeave() {
 }
 
 .t-green {
-  border-color: rgb(117, 236, 117);
+  border-color: rgb(130, 203, 130);
 }
 
 .p-blue {
-  border-color: rgb(117, 208, 236);
+  border-color: rgb(255, 146, 157);
 }
 
 .b-green {
@@ -454,7 +590,7 @@ function mouseLeave() {
 }
 
 .k-orange {
-  border-color: rgb(236, 127, 117);
+  border-color: rgb(253, 50, 44);
 }
 
 .o-yellow {
@@ -463,5 +599,17 @@ function mouseLeave() {
 
 .g-lime {
   border-color: rgb(137, 189, 43);
+}
+
+.dark .b-green {
+  border-color: rgb(25, 89, 45);
+}
+
+.dark .p-blue {
+  border-color: rgb(255, 146, 157);
+}
+
+.dark .k-orange {
+  border-color: rgb(238, 100, 88);
 }
 </style>

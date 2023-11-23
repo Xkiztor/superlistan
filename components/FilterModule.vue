@@ -106,15 +106,7 @@ function handleTest() {
 
 }
 
-@media screen and (max-width: 750px) {
-  .hide-on-phone {
-    display: none !important;
-  }
 
-  .element {
-    grid-template-columns: 1fr 40fr 15fr 3fr !important;
-  }
-}
 
 
 @media screen and (min-width: 1200px) {
