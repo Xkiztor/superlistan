@@ -3,7 +3,7 @@
     <!-- @click.stop="expanded = !expanded" -->
     <div class="plant-icon"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
-      :title="toolTipCalculator(plant.Typ)" @click.stop="testClick" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
+      :title="toolTipCalculator(plant.Typ)" @click.stop="iconClick()" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
       <Icon name="noto:deciduous-tree" size="16" v-if="plant.Typ == 'T'" title="Träd" />
       <Icon name="noto:evergreen-tree" size="16" v-if="plant.Typ == 'B'" title="Barrträd" />
       <Icon name="fxemoji:rosette" size="16" v-if="plant.Typ == 'P'" title="Perenner" />
@@ -44,7 +44,7 @@
     <p v-else class="on-right">{{ plant.Pris }} kr</p>
 
 
-    <button class="on-right" aria-label="Expandera" @click="expanded = !expanded">
+    <button class="on-right expand-button" aria-label="Expandera" @click="handleExpand()">
       <Icon v-if="!expanded" class="" name="material-symbols:keyboard-arrow-up-rounded" size="20" />
       <Icon v-else class="" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
     </button>
@@ -80,7 +80,12 @@
           <button class="add" @click="count++">+</button>
           <button class="subtract" @click="count -= 1">-</button>
         </div>
-        <button @click="handleAdd">Lägg till i varukorg</button>
+        <button v-if="!isAdded" @click="handleAdd">Lägg till i varukorg</button>
+        <button v-else class="muted-button">
+          <Icon class="check-icon" aria-label="Tillagt i varukorgen" name="material-symbols:check-circle-rounded" />
+          Tillagd i varukorg
+        </button>
+
       </div>
       <div v-else class="add-section">
         <div class="increment"
@@ -107,9 +112,25 @@ const props = defineProps({
 
 const count = ref(1)
 const expanded = ref(false)
+const isAdded = ref(false)
 
 const state = useGlobalState()
 const onskeList = useGlobalOnskeList()
+
+const checkIfAdded = () => {
+  if (onskeList.onskeList.value.some(obj => obj.id === props.plant.id)) {
+    isAdded.value = true
+    console.log(`Has added, id: ${props.plant.id}`);
+  } else {
+    isAdded.value = false
+  }
+}
+checkIfAdded()
+
+onUpdated(() => {
+  console.log(`ListElement Updated id: ${props.plant.id}`);
+  checkIfAdded()
+})
 
 const changeCount = ref(props.plant.Count)
 
@@ -143,14 +164,21 @@ watch(changeCount, () => {
   }
 })
 
+const handleExpand = () => {
+  checkIfAdded()
+  expanded.value = !expanded.value
+}
+
 
 const handleAdd = () => {
   if (expanded) {
-    console.log(props.plant.id);
-    console.log(count.value);
+    console.log(`Added plant id: ${props.plant.id}`);
+    console.log(`Added count: ${count.value}`);
     console.log(props.plant);
     emit('addToCart', props.plant.id, count.value)
-    expanded.value = false
+    useGlobalOnskeList()
+    isAdded.value = true
+    // expanded.value = false
   } else {
     expanded.value = true
   }
@@ -159,7 +187,7 @@ const handleAdd = () => {
 
 
 const handleDelete = () => {
-  console.log(props.plant.id)
+  console.log(`deleted plant id: ${props.plant.id}`)
   emit('handleDelete', props.plant.id)
 }
 
@@ -172,7 +200,7 @@ const toolTipCalculator = (firstLetter) => {
   if (firstLetter === 'P') return 'Perenner'
 }
 
-const testClick = () => {
+const iconClick = () => {
   console.log('Clicked');
   window.open(
     `https://www.google.com/search?q=${props.plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`,
@@ -203,10 +231,6 @@ function mouseLeave() {
 </script>
 
 <style>
-.btn-add {
-  aspect-ratio: 1;
-}
-
 .error-border {
   outline: 3px solid #ff5e5e;
 }
@@ -232,6 +256,23 @@ function mouseLeave() {
 .error-colorrr {
   color: #ff5e5e;
   font-weight: bold;
+}
+
+.muted-button {
+  color: var(--text-mute-light);
+}
+
+.dark .muted-button {
+  color: var(--text-mute-dark);
+}
+
+.muted-button:hover {
+  background: var(--element-top-light);
+  cursor: default;
+}
+
+.dark .muted-button:hover {
+  background: var(--element-top-dark);
 }
 
 .element {
@@ -266,16 +307,29 @@ function mouseLeave() {
   background: var(--element-top-dark);
 }
 
+.if-expanded {
+  /* box-shadow: var(--box-shadow); */
+  border: 1px solid var(--border-color-light);
+  margin: 1rem 0;
+  padding-top: 0.25rem;
+  /* padding-left: 0.25rem; */
+}
+
+.if-expanded .plant-icon {
+  margin-left: 0.25rem;
+}
+
 .dark .element.if-expanded {
   /* background: #272a30; */
   border: 1px solid var(--border-color-dark);
-  padding-top: 7px;
 }
 
 .dark .element>button {
   background: none;
   box-shadow: none;
 }
+
+
 
 .element>p {
   text-overflow: ellipsis;
@@ -316,9 +370,13 @@ function mouseLeave() {
   place-items: center;
   height: fit-content;
   width: 100%;
-  border-top: 1px solid var(--border-color-dark);
+  border-top: 1px solid var(--border-color-light);
   margin-top: 0.5rem;
   /* padding-top: 0.5rem; */
+}
+
+.dark .expanded {
+  border-top: 1px solid var(--border-color-dark);
 }
 
 @media screen and (min-width: 500px) {
@@ -332,9 +390,13 @@ function mouseLeave() {
   .expanded {}
 } */
 
-.if-expanded {
-  box-shadow: var(--box-shadow);
-  margin: 1rem 0;
+:not(.dark) .expand-button:hover {
+  opacity: 0.5;
+  background: none;
+}
+
+.dark .expand-button:hover {
+  color: #fff;
 }
 
 .plant-name {
@@ -420,12 +482,23 @@ function mouseLeave() {
 
 @media screen and (max-width: 500px) {
   .add-section {
-    border-top: 1px solid var(--border-color-dark);
+    border-top: 1px solid var(--border-color-light);
     padding-top: 0.5rem;
     margin-top: 0.5rem;
   }
 
+  .dark .add-section {
+    border-top: 1px solid var(--border-color-dark);
+  }
+
 }
+
+.check-icon {
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  margin: auto 0;
+}
+
 
 .info-container {
   display: flex;
@@ -442,7 +515,6 @@ function mouseLeave() {
 @media screen and (max-width: 500px) {
   .info-container {
     padding-top: 0.5rem;
-    border-top: 1px solid var(--border-color-dark);
   }
 }
 

@@ -327,7 +327,7 @@ function mouseLeave() {
   place-items: center;
   height: fit-content;
   width: 100%;
-  border-top: 1px solid var(--border-color-dark);
+  /* border-top: 1px solid var(--border-color-dark); */
   margin-top: 0.5rem;
   /* padding-top: 0.5rem; */
 }
@@ -431,7 +431,6 @@ function mouseLeave() {
 
 @media screen and (max-width: 500px) {
   .add-section {
-    border-top: 1px solid var(--border-color-dark);
     padding-top: 0.5rem;
     margin-top: 0.5rem;
   }
@@ -453,7 +452,6 @@ function mouseLeave() {
 @media screen and (max-width: 500px) {
   .info-container {
     padding-top: 0.5rem;
-    border-top: 1px solid var(--border-color-dark);
   }
 }
 

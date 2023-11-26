@@ -40,15 +40,15 @@ const computedList = computed(() => {
 
 const handleDelete = (n) => {
   console.log(n)
-  const index = onskeList.value.onskeList.findIndex(b => b.id === n)
-  const indexFull = onskeList.value.onskeListFull.findIndex(b => b.id === n)
+  const index = onskeList.onskeList.value.findIndex(b => b.id === n)
+  const indexFull = onskeList.onskeListFull.value.findIndex(b => b.id === n)
   console.log(index);
   console.log(indexFull);
   if (index !== -1) {
-    onskeList.value.onskeList.splice(index, 1);
+    onskeList.onskeList.value.splice(index, 1);
   }
   if (indexFull !== -1) {
-    onskeList.value.onskeListFull.splice(indexFull, 1);
+    onskeList.onskeListFull.value.splice(indexFull, 1);
   }
 
 

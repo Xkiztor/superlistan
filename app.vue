@@ -3,7 +3,7 @@
     <nav class="naver" v-if="isSmallScreen && $route.path == '/lista'">
       <div class="dropdown-menu">
         <button @click.stop="openNav = !openNav">
-          <Icon class="grayed nav-icon" name="material-symbols:menu-rounded" size="30" />
+          <Icon class=" nav-icon" name="material-symbols:menu-rounded" size="30" />
         </button>
         <div class="dropdown" v-if="openNav" ref="target">
           <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/" @click="openNav = false">Hem</nuxt-link>
@@ -15,10 +15,10 @@
         </div>
       </div>
       <button @click="state.openFilter">
-        <Icon class="grayed nav-icon" name="mdi:filter" size="30" />
+        <Icon class=" nav-icon" name="mdi:filter" size="30" />
       </button>
       <button @click="state.openJump">
-        <Icon class="grayed nav-icon" name="quill:jump-alt" size="32" />
+        <Icon class=" nav-icon" name="quill:jump-alt" size="32" />
       </button>
     </nav>
     <nav class="naver big-screen-naver" v-else>
@@ -124,6 +124,7 @@ onClickOutside(target, (event) => {
   /* --box-shadow-inset-dark: inset 0 -0.5px 3px #3a3e47e0; */
 
   --text-mute-dark: #b0bac5;
+  --text-mute-light: #787878;
 
   --text-white: #fff;
 
@@ -171,12 +172,18 @@ select,
   /* cfd1d6 */
 }
 
-.dark button,
-.dark input,
+
 .dark .info-container>* {
   background: var(--element-top-dark);
   box-shadow: var(--box-shadow-inset-dark);
   color: var(--text-mute-dark);
+}
+
+.dark input,
+.dark button {
+  background: var(--element-top-dark);
+  box-shadow: var(--box-shadow-inset-dark);
+  color: var(--text-dark);
 }
 
 .dark button:hover,
