@@ -85,6 +85,10 @@ onClickOutside(target, (event) => {
   border-radius: 1rem;
 }
 
+.dark .modal-code-block {
+  background: var(--bg-dark);
+}
+
 @media screen and (max-width: 500px) {
   .modal-container {
     padding: 1rem;

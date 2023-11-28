@@ -204,12 +204,10 @@ const computedList = computed(() => {
     newList = newList.filter(e => state.typeFilter.value[e.Typ])
   }
 
-  // console.log(newList.map(e => e.Rekommenderas).reduce((a, b) => a + b, 0) / newList.length * 100);
   return newList
 })
 
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(computedList, {
-  // itemHeight: i => (dataList.value[i].heigh),
   itemHeight: 32,
   overscan: 25,
 })
@@ -217,7 +215,6 @@ const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(computed
 const screenSize = useWindowSize()
 const isCollapsed = computed(() => { return screenSize.width.value <= 1200 ? true : false })
 
-// const onskeList = useStorage('onske-list', []);
 
 const handleScrollTo = (letter) => {
 
@@ -233,12 +230,8 @@ watch(computedList, () => {
 })
 
 /* - - - - - - Adding to cart - - - - - - */
-const handleAdd = (id, count) => {
-  // const arr = [{ id: id, count: count }]
-  // onskeList.value.onskeList.push(arr[0])
-  // console.log(onskeList.value.onskeList);
-
-  onskeList.handleAdd(id, count)
+const handleAdd = (plant, count) => {
+  onskeList.handleAdd(plant, count)
 }
 
 

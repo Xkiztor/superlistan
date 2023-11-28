@@ -2,32 +2,28 @@
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  modules: ['@vueuse/nuxt', 'nuxt-icon'],
-  // modules: [[
-  //   '@pinia/nuxt',
-  //   {
-  //     autoImports: [
-  //       // automatically imports `defineStore`
-  //       'defineStore', // import { defineStore } from 'pinia'
-  //       // automatically imports `defineStore` as `definePiniaStore`
-  //       ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-  //     ],
-  //   },
-  // ]],
-  // modules: [
-  //   '@pinia/nuxt',
-  // ],
+  modules: [
+    '@vueuse/nuxt',
+    'nuxt-icon',
+    [
+      'nuxt-mail',
+      {
+        message: {
+          to: 'ugo.linder@gmail.com',
+        },
+        smtp: {
+          service: 'gmail',
+          auth: {
+            user: 'ugo.linder@gmail.com',
+            pass: 'dcni tmfj wwfy cxwv',
+          },
+        },
+      },
+    ],
+  ],
+
   css: ['@/assets/css/styles.css'],
-  // build: {
-  //   postcss: {
-  //     postcssOptions: {
-  //       plugins: {
-  //         tailwindcss: {},
-  //         autoprefixer: {},
-  //       },
-  //     },
-  //   },
-  // },
+
   postcss: {
     plugins: {
       tailwindcss: {},

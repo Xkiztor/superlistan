@@ -117,6 +117,8 @@ const isAdded = ref(false)
 const state = useGlobalState()
 const onskeList = useGlobalOnskeList()
 
+console.log(onskeList.onskeList.value);
+
 const checkIfAdded = () => {
   if (onskeList.onskeList.value.some(obj => obj.id === props.plant.id)) {
     isAdded.value = true
@@ -132,7 +134,7 @@ onUpdated(() => {
   checkIfAdded()
 })
 
-const changeCount = ref(props.plant.Count)
+const changeCount = ref(props.plant.count)
 
 if (props.plant.MinOrder && !props.isOnskeLista) {
   count.value = props.plant.MinOrder
@@ -156,12 +158,6 @@ watch(changeCount, () => {
       break;
     }
   }
-  for (let obj of onskeList.onskeListFull.value) {
-    if (obj.id === props.plant.id) {
-      obj.Count = changeCount.value;
-      break;
-    }
-  }
 })
 
 const handleExpand = () => {
@@ -175,7 +171,7 @@ const handleAdd = () => {
     console.log(`Added plant id: ${props.plant.id}`);
     console.log(`Added count: ${count.value}`);
     console.log(props.plant);
-    emit('addToCart', props.plant.id, count.value)
+    emit('addToCart', props.plant, count.value)
     useGlobalOnskeList()
     isAdded.value = true
     // expanded.value = false

@@ -26,7 +26,7 @@ const state = useGlobalState()
 const onskeList = useGlobalOnskeList()
 
 const computedList = computed(() => {
-  var newList = onskeList.onskeListFull.value
+  var newList = onskeList.onskeList.value
   newList = newList.sort((a, b) => {
     if (a.Namn.toLowerCase() < b.Namn.toLowerCase()) {
       return -1
@@ -41,19 +41,11 @@ const computedList = computed(() => {
 const handleDelete = (n) => {
   console.log(n)
   const index = onskeList.onskeList.value.findIndex(b => b.id === n)
-  const indexFull = onskeList.onskeListFull.value.findIndex(b => b.id === n)
+  // const indexFull = onskeList.onskeListFull.value.findIndex(b => b.id === n)
   console.log(index);
-  console.log(indexFull);
-  if (index !== -1) {
-    onskeList.onskeList.value.splice(index, 1);
-  }
-  if (indexFull !== -1) {
-    onskeList.onskeListFull.value.splice(indexFull, 1);
-  }
-
 
   onskeList.onskeList.value = onskeList.onskeList.value.filter(b => b.id != n)
-  onskeList.onskeListFull.value = onskeList.onskeListFull.value.filter(b => b.id != n)
+  // onskeList.onskeListFull.value = onskeList.onskeListFull.value.filter(b => b.id != n)
 }
 </script>
 

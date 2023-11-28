@@ -124,9 +124,27 @@ watchEffect(() => {
   // console.log(orderName.value);
 })
 
+const mail = useMail()
+
+const sendMail = () => {
+  console.log('sending mail');
+
+  const plantList = []
+  onskeList.onskeList.value.forEach((obj) => plantList.push(obj.Namn))
+  console.log(plantList);
+  mail.send({
+    from: 'Superlistan',
+    subject: 'Din lista är inskickad!',
+    text: `Hej ${orderName.value}! Tack för din beställning! Din lista är nu inskickad.`,
+    // text: `Hej ${orderName.value}! Tack för din beställning! Din list är nu inskickad.\nDu har beställt: \n${'- ' + plantList.join('\n')}`,
+  })
+}
+
 const handleSend = () => {
+  let hasError = false
+
   // if (hasSent.value == true) { }
-  if (onskeList.onskeListFull.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) < 2000 && hasSent.value === false) {
+  if (onskeList.onskeList.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) < 2000 && hasSent.value === false) {
     showModalPriceError.value = true
     return
   }
@@ -140,13 +158,15 @@ const handleSend = () => {
     return
   }
 
-  const listWithName = onskeList.onskeListFull.value.map((e) => {
+
+
+  const listWithName = onskeList.onskeList.value.map((e) => {
     e.Person = orderName.value
     e.Mail = orderMail.value
     e.Adress = orderAdress.value
     e.Phone = orderPhone.value
     e.Comment = orderComment.value
-    delete e.count
+    // delete e.count
     return e
   })
   console.log(listWithName);
@@ -158,15 +178,21 @@ const handleSend = () => {
 
     if (error) {
       console.error(error);
+      hasError = true
       showModalError.value = true
       errorMessage.value = error
     }
 
     if (data) {
+      hasError = false
       console.log(data);
       hasSent.value = true
       showModal.value = true
     }
+  }
+
+  if (!hasError) {
+    sendMail()
   }
 
   for (let i = 0; i < listWithName.length; i++) {
