@@ -63,8 +63,8 @@
 <script setup>
 const onskeList = useGlobalOnskeList()
 
-const totalCount = computed(() => onskeList.onskeList.value.map(e => e.count).reduce((a, b) => a + b, 0))
-const totalPrice = computed(() => onskeList.onskeList.value.map(e => e.Pris * e.count).reduce((a, b) => a + b, 0))
+const totalCount = computed(() => onskeList.onskeList.value.map(e => e.Count).reduce((a, b) => a + b, 0))
+const totalPrice = computed(() => onskeList.onskeList.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
 
 
 // const helpRef = ref()

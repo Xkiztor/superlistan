@@ -1,10 +1,12 @@
 <template>
   <div class="admin-bg">
+
     <div class="login" v-if="isLoggedIn == false">
       <h1>Admin Lösenord</h1>
       <input type="password" v-model="typedPassword">
       <button @click="loggIn">Logga in</button>
     </div>
+
     <div v-if="isLoggedIn == true" class="admin-panel">
       <div class="log-out">
         <p>Du är inloggad</p>
@@ -42,7 +44,7 @@
         <p>Antal</p>
         <p>Total</p>
       </div>
-      <ul class="list-container" v-if="!showTable">
+      <ul class="admin-list-container" v-if="!showTable">
         <li v-for="(item, index) in userData" class="list-el">
           <AdminListElement :el="item" :index="index" :userData="userData" :isPersonPage="false" />
         </li>
@@ -91,6 +93,8 @@ const showTable = ref(false)
 
 const rawUserData = useStorage('raw-user-data', [])
 
+const route = useRoute()
+
 const loggIn = () => {
   if (typedPassword.value === password.value) {
     isLoggedIn.value = true
@@ -105,7 +109,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 const fetchUserData = async () => {
   const { data, error } = await supabase
-    .from('user-data')
+    .from(`user-data-${route.params.year}`)
     .select()
     .order('created_at')
 

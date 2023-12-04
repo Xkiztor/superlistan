@@ -26,6 +26,7 @@
       <input v-model="orderComment" id="user-comment" type="text" placeholder="(Frivilligt)">
     </div>
     <button @click="handleSend" :class="hasSent ? 'grayed' : ''" class="send">Skicka in</button>
+    <button @click="mailjsSend()">Skicka mailjs test</button>
   </div>
   <div class="modals">
     <Modal v-if="showModal" @close-modal="showModal = false">
@@ -116,29 +117,6 @@ const hasSent = useStorage('has-sent', false)
 
 const state = useGlobalState()
 
-watch(state.countError, () => {
-  console.log('yer');
-})
-
-watchEffect(() => {
-  // console.log(orderName.value);
-})
-
-const mail = useMail()
-
-const sendMail = () => {
-  console.log('sending mail');
-
-  const plantList = []
-  onskeList.onskeList.value.forEach((obj) => plantList.push(obj.Namn))
-  console.log(plantList);
-  mail.send({
-    from: 'Superlistan',
-    subject: 'Din lista är inskickad!',
-    text: `Hej ${orderName.value}! Tack för din beställning! Din lista är nu inskickad.`,
-    // text: `Hej ${orderName.value}! Tack för din beställning! Din list är nu inskickad.\nDu har beställt: \n${'- ' + plantList.join('\n')}`,
-  })
-}
 
 const handleSend = () => {
   let hasError = false
@@ -153,7 +131,7 @@ const handleSend = () => {
     showModalNoName.value = true
     return
   }
-  if (state.countError.value == true) {
+  if (state.CountError.value == true) {
     showModalCountError.value = true
     return
   }
@@ -166,14 +144,14 @@ const handleSend = () => {
     e.Adress = orderAdress.value
     e.Phone = orderPhone.value
     e.Comment = orderComment.value
-    // delete e.count
+    // delete e.Count
     return e
   })
   console.log(listWithName);
 
   const sendList = async (index) => {
     const { error, data } = await supabase
-      .from('user-data-2023')
+      .from('user-data-2024')
       .insert(listWithName[index])
 
     if (error) {
@@ -199,8 +177,20 @@ const handleSend = () => {
     sendList(i)
   }
 }
+import emailjs from '@emailjs/browser';
 
+var templateParams = {
+  to: 'ugo.linder@gmail.com'
+}
 
+const mailjsSend = () => {
+  emailjs.send('service_wqm24rb', 'template_1dpj2ax', templateParams, 'KOZ_38k0rE7nZmhIm')
+    .then((result) => {
+      console.log('SUCCESS!', result.text);
+    }, (error) => {
+      console.log('FAILED...', error.text);
+    });
+}
 </script>
 
 <style>

@@ -2,34 +2,16 @@
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  modules: [
-    '@vueuse/nuxt',
-    'nuxt-icon',
-    [
-      'nuxt-mail',
-      {
-        message: {
-          to: 'ugo.linder@gmail.com',
-        },
-        smtp: {
-          service: 'gmail',
-          auth: {
-            user: 'ugo.linder@gmail.com',
-            pass: 'dcni tmfj wwfy cxwv',
-          },
-        },
-      },
-    ],
-  ],
+  modules: ['@vueuse/nuxt', 'nuxt-icon'],
 
   css: ['@/assets/css/styles.css'],
 
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
+  // postcss: {
+  //   plugins: {
+  //     tailwindcss: {},
+  //     autoprefixer: {},
+  //   },
+  // },
   nitro: {
     compressPublicAssets: true,
   },

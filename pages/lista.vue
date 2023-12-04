@@ -97,18 +97,6 @@ console.log(' ');
 const userMessage = ref('Laddar')
 
 
-// watch(state.query, () => {
-//   console.log('changed');
-// })
-// watch(state.sortAscending, () => {
-//   console.log('test');
-//   fetchAllList()
-// })
-// watch(state.sortByWhat, () => {
-//   console.log('test');
-//   fetchAllList()
-// })
-
 const shouldFilterOpen = computed(() => {
   if (!isCollapsed.value) return true
   else {
@@ -124,6 +112,7 @@ const shouldJumpOpen = computed(() => {
   }
 })
 
+// Filter and sort the list
 const computedList = computed(() => {
   let newList = dataList.value
 
@@ -132,9 +121,7 @@ const computedList = computed(() => {
   console.log(queryArray);
 
 
-
   newList = newList.filter(item => queryArray.every(str => item.Namn.toLowerCase().includes(str)))
-
 
 
   if (state.favoriteFilter.value) newList = newList.filter(e => e.Rekommenderas == true)
@@ -207,6 +194,7 @@ const computedList = computed(() => {
   return newList
 })
 
+// Virtual list settings
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(computedList, {
   itemHeight: 32,
   overscan: 25,
@@ -237,7 +225,6 @@ const handleAdd = (plant, count) => {
 
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
-  // fetchList(0, 200)
   if (dataList.value.length <= 0) {
     fetchAllList()
     return
@@ -251,6 +238,7 @@ onMounted(() => {
   }
 
 })
+
 /* - - - - - - Fetch all list- - - - - - */
 const fetchAllList = async () => {
   userMessage.value = 'laddar...'
@@ -258,7 +246,7 @@ const fetchAllList = async () => {
   console.log('fetching all');
 
   let search = supabase
-    .from('superlista')
+    .from('superlista-2023')
     .select()
   const { data, error } = await search
 

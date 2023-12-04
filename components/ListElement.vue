@@ -134,7 +134,7 @@ onUpdated(() => {
   checkIfAdded()
 })
 
-const changeCount = ref(props.plant.count)
+const changeCount = ref(props.plant.Count)
 
 if (props.plant.MinOrder && !props.isOnskeLista) {
   count.value = props.plant.MinOrder
@@ -154,7 +154,7 @@ watch(changeCount, () => {
   validate()
   for (let obj of onskeList.onskeList.value) {
     if (obj.id === props.plant.id) {
-      obj.count = changeCount.value;
+      obj.Count = changeCount.value;
       break;
     }
   }

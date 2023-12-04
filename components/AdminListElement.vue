@@ -16,7 +16,7 @@
   <div class="list-element" :class="{ 'is-expanded': isExpanded }">
     <div class="the-element" @click="isExpanded = !isExpanded">
       <p>{{ el.created_at }}</p>
-      <nuxt-link :to="`/admin/${el.Person.replace(' ', '+')}`" class="no-link">
+      <nuxt-link :to="`/admin/${$route.params.year}/kund/${el.Person.replace(' ', '+')}`" class="no-link">
         <p>{{ el.Person }}</p>
       </nuxt-link>
       <a :href="`https://www.google.com/search?q=${el.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">{{
@@ -33,7 +33,7 @@
       <p>{{ el.Phone }}</p>
       <p>{{ el.Mail }}</p>
       <p v-if="el.Comment">{{ el.Comment }}</p>
-      <p>platnskola: {{ el.Plantskola }}</p>
+      <p>Plantskola: {{ el.Plantskola }}</p>
     </div>
   </div>
 </template>
@@ -45,7 +45,7 @@ const firstOfDate = ref(false)
 
 const isExpanded = ref(false)
 
-// console.log(props.el.created_at.substring(3, 5));
+const route = useRoute()
 
 const listOfDates = props.userData.map(e => e.created_at.substring(1, 5))
 if (listOfDates.indexOf(props.el.created_at.substring(1, 5)) === props.index) {

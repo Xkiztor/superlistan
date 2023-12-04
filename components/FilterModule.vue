@@ -1,5 +1,5 @@
 <template>
-  <div class="filters w-fit h-fit shadow-md rounded-[1rem]">
+  <div class="filters">
     <div class="filter-div search-filter-div" :class="{ 'has-content': state.query.value }">
       <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök">
       <button @click="state.query.value = ''">
@@ -125,6 +125,7 @@ div.bottom-one {
 }
 
 .filters {
+  border-radius: 1rem;
   display: grid;
   padding: 1rem;
   width: auto;
