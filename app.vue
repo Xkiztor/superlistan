@@ -120,8 +120,8 @@ onClickOutside(target, (event) => {
 
   /* --box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
 
-  /* --box-shadow-inset-light: inset 0 -0.5px 3px #cfd1d6; */
-  /* --box-shadow-inset-dark: inset 0 -0.5px 3px #3a3e47e0; */
+  --box-shadow-inset-light: inset 0 -0.5px 3px #cfd1d6;
+  --box-shadow-inset-dark: inset 0 -0.5px 3px #3a3e47e0;
 
   --text-mute-dark: #b0bac5;
   --text-mute-light: #787878;
@@ -167,6 +167,7 @@ select,
   border-radius: 0.5rem;
   background-color: var(--element-top-light);
   box-shadow: var(--box-shadow-inset-light);
+  /* border: none; */
   margin: 0.5rem;
   cursor: pointer;
   /* cfd1d6 */
