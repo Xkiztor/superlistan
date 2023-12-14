@@ -131,7 +131,7 @@ const handleSend = () => {
     showModalNoName.value = true
     return
   }
-  if (state.CountError.value == true) {
+  if (state.countError.value == true) {
     showModalCountError.value = true
     return
   }
@@ -169,9 +169,9 @@ const handleSend = () => {
     }
   }
 
-  if (!hasError) {
-    sendMail()
-  }
+  // if (!hasError) {
+  //   sendMail()
+  // }
 
   for (let i = 0; i < listWithName.length; i++) {
     sendList(i)

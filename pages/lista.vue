@@ -218,8 +218,8 @@ watch(computedList, () => {
 })
 
 /* - - - - - - Adding to cart - - - - - - */
-const handleAdd = (plant, count) => {
-  onskeList.handleAdd(plant, count)
+const handleAdd = (plant, order) => {
+  onskeList.handleAdd(plant, order)
 }
 
 

@@ -10,8 +10,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export const useGlobalOnskeList = createGlobalState(() => {
   const onskeList = useStorage('onske-list', []);
 
-  function handleAdd(plant: object, count: number) {
-    const arr = [{ ...plant, count: count }];
+  function handleAdd(plant: object, order: number) {
+    const arr = [{ ...plant, Count: order }];
     onskeList.value.push(arr[0]);
     console.log(onskeList.value);
   }

@@ -62,11 +62,11 @@
         <p v-if="plant.Höjd && isOnskeLista">Höjd: {{ plant.Höjd }}</p>
         <p v-if="plant.Kruka && isOnskeLista">Kruka: {{ plant.Kruka }}</p>
         <p v-if="plant.Lager"
-          :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': count > plant.Lager && plant.Lager != null }">
+          :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': order > plant.Lager && plant.Lager != null }">
           Lager: {{ plant.Lager }}</p>
         <p v-if="isOnskeLista">{{ plant.Pris }} kr/st</p>
         <p v-if="plant.MinOrder"
-          :class="{ 'error-borderrr': changeCount < plant.MinOrder && changeCount != 0 && plant.MinOrder != null, 'error-borderr': count < plant.MinOrder && !isOnskeLista && plant.MinOrder != null }">
+          :class="{ 'error-borderrr': changeCount < plant.MinOrder && changeCount != 0 && plant.MinOrder != null, 'error-borderr': order < plant.MinOrder && !isOnskeLista && plant.MinOrder != null }">
           Min. Order: {{ plant.MinOrder }}</p>
         <a v-if="plant.Länk" :href="plant.Länk" target="_blank" class="link-color underline">Länk</a>
         <p v-if="plant.Zon">Zon: {{ plant.Zon }}</p>
@@ -75,10 +75,10 @@
       </div>
       <div v-if="!isOnskeLista" class="add-section">
         <div class="increment"
-          :class="{ 'error-borderr': count > plant.Lager && plant.Lager != null, 'error-borderrr': count < plant.MinOrder && plant.MinOrder != null }">
-          <input class="btn-input" type="number" min="0" v-model.number="count">
-          <button class="add" @click="count++">+</button>
-          <button class="subtract" @click="count -= 1">-</button>
+          :class="{ 'error-borderr': order > plant.Lager && plant.Lager != null, 'error-borderrr': order < plant.MinOrder && plant.MinOrder != null }">
+          <input class="btn-input" type="number" min="0" v-model.number="order">
+          <button class="add" @click="order++">+</button>
+          <button class="subtract" @click="order -= 1">-</button>
         </div>
         <button v-if="!isAdded" @click="handleAdd">Lägg till i varukorg</button>
         <button v-else class="muted-button">
@@ -110,7 +110,7 @@ const props = defineProps({
 })
 
 
-const count = ref(1)
+const order = ref(1)
 const expanded = ref(false)
 const isAdded = ref(false)
 
@@ -137,7 +137,7 @@ onUpdated(() => {
 const changeCount = ref(props.plant.Count)
 
 if (props.plant.MinOrder && !props.isOnskeLista) {
-  count.value = props.plant.MinOrder
+  order.value = props.plant.MinOrder
 }
 
 const validate = () => {
@@ -169,9 +169,9 @@ const handleExpand = () => {
 const handleAdd = () => {
   if (expanded) {
     console.log(`Added plant id: ${props.plant.id}`);
-    console.log(`Added count: ${count.value}`);
+    console.log(`Added count: ${order.value}`);
     console.log(props.plant);
-    emit('addToCart', props.plant, count.value)
+    emit('addToCart', props.plant, order.value)
     useGlobalOnskeList()
     isAdded.value = true
     // expanded.value = false
