@@ -166,6 +166,8 @@ const handleSend = () => {
       console.log(data);
       hasSent.value = true
       showModal.value = true
+      mailjsSend()
+      sendNuxtMail()
     }
   }
 
@@ -180,7 +182,7 @@ const handleSend = () => {
 import emailjs from '@emailjs/browser';
 
 var templateParams = {
-  to: 'ugo.linder@gmail.com'
+  to: orderMail.value
 }
 
 const mailjsSend = () => {
@@ -190,6 +192,23 @@ const mailjsSend = () => {
     }, (error) => {
       console.log('FAILED...', error.text);
     });
+}
+
+
+const mail = useMail()
+
+const sendNuxtMail = () => {
+  console.log('sending mail');
+
+  const plantList = []
+  onskeList.onskeList.value.forEach((obj) => plantList.push(obj.Namn))
+  console.log(plantList);
+  mail.send({
+    from: 'Superlistan',
+    subject: `Lista från ${orderName.value} inskickad`,
+    // text: `Hej ${orderName.value}! Tack för din beställning! Din lista är nu inskickad.`,
+    text: `${orderName.value} har skickat in sin lista!\n\nBeställning: \n${'- ' + plantList.join('\n')} \n \nTelefonnummer: ${orderPhone.value}\nAdress: ${orderAdress.value}\nKommentar: ${orderComment.value}`,
+  })
 }
 </script>
 
@@ -233,6 +252,10 @@ const mailjsSend = () => {
 .input-layout>input {
   width: 100%;
   cursor: text;
+}
+
+.input-layout>input::placeholder {
+  color: #8f8f8f;
 }
 
 /* .grayed { */
