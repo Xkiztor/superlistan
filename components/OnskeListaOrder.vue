@@ -166,17 +166,17 @@ const handleSend = () => {
       console.log(data);
       hasSent.value = true
       showModal.value = true
-      mailjsSend()
-      sendNuxtMail()
     }
   }
 
-  // if (!hasError) {
-  //   sendMail()
-  // }
 
   for (let i = 0; i < listWithName.length; i++) {
     sendList(i)
+  }
+
+  if (!hasError) {
+    mailjsSend()
+    sendNuxtMail()
   }
 }
 import emailjs from '@emailjs/browser';
