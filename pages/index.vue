@@ -2,14 +2,14 @@
   <div class="home-container">
     <section class="text-stycke">
 
-      <h1>Linders Superlista 2023</h1>
+      <h1>Linders Superlista 2024</h1>
       <p>
         En chans att hitta det du länge letat efter!
         Linders superlista är en härligt späckad lista med 17 000 rader av ovanliga och odlingsvärda växter att beställa
         ifrån.
-        <i class="red">Beställningen gör du senast 26 februari 2023</i> för att sedan
+        <i class="red">Beställningen gör du senast -- ----- 2024</i> för att sedan
         hämta dina beställda växter på <a href="https://lindersplantskola.se/hitta-hit/">Linders plantskola</a> utanför
-        Hörby i Skåne under maj 2023.
+        Hörby i Skåne under maj 2024.
         Tack vare att du gör beställningen i förväg och själv hämtar ut dina växter kan jag hålla låga priser i Linders
         superlista. Alla priser är inklusive moms. Lägsta ordersumma är 2000 kr. (Gå ihop med en vän om det är svårt att
         komma upp i den summan).
@@ -18,8 +18,8 @@
     <section class="text-stycke">
       <h1>Hur gör jag?</h1>
       <p class="top-desc">
-        Listan med växter hittar du under fliken <nuxt-link class="link" to="/lista">Linders Superlista
-          2023</nuxt-link> överst på denna sida. I listan kan du söka
+        Listan med växter hittar du under fliken <nuxt-link class="link" to="/lista">Listan</nuxt-link> överst på denna
+        sida. I listan kan du söka
         och ange hur många av en viss växt som du vill ha. Under fliken <nuxt-link class="link"
           to="/varukorg">Varukorg</nuxt-link> kan du sedan se vilka växter du valt,
         justera antal, fylla i dina kontaktuppgifter och sedan skicka in din beställning.

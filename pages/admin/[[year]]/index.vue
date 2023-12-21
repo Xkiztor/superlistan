@@ -95,6 +95,10 @@ const rawUserData = useStorage('raw-user-data', [])
 
 const route = useRoute()
 
+if (!route.params.year) {
+  navigateTo('/admin/2024')
+}
+
 const loggIn = () => {
   if (typedPassword.value === password.value) {
     isLoggedIn.value = true
