@@ -26,7 +26,7 @@
       <input v-model="orderComment" id="user-comment" type="text" placeholder="(Frivilligt)">
     </div>
     <button @click="handleSend" :class="hasSent ? 'grayed' : ''" class="send">Skicka in</button>
-    <button @click="mailjsSend()">Skicka mailjs test</button>
+    <!-- <button @click="mailjsSend()">Skicka mailjs test</button> -->
   </div>
   <div class="modals">
     <Modal v-if="showModal" @close-modal="showModal = false">
