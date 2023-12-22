@@ -175,14 +175,15 @@ const handleSend = () => {
   }
 
   if (!hasError) {
-    mailjsSend()
+    // mailjsSend()
     sendNuxtMail()
   }
 }
 import emailjs from '@emailjs/browser';
 
 var templateParams = {
-  to: orderMail.value
+  email: `${orderMail.value}`
+  // to: orderMail.value
 }
 
 const mailjsSend = () => {
@@ -207,7 +208,7 @@ const sendNuxtMail = () => {
     from: 'Superlistan',
     subject: `Lista från ${orderName.value} inskickad`,
     // text: `Hej ${orderName.value}! Tack för din beställning! Din lista är nu inskickad.`,
-    text: `${orderName.value} har skickat in sin lista!\n\nBeställning: \n${'- ' + plantList.join('\n')} \n \nTelefonnummer: ${orderPhone.value}\nAdress: ${orderAdress.value}\nKommentar: ${orderComment.value}`,
+    text: `${orderName.value} har skickat in sin lista!\n\nBeställning: \n${'- ' + plantList.join('\n')} \n \nEpost: ${orderMail.value}\nTelefonnummer: ${orderPhone.value}\nAdress: ${orderAdress.value}\nKommentar: ${orderComment.value}`,
   })
 }
 </script>
