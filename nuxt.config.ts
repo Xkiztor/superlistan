@@ -9,8 +9,8 @@ export default defineNuxtConfig({
       'nuxt-mail',
       {
         message: {
-          to: 'ugo.linder@gmail.com',
-          // to: 'peter@lindersplantskola.se',
+          // to: 'ugo.linder@gmail.com',
+          to: 'peter@lindersplantskola.se',
         },
         smtp: {
           service: 'gmail',

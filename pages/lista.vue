@@ -222,6 +222,8 @@ const handleAdd = (plant, order) => {
   onskeList.handleAdd(plant, order)
 }
 
+
+/* - - - - - - Clearing list cache - - - - - - */
 const hasVisited2024 = useStorage('has-visited-2024', false)
 
 onMounted(() => {
