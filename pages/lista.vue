@@ -246,7 +246,7 @@ const fetchAllList = async () => {
   console.log('fetching all');
 
   let search = supabase
-    .from('superlista-2023')
+    .from('superlista-2024')
     .select()
   const { data, error } = await search
 
