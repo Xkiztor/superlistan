@@ -118,7 +118,8 @@ const hasSent = useStorage('has-sent', false)
 const state = useGlobalState()
 
 
-const handleSend = () => {
+const handleSend = async () => {
+  let hasSentMail = false
   let hasError = false
 
   // if (hasSent.value == true) { }
@@ -159,13 +160,21 @@ const handleSend = () => {
       hasError = true
       showModalError.value = true
       errorMessage.value = error
+      return error
     }
 
     if (data) {
-      hasError = false
+      console.log('sent in list to supabase SUCCESS, Here comes the data:');
       console.log(data);
+      if (!hasSentMail) {
+        sendNuxtMail()
+        hasSentMail = true
+        console.log('Sent ONE mail');
+      }
+      hasError = false
       hasSent.value = true
       showModal.value = true
+      return data
     }
   }
 
@@ -174,10 +183,12 @@ const handleSend = () => {
     sendList(i)
   }
 
-  if (!hasError) {
-    // mailjsSend()
-    sendNuxtMail()
-  }
+  // if (!hasError && success) {
+  //   console.log('No errors, sending mail');
+  //   // mailjsSend()
+  //   sendNuxtMail()
+  //   success = false
+  // }
 }
 import emailjs from '@emailjs/browser';
 
@@ -199,16 +210,24 @@ const mailjsSend = () => {
 const mail = useMail()
 
 const sendNuxtMail = () => {
-  console.log('sending mail');
+  console.log('Sending nuxt mail');
 
   const plantList = []
   onskeList.onskeList.value.forEach((obj) => plantList.push(obj.Namn))
   console.log(plantList);
+
+  let totalPrice = 0
+
+  for (const object of onskeList.onskeList.value) {
+    totalPrice += object.Pris * object.Count
+  }
+  console.log(`Total price: ${totalPrice}`);
+
   mail.send({
     from: 'Superlistan',
     subject: `Lista från ${orderName.value} inskickad`,
     // text: `Hej ${orderName.value}! Tack för din beställning! Din lista är nu inskickad.`,
-    text: `${orderName.value} har skickat in sin lista!\n\nBeställning: \n${plantList.join('\n')} \n \nEpost: ${orderMail.value}\nTelefonnummer: ${orderPhone.value}\nAdress: ${orderAdress.value}\nKommentar: ${orderComment.value}`,
+    text: `${orderName.value} har skickat in sin lista!\n\nBeställning: \n${plantList.join('\n')}\n \nTotalt: ${totalPrice}kr\n  \nEpost: ${orderMail.value}\nTelefonnummer: ${orderPhone.value}\nAdress: ${orderAdress.value}\nKommentar: ${orderComment.value}\n \nAdmin sidan: https://superlistan.lindersplantskola.se/admin/2024`,
   })
 }
 </script>
