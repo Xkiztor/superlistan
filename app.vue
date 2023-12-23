@@ -53,7 +53,7 @@ useHead({
   charset: 'utf-8',
   meta: [
     { name: 'description', content: 'En lista med tusentals växter att beställa från.' },
-    { name: 'keywords', content: 'Lista, Lindersplantskola, superlista, Växter' },
+    { name: 'keywords', content: 'Lista, Lindersplantskola, superlista, Växter, ovanliga växter, lista att beställa ifån, 2024' },
     { name: 'author', content: 'Ugo Linder, Peter Linder' },
   ],
   bodyAttrs: {
