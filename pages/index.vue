@@ -164,7 +164,6 @@
       </p>
       <p class="paragraph-spacing">
         Hemkörning kan erbjudas till Malmö/Lund-området samt Hörby/Höör och kostar 750 kr.
-        Även till Göteborg kan hemkörning erbjudas, för 1250 kr.
       </p>
       <p>
         Anmäl dig gärna till mitt nyhetsbrev där jag bland annat kommer att presentera växter ur

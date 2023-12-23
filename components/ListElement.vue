@@ -80,7 +80,8 @@
           <button class="add" @click="order++">+</button>
           <button class="subtract" @click="order -= 1">-</button>
         </div>
-        <button v-if="!isAdded" @click="handleAdd">Lägg till i varukorg</button>
+        <button v-if="state.countError.value" disabled class="disabled">Lägg till i varukorg</button>
+        <button v-else-if="!isAdded" @click="handleAdd">Lägg till i varukorg</button>
         <button v-else class="muted-button">
           <Icon class="check-icon" aria-label="Tillagt i varukorgen" name="material-symbols:check-circle-rounded" />
           Tillagd i varukorg
@@ -117,7 +118,7 @@ const isAdded = ref(false)
 const state = useGlobalState()
 const onskeList = useGlobalOnskeList()
 
-console.log(onskeList.onskeList.value);
+// console.log(onskeList.onskeList.value);
 
 const checkIfAdded = () => {
   if (onskeList.onskeList.value.some(obj => obj.id === props.plant.id)) {
@@ -130,7 +131,7 @@ const checkIfAdded = () => {
 checkIfAdded()
 
 onUpdated(() => {
-  console.log(`ListElement Updated id: ${props.plant.id}`);
+  // console.log(`ListElement Updated id: ${props.plant.id}`);
   checkIfAdded()
 })
 
@@ -148,7 +149,7 @@ const validate = () => {
     state.countError.value = false
   }
 }
-validate()
+// validate()
 
 watch(changeCount, () => {
   validate()
@@ -158,6 +159,21 @@ watch(changeCount, () => {
       break;
     }
   }
+})
+
+const validateOrder = () => {
+  if (order.value > props.plant.Lager && props.plant.Lager != null || order.value < props.plant.MinOrder && props.plant.MinOrder != null) {
+    state.countError.value = true
+    console.log('count erroorrr');
+  } else {
+    state.countError.value = false
+  }
+}
+
+
+watch(order, () => {
+  console.log('order changed');
+  validateOrder()
 })
 
 const handleExpand = () => {
@@ -620,6 +636,23 @@ function mouseLeave() {
   white-space: nowrap;
 }
 
+button.disabled {
+  color: var(--text-mute-light);
+}
+
+.dark button.disabled {
+  color: var(--text-mute-dark);
+}
+
+button.disabled:hover {
+  cursor: default;
+  background: var(--element-top-light);
+}
+
+.dark button.disabled:hover {
+  cursor: default;
+  background: var(--element-top-dark);
+}
 
 .on-right {
   place-self: center end;

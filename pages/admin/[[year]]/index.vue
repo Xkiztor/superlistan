@@ -24,7 +24,7 @@
             <p>{{ peopleCount }} personer</p>
             <p>{{ Math.round(totalCount / peopleCount * 100) / 100 }} plantor per person</p>
             <div></div>
-            <p>{{ recomendedCount }}% hjärtan (8.6% på hela listan)</p>
+            <p>{{ recomendedCount }}% hjärtan (7.8% på hela listan)</p>
             <p>{{ Math.round(totalPrice / peopleCount * 100) / 100 }} kr/person</p>
           </div>
         </div>
