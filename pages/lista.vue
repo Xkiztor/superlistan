@@ -222,6 +222,14 @@ const handleAdd = (plant, order) => {
   onskeList.handleAdd(plant, order)
 }
 
+const hasVisited2024 = useStorage('has-visited-2024', false)
+
+onMounted(() => {
+  if (!hasVisited2024.value) {
+    dataList.value = []
+    hasVisited2024.value = true
+  }
+})
 
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
@@ -238,6 +246,8 @@ onMounted(() => {
   }
 
 })
+
+
 
 /* - - - - - - Fetch all list- - - - - - */
 const fetchAllList = async () => {

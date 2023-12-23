@@ -8,7 +8,7 @@ const supabaseKey =
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export const useGlobalOnskeList = createGlobalState(() => {
-  const onskeList = useStorage('onske-list', []);
+  const onskeList = useStorage('onske-list-2024', []);
 
   function handleAdd(plant: object, order: number) {
     const arr = [{ ...plant, Count: order }];
