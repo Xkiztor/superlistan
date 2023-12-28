@@ -1,5 +1,6 @@
 <template>
-  <div data-theme="light" class="main-layout tou-z65h9k" ref="el" :class="$route.path == '/lista' ? 'page-lista' : ''">
+  <div data-theme="light" class="main-layout tou-z65h9k" ref="el"
+    :class="$route.path == '/lista' ? 'page-lista' : '', $route.path == '/svenska-namn' ? 'svenska-page-lista' : ''">
     <nav class="naver" v-if="isSmallScreen && $route.path == '/lista'">
       <div class="dropdown-menu">
         <button @click.stop="openNav = !openNav">
@@ -29,10 +30,15 @@
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista">
         <Icon name="ph:list-dashes-fill" />Listan
       </nuxt-link>
+      <nuxt-link :class="$route.path == '/svenska-namn' ? 'active' : ''" to="/svenska-namn">
+        <!-- <Icon name="emojione-v1:flag-for-sweden" />Svenska namn -->
+        <!-- <Icon name="mdi:order-alphabetical-ascending" />Svenska namn -->
+        <Icon name="typcn:sort-alphabetically" />Svenska namn
+      </nuxt-link>
       <!-- <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>
         <Icon name="ph:list-dashes-fill" />Linders Superlista 2023
       </nuxt-link> -->
-      <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">
+      <nuxt-link :class="$route.path == '/varukorg' ? 'active' : ''" to="/varukorg">
         <Icon name="ic:round-shopping-cart" />Varukorg
       </nuxt-link>
       <ThemeToggle v-if="$route.path == '/lista' || !isSmallScreen" />
@@ -216,6 +222,10 @@ button:hover {
   grid-template-rows: min-content 87vh;
 }
 
+.svenska-page-lista {
+  grid-template-rows: min-content 87vh;
+}
+
 .dropdown {
   background-color: var(--element-bg-light);
   position: absolute;
@@ -323,6 +333,8 @@ button:hover {
 
 .naver>a .icon {
   font-size: 1.3em;
+  /* color: #fdc40c; */
+  /* color: #1b75bb; */
 }
 
 .big-screen-naver>a:hover {

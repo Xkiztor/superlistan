@@ -15,7 +15,7 @@
   </div>
   <div class="list-element" :class="{ 'is-expanded': isExpanded }">
     <div class="the-element" @click="isExpanded = !isExpanded">
-      <p>{{ el.created_at }}</p>
+      <p>{{ el.created_at.substring(1, 16) }}</p>
       <nuxt-link :to="`/admin/${$route.params.year}/kund/${el.Person.replace(' ', '+')}`" class="no-link">
         <p>{{ el.Person }}</p>
       </nuxt-link>
@@ -48,6 +48,7 @@ const isExpanded = ref(false)
 const route = useRoute()
 
 const listOfDates = props.userData.map(e => e.created_at.substring(1, 5))
+
 if (listOfDates.indexOf(props.el.created_at.substring(1, 5)) === props.index) {
   firstOfDate.value = true
 }

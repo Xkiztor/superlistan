@@ -510,7 +510,7 @@ div.main-list {
 } */
 
 .bottom-spacer {
-  height: 5rem;
+  height: 2rem;
   grid-column-start: 2;
   grid-row-start: 2;
   margin: 1rem auto 5rem;
@@ -524,7 +524,7 @@ div.main-list {
   margin: 1rem auto;
   font-size: 1.5rem;
   text-align: center;
-  position: absolute;
+  /* position: absolute; */
   bottom: -5rem;
   width: 100%;
 }
