@@ -117,6 +117,7 @@ const fetchUserData = async () => {
     .select()
     .order('created_at')
 
+  console.log('Fething user data');
   if (error) {
     console.error(error)
   }
@@ -124,32 +125,40 @@ const fetchUserData = async () => {
     rawUserData.value = data
     // console.log(data);
 
-    rawUserData.value.map(e => e.created_at = e.created_at.replace('2023-', ''))
+    // rawUserData.value.map(e => e.created_at = e.created_at.replace('2023-', ''))
+    // rawUserData.value.map(e => e.created_at = e.created_at.replace('2024-', ''))
     rawUserData.value.map(e => e.created_at = e.created_at.replace('T', ' | '))
-    rawUserData.value.map(e => e.created_at = e.created_at.slice(0, -6))
+    // rawUserData.value.map(e => e.created_at = e.created_at.slice(0, -6))
     rawUserData.value.map(e => e.created_at = e.created_at.replace('.', ''))
+    rawUserData.value.map(e => e.created_at = e.created_at.substring(0, 18))
 
     console.log(rawUserData.value);
   }
 }
 
 const userData = computed(() => {
-  let list
-  list = rawUserData.value.sort((a, b) => {
+  let list = rawUserData.value
+  // list = rawUserData.value.sort((a, b) => {
+  //   if (a.Namn > b.Namn) return 1
+  //   if (a.Namn < b.Namn) return -1
+  //   else return 0
+  // })
+  list.sort((a, b) => {
     if (a.Namn > b.Namn) return 1
-    if (a.Namn < b.Namn) return -1
+    else if (a.Namn < b.Namn) return -1
     else return 0
   })
-  list = list.sort((a, b) => {
-    if (a.Person > b.Person) return 1
-    if (a.Person < b.Person) return -1
-    else return 0
-  })
-  list = list.sort((a, b) => {
+  // list = list.sort((a, b) => {
+  //   if (a.Person > b.Person) return 1
+  //   if (a.Person < b.Person) return -1
+  //   else return 0
+  // })
+  list.sort((a, b) => {
     if (a.created_at > b.created_at) return 1
     if (a.created_at < b.created_at) return -1
     else return 0
   })
+  console.log(list);
   return list
 })
 
