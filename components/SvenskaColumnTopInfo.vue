@@ -2,26 +2,23 @@
   <div class="svenska-top-info">
     <p @click="handleSort('SvensktSlakte')" class="name clickable">
       Svenskt släkte
-      <i v-if="state.svenskaSortByWhat.value === 'SvensktSlakte'"
-        @click="state.svenskaSortAscending.value = !state.svenskaSortAscending.value">
-        <Icon v-if="state.svenskaSortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="26" />
-        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="26" />
+      <i v-if="state.svenskaSortByWhat.value === 'SvensktSlakte'">
+        <Icon v-if="state.svenskaSortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="28" />
+        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="28" />
       </i>
     </p>
     <p @click="handleSort('Svenskt')" class="name clickable">
       Svenskt namn
-      <i v-if="state.svenskaSortByWhat.value === 'Svenskt'"
-        @click="state.svenskaSortAscending.value = !state.svenskaSortAscending.value">
-        <Icon v-if="state.svenskaSortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="26" />
-        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="26" />
+      <i v-if="state.svenskaSortByWhat.value === 'Svenskt'">
+        <Icon v-if="state.svenskaSortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="28" />
+        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="28" />
       </i>
     </p>
     <p @click="handleSort('Vetenskapligt')" class="name clickable">
       Vetenskapligt namn
-      <i v-if="state.svenskaSortByWhat.value === 'Vetenskapligt'"
-        @click="state.svenskaSortAscending.value = !state.svenskaSortAscending.value">
-        <Icon v-if="state.svenskaSortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="26" />
-        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="26" />
+      <i v-if="state.svenskaSortByWhat.value === 'Vetenskapligt'">
+        <Icon v-if="state.svenskaSortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="28" />
+        <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="28" />
       </i>
     </p>
   </div>
@@ -59,8 +56,12 @@ const handleSort = (what) => {
   border-color: var(--border-color-dark);
 }
 
-.dark .top-info>p:hover {
+.dark .svenska-top-info>p:hover {
   color: var(--text-dark);
+}
+
+:not(.dark) .svenska-top-info>p:hover {
+  opacity: 0.5;
 }
 
 

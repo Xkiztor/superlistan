@@ -53,7 +53,7 @@ const computedList = computed(() => {
   newList = newList.filter(item => item.Svenskt.toLowerCase().includes(state.svenskaQuery.value.toLowerCase()))
 
   newList = newList.sort((a, b) => {
-    if (state.svenskaSortByWhat.value == 'SvenskaSlakte') {
+    if (state.svenskaSortByWhat.value == 'SvensktSlakte') {
       if (a.SvensktSlakte.toLowerCase() < b.SvensktSlakte.toLowerCase()) {
         if (state.svenskaSortAscending.value) return -1
         else return 1
@@ -63,7 +63,7 @@ const computedList = computed(() => {
         else return -1
       }
       return 0
-    } else if (state.svenskaSortByWhat.value == 'Svenska') {
+    } else if (state.svenskaSortByWhat.value == 'Svenskt') {
       if (a.Svenskt.toLowerCase() < b.Svenskt.toLowerCase()) {
         if (state.svenskaSortAscending.value) return -1
         else return 1
@@ -154,7 +154,6 @@ const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(computed
   width: 100%;
   margin: 0 auto;
   background: var(--element-bg-light);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .namn-list-bg .container-props {

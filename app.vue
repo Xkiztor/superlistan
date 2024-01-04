@@ -115,7 +115,7 @@ onClickOutside(target, (event) => {
   --bg-light: #e5e7eb;
   --bg-dark: #131519;
 
-  --element-bg-light: #ffffff;
+  --element-bg-light: #fafafa;
   --element-bg-dark: #23252b;
 
   --element-top-light: #ebedf1;
