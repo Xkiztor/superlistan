@@ -61,7 +61,7 @@
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.K">
       <div class="icon-align">
-        <Icon name="game-icons:curling-vines" size="16" title="Klätterväxt" class="klattervaxt-icon" />
+        <Icon name="game-icons:curling-vines" class="klattervaxt-icon" size="16" title="Klätterväxt" />
         <p>Klätterväxter</p>
       </div>
     </form>

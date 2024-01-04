@@ -68,14 +68,15 @@
               <Icon name="fxemoji:rosette" size="21" title="Perenner" /> = Perenner
             </li>
             <li>
-              <Icon name="twemoji:sheaf-of-rice" size="21" title="Gräs" /> = Gräs (bambu
+              <Icon name="game-icons:high-grass" class="grass-icon" size="21" title="Gräs" /> = Gräs (bambu
               under träd)
             </li>
             <li>
-              <Icon name="noto:tanabata-tree" size="21" title="Klätterväxt" /> = Klätterväxter
+              <Icon name="game-icons:curling-vines" class="klattervaxt-icon" size="21" title="Klätterväxt" /> =
+              Klätterväxter
             </li>
             <li>
-              <Icon name="noto:potted-plant" size="21" title="Ormbunke" /> = Ormbunkar
+              <Icon name="game-icons:fern" class="ormbunke-icon" size="21" title="Ormbunke" /> = Ormbunkar
             </li>
           </ul>
           <p>Om man klickar eller håller över <i class="lite-tjockare">ikonen</i> öppnas ett nytt fönster med Googles

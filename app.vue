@@ -199,6 +199,8 @@ button:hover {
 }
 
 
+
+
 .main-layout {
   display: grid;
   place-items: center;
@@ -418,12 +420,63 @@ button:hover {
   opacity: 0;
 }
 
-/* 
-.page-enter-from {
-  transform: rotate(360deg);
+.t-green {
+  border-color: rgb(130, 203, 130);
 }
 
-.page-leave-to {
-  transform: rotate(-360deg);
-} */
+.p-blue {
+  border-color: rgb(255, 146, 157);
+}
+
+.b-green {
+  border-color: rgb(89, 161, 79);
+}
+
+.k-orange {
+  border-color: rgb(68, 187, 52);
+}
+
+.klattervaxt-icon {
+  color: rgb(18, 141, 4);
+}
+
+.dark .klattervaxt-icon {
+  color: rgb(98, 147, 93);
+}
+
+.o-lime {
+  border-color: rgb(152, 189, 43);
+}
+
+.ormbunke-icon {
+  color: rgb(95, 135, 22);
+}
+
+.dark .ormbunke-icon {
+  color: rgb(137, 189, 43);
+}
+
+.g-yellow {
+  border-color: rgb(236, 226, 117);
+}
+
+.grass-icon {
+  color: rgb(181, 168, 23);
+}
+
+.dark .grass-icon {
+  color: rgb(236, 226, 117);
+}
+
+.dark .b-green {
+  border-color: rgb(25, 89, 45);
+}
+
+.dark .p-blue {
+  border-color: rgb(255, 146, 157);
+}
+
+.dark .k-orange {
+  border-color: rgb(89, 161, 79);
+}
 </style>
