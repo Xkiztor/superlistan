@@ -1,28 +1,23 @@
 <template>
   <div v-if="firstOfDate" class="first-of-date">
     <div class="first-of-date-flex">
-      <h1>{{ props.el.created_at.substring(3, 5) }}</h1>
+      <h1>{{ props.el.created_at.substring(8, 10) }}</h1>
       <p>{{ currentDateCount }} st</p>
       <p>{{ totalCount }} st totalt</p>
       <p>{{ totalPrice }} kr</p>
       <p v-if="!isPersonPage">{{ peopleCount }} personer</p>
     </div>
-    <!-- <p>asd</p>
-    <p>asd</p>
-    <p>asd</p>
-    <p>asd</p> -->
     <div v-if="firstOfDate" class="spacer-line"></div>
   </div>
   <div class="list-element" :class="{ 'is-expanded': isExpanded }">
     <div class="the-element" @click="isExpanded = !isExpanded">
-      <p>{{ el.created_at.substring(1, 16) }}</p>
+      <p>{{ el.created_at }}</p>
       <nuxt-link :to="`/admin/${$route.params.year}/kund/${el.Person.replace(' ', '+')}`" class="no-link">
         <p>{{ el.Person }}</p>
       </nuxt-link>
       <a :href="`https://www.google.com/search?q=${el.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">{{
         el.Namn
       }}</a>
-      <!-- <p :title="`${el.Pris} kr  ${el.Count} st`">{{ el.Pris * el.Count }}</p> -->
       <p>{{ el.Pris }}</p>
       <p>{{ el.Count }}</p>
       <p>{{ el.Pris * el.Count }}</p>
@@ -41,18 +36,21 @@
 <script setup>
 const props = defineProps(['el', 'index', 'userData', 'isPersonPage'])
 
-const firstOfDate = ref(false)
+const firstOfDate = computed(() => {
+  if (listOfDates.indexOf(props.el.created_at.substring(5, 10)) === props.index) {
+    return true
+  }
+})
 
 const isExpanded = ref(false)
 
 const route = useRoute()
 
-const listOfDates = props.userData.map(e => e.created_at.substring(1, 5))
-if (listOfDates.indexOf(props.el.created_at.substring(1, 5)) === props.index) {
-  firstOfDate.value = true
-}
+const listOfDates = props.userData.map(e => e.created_at.substring(5, 10))
 
-const listWithCurrentDate = props.userData.filter(e => e.created_at.substring(1, 5) === props.el.created_at.substring(1, 5))
+
+
+const listWithCurrentDate = props.userData.filter(e => e.created_at.substring(5, 10) === props.el.created_at.substring(5, 10))
 // console.log(listWithCurrentDate);
 const currentDateCount = computed(() => {
   return listWithCurrentDate.length
