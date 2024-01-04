@@ -578,36 +578,4 @@ function mouseLeave() {
 .t-green {
   border-color: rgb(130, 203, 130);
 }
-
-.p-blue {
-  border-color: rgb(255, 146, 157);
-}
-
-.b-green {
-  border-color: rgb(89, 161, 79);
-}
-
-.k-orange {
-  border-color: rgb(253, 50, 44);
-}
-
-.o-yellow {
-  border-color: rgb(236, 226, 117);
-}
-
-.g-lime {
-  border-color: rgb(137, 189, 43);
-}
-
-.dark .b-green {
-  border-color: rgb(25, 89, 45);
-}
-
-.dark .p-blue {
-  border-color: rgb(255, 146, 157);
-}
-
-.dark .k-orange {
-  border-color: rgb(238, 100, 88);
-}
 </style>

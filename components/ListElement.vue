@@ -2,14 +2,16 @@
   <li class="element" :class="expanded ? 'if-expanded' : ''" ref="testRef">
     <!-- @click.stop="expanded = !expanded" -->
     <div class="plant-icon"
-      :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-yellow': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-lime': plant.Typ == 'G' }"
+      :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-lime': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-yellow': plant.Typ == 'G' }"
       :title="toolTipCalculator(plant.Typ)" @click.stop="iconClick()" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
       <Icon name="noto:deciduous-tree" size="16" v-if="plant.Typ == 'T'" title="Träd" />
       <Icon name="noto:evergreen-tree" size="16" v-if="plant.Typ == 'B'" title="Barrträd" />
       <Icon name="fxemoji:rosette" size="16" v-if="plant.Typ == 'P'" title="Perenner" />
-      <Icon name="noto:potted-plant" size="16" v-if="plant.Typ == 'O'" title="Ormbunke" />
-      <Icon name="twemoji:sheaf-of-rice" size="16" v-if="plant.Typ == 'G'" title="Gräs" />
-      <Icon name="noto:tanabata-tree" size="16" v-if="plant.Typ == 'K'" title="Klätterväxt" />
+      <Icon name="game-icons:fern" size="16" v-if="plant.Typ == 'O'" title="Ormbunke" class="ormbunke-icon" />
+      <Icon name="game-icons:high-grass" size="16" v-if="plant.Typ == 'G'" title="Gräs" class="grass-icon" />
+      <!-- <Icon name="twemoji:sheaf-of-rice" size="16" v-if="plant.Typ == 'G'" title="Gräs" /> -->
+      <Icon name="game-icons:curling-vines" size="16" v-if="plant.Typ == 'K'" title="Klätterväxt"
+        class="klattervaxt-icon" />
     </div>
 
     <p class="plant-name" :title="plant.Namn"><a
@@ -680,15 +682,44 @@ button.disabled:hover {
 }
 
 .k-orange {
-  border-color: rgb(253, 50, 44);
+  border-color: rgb(68, 187, 52);
+  /* border-color: rgb(253, 50, 44); */
 }
 
-.o-yellow {
+.klattervaxt-icon {
+  color: rgb(18, 141, 4);
+}
+
+.dark .klattervaxt-icon {
+  color: rgb(98, 147, 93);
+}
+
+.o-lime {
+  border-color: rgb(152, 189, 43);
+}
+
+.ormbunke-icon {
+  /* color: rgb(236, 226, 117); */
+  color: rgb(95, 135, 22);
+}
+
+.dark .ormbunke-icon {
+  color: rgb(137, 189, 43);
+  /* color: rgb(236, 226, 117); */
+}
+
+.g-yellow {
   border-color: rgb(236, 226, 117);
 }
 
-.g-lime {
-  border-color: rgb(137, 189, 43);
+.grass-icon {
+  color: rgb(181, 168, 23);
+  /* color: rgb(137, 189, 43); */
+}
+
+.dark .grass-icon {
+  color: rgb(236, 226, 117);
+  /* color: rgb(137, 189, 43); */
 }
 
 .dark .b-green {
@@ -700,6 +731,7 @@ button.disabled:hover {
 }
 
 .dark .k-orange {
-  border-color: rgb(238, 100, 88);
+  border-color: rgb(89, 161, 79);
+  /* border-color: rgb(238, 100, 88); */
 }
 </style>

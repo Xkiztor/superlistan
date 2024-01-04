@@ -61,21 +61,21 @@
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.K">
       <div class="icon-align">
-        <Icon name="noto:tanabata-tree" size="16" title="Klätterväxt" />
+        <Icon name="game-icons:curling-vines" size="16" title="Klätterväxt" class="klattervaxt-icon" />
         <p>Klätterväxter</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.O">
       <div class="icon-align">
-        <Icon name="noto:potted-plant" size="16" title="Ormbunke" />
+        <Icon name="game-icons:fern" class="ormbunke-icon" size="16" title="Ormbunke" />
         <p>Ormbunke</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.G">
       <div class="icon-align">
-        <Icon name="twemoji:sheaf-of-rice" size="16" title="Gräs" />
+        <Icon name="game-icons:high-grass" class="grass-icon" size="16" title="Gräs" />
         <p>Gräs</p>
       </div>
     </form>
