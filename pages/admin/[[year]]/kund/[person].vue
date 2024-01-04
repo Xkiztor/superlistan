@@ -139,7 +139,13 @@ const personName = person.replace('+', ' ')
 
 
 const filteredArray = computed(() => {
-  return rawUserData.value.filter(e => e.Person.replace(/\s/g, "") === personName.replace(/\s/g, ""))
+  let list = rawUserData.value.filter(e => e.Person.replace(/\s/g, "") === personName.replace(/\s/g, ""))
+  list.sort((a, b) => {
+    if (a.Namn < b.Namn) return -1
+    else if (a.Namn > b.Namn) return 1
+    else return 0
+  })
+  return list
 })
 
 const rawDate = new Date()
