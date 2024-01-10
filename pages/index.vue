@@ -170,8 +170,7 @@
         Anmäl dig gärna till mitt nyhetsbrev där jag bland annat kommer att presentera växter ur
         Superlistan löpande under jan-feb.
         Direktlänk till nyhetsbrevet
-        <a target="_blank"
-          href="https://us7.campaign-archive.com/home/?u=0e9eb9946e9781ae0c59149df&id=9e50a747e2">här!</a>
+        <a target="_blank" href="https://lindersplantskola.se/linders-superlista/nyhetsbrev-superlistan/">här!</a>
         Där kan du också läsa tidigare nyhetsbrev.
       </p>
       <p class="hälsningar">
