@@ -46,6 +46,7 @@ const computedList = computed(() => {
 
   let newList = plantList
 
+  //test
   // for (let i = 0; i < 3; i++) {
   //   newList = newList.concat(newList)
   // }
