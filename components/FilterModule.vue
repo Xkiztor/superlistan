@@ -133,6 +133,7 @@ div.bottom-one {
   color: var(--text-mute);
   box-shadow: var(--input-shadow);
   padding: 0.5rem;
+  color: var(--text);
 }
 
 form p {
@@ -140,51 +141,53 @@ form p {
 }
 
 
-.dark input[type="checkbox"] {
+input[type="checkbox"] {
   -webkit-appearance: none;
   appearance: none;
   margin: 0;
   font: inherit;
-  width: 1.3em;
-  height: 1.3em;
-  box-shadow: var(--box-shadow-inset-dark), var(--box-shadow);
-  border-radius: 0.4em;
+  width: 1.5em;
+  height: 1.5em;
+  /* box-shadow: var(--box-shadow-inset-dark), var(--box-shadow); */
+  border-radius: 0.3em;
   transform: translateY(-0.075em);
   display: grid;
   place-content: center;
+  background: none;
+  border: 2px solid var(--border-color);
 }
 
-.dark input[type="checkbox"]:hover {
-  background-color: var(--element-top-hover-dark);
+input[type="checkbox"]:hover {
+  /* background-color: var(--element-top-hover); */
+  border-color: var(--primary-blue);
+  opacity: 0.8;
 }
 
-.dark input[type="checkbox"]::before {
+input[type="checkbox"]::before {
   content: "";
   width: 0.65em;
   height: 0.65em;
   transform: scale(0);
   transition: 80ms transform;
   /* box-shadow: inset 3em 3em #606060; */
-  border-radius: 0.2em;
-  border: 0.15em solid var(--text-dark);
+  /* border-radius: 0.2em; */
+  /* border: 0.15em solid white; */
   /* box-shadow: inset 1em 1em rgb(35, 128, 40); */
   transform-origin: center;
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
 
-.dark input[type="checkbox"]:checked::before {
-  transform: scale(1.4);
-  background-color: var(--text-dark);
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+  background: white;
+  /* background: var(--text); */
 }
 
-.dark input[type="checkbox"]:checked {
+input[type="checkbox"]:checked {
   /* transform: scale(1.3); */
   background-color: var(--primary-blue);
+  border-color: var(--primary-blue);
   /* background-color: #565d69; */
-}
-
-.grayed {
-  color: var(--text-mute-dark);
 }
 
 .icon-align {
@@ -270,7 +273,6 @@ input.checkboxer {
   width: 1.2rem;
   height: 1.2rem;
   margin: 0.2rem;
-  border-radius: 0.5rem;
   /* margin-right: 1rem; */
   /* appearance: none; */
 }

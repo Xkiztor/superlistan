@@ -426,12 +426,13 @@ function mouseLeave() {
 
 .edible-icon {
   grid-column: 2;
-  color: rgb(128, 128, 128);
+  color: rgb(199, 33, 33);
 }
 
 .kommentar-icon {
   grid-column: 3;
-  color: rgb(128, 128, 128);
+  color: var(--text-mute);
+  /* color: rgb(128, 128, 128); */
 }
 
 .länk-icon {
