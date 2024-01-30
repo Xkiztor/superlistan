@@ -4,13 +4,13 @@
     <div class="plant-icon"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-lime': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-yellow': plant.Typ == 'G' }"
       :title="toolTipCalculator(plant.Typ)" @click.stop="iconClick()" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
-      <Icon name="noto:deciduous-tree" size="16" v-if="plant.Typ == 'T'" title="Träd" />
-      <Icon name="noto:evergreen-tree" size="16" v-if="plant.Typ == 'B'" title="Barrträd" />
-      <Icon name="fxemoji:rosette" size="16" v-if="plant.Typ == 'P'" title="Perenner" />
-      <Icon name="game-icons:fern" size="16" v-if="plant.Typ == 'O'" title="Ormbunke" class="ormbunke-icon" />
-      <Icon name="game-icons:high-grass" size="16" v-if="plant.Typ == 'G'" title="Gräs" class="grass-icon" />
+      <Icon name="noto:deciduous-tree" size="14" v-if="plant.Typ == 'T'" title="Träd" />
+      <Icon name="noto:evergreen-tree" size="14" v-if="plant.Typ == 'B'" title="Barrträd" />
+      <Icon name="fxemoji:rosette" size="14" v-if="plant.Typ == 'P'" title="Perenner" />
+      <Icon name="game-icons:fern" size="14" v-if="plant.Typ == 'O'" title="Ormbunke" class="ormbunke-icon" />
+      <Icon name="game-icons:high-grass" size="14" v-if="plant.Typ == 'G'" title="Gräs" class="grass-icon" />
       <!-- <Icon name="twemoji:sheaf-of-rice" size="16" v-if="plant.Typ == 'G'" title="Gräs" /> -->
-      <Icon name="game-icons:curling-vines" size="16" v-if="plant.Typ == 'K'" title="Klätterväxt"
+      <Icon name="game-icons:curling-vines" size="14" v-if="plant.Typ == 'K'" title="Klätterväxt"
         class="klattervaxt-icon" />
     </div>
 
@@ -52,55 +52,56 @@
     </button>
 
     <!-- --- --- --- Expanded --- --- --- -->
-    <div class="expanded" v-if="expanded">
-      <div class="info-container">
-        <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas || !plant.Edible }">
-          <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
-          <Icon v-if="plant.Edible" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
+    <Transition name="expand">
+      <div class="expanded" v-if="expanded">
+        <div class="info-container">
+          <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas || !plant.Edible }">
+            <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
+            <Icon v-if="plant.Edible" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
+          </div>
+          <p v-if="isOnskeLista" class="hide-on-pc">Antal: {{ changeCount }}</p>
+          <p v-if="plant.Höjd" class="hide-on-pc">Höjd: {{ plant.Höjd }}</p>
+          <p v-if="plant.Kruka" class="hide-on-pc">Kruka: {{ plant.Kruka }}</p>
+          <p v-if="plant.Höjd && isOnskeLista">Höjd: {{ plant.Höjd }}</p>
+          <p v-if="plant.Kruka && isOnskeLista">Kruka: {{ plant.Kruka }}</p>
+          <p v-if="plant.Lager"
+            :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': order > plant.Lager && plant.Lager != null }">
+            Lager: {{ plant.Lager }}</p>
+          <p v-if="isOnskeLista">{{ plant.Pris }} kr/st</p>
+          <p v-if="plant.MinOrder"
+            :class="{ 'error-borderrr': changeCount < plant.MinOrder && changeCount != 0 && plant.MinOrder != null, 'error-borderr': order < plant.MinOrder && !isOnskeLista && plant.MinOrder != null }">
+            Min. Order: {{ plant.MinOrder }}</p>
+          <a v-if="plant.Länk" :href="plant.Länk" target="_blank" class="link-color underline">Länk</a>
+          <p v-if="plant.Zon">Zon: {{ plant.Zon }}</p>
+          <p v-if="plant.Storlekskommentar">{{ plant.Storlekskommentar }}</p>
+          <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
         </div>
-        <p v-if="isOnskeLista" class="hide-on-pc">Antal: {{ changeCount }}</p>
-        <p v-if="plant.Höjd" class="hide-on-pc">Höjd: {{ plant.Höjd }}</p>
-        <p v-if="plant.Kruka" class="hide-on-pc">Kruka: {{ plant.Kruka }}</p>
-        <p v-if="plant.Höjd && isOnskeLista">Höjd: {{ plant.Höjd }}</p>
-        <p v-if="plant.Kruka && isOnskeLista">Kruka: {{ plant.Kruka }}</p>
-        <p v-if="plant.Lager"
-          :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': order > plant.Lager && plant.Lager != null }">
-          Lager: {{ plant.Lager }}</p>
-        <p v-if="isOnskeLista">{{ plant.Pris }} kr/st</p>
-        <p v-if="plant.MinOrder"
-          :class="{ 'error-borderrr': changeCount < plant.MinOrder && changeCount != 0 && plant.MinOrder != null, 'error-borderr': order < plant.MinOrder && !isOnskeLista && plant.MinOrder != null }">
-          Min. Order: {{ plant.MinOrder }}</p>
-        <a v-if="plant.Länk" :href="plant.Länk" target="_blank" class="link-color underline">Länk</a>
-        <p v-if="plant.Zon">Zon: {{ plant.Zon }}</p>
-        <p v-if="plant.Storlekskommentar">{{ plant.Storlekskommentar }}</p>
-        <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
-      </div>
-      <div v-if="!isOnskeLista" class="add-section">
-        <div class="increment"
-          :class="{ 'error-borderr': order > plant.Lager && plant.Lager != null, 'error-borderrr': order < plant.MinOrder && plant.MinOrder != null }">
-          <input class="btn-input" type="number" min="0" v-model.number="order">
-          <button class="add" @click="order++">+</button>
-          <button class="subtract" @click="order -= 1">-</button>
-        </div>
-        <button v-if="state.countError.value" disabled class="disabled">Lägg till i varukorg</button>
-        <button v-else-if="!isAdded" @click="handleAdd">Lägg till i varukorg</button>
-        <button v-else class="muted-button">
-          <Icon class="check-icon" aria-label="Tillagt i varukorgen" name="material-symbols:check-circle-rounded" />
-          Tillagd i varukorg
-        </button>
+        <div v-if="!isOnskeLista" class="add-section">
+          <div class="increment"
+            :class="{ 'error-borderr': order > plant.Lager && plant.Lager != null, 'error-borderrr': order < plant.MinOrder && plant.MinOrder != null }">
+            <input class="btn-input" type="number" min="0" v-model.number="order">
+            <button class="add" @click="order++">+</button>
+            <button class="subtract" @click="order -= 1">-</button>
+          </div>
+          <button v-if="state.countError.value" disabled class="disabled">Lägg till i varukorg</button>
+          <button v-else-if="!isAdded" @click="handleAdd">Lägg till i varukorg</button>
+          <button v-else class="muted-button">
+            <Icon class="check-icon" aria-label="Tillagt i varukorgen" name="material-symbols:check-circle-rounded" />
+            Tillagd i varukorg
+          </button>
 
-      </div>
-      <div v-else class="add-section">
-        <div class="increment"
-          :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
-          <input class="btn-input" type="number" min="0" v-model.number="changeCount">
-          <button class="add" @click="changeCount++">+</button>
-          <button class="subtract" @click="changeCount -= 1">-</button>
         </div>
-        <button @click="handleDelete">Ta bort</button>
+        <div v-else class="add-section">
+          <div class="increment"
+            :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
+            <input class="btn-input" type="number" min="0" v-model.number="changeCount">
+            <button class="add" @click="changeCount++">+</button>
+            <button class="subtract" @click="changeCount -= 1">-</button>
+          </div>
+          <button @click="handleDelete">Ta bort</button>
+        </div>
       </div>
-    </div>
-
+    </Transition>
   </li>
 </template>
 
@@ -273,31 +274,26 @@ function mouseLeave() {
 }
 
 .muted-button {
-  color: var(--text-mute-light);
+  color: var(--text-mute);
 }
 
-.dark .muted-button {
-  color: var(--text-mute-dark);
-}
 
 .muted-button:hover {
-  background: var(--element-top-light);
+  background: var(--element-top);
   cursor: default;
 }
 
-.dark .muted-button:hover {
-  background: var(--element-top-dark);
-}
 
 .element {
   display: grid;
-  border-radius: 1rem;
+  /* border-radius: 1rem; */
+  padding: 0.235rem 0.4rem;
   max-width: 90rem;
   overflow: hidden;
   min-width: 0px;
   /* padding-left: 7px; */
   width: fit-content;
-  /* background-color: var(--element-bg-light); */
+  /* background-color: var(--element-bg); */
   grid-template-columns: 1fr 33fr 10fr 15fr 8fr 2fr 8fr 3fr;
   place-items: center start;
   transition: all 100ms;
@@ -305,45 +301,23 @@ function mouseLeave() {
   z-index: 2;
   position: relative;
   border: 1px solid transparent;
+  background: var(--element-bg);
+  /* border-bottom: 1px solid var(--border-color); */
+  border-bottom: 2px solid var(--bg);
 }
 
 .element p {
   margin-right: 0.5rem;
 }
 
-.dark .element {
-  /* background: ; */
-  color: var(--text-dark);
-}
-
-.dark .element:hover:not(.if-expanded) {
-  translate: none;
-  background: var(--element-top-dark);
-}
-
 .if-expanded {
   /* box-shadow: var(--box-shadow); */
-  border: 1px solid var(--border-color-light);
-  margin: 1rem 0;
+  /* border: 1px solid var(--border-color); */
+  /* margin: 1rem 0 0; */
+  padding-bottom: 1rem;
   padding-top: 0.25rem;
   /* padding-left: 0.25rem; */
 }
-
-.if-expanded .plant-icon {
-  margin-left: 0.25rem;
-}
-
-.dark .element.if-expanded {
-  /* background: #272a30; */
-  border: 1px solid var(--border-color-dark);
-}
-
-.dark .element>button {
-  background: none;
-  box-shadow: none;
-}
-
-
 
 .element>p {
   text-overflow: ellipsis;
@@ -353,8 +327,10 @@ function mouseLeave() {
   max-width: 90%;
 }
 
-.element:not(.if-expanded) {
-  border-radius: 2rem;
+
+.element:first-of-type {
+  border-radius: 1rem 1rem 0 0;
+  /* padding-top: 0.4rem; */
 }
 
 .if-expanded>p {
@@ -363,8 +339,8 @@ function mouseLeave() {
 }
 
 .element:hover:not(.if-expanded) {
-  translate: 7px 0;
-  box-shadow: var(--box-shadow);
+  /* translate: 7px 0; */
+  /* box-shadow: var(--box-shadow); */
   z-index: 3;
 
 }
@@ -384,14 +360,11 @@ function mouseLeave() {
   place-items: center;
   height: fit-content;
   width: 100%;
-  border-top: 1px solid var(--border-color-light);
+  /* border-top: 1px solid var(--border-color); */
   margin-top: 0.5rem;
   /* padding-top: 0.5rem; */
 }
 
-.dark .expanded {
-  border-top: 1px solid var(--border-color-dark);
-}
 
 @media screen and (min-width: 500px) {
   .expanded {
@@ -400,9 +373,6 @@ function mouseLeave() {
   }
 }
 
-/* @media screen and (max-width: 500px) {
-  .expanded {}
-} */
 
 :not(.dark) .expand-button:hover {
   opacity: 0.5;
@@ -445,8 +415,8 @@ function mouseLeave() {
   border-width: 2px;
   aspect-ratio: 1 / 1;
   border-radius: 10000rem;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
+  padding-left: 0.17rem;
+  padding-right: 0.17rem;
 }
 
 .rekommenderas-icon {
@@ -496,13 +466,9 @@ function mouseLeave() {
 
 @media screen and (max-width: 500px) {
   .add-section {
-    border-top: 1px solid var(--border-color-light);
+    border-top: 1px solid var(--border-color);
     padding-top: 0.5rem;
     margin-top: 0.5rem;
-  }
-
-  .dark .add-section {
-    border-top: 1px solid var(--border-color-dark);
   }
 
 }
@@ -542,11 +508,7 @@ function mouseLeave() {
 }
 
 .link-color {
-  color: var(--link-light);
-}
-
-.dark a.link-color {
-  color: var(--link-dark);
+  color: var(--link);
 }
 
 @media only screen and (max-width: 600px) {
@@ -615,7 +577,7 @@ function mouseLeave() {
 
 .increment input:focus,
 .increment input:hover {
-  box-shadow: var(--box-shadow-inset-light);
+  box-shadow: var(--box-shadow-inset);
 }
 
 .dark .increment input:focus {
@@ -639,7 +601,7 @@ function mouseLeave() {
 }
 
 button.disabled {
-  color: var(--text-mute-light);
+  color: var(--text-mute);
 }
 
 .dark button.disabled {
@@ -648,7 +610,7 @@ button.disabled {
 
 button.disabled:hover {
   cursor: default;
-  background: var(--element-top-light);
+  background: var(--element-top);
 }
 
 .dark button.disabled:hover {
@@ -667,5 +629,25 @@ button.disabled:hover {
   padding: 0;
   display: grid;
   place-items: center;
+}
+
+.expand-enter-active {
+  transition: all 0.2s ease;
+}
+
+.expand-leave-active {
+  transition: all 0.2s ease;
+}
+
+.expand-enter-from {
+  position: absolute;
+  translate: 0 -30px;
+  opacity: 0;
+}
+
+.expand-leave-to {
+  margin: 0;
+  height: 0;
+  opacity: 0;
 }
 </style>

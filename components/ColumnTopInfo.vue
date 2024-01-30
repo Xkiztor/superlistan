@@ -18,6 +18,7 @@
       </p>
     </client-only>
     <!-- <p v-if="props.isOnskeLista == false" class=""></p> -->
+    <p></p>
     <p v-if="props.isOnskeLista == false" @click="handleSort('Höjd')" class="hide-on-phone clickable">
       Höjd
       <i v-if="state.sortByWhat.value === 'Höjd' && !isOnskeLista">
@@ -72,11 +73,12 @@ const handleSort = (what) => {
 <style>
 .top-info {
   display: grid;
-  grid-template-columns: 5% 50.5% 18% 9% 6% 9% 2%;
+  /* grid-template-columns: 5% 50.5% 18% 9% 6% 9% 2%; */
+  grid-template-columns: 3fr 31fr 10fr 15fr 8fr 2fr 8fr 3fr;
   place-items: center start;
   padding: 5px;
-  border-bottom: 1px solid var(--border-color-light);
-  /* color: rgb(63, 63, 63); */
+  padding-bottom: 8px;
+  grid-column: 2/3;
 }
 
 .dark .top-info {
@@ -126,5 +128,9 @@ const handleSort = (what) => {
 .clickable>i {
   position: absolute;
   right: -1.5rem;
+}
+
+.top-info .pris {
+  place-self: center;
 }
 </style>

@@ -1,11 +1,12 @@
 <template>
   <div class="list-layout">
+    <ColumnTopInfo :isOnskeLista="false" />
+
     <div class="filter-container" v-if="shouldFilterOpen">
       <FilterModule @fetch-list="fetchAllList" @handle-click="handleClick" />
     </div>
 
     <div class="list-bg main-list">
-      <ColumnTopInfo :isOnskeLista="false" />
       <div v-bind="containerProps" class="container-props">
         <ul v-bind="wrapperProps" class="wrapper-props">
           <ListElement v-for="{ index, data } in list" :key="data.id" :plant="data" @add-to-cart="handleAdd"
@@ -23,43 +24,39 @@
 
       </div>
     </div>
-    <div v-if="shouldJumpOpen" class="jump-to-canister">
-      <div class="list-bg jump-to-container">
-        <p>Hoppa till bokstav</p>
+    <div v-if="shouldJumpOpen" class="jump-to">
+      <div>
 
-        <!-- <p>Hoppa till bokstav</p> -->
-        <!-- <p>{{ screenSize.width }} {{ isCollapsed }}</p> -->
-        <div class="filter-div jump-to">
-          <button @click="handleScrollTo('A')">A</button>
-          <button @click="handleScrollTo('B')">B</button>
-          <button @click="handleScrollTo('C')">C</button>
-          <button @click="handleScrollTo('D')">D</button>
-          <button @click="handleScrollTo('E')">E</button>
-          <button @click="handleScrollTo('F')">F</button>
-          <button @click="handleScrollTo('G')">G</button>
-          <button @click="handleScrollTo('H')">H</button>
-          <button @click="handleScrollTo('I')">I</button>
-          <button @click="handleScrollTo('J')">J</button>
-          <button @click="handleScrollTo('K')">K</button>
-          <button @click="handleScrollTo('L')">L</button>
-          <button @click="handleScrollTo('M')">M</button>
-          <button @click="handleScrollTo('N')">N</button>
-          <button @click="handleScrollTo('O')">O</button>
-          <button @click="handleScrollTo('P')">P</button>
-          <button @click="handleScrollTo('Q')">Q</button>
-          <button @click="handleScrollTo('R')">R</button>
-          <button @click="handleScrollTo('S')">S</button>
-          <button @click="handleScrollTo('T')">T</button>
-          <button @click="handleScrollTo('U')">U</button>
-          <button @click="handleScrollTo('V')">V</button>
-          <button @click="handleScrollTo('W')">W</button>
-          <!-- <button @click="handleScrollTo('X')">X</button> -->
-          <button @click="handleScrollTo('Y')">Y</button>
-          <button @click="handleScrollTo('Z')">Z</button>
-        </div>
+
+        <!-- <button @click="handleScrollTo('A')">#</button> -->
+        <button @click="handleScrollTo('A')">A</button>
+        <button @click="handleScrollTo('B')">B</button>
+        <button @click="handleScrollTo('C')">C</button>
+        <button @click="handleScrollTo('D')">D</button>
+        <button @click="handleScrollTo('E')">E</button>
+        <button @click="handleScrollTo('F')">F</button>
+        <button @click="handleScrollTo('G')">G</button>
+        <button @click="handleScrollTo('H')">H</button>
+        <button @click="handleScrollTo('I')">I</button>
+        <button @click="handleScrollTo('J')">J</button>
+        <button @click="handleScrollTo('K')">K</button>
+        <button @click="handleScrollTo('L')">L</button>
+        <button @click="handleScrollTo('M')">M</button>
+        <button @click="handleScrollTo('N')">N</button>
+        <button @click="handleScrollTo('O')">O</button>
+        <button @click="handleScrollTo('P')">P</button>
+        <button @click="handleScrollTo('Q')">Q</button>
+        <button @click="handleScrollTo('R')">R</button>
+        <button @click="handleScrollTo('S')">S</button>
+        <button @click="handleScrollTo('T')">T</button>
+        <button @click="handleScrollTo('U')">U</button>
+        <button @click="handleScrollTo('V')">V</button>
+        <button @click="handleScrollTo('W')">W</button>
+        <!-- <button @click="handleScrollTo('X')">X</button> -->
+        <button @click="handleScrollTo('Y')">Y</button>
+        <button @click="handleScrollTo('Z')">Z</button>
       </div>
     </div>
-
     <!-- <nuxt-link @click="handleScrollTo" class="scroll-to-top hide-on-phone bg-white">Skolla till toppen {{ fps
     }}</nuxt-link> -->
   </div>
@@ -196,7 +193,7 @@ const computedList = computed(() => {
 
 // Virtual list settings
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(computedList, {
-  itemHeight: 32,
+  itemHeight: 34,
   overscan: 25,
 })
 
@@ -286,15 +283,20 @@ const handleClick = () => {
 <style>
 .container-props {
   transition: none;
+  box-shadow: var(--box-shadow);
+  /* box-shadow: 0 0.5px 0px 2px rgba(0, 0, 0, 0.01); */
+  /* border: 1px solid ; */
+  background: var(--element-bg);
+  height: 100%;
+  border-radius: 1rem;
 
-  height: 96%;
-
-  padding: 0.2rem 0;
-  padding-right: 0.5rem;
+  /* border: 1px solid var(--border-color); */
+  /* padding: 0.2rem 0; */
+  /* padding-right: 0.5rem; */
   width: auto;
   max-height: 100vh !important;
   /* overflow: hidden; */
-  padding: 0.2rem 1rem;
+  /* padding: 0.2rem 1rem; */
 }
 
 @media screen and (max-width: 500px) {
@@ -309,37 +311,16 @@ const handleClick = () => {
   /* padding-bottom: 5rem; */
 }
 
-.list-bg {
-  border-radius: 1rem;
-  padding-top: 1rem;
-  /* padding: 1rem; */
-  width: fit-content;
-  /* width: 100%; */
-  margin: 0 auto;
-  background: var(--element-bg-light);
-
-
-  /* height: 100%; */
-  /* overflow: hidden; */
-}
 
 .dark .list-bg {
-  background: var(--element-bg-dark);
+  /* background: var(--element-bg-dark); */
   color: var(--text-mute-dark);
 }
 
 .main-list {
-  /* padding-left: 0; */
-  padding-right: 0.5rem;
-  /* height: calc(100vh - 80px - 5rem) !important; */
-  /* height: 85vh; */
   height: auto;
-  overflow: hidden;
-  grid-row: 1/3;
+  grid-row: 2/4;
   grid-column: 2;
-  padding-top: 0.5rem;
-  /* display: inline-block; */
-  /* display: grid; */
 }
 
 div.main-list {
@@ -369,7 +350,7 @@ div.main-list {
 /* Handle */
 *::-webkit-scrollbar-thumb {
   background: #e5e5e5;
-  border-radius: 10px;
+  border-radius: 100px;
 }
 
 .dark *::-webkit-scrollbar-thumb {
@@ -377,46 +358,44 @@ div.main-list {
   border-radius: 10px;
 }
 
-.jump-to-container {
-  height: fit-content;
-  padding: 1rem;
-  margin-left: 1rem;
-  width: calc(100% - 1rem);
+.jump-to {
+  width: fit-content;
+  height: 100%;
+  grid-row: 2/3;
+  grid-column: 3/4;
 }
 
-.jump-to-container>p {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 0.7rem;
+.jump-to button {
+  margin: 0;
+  background: none;
+  padding: 0 1rem;
 }
 
-.dark .jump-to-container>p {
-  color: var(--text-dark);
+.jump-to button:hover {
+  translate: 4px 0;
 }
 
-.jump-to-canister {
-  width: auto;
-  height: auto;
-}
+.jump-to>div {
+  display: flex;
+  flex-direction: column;
+  /* gap: 1rem; */
+  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
+  justify-content: space-between;
+  padding: 1rem 0rem;
+  height: 100%;
 
-.jump-to>button {
-  margin: 0rem;
-  max-width: calc(3rem);
-}
-
-.jump-to-container>.jump-to {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  place-items: center;
+  /* margin-left: 1rem;
+  background: var(--element-bg);
+  border-radius: 1rem;
+  box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.07); */
 }
 
 
 .list-layout {
+  padding-top: 0.5rem;
   display: grid;
   grid-template-columns: 5fr 15fr 5fr;
   grid-template-rows: min-content 1fr;
-  gap: 1rem 0;
   max-width: 115rem;
   margin: 0 auto;
   width: 100%;
@@ -431,7 +410,7 @@ div.main-list {
   }
 
   .main-list {
-    grid-row: 1 / 3;
+    grid-row: 2 / 4;
     grid-column: 2;
   }
 
@@ -538,5 +517,9 @@ div.main-list {
 .center-bottom>p>a {
   text-decoration: underline !important;
   color: #0645AD;
+}
+
+.filter-container {
+  grid-row: 2/3;
 }
 </style>

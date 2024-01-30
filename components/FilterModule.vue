@@ -1,10 +1,15 @@
 <template>
   <div class="filters">
-    <div class="filter-div search-filter-div" :class="{ 'has-content': state.query.value }">
-      <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök">
-      <button @click="state.query.value = ''">
-        <Icon name="ion:close-round" />
-      </button>
+    <div class="filter-div search-filter-div">
+      <div class="search">
+        <Icon name="material-symbols:search" size="26" />
+        <input v-model="state.query.value" placeholder="Sök" type="text">
+        <button @click="state.query.value = ''" :class="{ 'show-close': state.query.value }">
+          <Icon name="ion:close-round" />
+        </button>
+      </div>
+      <!-- <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök"> -->
+
     </div>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.favoriteFilter.value">
@@ -107,8 +112,6 @@ function handleTest() {
 }
 
 
-
-
 @media screen and (min-width: 1200px) {
   .filters {
     margin-right: 1rem;
@@ -127,22 +130,19 @@ div.bottom-one {
 .filters {
   border-radius: 1rem;
   display: grid;
-  padding: 1rem;
+  padding-right: 1rem;
   width: auto;
   /* position: sticky; */
   top: 6rem;
   z-index: 10;
-  background-color: var(--element-bg-light);
+  /* background-color: var(--element-bg); */
+  color: var(--text-mute);
 }
 
 form p {
   line-height: 1;
 }
 
-.dark .filters {
-  background: var(--element-bg-dark);
-  color: var(--text-dark);
-}
 
 .dark input[type="checkbox"] {
   -webkit-appearance: none;
@@ -198,56 +198,54 @@ form p {
   gap: 0.3rem;
 }
 
-.filter-div {
-  /* padding: 0.5rem; */
-  padding: 0.5rem 0;
-  padding-top: 0;
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 11fr 10fr;
-  place-items: center start;
-
-}
-
-.search-filter-div {
-  grid-template-columns: 10fr 1fr;
-  gap: 0;
+.search {
+  box-shadow: var(--input-shadow);
+  /* box-shadow: 0 0.5px 3px 0px rgba(0, 0, 0, 0.07); */
+  /* box-shadow: 0px 1px 0px 1.5px rgba(0, 0, 0, 0.01); */
+  background: var(--element-bg);
+  border-radius: 1rem;
   display: flex;
-  position: relative;
+  align-items: center;
+  padding-left: 0.5rem;
 }
 
-.search-filter-div button {
-  width: 2rem !important;
-  border-radius: 0 0.5rem 0.5rem 0;
-  padding: auto;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-  z-index: 2;
-}
-
-.search-filter-div.has-content input {
-  border-radius: 0.5rem;
-  /* border-right: 1px solid #d0d5dd; */
-  padding-left: 0.75rem;
-}
-
-.search-filter-div.has-content button {
-  opacity: 1;
-}
-
-.search-filter-div input {
+.search input {
+  margin: 0;
+  width: 100%;
+  background: none;
   padding: 0.5rem;
 }
 
-.search-filter-div input:focus {
-  /* outline: 2px solid #3b3f47 !important; */
-  box-shadow: 0 0 0 2px var(--primary-blue);
+.search input:focus {
   outline: none;
 }
 
-.search-filter-div input:focus:hover {
-  box-shadow: 0 0 0 2px var(--primary-blue);
+.search input::placeholder {
+  color: var(--text-mute);
+}
+
+.search input:hover {
+  background: none;
+}
+
+.search .icon * {
+  color: var(--text-mute);
+}
+
+.search button {
+  background: none;
+  /* width: 2rem !important; */
+  padding: auto;
+  z-index: 2;
+  padding: 0.5rem;
+  margin: 0;
+  opacity: 0;
+  display: grid;
+  place-items: cente
+}
+
+.search button.show-close {
+  opacity: 1;
 }
 
 .filter-div>p {
@@ -286,9 +284,5 @@ input.checkboxer {
   grid-template-columns: 10% 90%;
   place-items: center start;
   margin-left: 0;
-}
-
-.dark .check-filter-div {
-  margin: 0.3rem 0.2rem;
 }
 </style>
