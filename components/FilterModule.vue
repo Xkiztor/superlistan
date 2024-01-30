@@ -1,16 +1,16 @@
 <template>
-  <div class="filters">
-    <div class="filter-div search-filter-div">
-      <div class="search">
-        <Icon name="material-symbols:search" size="26" />
-        <input v-model="state.query.value" placeholder="Sök" type="text">
-        <button @click="state.query.value = ''" :class="{ 'show-close': state.query.value }">
-          <Icon name="ion:close-round" />
-        </button>
-      </div>
-      <!-- <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök"> -->
-
+  <div class="filter-div search-filter-div">
+    <div class="search">
+      <Icon name="material-symbols:search" size="26" />
+      <input v-model="state.query.value" placeholder="Sök" type="text">
+      <button @click="state.query.value = ''" :class="{ 'show-close': state.query.value }">
+        <Icon name="ion:close-round" />
+      </button>
     </div>
+    <!-- <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök"> -->
+
+  </div>
+  <div class="filters">
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.favoriteFilter.value">
       <div class="icon-align">
@@ -113,9 +113,6 @@ function handleTest() {
 
 
 @media screen and (min-width: 1200px) {
-  .filters {
-    margin-right: 1rem;
-  }
 
   .bottom-one {
     grid-template-columns: 1fr !important;
@@ -130,13 +127,12 @@ div.bottom-one {
 .filters {
   border-radius: 1rem;
   display: grid;
-  padding-right: 1rem;
-  width: auto;
   /* position: sticky; */
-  top: 6rem;
   z-index: 10;
-  /* background-color: var(--element-bg); */
+  background-color: var(--element-bg);
   color: var(--text-mute);
+  box-shadow: var(--input-shadow);
+  padding: 0.5rem;
 }
 
 form p {
@@ -207,6 +203,7 @@ form p {
   display: flex;
   align-items: center;
   padding-left: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .search input {

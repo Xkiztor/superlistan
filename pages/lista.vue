@@ -521,5 +521,6 @@ div.main-list {
 
 .filter-container {
   grid-row: 2/3;
+  margin-right: 2rem;
 }
 </style>
