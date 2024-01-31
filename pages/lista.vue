@@ -26,9 +26,7 @@
     </div>
     <div v-if="shouldJumpOpen" class="jump-to">
       <div>
-
-
-        <!-- <button @click="handleScrollTo('A')">#</button> -->
+        <Icon name="carbon:jump-link" size="23" />
         <button @click="handleScrollTo('A')">A</button>
         <button @click="handleScrollTo('B')">B</button>
         <button @click="handleScrollTo('C')">C</button>
@@ -283,7 +281,8 @@ const handleClick = () => {
 <style>
 .container-props {
   transition: none;
-  box-shadow: var(--box-shadow);
+  /* box-shadow: var(--box-shadow); */
+  border: 1px solid var(--border-color);
   /* box-shadow: 0 0.5px 0px 2px rgba(0, 0, 0, 0.01); */
   /* border: 1px solid ; */
   background: var(--element-bg);
@@ -299,11 +298,6 @@ const handleClick = () => {
   /* padding: 0.2rem 1rem; */
 }
 
-@media screen and (max-width: 500px) {
-  .container-props {
-    padding: 0.2rem 0.5rem;
-  }
-}
 
 .wrapper-props {
   transition: none;
@@ -311,9 +305,9 @@ const handleClick = () => {
   /* padding-bottom: 5rem; */
 }
 
-
 .dark .list-bg {
   /* background: var(--element-bg-dark); */
+  /* color: var(--text); */
   color: var(--text-mute-dark);
 }
 
@@ -363,16 +357,19 @@ div.main-list {
   height: 100%;
   grid-row: 2/3;
   grid-column: 3/4;
+  color: var(--text);
 }
 
 .jump-to button {
   margin: 0;
   background: none;
-  padding: 0 1rem;
+  padding: 0 .75rem;
+  border: none;
 }
 
 .jump-to button:hover {
   translate: 4px 0;
+  background: none;
 }
 
 .jump-to>div {
@@ -381,15 +378,19 @@ div.main-list {
   /* gap: 1rem; */
   /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
   justify-content: space-between;
-  padding: 1rem 0rem;
+  padding: 0.75rem 0rem;
   height: 100%;
 
-  /* margin-left: 1rem;
+  margin-left: 1rem;
   background: var(--element-bg);
   border-radius: 1rem;
-  box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.07); */
+  /* box-shadow: var(--box-shadow); */
+  border: 1px solid var(--border-color);
 }
 
+.jump-to .icon {
+  margin: 0 auto;
+}
 
 .list-layout {
   padding-top: 0.5rem;

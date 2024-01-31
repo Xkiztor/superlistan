@@ -24,16 +24,16 @@
     <nav class="naver big-screen-naver" v-else>
 
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">
-        <Icon name="ic:round-home" />Hem
+        <Icon name="material-symbols:home-outline-rounded" />Hem
       </nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista">
-        <Icon name="ph:list-dashes-fill" />Listan
+        <Icon name="ant-design:unordered-list-outlined" />Listan
       </nuxt-link>
       <!-- <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>
         <Icon name="ph:list-dashes-fill" />Linders Superlista 2023
       </nuxt-link> -->
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">
-        <Icon name="ic:round-shopping-cart" />Varukorg
+        <Icon name="material-symbols:shopping-cart-outline" />Varukorg
       </nuxt-link>
       <ThemeToggle v-if="$route.path == '/lista' || !isSmallScreen" />
     </nav>
@@ -69,7 +69,7 @@ useHead({
     },
     {
       rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Inter&display=swap',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:400,500,600,700,800,900&display=swap',
       crossorigin: ''
     }
   ]
@@ -110,26 +110,33 @@ onClickOutside(target, (event) => {
   --bg-dark: #0f0f11;
 
   --element-bg-light: #ffffff;
-  --element-bg-dark: #181a1e;
+  --element-bg-dark: #1b1b1e;
 
-  --element-top-light: #ebedf1;
-  --element-top-dark: #1e2024;
+  --element-top-light: #f7f7f7;
+  --element-top-dark: #27272c;
+  --element-top-border-dark: #38383a;
 
-  --element-top-hover-light: #e0e2e6;
-  --element-top-hover-dark: #22252a;
+  --element-top-hover-light: #e0e0e0;
+  --element-top-hover-dark: #262628;
 
-  --box-shadow-light: 0 0.5px 3px 0px rgba(0, 0, 0, 0.07);
-  --box-shadow-dark: 0 0.5px 3px 0px rgba(0, 0, 0, 0.2);
+  --box-shadow-light: 0 0px 0px 1px var(--border-color-light);
+  /* --box-shadow-dark: 0 0px 0px 1px var(--border-color-dark); */
+  /* --box-shadow-light: 0 0.5px 3px 0px rgba(0, 0, 0, 0.07); */
+  /* --box-shadow-dark: 0 0.5px 5px 2px rgba(0, 0, 0, 0.3); */
 
-  --input-shadow-light: 0 1.5px 3px 0px rgba(0, 0, 0, 0.05);
-  --input-shadow-dark: 0 1.5px 3px 0px rgba(0, 0, 0, 0.2);
+  --input-shadow-light: 0 0px 0px 1px var(--border-color-light);
+  /* --input-shadow-dark: 0 0px 0px 1px var(--border-color-dark); */
+  /* --input-shadow-light: 0 1.5px 3px 0px rgba(0, 0, 0, 0.05); */
+  /* --input-shadow-dark: 0 1.5px 5px 2px rgba(0, 0, 0, 0.3); */
 
+  --border-color-light: #e2e1e1;
+  --border-color-dark: #2b2b2d;
   /* --box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
 
   /* --box-shadow-inset-light: inset 0 -0.5px 3px #cfd1d6; */
   /* --box-shadow-inset-dark: inset 0 -0.5px 3px #3a3e47e0; */
 
-  --text-mute-dark: #b0bac5;
+  --text-mute-dark: #c0c8d1;
   --text-mute-light: #787878;
 
   --text-white: #fff;
@@ -137,8 +144,6 @@ onClickOutside(target, (event) => {
   --text-light: #000000;
   --text-dark: #ebebeb;
 
-  --border-color-light: #e6e6e6;
-  --border-color-dark: #2b2b2d;
 }
 
 html:not(.dark) {
@@ -208,12 +213,12 @@ html {
   /* background: #16181c; */
 }
 
-html.dark {
-  background: var(--bg);
+html:has(.home-container) {
+  background: var(--element-bg);
 }
 
+
 button,
-.btn-input,
 .navigator>a,
 input,
 select,
@@ -223,9 +228,21 @@ select,
   background-color: var(--element-top);
   box-shadow: var(--box-shadow-inset);
   /* border: none; */
-  margin: 0.5rem;
   cursor: pointer;
+  margin: 0.5rem;
   /* cfd1d6 */
+}
+
+.dark .increment,
+.dark .expanded button:not(.increment *),
+.dark .info-container>*,
+.dark .onske-list-bg button:not(.element *),
+.dark .onske-list-bg input {
+  border: 1px solid var(--element-top-border-dark);
+}
+
+input:not([type="checkbox"]) {
+  cursor: text;
 }
 
 
@@ -336,19 +353,25 @@ button:hover {
   color: var(--text);
   place-self: end center;
   width: 100%;
-  padding: 0;
+  /* padding: 0 30rem; */
   height: 4rem;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 7rem;
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
-  border-bottom: 1px solid var(--border-color);
   z-index: 11;
   transition: all 0.5s;
   letter-spacing: 0.05rem;
   position: relative;
+
+
+  border-bottom: 1px solid var(--border-color);
+  background: var(--element-bg);
+  /* box-shadow: var(--box-shadow); */
 }
+
 
 .big-screen-naver>.theme-toggle {
   position: absolute;

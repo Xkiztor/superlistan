@@ -303,7 +303,13 @@ function mouseLeave() {
   border: 1px solid transparent;
   background: var(--element-bg);
   /* border-bottom: 1px solid var(--border-color); */
-  border-bottom: 2px solid var(--bg);
+  border-bottom: 1px solid var(--bg);
+}
+
+.dark .element {
+  /* border-color: var(--border-color); */
+  /* border-color: rgb(31, 31, 34); */
+  border-color: transparent;
 }
 
 .element p {
@@ -372,7 +378,6 @@ function mouseLeave() {
     grid-template-columns: 15fr 4fr;
   }
 }
-
 
 :not(.dark) .expand-button:hover {
   opacity: 0.5;

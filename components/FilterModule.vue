@@ -45,42 +45,42 @@
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.T">
       <div class="icon-align">
-        <Icon name="noto:deciduous-tree" size="16" title="Träd" />
+        <Icon name="noto:deciduous-tree" size="18" title="Träd" />
         <p>Träd</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.B">
       <div class="icon-align">
-        <Icon name="noto:evergreen-tree" size="16" title="Barrträd" />
+        <Icon name="noto:evergreen-tree" size="18" title="Barrträd" />
         <p>Barrträd</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.P">
       <div class="icon-align">
-        <Icon name="fxemoji:rosette" size="16" title="Perenner" />
+        <Icon name="fxemoji:rosette" size="18" title="Perenner" />
         <p>Perenner</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.K">
       <div class="icon-align">
-        <Icon name="game-icons:curling-vines" class="klattervaxt-icon" size="16" title="Klätterväxt" />
+        <Icon name="game-icons:curling-vines" class="klattervaxt-icon" size="18" title="Klätterväxt" />
         <p>Klätterväxter</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.O">
       <div class="icon-align">
-        <Icon name="game-icons:fern" class="ormbunke-icon" size="16" title="Ormbunke" />
+        <Icon name="game-icons:fern" class="ormbunke-icon" size="18" title="Ormbunke" />
         <p>Ormbunke</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.G">
       <div class="icon-align">
-        <Icon name="game-icons:high-grass" class="grass-icon" size="16" title="Gräs" />
+        <Icon name="game-icons:high-grass" class="grass-icon" size="18" title="Gräs" />
         <p>Gräs</p>
       </div>
     </form>
@@ -131,10 +131,12 @@ div.bottom-one {
   z-index: 10;
   background-color: var(--element-bg);
   color: var(--text-mute);
-  box-shadow: var(--input-shadow);
+  /* box-shadow: var(--input-shadow); */
   padding: 0.5rem;
   color: var(--text);
+  border: 1px solid var(--border-color);
 }
+
 
 form p {
   line-height: 1;
@@ -198,7 +200,7 @@ input[type="checkbox"]:checked {
 }
 
 .search {
-  box-shadow: var(--input-shadow);
+  /* box-shadow: var(--input-shadow); */
   /* box-shadow: 0 0.5px 3px 0px rgba(0, 0, 0, 0.07); */
   /* box-shadow: 0px 1px 0px 1.5px rgba(0, 0, 0, 0.01); */
   background: var(--element-bg);
@@ -207,6 +209,7 @@ input[type="checkbox"]:checked {
   align-items: center;
   padding-left: 0.5rem;
   margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
 }
 
 .search input {
