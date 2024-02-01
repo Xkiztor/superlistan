@@ -57,10 +57,10 @@
   <a href="https://discord.nuxtjs.org/"><img src="https://badgen.net/badge/Discord/join/7289DA" alt="Discord"></a>
  </p>
  
-A list with thousands of plant to order from.
+A homemade list with thousands of plants to order from.
 
 Details:
-* Made with [Vue 3](https://vuejs.org/), [Nuxt 3](https://v3.nuxtjs.org/), [VueUse](https://vueuse.org/), [Supabase](https://supabase.com/) and [Tailwind](https://tailwindcss.com/)
+* Made with [Vue 3](https://vuejs.org/), [Nuxt 3](https://v3.nuxtjs.org/), [VueUse](https://vueuse.org/) and [Supabase](https://supabase.com/)
 * Check the source code if you want to see how it was made and contibute if you feel like it! :smile:
 
 See the [open issues](https://github.com/Xkiztor/superlista-test/issues) for a full list of proposed features (and known issues).
