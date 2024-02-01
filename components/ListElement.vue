@@ -287,7 +287,7 @@ function mouseLeave() {
 .element {
   display: grid;
   /* border-radius: 1rem; */
-  padding: 0.235rem 0.4rem;
+  padding: 0.235rem 0 0.235rem 0.4rem;
   max-width: 90rem;
   overflow: hidden;
   min-width: 0px;
@@ -357,7 +357,7 @@ function mouseLeave() {
   }
 
   .element {
-    grid-template-columns: 1fr 40fr 15fr 3fr !important;
+    grid-template-columns: 1fr 40fr 8fr 1fr !important;
   }
 }
 
@@ -480,7 +480,7 @@ function mouseLeave() {
 }
 
 .check-icon {
-  color: var(--primary-blue);
+  color: var(--primary-green);
   font-size: 1.5rem;
   margin: auto 0;
 }

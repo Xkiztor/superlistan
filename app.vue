@@ -98,7 +98,7 @@ onClickOutside(target, (event) => {
 
 <style>
 :root {
-  --primary-blue: #105dfb;
+  --primary-green: #6fa246;
 
   --primary-red-light: #ff0000;
   --primary-red-dark: #f36161;
@@ -209,8 +209,15 @@ h1 {
 }
 
 html {
+  min-height: 100vh;
+  height: fit-content;
   background: var(--bg);
   /* background: #16181c; */
+}
+
+body {
+  min-height: 100vh;
+  height: fit-content;
 }
 
 html:has(.home-container) {
@@ -277,7 +284,7 @@ button:hover {
   place-items: center;
   /* padding: 0 1rem; */
   grid-template-rows: min-content auto;
-  height: 100vh !important;
+  min-height: 100vh !important;
 
 }
 
@@ -407,6 +414,12 @@ button:hover {
 }
 
 
+@media screen and (max-width: 1000px) {
+  .naver {
+    gap: 5rem;
+  }
+}
+
 @media screen and (max-width: 500px) {
   .naver>a {
     font-size: 0.9rem;
@@ -415,8 +428,14 @@ button:hover {
   }
 
   .naver {
-    gap: 0;
-    margin: 1rem 0;
+    padding: 0 2rem;
+    gap: 5rem;
+  }
+
+  html:has(.home-container) .naver {
+    padding: 0 1rem;
+    justify-content: space-around;
+    gap: 0rem;
   }
 }
 
@@ -427,7 +446,11 @@ button:hover {
 
 .big-screen-naver .router-link-active {
   /* background: var(--element-top); */
-  border-bottom: 2px solid var(--primary-blue);
+  border-bottom: 2px solid var(--primary-green);
+}
+
+.big-screen-naver a {
+  border-color: var(--primary-green);
 }
 
 
@@ -444,8 +467,8 @@ button:hover {
 @media screen and (max-width:1200px) {
 
   .main-layout {
-    grid-template-rows: min-content auto;
-    height: 100vh;
+    /* grid-template-rows: min-content auto; */
+    /* height: 100vh; */
   }
 }
 

@@ -233,48 +233,58 @@ const testPlant = {
   overflow: hidden;
   position: relative;
   padding: 4rem;
+  /* background: linear-gradient(0.25turn, #8ac95757, #57ffe063); */
+  background: #aeea8c;
+}
 
+.dark .text-stycke.head {
+  background: #5c8b42;
+}
+
+@media screen and (max-width: 900px) {
+  .text-stycke.head {
+    padding: 2rem 1rem;
+  }
 }
 
 .text-stycke.head * {
   z-index: 3;
   position: relative;
+  color: var(--text);
+}
+
+.dark .text-stycke.head * {
+  color: var(--text-white);
 }
 
 .text-stycke .blob {
   height: 50rem;
   width: 50rem;
   position: absolute;
-  filter: blur(1400px);
+  filter: blur(100px);
   z-index: 1;
   border-radius: 100%;
-  opacity: 0.3;
+  opacity: 0.5;
+  --color-1: #c4ff80;
+  --color-2: #8eff97c6;
+}
+
+.dark .text-stycke .blob {
+  opacity: 0.2;
+  --color-1: #c1ff5c;
+  --color-2: #9cff56;
 }
 
 .text-stycke .blob-1 {
-  background: #008b1d;
+  background: var(--color-1);
   left: 0rem;
   top: -40rem;
 }
 
 .text-stycke .blob-2 {
-  background: #fff382;
+  background: var(--color-2);
   bottom: -40rem;
-  right: 0rem;
-}
-
-.text-stycke .blob-3 {
-  background: #4daa57;
-  width: 100vw;
-  height: 40rem;
-  bottom: 0;
-  right: 50%;
-  translate: 50% 0;
-  scale: 3;
-  opacity: 0.25;
-  filter: none;
-  border-radius: 0;
-  z-index: 0;
+  right: -10rem;
 }
 
 /* .home-container section:nth-child(even) {
@@ -305,6 +315,10 @@ li>svg {
   font-weight: 500;
 }
 
+.dark .text-stycke strong {
+  color: var(--text);
+}
+
 .text-stycke {
   padding-top: 1rem;
   padding: 1rem 2rem;
@@ -313,7 +327,7 @@ li>svg {
 }
 
 .text-stycke:not(:last-child) {
-  margin: 0 auto 1rem;
+  margin: 0 auto 0rem;
 }
 
 .text-stycke>div {
@@ -345,12 +359,30 @@ h1.main-title {
   font-weight: 900;
 }
 
+@media screen and (max-width: 900px) {
 
-h1.underrubrik {
-  /* text-align: center; */
-  margin-top: 1.5rem;
-  font-size: 1.5rem;
-  font-weight: 700;
+
+  h1.underrubrik {
+    /* text-align: center; */
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  @media screen and (max-width: 900px) {
+    .text-stycke h1 {
+      font-size: 1.5rem;
+    }
+
+    h1.underrubrik {
+      font-size: 1.25rem;
+    }
+
+    h1.main-title {
+      font-size: 2rem;
+      font-weight: 900;
+    }
+  }
 }
 
 .text-stycke>div>a,
@@ -375,10 +407,6 @@ li>a,
 }
 
 @media screen and (max-width: 750px) {
-  .main-layout {
-    padding: 1rem;
-  }
-
   .text-stycke {
     padding: 1rem 1rem;
   }

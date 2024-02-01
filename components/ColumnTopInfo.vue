@@ -18,7 +18,7 @@
       </p>
     </client-only>
     <!-- <p v-if="props.isOnskeLista == false" class=""></p> -->
-    <p></p>
+    <p class="hide-on-phone"></p>
     <p v-if="props.isOnskeLista == false" @click="handleSort('Höjd')" class="hide-on-phone clickable">
       Höjd
       <i v-if="state.sortByWhat.value === 'Höjd' && !isOnskeLista">
@@ -74,7 +74,7 @@ const handleSort = (what) => {
 .top-info {
   display: grid;
   /* grid-template-columns: 5% 50.5% 18% 9% 6% 9% 2%; */
-  grid-template-columns: 3fr 31fr 10fr 15fr 8fr 2fr 8fr 3fr;
+  grid-template-columns: 4fr 45fr 13fr 19fr 10fr 8fr 8fr 5fr;
   place-items: center start;
   padding: 5px;
   padding-bottom: 8px;
@@ -92,7 +92,7 @@ const handleSort = (what) => {
 
 @media screen and (max-width: 750px) {
   .top-info {
-    grid-template-columns: 5fr 57fr 15fr !important;
+    grid-template-columns: 3fr 50fr 10fr !important;
   }
 
   .top-info>.pris {
@@ -106,12 +106,11 @@ const handleSort = (what) => {
 
 @media screen and (max-width:481px) {
   .top-info {
-    place-self: center end;
-    grid-template-columns: 5fr 50fr 15fr !important;
+    grid-template-columns: 3fr 40fr 10fr !important;
   }
 
   .name {
-    margin-left: 1.4rem;
+    /* margin-left: 1.4rem; */
   }
 }
 
@@ -128,9 +127,5 @@ const handleSort = (what) => {
 .clickable>i {
   position: absolute;
   right: -1.5rem;
-}
-
-.top-info .pris {
-  place-self: center;
 }
 </style>

@@ -270,6 +270,9 @@ function mouseLeave() {
   background: var(--element-bg);
   /* border-bottom: 1px solid var(--border-color); */
   border-bottom: 1px solid var(--bg);
+
+
+  margin-top: 1rem;
 }
 
 .dark .element-ex {
@@ -446,7 +449,7 @@ function mouseLeave() {
 }
 
 .check-icon {
-  color: var(--primary-blue);
+  color: var(--primary-green);
   font-size: 1.5rem;
   margin: auto 0;
 }

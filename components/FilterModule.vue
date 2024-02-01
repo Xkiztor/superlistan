@@ -161,7 +161,7 @@ input[type="checkbox"] {
 
 input[type="checkbox"]:hover {
   /* background-color: var(--element-top-hover); */
-  border-color: var(--primary-blue);
+  border-color: var(--primary-green);
   opacity: 0.8;
 }
 
@@ -187,8 +187,8 @@ input[type="checkbox"]:checked::before {
 
 input[type="checkbox"]:checked {
   /* transform: scale(1.3); */
-  background-color: var(--primary-blue);
-  border-color: var(--primary-blue);
+  background-color: var(--primary-green);
+  border-color: var(--primary-green);
   /* background-color: #565d69; */
 }
 

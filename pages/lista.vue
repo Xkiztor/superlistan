@@ -381,7 +381,7 @@ div.main-list {
   padding: 0.75rem 0rem;
   height: 100%;
 
-  margin-left: 1rem;
+  margin-left: 2rem;
   background: var(--element-bg);
   border-radius: 1rem;
   /* box-shadow: var(--box-shadow); */
@@ -392,6 +392,10 @@ div.main-list {
   margin: 0 auto;
 }
 
+.dark .jump-to .icon {
+  color: var(--text-mute);
+}
+
 .list-layout {
   padding-top: 0.5rem;
   display: grid;
@@ -400,6 +404,8 @@ div.main-list {
   max-width: 115rem;
   margin: 0 auto;
   width: 100%;
+  padding-right: 2rem;
+  padding-left: 2rem;
 
 
   height: 100% !important;
@@ -407,7 +413,7 @@ div.main-list {
 
 @media screen and (max-width: 1600px) {
   .list-layout {
-    grid-template-columns: 4fr 9fr;
+    grid-template-columns: 3fr 9fr min-content;
   }
 
   .main-list {
@@ -441,12 +447,14 @@ div.main-list {
   }
 }
 
-@media screen and (max-width: 500px) {
-  .list-bg {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+@media screen and (max-width: 750px) {
+  .list-layout {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
+}
 
+@media screen and (max-width: 500px) {
   .main-layout {
     padding: 0;
   }
