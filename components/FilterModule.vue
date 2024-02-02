@@ -101,7 +101,6 @@ function handleTest() {
 <style>
 @media screen and (max-width: 1200px) {
   .filters {
-    max-width: 50rem;
     margin: 1rem auto;
   }
 
@@ -109,6 +108,9 @@ function handleTest() {
     gap: 1rem;
   }
 
+  .search-filter-div {
+    /* display: none; */
+  }
 }
 
 
@@ -135,6 +137,7 @@ div.bottom-one {
   padding: 0.5rem;
   color: var(--text);
   border: 1px solid var(--border-color);
+  width: 100%;
 }
 
 
@@ -159,11 +162,14 @@ input[type="checkbox"] {
   border: 2px solid var(--border-color);
 }
 
-input[type="checkbox"]:hover {
-  /* background-color: var(--element-top-hover); */
-  border-color: var(--primary-green);
-  opacity: 0.8;
+@media screen and (min-width: 1000px) {
+  input[type="checkbox"]:hover {
+    /* background-color: var(--element-top-hover); */
+    border-color: var(--primary-green);
+    opacity: 0.8;
+  }
 }
+
 
 input[type="checkbox"]::before {
   content: "";
@@ -283,7 +289,8 @@ input.checkboxer {
 .check-filter-div {
   display: grid;
   margin: 0.15rem;
-  grid-template-columns: 10% 90%;
+  gap: 0.5rem;
+  grid-template-columns: min-content 1fr;
   place-items: center start;
   margin-left: 0;
 }

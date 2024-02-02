@@ -1,5 +1,5 @@
 <template>
-  <div class="top-info">
+  <div class="top-info" :class="{ 'onskelist': isOnskeLista }">
     <p></p>
     <client-only placeholder="Namn">
       <p v-if="isAboveAverage" @click="handleSort('Namn')" class="name clickable">
@@ -79,6 +79,10 @@ const handleSort = (what) => {
   padding: 5px;
   padding-bottom: 8px;
   grid-column: 2/3;
+}
+
+.top-info.onskelist {
+  grid-template-columns: 5fr 45fr 13fr 19fr 10fr 8fr 8fr 5fr;
 }
 
 .dark .top-info {

@@ -1,31 +1,13 @@
 <template>
   <div class="list-layout">
-    <ColumnTopInfo :isOnskeLista="false" />
 
     <div class="filter-container" v-if="shouldFilterOpen">
       <FilterModule @fetch-list="fetchAllList" @handle-click="handleClick" />
     </div>
 
-    <div class="list-bg main-list">
-      <div v-bind="containerProps" class="container-props">
-        <ul v-bind="wrapperProps" class="wrapper-props">
-          <ListElement v-for="{ index, data } in list" :key="data.id" :plant="data" @add-to-cart="handleAdd"
-            :isOnskeLista="false" />
-          <!-- <div class="observer" ref="observerTarget">
-            <h1>above 1</h1>
-          </div> -->
-          <div class="bottom-spacer"></div>
-          <div class="center-bottom" @click="fetchAllList()">
-            {{ userMessage }}
-            <!-- <p v-if="userMessage != 'Här är listan slut'">Om det inte laddas fler, tryck <a class="pointer"
-                @click="fetchAllList()">här</a></p> -->
-          </div>
-        </ul>
-
-      </div>
-    </div>
     <div v-if="shouldJumpOpen" class="jump-to">
       <div>
+        <h1>Hoppa till bokstav</h1>
         <Icon name="carbon:jump-link" size="23" />
         <button @click="handleScrollTo('A')">A</button>
         <button @click="handleScrollTo('B')">B</button>
@@ -53,6 +35,26 @@
         <!-- <button @click="handleScrollTo('X')">X</button> -->
         <button @click="handleScrollTo('Y')">Y</button>
         <button @click="handleScrollTo('Z')">Z</button>
+      </div>
+    </div>
+
+    <ColumnTopInfo :isOnskeLista="false" />
+    <div class="list-bg main-list">
+      <div v-bind="containerProps" class="container-props">
+        <ul v-bind="wrapperProps" class="wrapper-props">
+          <ListElement v-for="{ index, data } in list" :key="data.id" :plant="data" @add-to-cart="handleAdd"
+            :isOnskeLista="false" />
+          <!-- <div class="observer" ref="observerTarget">
+            <h1>above 1</h1>
+          </div> -->
+          <div class="bottom-spacer"></div>
+          <div class="center-bottom" @click="fetchAllList()">
+            {{ userMessage }}
+            <!-- <p v-if="userMessage != 'Här är listan slut'">Om det inte laddas fler, tryck <a class="pointer"
+                @click="fetchAllList()">här</a></p> -->
+          </div>
+        </ul>
+
       </div>
     </div>
     <!-- <nuxt-link @click="handleScrollTo" class="scroll-to-top hide-on-phone bg-white">Skolla till toppen {{ fps
@@ -373,19 +375,57 @@ div.main-list {
 }
 
 .jump-to>div {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   /* gap: 1rem; */
-  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   justify-content: space-between;
+  flex-direction: column;
   padding: 0.75rem 0rem;
   height: 100%;
 
-  margin-left: 2rem;
   background: var(--element-bg);
   border-radius: 1rem;
   /* box-shadow: var(--box-shadow); */
   border: 1px solid var(--border-color);
+}
+
+
+
+@media screen and (max-width: 1200px) {
+
+  .jump-to,
+  .jump-to>div {
+    width: 100%;
+  }
+
+  .jump-to>div {
+    gap: 1rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .jump-to {
+    margin-bottom: 0.5rem;
+  }
+
+  .jump-to .icon {
+    display: none;
+  }
+
+  .jump-to h1 {
+    font-size: 1.1em;
+    font-weight: 500;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .jump-to>div {
+    display: flex;
+    margin-left: 2rem;
+  }
+
+  .jump-to h1 {
+    display: none;
+  }
 }
 
 .jump-to .icon {
@@ -394,6 +434,11 @@ div.main-list {
 
 .dark .jump-to .icon {
   color: var(--text-mute);
+}
+
+.jump-to h1 {
+  grid-column: 1/6;
+  text-align: center;
 }
 
 .list-layout {
@@ -436,7 +481,9 @@ div.main-list {
 
   .main-list.list-bg {
     order: 3;
-    height: 87vh;
+    height: calc(100vh - 7rem);
+    /* height: 87vh; */
+    padding-bottom: 1rem;
   }
 
   .jump-to-container {
@@ -530,6 +577,17 @@ div.main-list {
 
 .filter-container {
   grid-row: 2/3;
-  margin-right: 2rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .filter-container {
+    margin-top: 0.5rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .filter-container {
+    margin-right: 2rem;
+  }
 }
 </style>

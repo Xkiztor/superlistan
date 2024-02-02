@@ -1,25 +1,30 @@
 <template>
   <div data-theme="light" class="main-layout tou-z65h9k" ref="el" :class="$route.path == '/lista' ? 'page-lista' : ''">
     <nav class="naver" v-if="isSmallScreen && $route.path == '/lista'">
+      <button @click="state.openFilter" :class="{ 'if-filter-open': state.isFilterOpen.value }">
+        <Icon class=" nav-icon" name="mdi:filter" size="30" />
+      </button>
+      <button @click="state.openJump" :class="{ 'if-filter-open': state.isJumpOpen.value }">
+        <Icon class=" nav-icon" name="quill:jump-alt" size="32" />
+      </button>
       <div class="dropdown-menu">
-        <button @click.stop="openNav = !openNav">
-          <Icon class=" nav-icon" name="material-symbols:menu-rounded" size="30" />
+        <button>
+          <Icon @click="openNavFunc()" v-if="!openNav" class=" nav-icon" name="material-symbols:menu-rounded" size="30" />
+          <Icon @click="openNav = false" v-if="openNav" class=" nav-icon" name="material-symbols:close" size="30" />
         </button>
         <div class="dropdown" v-if="openNav" ref="target">
-          <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/" @click="openNav = false">Hem</nuxt-link>
-          <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista"
-            @click="openNav = false">Listan</nuxt-link>
-          <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg"
-            @click="openNav = false">Varukorg</nuxt-link>
+          <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/" @click="openNav = false">
+            <Icon name="material-symbols:home-outline-rounded" />Hem
+          </nuxt-link>
+          <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" @click="openNav = false">
+            <Icon name="ant-design:unordered-list-outlined" />Listan
+          </nuxt-link>
+          <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg" @click="openNav = false">
+            <Icon name="material-symbols:shopping-cart-outline" />Varukorg
+          </nuxt-link>
           <ThemeToggle />
         </div>
       </div>
-      <button @click="state.openFilter">
-        <Icon class=" nav-icon" name="mdi:filter" size="30" />
-      </button>
-      <button @click="state.openJump">
-        <Icon class=" nav-icon" name="quill:jump-alt" size="32" />
-      </button>
     </nav>
     <nav class="naver big-screen-naver" v-else>
 
@@ -93,6 +98,11 @@ onClickOutside(target, (event) => {
   openNav.value = false
 })
 
+const openNavFunc = () => {
+  if (openNav.value == false) {
+    openNav.value = true
+  }
+}
 
 </script>
 
@@ -265,16 +275,20 @@ input:not([type="checkbox"]) {
   color: var(--text);
 }
 
-.dark button:hover,
-.dark input:hover {
-  background: var(--element-top-hover);
-  box-shadow: var(--box-shadow-inset);
+@media screen and (min-width: 1000px) {
+
+  .dark button:hover,
+  .dark input:hover {
+    background: var(--element-top-hover);
+    box-shadow: var(--box-shadow-inset);
+  }
+
+  select:hover,
+  button:hover {
+    background-color: var(--element-top-hover);
+  }
 }
 
-select:hover,
-button:hover {
-  background-color: var(--element-top-hover);
-}
 
 
 
@@ -292,17 +306,20 @@ button:hover {
   background: var(--bg);
 }
 
-.page-lista {
-  grid-template-rows: min-content 91vh;
+@media screen and (min-width: 1200px) {
+  .page-lista {
+    grid-template-rows: min-content 91vh;
+  }
 }
 
 .dropdown {
   background-color: var(--element-bg);
   position: absolute;
-  left: 0;
+  right: -50%;
   z-index: 5;
   border-radius: 1rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px 0px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
 
   display: flex;
   flex-direction: column;
@@ -310,10 +327,21 @@ button:hover {
   padding: 1rem;
 }
 
+.dark .dropdown {
+  box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown a {
+  display: grid;
+  grid-template-columns: min-content min-content;
+  gap: 0.5rem;
+  place-items: center;
+}
 
 .dropdown .theme-toggle {
   margin: 0;
   padding: 0;
+  width: fit-content;
 }
 
 .dropdown .theme-toggle:not(.dark) {
@@ -332,8 +360,8 @@ button:hover {
   display: inline-block;
 }
 
-.naver>button,
-.naver>div>button {
+.naver>button:not(.if-filter-open),
+.naver>div>button:not(.if-filter-open) {
   background: none;
   box-shadow: none;
 }
@@ -401,6 +429,19 @@ button:hover {
   font-size: 1.3em;
 }
 
+.naver button:not(.if-filter-open):hover {
+  background: none;
+}
+
+.if-filter-open {
+  background: var(--element-top);
+  /* border-bottom: 2px solid var(--primary-green); */
+}
+
+.if-filter-open * {
+  color: var(--primary-green);
+}
+
 .big-screen-naver>a:hover {
   /* transform: scale(105%); */
   opacity: 0.5;
@@ -428,11 +469,6 @@ button:hover {
   }
 
   .naver {
-    padding: 0 2rem;
-    gap: 5rem;
-  }
-
-  html:has(.home-container) .naver {
     padding: 0 1rem;
     justify-content: space-around;
     gap: 0rem;
@@ -444,9 +480,12 @@ button:hover {
   top: 0;
 }
 
-.big-screen-naver .router-link-active {
-  /* background: var(--element-top); */
-  border-bottom: 2px solid var(--primary-green);
+@media screen and (min-width: 1200px) {
+  .big-screen-naver .router-link-active {
+    /* background: var(--element-top); */
+    border-bottom: 2px solid var(--primary-green);
+  }
+
 }
 
 .big-screen-naver a {
