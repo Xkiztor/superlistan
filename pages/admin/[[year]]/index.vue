@@ -34,12 +34,12 @@
             <v-if v-if="showTable">Visa formulerad</v-if>
           </button>
           <button @click="showTopTen = !showTopTen">
-            <v-if v-if="!showTopTen">Visa top 10 växter</v-if>
-            <v-if v-if="showTopTen">Dölj top 10</v-if>
+            <v-if v-if="!showTopTen">Visa vanligaste växterna</v-if>
+            <v-if v-if="showTopTen">Dölj top växterna</v-if>
           </button>
         </div>
         <div class="top-ten" v-if="showTopTen">
-          <h1>Top 10 växter:</h1>
+          <h1>Top <input type="text" v-model="topCount"> växter:</h1>
           <li v-for="(plant, index) in topTen">
             <p>{{ index + 1 }}</p>
             <a :href="`https://www.google.com/search?q=${plant.string.replace(/\s+/g, '+')}&tbm=isch&dpr=1`"
@@ -185,6 +185,8 @@ const recomendedCount = computed(() => Math.round(userData.value.map(e => e.Reko
 fetchUserData()
 
 
+const topCount = ref(20)
+
 const topTen = computed(() => {
   let stringCount = {};
   userData.value.forEach(obj => {
@@ -198,7 +200,7 @@ const topTen = computed(() => {
     }
   });
   let sortedStrings = Object.keys(stringCount).sort((a, b) => stringCount[b] - stringCount[a]);
-  let top10Strings = sortedStrings.slice(0, 10).map(str => ({ string: str, count: stringCount[str] }));
+  let top10Strings = sortedStrings.slice(0, topCount.value).map(str => ({ string: str, count: stringCount[str] }));
   return top10Strings;
 })
 
@@ -349,6 +351,10 @@ const toggleDark = useToggle(isDark)
 
 .dark .top-ten a {
   color: var(--text-mute-dark);
+}
+
+.top-ten input {
+  width: 3.5rem;
 }
 
 
