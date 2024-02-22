@@ -101,7 +101,8 @@
         <p>
           Moms ingår med
           {{
-            Math.round((filteredArray.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) / 2 * 100) * 0.2) / 100
+            Math.round(Math.round(filteredArray.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) / 2) * 0.2 * 100) /
+            100
           }}
           kr
         </p>
