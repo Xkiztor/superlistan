@@ -1,20 +1,27 @@
 <template>
   <div class="home-container">
     <section class="text-stycke head">
-      <div class="blob blob-1"></div>
+      <!-- <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
+      <div class="blob blob-3"></div> -->
+      <img
+        src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/10_ApplicationFrameHost_uc4YB.jpg"
+        alt="">
       <div>
         <h1 class="main-title">Linders Superlista 2024</h1>
         <p>
           En chans att hitta det du länge letat efter!
-          Linders superlista är en härligt späckad lista med 16 000 rader av ovanliga och odlingsvärda växter att beställa
+          Linders superlista är en härligt späckad lista med 16 000 rader av ovanliga och odlingsvärda växter att
+          beställa
           ifrån.
           <i>Beställningen gör du senast 25 februari 2024</i> för att sedan
-          hämta dina beställda växter på <a href="https://lindersplantskola.se/hitta-hit/">Linders plantskola</a> utanför
+          hämta dina beställda växter på <a href="https://lindersplantskola.se/hitta-hit/">Linders plantskola</a>
+          utanför
           Hörby i Skåne under maj 2024.
-          Tack vare att du gör beställningen i förväg och själv hämtar ut dina växter kan jag hålla låga priser i Linders
-          superlista. Alla priser är inklusive moms. Lägsta ordersumma är 2000 kr. (Gå ihop med en vän om det är svårt att
+          Tack vare att du gör beställningen i förväg och själv hämtar ut dina växter kan jag hålla låga priser i
+          Linders
+          superlista. Alla priser är inklusive moms. Lägsta ordersumma är 2000 kr. (Gå ihop med en vän om det är svårt
+          att
           komma upp i den summan).
         </p>
       </div>
@@ -25,7 +32,8 @@
 
         <h1>Hur gör jag?</h1>
         <p class="top-desc">
-          Listan med växter hittar du under fliken <nuxt-link class="link" to="/lista">Listan</nuxt-link> överst på denna
+          Listan med växter hittar du under fliken <nuxt-link class="link" to="/lista">Listan</nuxt-link> överst på
+          denna
           sida. I listan kan du söka
           och ange hur många av en viss växt som du vill ha. Under fliken <nuxt-link class="link"
             to="/varukorg">Varukorg</nuxt-link> kan du sedan se vilka växter du valt,
@@ -43,7 +51,8 @@
         </div>
         <h1 class="underrubrik">Filter</h1>
         <p>
-          På vänster sida finns det en filterfunktion där man kan filtrera och söka i listan för att snabbare hitta det du
+          På vänster sida finns det en filterfunktion där man kan filtrera och söka i listan för att snabbare hitta det
+          du
           letar efter. Den kan du använda för att
           söka efter exempelvis ätliga växter, bara träd eller mina tipsade favoriter.
         </p>
@@ -133,14 +142,16 @@
             är en
             fyrkantskruka
             med sida 9 cm, P11 en fyrkantskruka med sida 11 cm osv.
-            Ibland finns detta tecken "#" vilket betyder att trädet har odlats i marken. Har ingen större betydelse, ofta
+            Ibland finns detta tecken "#" vilket betyder att trädet har odlats i marken. Har ingen större betydelse,
+            ofta
             är det positivt och ger kraftiga plantor. Leveraras som klump eller i kruka.
           </li>
           <li>
             <strong>Höjd:</strong> Här anges ungefärlig höjd i cm på plantan som säljs.
           </li>
           <li>
-            <strong>Minsta order:</strong> här är angivit det minimumantal som gäller för en viss växt (främst perenner i
+            <strong>Minsta order:</strong> här är angivit det minimumantal som gäller för en viss växt (främst perenner
+            i
             P9-kruka där det
             ofta är 12 st som är minimum).
           </li>
@@ -148,19 +159,22 @@
             <strong>Pris:</strong> Pris med moms per styck
           </li>
           <li>
-            <strong>Lager:</strong> här står hur många som finns i lager, när det är känt. Står det inget går det ändå bra
+            <strong>Lager:</strong> här står hur många som finns i lager, när det är känt. Står det inget går det ändå
+            bra
             att beställa.
           </li>
           <li>
             <strong>Storleks-kommentar:</strong> Här står t.ex. "Pa" på dom träd som är toppympade på stam eller i vissa
             fall
-            uppstammade till en tydlig stam. "Spö" innebär att det mest är en huvudstam och inte så många sidogrenar ännu.
+            uppstammade till en tydlig stam. "Spö" innebär att det mest är en huvudstam och inte så många sidogrenar
+            ännu.
             På en del träd anges här stamomfång, t.ex. 6-8 vilket betyder att stammen har en omkrets på 6-8 cm mätt 1 m
             upp.
           </li>
           <li>
             <strong>Zon:</strong> Vad gäller härdighet är det stor variation över listan och mycket är otillräckligt
-            prövat i Sverige. På en del växter har jag angivit svensk zon-tålighet. Zon 0 står för innerstadsmiljöer i zon
+            prövat i Sverige. På en del växter har jag angivit svensk zon-tålighet. Zon 0 står för innerstadsmiljöer i
+            zon
             1.
           </li>
         </ul>
@@ -173,7 +187,8 @@
 
         <h1>Betalning och Hämtning</h1>
         <p class="paragraph-spacing">
-          När jag fått din beställning svarar jag med en faktura på halva beloppet. Resten betalas när du hämtar växterna
+          När jag fått din beställning svarar jag med en faktura på halva beloppet. Resten betalas när du hämtar
+          växterna
           i maj och vi ser exakt vad
           som har gått att få tag på (jag räknar med att få tag på ungefär 60-80 % av det du beställt).
           Jag kan inte skicka växterna utan dom hämtas här i plantskolan utanför Hörby under maj månad.
@@ -234,11 +249,29 @@ const testPlant = {
   position: relative;
   padding: 4rem;
   /* background: linear-gradient(0.25turn, #8ac95757, #57ffe063); */
-  background: #aeea8c;
+  background: #b3ff87;
 }
 
 .dark .text-stycke.head {
   background: #5c8b42;
+}
+
+.text-stycke.head img {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  filter: blur(50px) opacity(50%);
+  height: 800%;
+  transition: all 1s ease;
+}
+
+html:not(.dark) .text-stycke.head img {
+  /* top: -100%; */
+  top: -12rem;
+  left: -10rem;
+  /* rotate: -15deg; */
+  filter: blur(50px) brightness(200%) contrast(80%) saturate(70%) opacity(50%) hue-rotate(10deg);
 }
 
 @media screen and (max-width: 900px) {

@@ -9,7 +9,8 @@
       </button>
       <div class="dropdown-menu">
         <button>
-          <Icon @click="openNavFunc()" v-if="!openNav" class=" nav-icon" name="material-symbols:menu-rounded" size="30" />
+          <Icon @click="openNavFunc()" v-if="!openNav" class=" nav-icon" name="material-symbols:menu-rounded"
+            size="30" />
           <Icon @click="openNav = false" v-if="openNav" class=" nav-icon" name="material-symbols:close" size="30" />
         </button>
         <div class="dropdown" v-if="openNav" ref="target">
@@ -27,7 +28,7 @@
       </div>
     </nav>
     <nav class="naver big-screen-naver" v-else>
-
+      <img src="/lindersplantskola-logo.svg" alt="lindersplantskola-logo">
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">
         <Icon name="material-symbols:home-outline-rounded" />Hem
       </nuxt-link>
@@ -117,17 +118,17 @@ const openNavFunc = () => {
   --link-dark: #75b4f8;
 
   --bg-light: #fbfbfb;
-  --bg-dark: #0f0f11;
+  --bg-dark: hsl(240, 6%, 6%);
 
   --element-bg-light: #ffffff;
-  --element-bg-dark: #1b1b1e;
+  --element-bg-dark: hsl(240, 5%, 13%);
 
   --element-top-light: #f7f7f7;
-  --element-top-dark: #27272c;
+  --element-top-dark: hsl(240, 6%, 16%);
   --element-top-border-dark: #38383a;
 
   --element-top-hover-light: #e0e0e0;
-  --element-top-hover-dark: #262628;
+  --element-top-hover-dark: hsl(240, 3%, 19%);
 
   --box-shadow-light: 0 0px 0px 1px var(--border-color-light);
   /* --box-shadow-dark: 0 0px 0px 1px var(--border-color-dark); */
@@ -146,13 +147,14 @@ const openNavFunc = () => {
   /* --box-shadow-inset-light: inset 0 -0.5px 3px #cfd1d6; */
   /* --box-shadow-inset-dark: inset 0 -0.5px 3px #3a3e47e0; */
 
-  --text-mute-dark: #c0c8d1;
+  /* --text-mute-dark: hsl(0, 0%, 92%); */
+  --text-mute-dark: hsl(212, 16%, 85%);
   --text-mute-light: #787878;
 
   --text-white: #fff;
 
   --text-light: #000000;
-  --text-dark: #ebebeb;
+  --text-dark: hsl(0, 0%, 95%);
 
 }
 
@@ -412,6 +414,20 @@ input:not([type="checkbox"]) {
   position: absolute;
   right: 1rem;
   margin: 0;
+}
+
+.big-screen-naver>img {
+  position: absolute;
+  left: 1rem;
+  margin: 0;
+  height: 45%;
+  color: #6fa246;
+  fill: #6fa246;
+  filter: opacity(70%);
+}
+
+.dark .big-screen-naver>img {
+  filter: opacity(85%) invert(98%) sepia(5%) saturate(203%) hue-rotate(228deg) brightness(119%) contrast(100%);
 }
 
 .naver>a {

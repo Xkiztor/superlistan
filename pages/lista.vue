@@ -193,7 +193,7 @@ const computedList = computed(() => {
 
 // Virtual list settings
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(computedList, {
-  itemHeight: 34,
+  itemHeight: 33,
   overscan: 25,
 })
 
@@ -330,15 +330,20 @@ div.main-list {
 }
 
 * {
-  scrollbar-color: rgb(234, 234, 234) white;
+  scrollbar-color: rgb(234, 234, 234) #ffffff00;
+  --scrollbar-color-thumb: rgb(234, 234, 234);
+  --scrollbar-color-track: #ffffff00;
 }
 
 .dark * {
-  scrollbar-color: #6d747b #2a2d34;
+  scrollbar-color: #6d747b #ffffff00;
+  --scrollbar-color-thumb: #6d747b;
+  --scrollbar-color-track: #ffffff00;
 }
 
 /* Track */
 *::-webkit-scrollbar-track {
+  background: #ffffff00;
   /* box-shadow: 0 0 5px grey; */
   border-radius: 10px;
 }
