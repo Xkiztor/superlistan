@@ -28,20 +28,21 @@
       </div>
     </nav>
     <nav class="naver big-screen-naver" v-else>
-      <img src="/lindersplantskola-logo.svg" alt="lindersplantskola-logo">
+      <img src="/lindersplantskola-logo.svg" class="logo" alt="lindersplantskola-logo">
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">
-        <Icon name="material-symbols:home-outline-rounded" />Hem
+        <Icon name="material-symbols:home-outline-rounded" /><i>Hem</i>
       </nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista">
-        <Icon name="ant-design:unordered-list-outlined" />Listan
+        <Icon name="ant-design:unordered-list-outlined" /><i>Listan</i>
       </nuxt-link>
       <!-- <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>
         <Icon name="ph:list-dashes-fill" />Linders Superlista 2023
       </nuxt-link> -->
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">
-        <Icon name="material-symbols:shopping-cart-outline" />Varukorg
+        <Icon name="material-symbols:shopping-cart-outline" /><i>Varukorg</i>
       </nuxt-link>
-      <ThemeToggle v-if="$route.path == '/lista' || !isSmallScreen" />
+      <ThemeToggle />
+      <!-- <ThemeToggle v-if="$route.path == '/lista' || !isSmallScreen" /> -->
     </nav>
     <KeepAlive>
       <NuxtPage />
@@ -424,6 +425,27 @@ input:not([type="checkbox"]) {
   color: #6fa246;
   fill: #6fa246;
   filter: opacity(70%);
+}
+
+@media screen and (max-width: 1200px) {
+  .naver img.logo {
+    display: none
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .big-screen-naver>a i {
+    display: none;
+  }
+
+  nav.big-screen-naver .theme-toggle {
+    position: relative;
+  }
+
+  nav.big-screen-naver a svg.icon,
+  nav.big-screen-naver svg {
+    font-size: 1.35rem
+  }
 }
 
 .dark .big-screen-naver>img {

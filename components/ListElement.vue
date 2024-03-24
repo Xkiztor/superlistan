@@ -3,7 +3,7 @@
     <!-- @click.stop="expanded = !expanded" -->
     <div class="plant-icon"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-lime': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-yellow': plant.Typ == 'G' }"
-      :title="toolTipCalculator(plant.Typ)" @click.stop="iconClick()" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
+      :title="toolTipCalculator(plant.Typ)" @click.stop="iconClick()">
       <Icon name="noto:deciduous-tree" size="14" v-if="plant.Typ == 'T'" title="Träd" />
       <Icon name="noto:evergreen-tree" size="14" v-if="plant.Typ == 'B'" title="Barrträd" />
       <Icon name="fxemoji:rosette" size="14" v-if="plant.Typ == 'P'" title="Perenner" />
@@ -17,8 +17,8 @@
     <p class="plant-name" :title="plant.Namn"><a
         :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
         {{
-          plant.Namn
-        }}</a>
+    plant.Namn
+  }}</a>
     </p>
 
     <div class="ikoner hide-on-phone">
@@ -215,14 +215,29 @@ const toolTipCalculator = (firstLetter) => {
   if (firstLetter === 'P') return 'Perenner'
 }
 
-const iconClick = () => {
-  console.log('Clicked');
-  window.open(
-    `https://www.google.com/search?q=${props.plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`,
-    'newwindow',
-    'width=1000, height=2000'
-  );
-  return false;
+const iconClick = async () => {
+  // console.log('Clicked');
+  // window.open(
+  //   `https://www.google.com/search?q=${props.plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`,
+  //   'newwindow',
+  //   'width=1000, height=2000'
+  // );
+  // return false;
+  state.showGoogleSearchResult.value = true
+  state.searchedPlant.value = props.plant.Namn
+
+  const url = ref(`https://www.googleapis.com/customsearch/v1?cx=0114e20bfe1bc4e87&key=AIzaSyDCXzTT72V9WC44HefCRffYeK7o-sFwE0Y&num=10&start=1&searchType=image&q=${props.plant.Namn.replace(/\s+/g, '+')}`)
+
+  const { data, error } = await useFetch(url)
+
+  if (data) {
+    console.log(data);
+    state.googleSearchResult.value = data.value
+    state.showImages.value = true
+  }
+  if (error) {
+    console.error(error);
+  }
 }
 
 var timeout

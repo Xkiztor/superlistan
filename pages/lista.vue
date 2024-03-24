@@ -1,4 +1,33 @@
 <template>
+  <div class="search-modal" v-if="state.showGoogleSearchResult.value">
+    <!-- <button @click="printGoogle()">Print</button>
+    <button @click="state.showImages.value = !state.showImages.value">Visa bilder</button> -->
+    <div class="image-grid" ref="imageGrid">
+      <h1>{{ state.searchedPlant.value }}</h1>
+      <button class="close" @click="state.showGoogleSearchResult.value = false, state.showImages.value = false">
+        <Icon name="material-symbols:close" size="35" />
+      </button>
+      <img @click="openNewTab(state.googleSearchResult.value.items[0].link)" v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[0].link" alt="">
+      <img @click="openNewTab(state.googleSearchResult.value.items[1].link)" v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[1].link" alt="">
+      <img @click="openNewTab(state.googleSearchResult.value.items[2].link)" v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[2].link" alt="">
+      <img @click="openNewTab(state.googleSearchResult.value.items[3].link)" v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[3].link" alt="">
+      <img @click="openNewTab(state.googleSearchResult.value.items[4].link)" v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[4].link" alt="">
+      <img @click="openNewTab(state.googleSearchResult.value.items[5].link)" v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[5].link" alt="">
+      <img @click="openNewTab(state.googleSearchResult.value.items[6].link)" v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[6].link" alt="">
+      <img @click="openNewTab(state.googleSearchResult.value.items[7].link)" v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[7].link" alt="">
+      <img @click="openNewTab(state.googleSearchResult.value.items[8].link)" v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[8].link" alt="">
+      <Icon class="loader" v-else name="line-md:loading-loop" size="80" />
+    </div>
+  </div>
   <div class="list-layout">
 
     <div class="filter-container" v-if="shouldFilterOpen">
@@ -81,6 +110,7 @@ definePageMeta({
 /* - - - - - - Refs - - - - - - */
 const state = useGlobalState()
 const onskeList = useGlobalOnskeList()
+
 
 // const dataList = ref([])
 const dataList = useStorage('datalist', [])
@@ -277,6 +307,22 @@ const handleClick = () => {
   sortBy.value.ascending = !sortBy.value.ascending
   fetchAllList()
 }
+
+
+const printGoogle = () => {
+  console.log(state.googleSearchResult.value);
+}
+
+const openNewTab = (url) => {
+  window.open(url, '_blank')
+}
+
+const imageGrid = ref(null)
+
+onClickOutside(() => {
+  state.showGoogleSearchResult.value = false
+  state.showImages.value = false
+})
 </script>
 
 
@@ -594,5 +640,76 @@ div.main-list {
   .filter-container {
     margin-right: 2rem;
   }
+}
+
+.search-modal {
+  position: absolute;
+  z-index: 13;
+  background: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.search-modal .image-grid {
+  position: relative;
+  bottom: 0;
+  height: 70%;
+  width: 70%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: min-content 1fr 1fr 1fr;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 1rem 1rem 0 0;
+  background: var(--element-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 0 40px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dark .search-modal .image-grid {
+  box-shadow: 0 0 30px 20px rgba(0, 0, 0, 0.5);
+}
+
+.search-modal .image-grid img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.search-modal .image-grid .loader * {
+  color: var(--text)
+}
+
+.search-modal .image-grid .loader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.search-modal .image-grid .close {
+  background: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.search-modal .image-grid h1 {
+  grid-column: 1/4;
+  color: var(--text);
+  font-size: 2rem;
 }
 </style>

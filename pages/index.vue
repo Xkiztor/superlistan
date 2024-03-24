@@ -4,8 +4,7 @@
       <!-- <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
       <div class="blob blob-3"></div> -->
-      <img
-        src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/10_ApplicationFrameHost_uc4YB.jpg"
+      <img src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/Downscale%20-%203IKzqvkmhA.jpg"
         alt="">
       <div>
         <h1 class="main-title">Linders Superlista 2024</h1>
