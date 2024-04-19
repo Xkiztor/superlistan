@@ -25,7 +25,8 @@
       <label for="user-comment">Kommentar: </label>
       <input v-model="orderComment" id="user-comment" type="text" placeholder="(Frivilligt)">
     </div>
-    <button @click="handleSend" :class="hasSent ? 'grayed' : ''" class="send">Skicka in</button>
+    <button @click="handleSend" :class="{ 'all-fields': orderName && orderMail && orderAdress && orderPhone }"
+      class="send">Skicka in</button>
     <!-- <button @click="mailjsSend()">Skicka mailjs test</button> -->
   </div>
   <div class="modals">
@@ -255,6 +256,40 @@ const sendNuxtMail = () => {
 
 .dark .send {
   color: #ecf9fb;
+}
+
+.send:not(.all-fields) {
+  color: var(--text-mute);
+}
+
+.dark .send:not(.all-fields) {
+  color: #797979;
+}
+
+.send:not(.all-fields):hover {
+  background: var(--element-top);
+}
+
+html:not(.dark) button.send:not(.all-fields) {
+  border: 1px solid #00000000;
+}
+
+button.send.all-fields {
+  background: #8dd751;
+  box-shadow: 0 0 10px 1px #75d824;
+  border: 2px solid #8ccb58;
+}
+
+button.send.all-fields:hover {
+  transform: translateY(-2px);
+  background: #8dd751;
+  box-shadow: 0 2px 15px 2px #86d644 !important;
+}
+
+.dark button.send.all-fields {
+  background: var(--primary-green);
+  box-shadow: 0 0 10px 2px var(--primary-green);
+  border-color: var(--primary-green);
 }
 
 .modal-text {

@@ -1,11 +1,16 @@
 <template>
-  <div class="filters">
-    <div class="filter-div search-filter-div" :class="{ 'has-content': state.query.value }">
-      <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök">
-      <button @click="state.query.value = ''">
+  <div class="filter-div search-filter-div">
+    <div class="search">
+      <Icon name="material-symbols:search" size="26" />
+      <input v-model="state.query.value" placeholder="Sök" type="text">
+      <button @click="state.query.value = ''" :class="{ 'show-close': state.query.value }">
         <Icon name="ion:close-round" />
       </button>
     </div>
+    <!-- <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök"> -->
+
+  </div>
+  <div class="filters">
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.favoriteFilter.value">
       <div class="icon-align">
@@ -40,42 +45,42 @@
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.T">
       <div class="icon-align">
-        <Icon name="noto:deciduous-tree" size="16" title="Träd" />
+        <Icon name="noto:deciduous-tree" size="18" title="Träd" />
         <p>Träd</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.B">
       <div class="icon-align">
-        <Icon name="noto:evergreen-tree" size="16" title="Barrträd" />
+        <Icon name="noto:evergreen-tree" size="18" title="Barrträd" />
         <p>Barrträd</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.P">
       <div class="icon-align">
-        <Icon name="fxemoji:rosette" size="16" title="Perenner" />
+        <Icon name="fxemoji:rosette" size="18" title="Perenner" />
         <p>Perenner</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.K">
       <div class="icon-align">
-        <Icon name="game-icons:curling-vines" class="klattervaxt-icon" size="16" title="Klätterväxt" />
+        <Icon name="game-icons:curling-vines" class="klattervaxt-icon" size="18" title="Klätterväxt" />
         <p>Klätterväxter</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.O">
       <div class="icon-align">
-        <Icon name="game-icons:fern" class="ormbunke-icon" size="16" title="Ormbunke" />
+        <Icon name="game-icons:fern" class="ormbunke-icon" size="18" title="Ormbunke" />
         <p>Ormbunke</p>
       </div>
     </form>
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.G">
       <div class="icon-align">
-        <Icon name="game-icons:high-grass" class="grass-icon" size="16" title="Gräs" />
+        <Icon name="game-icons:high-grass" class="grass-icon" size="18" title="Gräs" />
         <p>Gräs</p>
       </div>
     </form>
@@ -96,7 +101,6 @@ function handleTest() {
 <style>
 @media screen and (max-width: 1200px) {
   .filters {
-    max-width: 50rem;
     margin: 1rem auto;
   }
 
@@ -104,15 +108,13 @@ function handleTest() {
     gap: 1rem;
   }
 
+  .search-filter-div {
+    /* display: none; */
+  }
 }
 
 
-
-
 @media screen and (min-width: 1200px) {
-  .filters {
-    margin-right: 1rem;
-  }
 
   .bottom-one {
     grid-template-columns: 1fr !important;
@@ -127,68 +129,73 @@ div.bottom-one {
 .filters {
   border-radius: 1rem;
   display: grid;
-  padding: 1rem;
-  width: auto;
   /* position: sticky; */
-  top: 6rem;
   z-index: 10;
-  background-color: var(--element-bg-light);
+  background-color: var(--element-bg);
+  color: var(--text-mute);
+  /* box-shadow: var(--input-shadow); */
+  padding: 0.5rem;
+  color: var(--text);
+  border: 1px solid var(--border-color);
+  width: 100%;
 }
+
 
 form p {
   line-height: 1;
 }
 
-.dark .filters {
-  background: var(--element-bg-dark);
-  color: var(--text-dark);
-}
 
-.dark input[type="checkbox"] {
+input[type="checkbox"] {
   -webkit-appearance: none;
   appearance: none;
   margin: 0;
   font: inherit;
-  width: 1.3em;
-  height: 1.3em;
-  box-shadow: var(--box-shadow-inset-dark), var(--box-shadow);
-  border-radius: 0.4em;
+  width: 1.5em;
+  height: 1.5em;
+  /* box-shadow: var(--box-shadow-inset-dark), var(--box-shadow); */
+  border-radius: 0.3em;
   transform: translateY(-0.075em);
   display: grid;
   place-content: center;
+  background: none;
+  border: 2px solid var(--border-color);
 }
 
-.dark input[type="checkbox"]:hover {
-  background-color: var(--element-top-hover-dark);
+@media screen and (min-width: 1000px) {
+  input[type="checkbox"]:hover {
+    /* background-color: var(--element-top-hover); */
+    border-color: var(--primary-green);
+    opacity: 0.8;
+  }
 }
 
-.dark input[type="checkbox"]::before {
+
+input[type="checkbox"]::before {
   content: "";
   width: 0.65em;
   height: 0.65em;
   transform: scale(0);
   transition: 80ms transform;
   /* box-shadow: inset 3em 3em #606060; */
-  border-radius: 0.2em;
-  border: 0.15em solid var(--text-dark);
+  /* border-radius: 0.2em; */
+  /* border: 0.15em solid white; */
   /* box-shadow: inset 1em 1em rgb(35, 128, 40); */
   transform-origin: center;
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
 
-.dark input[type="checkbox"]:checked::before {
-  transform: scale(1.4);
-  background-color: var(--text-dark);
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+  background: white;
+  /* background: var(--text); */
 }
 
-.dark input[type="checkbox"]:checked {
+input[type="checkbox"]:checked {
   /* transform: scale(1.3); */
-  background-color: var(--primary-blue);
+  background-color: var(--primary-green);
+  border-color: var(--primary-green);
   /* background-color: #565d69; */
-}
-
-.grayed {
-  color: var(--text-mute-dark);
 }
 
 .icon-align {
@@ -198,56 +205,56 @@ form p {
   gap: 0.3rem;
 }
 
-.filter-div {
-  /* padding: 0.5rem; */
-  padding: 0.5rem 0;
-  padding-top: 0;
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 11fr 10fr;
-  place-items: center start;
-
-}
-
-.search-filter-div {
-  grid-template-columns: 10fr 1fr;
-  gap: 0;
+.search {
+  /* box-shadow: var(--input-shadow); */
+  /* box-shadow: 0 0.5px 3px 0px rgba(0, 0, 0, 0.07); */
+  /* box-shadow: 0px 1px 0px 1.5px rgba(0, 0, 0, 0.01); */
+  background: var(--element-bg);
+  border-radius: 1rem;
   display: flex;
-  position: relative;
+  align-items: center;
+  padding-left: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
 }
 
-.search-filter-div button {
-  width: 2rem !important;
-  border-radius: 0 0.5rem 0.5rem 0;
-  padding: auto;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-  z-index: 2;
-}
-
-.search-filter-div.has-content input {
-  border-radius: 0.5rem;
-  /* border-right: 1px solid #d0d5dd; */
-  padding-left: 0.75rem;
-}
-
-.search-filter-div.has-content button {
-  opacity: 1;
-}
-
-.search-filter-div input {
+.search input {
+  margin: 0;
+  width: 100%;
+  background: none;
   padding: 0.5rem;
 }
 
-.search-filter-div input:focus {
-  /* outline: 2px solid #3b3f47 !important; */
-  box-shadow: 0 0 0 2px var(--primary-blue);
+.search input:focus {
   outline: none;
 }
 
-.search-filter-div input:focus:hover {
-  box-shadow: 0 0 0 2px var(--primary-blue);
+.search input::placeholder {
+  color: var(--text-mute);
+}
+
+.search input:hover {
+  background: none;
+}
+
+.search .icon * {
+  color: var(--text-mute);
+}
+
+.search button {
+  background: none;
+  /* width: 2rem !important; */
+  padding: auto;
+  z-index: 2;
+  padding: 0.5rem;
+  margin: 0;
+  opacity: 0;
+  display: grid;
+  place-items: cente
+}
+
+.search button.show-close {
+  opacity: 1;
 }
 
 .filter-div>p {
@@ -275,7 +282,6 @@ input.checkboxer {
   width: 1.2rem;
   height: 1.2rem;
   margin: 0.2rem;
-  border-radius: 0.5rem;
   /* margin-right: 1rem; */
   /* appearance: none; */
 }
@@ -283,12 +289,9 @@ input.checkboxer {
 .check-filter-div {
   display: grid;
   margin: 0.15rem;
-  grid-template-columns: 10% 90%;
+  gap: 0.5rem;
+  grid-template-columns: min-content 1fr;
   place-items: center start;
   margin-left: 0;
-}
-
-.dark .check-filter-div {
-  margin: 0.3rem 0.2rem;
 }
 </style>

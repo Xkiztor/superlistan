@@ -50,15 +50,13 @@ const handleDelete = (n) => {
 </script>
 
 <style>
-.main-layout {
-  scrollbar-gutter: stable;
+.onske-list {
+  padding-top: 1rem;
 }
 
 .list-container {
-  /* background-color: #fff; */
   padding: 1rem;
   border-radius: 1rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
 }
 
 .onske-list-bg {
@@ -67,17 +65,17 @@ const handleDelete = (n) => {
   /* width: fit-content; */
   width: 100%;
   margin: 0 auto;
-  background: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background: var(--element-bg);
+  color: var(--text);
+  border: 1px solid var(--border-color);
 }
 
 .dark .onske-list-bg {
-  background: #26292f;
-  color: #b0bac5;
+  color: var(--text-mute);
 }
 
 .dark .onske-list-bg h1 {
-  color: #ecf9fb;
+  color: var(--text-dark);
 }
 
 .bottom-section {

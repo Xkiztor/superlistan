@@ -1,41 +1,48 @@
 <template>
   <div data-theme="light" class="main-layout tou-z65h9k" ref="el" :class="$route.path == '/lista' ? 'page-lista' : ''">
     <nav class="naver" v-if="isSmallScreen && $route.path == '/lista'">
+      <button @click="state.openFilter" :class="{ 'if-filter-open': state.isFilterOpen.value }">
+        <Icon class=" nav-icon" name="mdi:filter" size="30" />
+      </button>
+      <button @click="state.openJump" :class="{ 'if-filter-open': state.isJumpOpen.value }">
+        <Icon class=" nav-icon" name="quill:jump-alt" size="32" />
+      </button>
       <div class="dropdown-menu">
-        <button @click.stop="openNav = !openNav">
-          <Icon class=" nav-icon" name="material-symbols:menu-rounded" size="30" />
+        <button>
+          <Icon @click="openNavFunc()" v-if="!openNav" class=" nav-icon" name="material-symbols:menu-rounded"
+            size="30" />
+          <Icon @click="openNav = false" v-if="openNav" class=" nav-icon" name="material-symbols:close" size="30" />
         </button>
         <div class="dropdown" v-if="openNav" ref="target">
-          <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/" @click="openNav = false">Hem</nuxt-link>
-          <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista"
-            @click="openNav = false">Listan</nuxt-link>
-          <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg"
-            @click="openNav = false">Varukorg</nuxt-link>
+          <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/" @click="openNav = false">
+            <Icon name="material-symbols:home-outline-rounded" />Hem
+          </nuxt-link>
+          <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" @click="openNav = false">
+            <Icon name="ant-design:unordered-list-outlined" />Listan
+          </nuxt-link>
+          <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg" @click="openNav = false">
+            <Icon name="material-symbols:shopping-cart-outline" />Varukorg
+          </nuxt-link>
           <ThemeToggle />
         </div>
       </div>
-      <button @click="state.openFilter">
-        <Icon class=" nav-icon" name="mdi:filter" size="30" />
-      </button>
-      <button @click="state.openJump">
-        <Icon class=" nav-icon" name="quill:jump-alt" size="32" />
-      </button>
     </nav>
     <nav class="naver big-screen-naver" v-else>
-
+      <img src="/lindersplantskola-logo.svg" class="logo" alt="lindersplantskola-logo">
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">
-        <Icon name="ic:round-home" />Hem
+        <Icon name="material-symbols:home-outline-rounded" /><i>Hem</i>
       </nuxt-link>
       <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista">
-        <Icon name="ph:list-dashes-fill" />Listan
+        <Icon name="ant-design:unordered-list-outlined" /><i>Listan</i>
       </nuxt-link>
       <!-- <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" v-else>
         <Icon name="ph:list-dashes-fill" />Linders Superlista 2023
       </nuxt-link> -->
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">
-        <Icon name="ic:round-shopping-cart" />Varukorg
+        <Icon name="material-symbols:shopping-cart-outline" /><i>Varukorg</i>
       </nuxt-link>
-      <ThemeToggle v-if="$route.path == '/lista' || !isSmallScreen" />
+      <ThemeToggle />
+      <!-- <ThemeToggle v-if="$route.path == '/lista' || !isSmallScreen" /> -->
     </nav>
     <KeepAlive>
       <NuxtPage />
@@ -69,7 +76,7 @@ useHead({
     },
     {
       rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Inter&display=swap',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:400,500,600,700,800,900&display=swap',
       crossorigin: ''
     }
   ]
@@ -93,12 +100,17 @@ onClickOutside(target, (event) => {
   openNav.value = false
 })
 
+const openNavFunc = () => {
+  if (openNav.value == false) {
+    openNav.value = true
+  }
+}
 
 </script>
 
 <style>
 :root {
-  --primary-blue: #116fea;
+  --primary-green: #6fa246;
 
   --primary-red-light: #ff0000;
   --primary-red-dark: #f36161;
@@ -106,97 +118,180 @@ onClickOutside(target, (event) => {
   --link-light: #0645AD;
   --link-dark: #75b4f8;
 
-  --bg-light: #e5e7eb;
-  --bg-dark: #131519;
+  --bg-light: #fbfbfb;
+  --bg-dark: hsl(240, 6%, 6%);
 
   --element-bg-light: #ffffff;
-  --element-bg-dark: #23252b;
+  --element-bg-dark: hsl(240, 5%, 13%);
 
-  --element-top-light: #ebedf1;
-  --element-top-dark: #30343b;
+  --element-top-light: #f7f7f7;
+  --element-top-dark: hsl(240, 6%, 16%);
+  --element-top-border-dark: #38383a;
 
-  --element-top-hover-light: #e0e2e6;
-  --element-top-hover-dark: #3b3f47;
+  --element-top-hover-light: #e0e0e0;
+  --element-top-hover-dark: hsl(240, 3%, 19%);
 
+  --box-shadow-light: 0 0px 0px 1px var(--border-color-light);
+  /* --box-shadow-dark: 0 0px 0px 1px var(--border-color-dark); */
+  /* --box-shadow-light: 0 0.5px 3px 0px rgba(0, 0, 0, 0.07); */
+  /* --box-shadow-dark: 0 0.5px 5px 2px rgba(0, 0, 0, 0.3); */
+
+  --input-shadow-light: 0 0px 0px 1px var(--border-color-light);
+  /* --input-shadow-dark: 0 0px 0px 1px var(--border-color-dark); */
+  /* --input-shadow-light: 0 1.5px 3px 0px rgba(0, 0, 0, 0.05); */
+  /* --input-shadow-dark: 0 1.5px 5px 2px rgba(0, 0, 0, 0.3); */
+
+  --border-color-light: #e2e1e1;
+  --border-color-dark: #2b2b2d;
   /* --box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
 
   /* --box-shadow-inset-light: inset 0 -0.5px 3px #cfd1d6; */
   /* --box-shadow-inset-dark: inset 0 -0.5px 3px #3a3e47e0; */
 
-  --text-mute-dark: #b0bac5;
+  /* --text-mute-dark: hsl(0, 0%, 92%); */
+  --text-mute-dark: hsl(212, 16%, 85%);
   --text-mute-light: #787878;
 
   --text-white: #fff;
 
   --text-light: #000000;
-  --text-dark: #ebebeb;
+  --text-dark: hsl(0, 0%, 95%);
 
-  --border-color-light: #e5e7eb;
-  --border-color-dark: #373c46;
 }
 
+html:not(.dark) {
+  --primary-red: var(--primary-red-light);
+
+  --link: var(--link-light);
+
+  --bg: var(--bg-light);
+
+  --element-bg: var(--element-bg-light);
+
+  --element-top: var(--element-top-light);
+
+  --element-top-hover: var(--element-top-hover-light);
+
+  --box-shadow: var(--box-shadow-light);
+
+  --input-shadow: var(--input-shadow-light);
+
+  --text-mute: var(--text-mute-light);
+
+  --text: var(--text-light);
+
+  --border-color: var(--border-color-light);
+}
+
+.dark {
+  --primary-red: var(--primary-red-dark);
+
+  --link: var(--link-dark);
+
+  --bg: var(--bg-dark);
+
+  --element-bg: var(--element-bg-dark);
+
+  --element-top: var(--element-top-dark);
+
+  --element-top-hover: var(--element-top-hover-dark);
+
+  --box-shadow: var(--box-shadow-dark);
+
+  --input-shadow: var(--input-shadow-dark);
+
+  --text-mute: var(--text-mute-dark);
+
+  --text: var(--text-dark);
+
+  --border-color: var(--border-color-dark);
+}
 
 * {
-  font-family: 'Inter', 'Helvetica';
+  font-family: 'Inter', 'Helvetica', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  /* font-family: SFR, 'SFR'; */
   transition: all 150ms;
   letter-spacing: -0.25px;
 }
 
 h1 {
-  font-family: 'Inter', 'Helvetica';
+  /* font-family: SFB, 'SFB'; */
+  font-family: 'Inter', 'Helvetica', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 600;
   /* stroke: 2px solid #116fea; */
 }
 
 html {
-  background: var(--bg-light);
+  min-height: 100vh;
+  height: fit-content;
+  background: var(--bg);
   /* background: #16181c; */
 }
 
-html.dark {
-  background: var(--bg-dark);
+body {
+  min-height: 100vh;
+  height: fit-content;
 }
 
+html:has(.home-container) {
+  background: var(--element-bg);
+}
+
+
 button,
-.btn-input,
 .navigator>a,
 input,
 select,
 .info-container>* {
   padding: 0.4rem;
   border-radius: 0.5rem;
-  background-color: var(--element-top-light);
-  box-shadow: var(--box-shadow-inset-light);
+  background-color: var(--element-top);
+  box-shadow: var(--box-shadow-inset);
   /* border: none; */
-  margin: 0.5rem;
   cursor: pointer;
+  margin: 0.5rem;
   /* cfd1d6 */
+}
+
+.dark .increment,
+.dark .expanded button:not(.increment *),
+.dark .info-container>*,
+.dark .onske-list-bg button:not(.element *),
+.dark .onske-list-bg input {
+  border: 1px solid var(--element-top-border-dark);
+}
+
+input:not([type="checkbox"]) {
+  cursor: text;
 }
 
 
 .dark .info-container>* {
-  background: var(--element-top-dark);
-  box-shadow: var(--box-shadow-inset-dark);
-  color: var(--text-mute-dark);
+  background: var(--element-top);
+  box-shadow: var(--box-shadow-inset);
+  color: var(--text-mute);
 }
 
 .dark input,
 .dark button {
-  background: var(--element-top-dark);
-  box-shadow: var(--box-shadow-inset-dark);
-  color: var(--text-dark);
+  box-shadow: var(--box-shadow-inset);
+  color: var(--text);
 }
 
-.dark button:hover,
-.dark input:hover {
-  background: var(--element-top-hover-dark);
-  box-shadow: var(--box-shadow-inset-dark);
+@media screen and (min-width: 1000px) {
+
+  .dark button:hover,
+  .dark input:hover {
+    background: var(--element-top-hover);
+    box-shadow: var(--box-shadow-inset);
+  }
+
+  select:hover,
+  button:hover {
+    background-color: var(--element-top-hover);
+  }
 }
 
-select:hover,
-button:hover {
-  background-color: var(--element-top-hover-light);
-}
 
 
 
@@ -204,27 +299,30 @@ button:hover {
 .main-layout {
   display: grid;
   place-items: center;
-  padding: 0 1rem;
+  /* padding: 0 1rem; */
   grid-template-rows: min-content auto;
-  height: 100vh !important;
+  min-height: 100vh !important;
 
 }
 
 .dark .main-layout {
-  background: var(--bg-dark);
+  background: var(--bg);
 }
 
-.page-lista {
-  grid-template-rows: min-content 87vh;
+@media screen and (min-width: 1200px) {
+  .page-lista {
+    grid-template-rows: min-content 91vh;
+  }
 }
 
 .dropdown {
-  background-color: var(--element-bg-light);
+  background-color: var(--element-bg);
   position: absolute;
-  left: 0;
+  right: -50%;
   z-index: 5;
   border-radius: 1rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px 0px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
 
   display: flex;
   flex-direction: column;
@@ -233,12 +331,20 @@ button:hover {
 }
 
 .dark .dropdown {
-  background: var(--element-top-dark);
+  box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown a {
+  display: grid;
+  grid-template-columns: min-content min-content;
+  gap: 0.5rem;
+  place-items: center;
 }
 
 .dropdown .theme-toggle {
   margin: 0;
   padding: 0;
+  width: fit-content;
 }
 
 .dropdown .theme-toggle:not(.dark) {
@@ -257,8 +363,8 @@ button:hover {
   display: inline-block;
 }
 
-.naver>button,
-.naver>div>button {
+.naver>button:not(.if-filter-open),
+.naver>div>button:not(.if-filter-open) {
   background: none;
   box-shadow: none;
 }
@@ -270,7 +376,7 @@ button:hover {
 }
 
 .dark .grayed {
-  color: var(--text-mute-dark);
+  color: var(--text-mute);
 }
 
 .nav-icon:hover {
@@ -282,25 +388,28 @@ button:hover {
 }
 
 .naver {
-  border-radius: 1rem;
-  box-shadow: var(--box-shadow);
-  margin: 1rem 2rem;
+  color: var(--text);
   place-self: end center;
   width: 100%;
-  padding: 0;
+  /* padding: 0 30rem; */
   height: 4rem;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  max-width: 115rem;
+  justify-content: center;
+  gap: 7rem;
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
-  background: var(--element-bg-light);
   z-index: 11;
   transition: all 0.5s;
   letter-spacing: 0.05rem;
   position: relative;
+
+
+  border-bottom: 1px solid var(--border-color);
+  background: var(--element-bg);
+  /* box-shadow: var(--box-shadow); */
 }
+
 
 .big-screen-naver>.theme-toggle {
   position: absolute;
@@ -308,61 +417,99 @@ button:hover {
   margin: 0;
 }
 
-.dark .naver {
-  background: var(--element-bg-dark);
-  color: var(--text-dark);
+.big-screen-naver>img {
+  position: absolute;
+  left: 1rem;
+  margin: 0;
+  height: 45%;
+  color: #6fa246;
+  fill: #6fa246;
+  filter: opacity(70%);
+}
+
+@media screen and (max-width: 1200px) {
+  .naver img.logo {
+    display: none
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .big-screen-naver>a i {
+    display: none;
+  }
+
+  nav.big-screen-naver .theme-toggle {
+    position: relative;
+  }
+
+  nav.big-screen-naver a svg.icon,
+  nav.big-screen-naver svg {
+    font-size: 1.35rem
+  }
+}
+
+.dark .big-screen-naver>img {
+  filter: opacity(85%) invert(98%) sepia(5%) saturate(203%) hue-rotate(228deg) brightness(119%) contrast(100%);
 }
 
 .naver>a {
   /* font-size: 16px; */
   font-size: 1.075rem;
-  font-weight: 600;
+  font-weight: 400;
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 0.2rem;
+  gap: 0.55rem;
+  height: 100%;
 }
 
 .naver>a .icon {
   font-size: 1.3em;
 }
 
+.naver button:not(.if-filter-open):hover {
+  background: none;
+}
+
+.if-filter-open {
+  background: var(--element-top);
+  /* border-bottom: 2px solid var(--primary-green); */
+}
+
+.if-filter-open * {
+  color: var(--primary-green);
+}
+
 .big-screen-naver>a:hover {
-  transform: scale(105%);
+  /* transform: scale(105%); */
+  opacity: 0.5;
   /* font-weight: 800; */
 
 }
 
-.dark .big-screen-naver>a:hover {
-  color: var(--text-white);
-}
-
-.dark .big-screen-naver>a:hover {
-  background: var(--element-top-dark);
-  transform: none;
-}
-
 .big-screen-naver>a {
   padding: 0.7rem 1rem;
-  border-radius: 1rem;
+  /* border-radius: 1rem; */
 }
 
-.dark .big-screen-naver>a {
-  /* border: 2.5px solid var(--primary-blue); */
-  /* padding: 0.2rem 0.5rem; */
-  /* border-radius: 0.5rem; */
+
+@media screen and (max-width: 1000px) {
+  .naver {
+    gap: 5rem;
+  }
 }
 
 @media screen and (max-width: 500px) {
   .naver>a {
     font-size: 0.9rem;
     padding: 0.5rem 0.6rem;
-    border-radius: 0.75rem;
+    /* border-radius: 0.75rem; */
   }
 
   .naver {
-    gap: 0;
-    margin: 1rem 0;
+    padding: 0 1rem;
+    justify-content: space-around;
+    gap: 0rem;
   }
 }
 
@@ -371,26 +518,18 @@ button:hover {
   top: 0;
 }
 
-.big-screen-naver .router-link-active {
-  background: var(--element-top-light);
+@media screen and (min-width: 1200px) {
+  .big-screen-naver .router-link-active {
+    /* background: var(--element-top); */
+    border-bottom: 2px solid var(--primary-green);
+  }
+
 }
 
-.dark .big-screen-naver .router-link-active {
-  background: var(--element-top-dark);
-  /* border: none; */
-  position: relative;
+.big-screen-naver a {
+  border-color: var(--primary-green);
 }
 
-.dark .big-screen-naver .router-link-active::after {
-  /* content: "";
-  width: calc(100% - 1rem);
-  height: 3px;
-  border-radius: 1rem;
-  background: var(--primary-blue);
-  position: absolute;
-  bottom: 0;
-  left: 0.5rem; */
-}
 
 .the-grid {
   padding: 1rem;
@@ -405,19 +544,9 @@ button:hover {
 @media screen and (max-width:1200px) {
 
   .main-layout {
-    grid-template-rows: min-content auto;
-    height: 100vh;
+    /* grid-template-rows: min-content auto; */
+    /* height: 100vh; */
   }
-}
-
-.page-enter-active,
-.page-leave-active {
-  transition: all 0.2s ease;
-}
-
-.page-enter-from,
-.page-leave-to {
-  opacity: 0;
 }
 
 .t-green {

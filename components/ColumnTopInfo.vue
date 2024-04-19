@@ -1,5 +1,5 @@
 <template>
-  <div class="top-info">
+  <div class="top-info" :class="{ 'onskelist': isOnskeLista }">
     <p></p>
     <client-only placeholder="Namn">
       <p v-if="isAboveAverage" @click="handleSort('Namn')" class="name clickable">
@@ -18,6 +18,7 @@
       </p>
     </client-only>
     <!-- <p v-if="props.isOnskeLista == false" class=""></p> -->
+    <p class="hide-on-phone"></p>
     <p v-if="props.isOnskeLista == false" @click="handleSort('Höjd')" class="hide-on-phone clickable">
       Höjd
       <i v-if="state.sortByWhat.value === 'Höjd' && !isOnskeLista">
@@ -72,11 +73,16 @@ const handleSort = (what) => {
 <style>
 .top-info {
   display: grid;
-  grid-template-columns: 5% 50.5% 18% 9% 6% 9% 2%;
+  /* grid-template-columns: 5% 50.5% 18% 9% 6% 9% 2%; */
+  grid-template-columns: 4fr 45fr 13fr 19fr 10fr 8fr 8fr 5fr;
   place-items: center start;
   padding: 5px;
-  border-bottom: 1px solid var(--border-color-light);
-  /* color: rgb(63, 63, 63); */
+  padding-bottom: 8px;
+  grid-column: 2/3;
+}
+
+.top-info.onskelist {
+  grid-template-columns: 5fr 45fr 13fr 19fr 10fr 8fr 8fr 5fr;
 }
 
 .dark .top-info {
@@ -90,7 +96,7 @@ const handleSort = (what) => {
 
 @media screen and (max-width: 750px) {
   .top-info {
-    grid-template-columns: 5fr 57fr 15fr !important;
+    grid-template-columns: 3fr 50fr 10fr !important;
   }
 
   .top-info>.pris {
@@ -104,12 +110,11 @@ const handleSort = (what) => {
 
 @media screen and (max-width:481px) {
   .top-info {
-    place-self: center end;
-    grid-template-columns: 5fr 50fr 15fr !important;
+    grid-template-columns: 3fr 40fr 10fr !important;
   }
 
   .name {
-    margin-left: 1.4rem;
+    /* margin-left: 1.4rem; */
   }
 }
 
