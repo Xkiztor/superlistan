@@ -1,12 +1,15 @@
 <template>
   <div class="home-container">
     <section class="text-stycke head">
-      <!-- <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div> -->
       <img src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/Downscale%20-%203IKzqvkmhA.jpg"
         alt="">
       <div>
+        <div class="closed">
+          <h2>
+            <Icon name="material-symbols:cancel-outline-rounded" />
+            Listan stängd för i år, öppnar igen nästa år!
+          </h2>
+        </div>
         <h1 class="main-title">Linders Superlista 2024</h1>
         <p>
           En chans att hitta det du länge letat efter!
@@ -27,8 +30,6 @@
     </section>
     <section class="text-stycke">
       <div>
-
-
         <h1>Hur gör jag?</h1>
         <p class="top-desc">
           Listan med växter hittar du under fliken <nuxt-link class="link" to="/lista">Listan</nuxt-link> överst på
@@ -289,34 +290,37 @@ html:not(.dark) .text-stycke.head img {
   color: var(--text-white);
 }
 
-.text-stycke .blob {
-  height: 50rem;
-  width: 50rem;
-  position: absolute;
-  filter: blur(100px);
-  z-index: 1;
-  border-radius: 100%;
-  opacity: 0.5;
-  --color-1: #c4ff80;
-  --color-2: #8eff97c6;
+.head .closed {
+  background: var(--bg-dark);
+  /* background-color: var(--bg); */
+  width: fit-content;
+  padding: 0.75rem 1rem 0.75rem 0.75rem;
+  font-size: 1.5rem;
+  border-radius: 10000rem;
+  display: grid;
+  place-items: center;
 }
 
-.dark .text-stycke .blob {
-  opacity: 0.2;
-  --color-1: #c1ff5c;
-  --color-2: #9cff56;
+.dark .head .closed {
+  background: var(--bg-light);
 }
 
-.text-stycke .blob-1 {
-  background: var(--color-1);
-  left: 0rem;
-  top: -40rem;
+.head div.closed * {
+  color: var(--text-dark);
 }
 
-.text-stycke .blob-2 {
-  background: var(--color-2);
-  bottom: -40rem;
-  right: -10rem;
+.dark .head div.closed *:not(.icon *) {
+  color: var(--text-light);
+}
+
+.head .closed .icon * {
+  color: var(--primary-red);
+  font-size: 2rem;
+}
+
+.head .closed .icon {
+  font-size: 2rem;
+  margin: auto 0;
 }
 
 /* .home-container section:nth-child(even) {
@@ -340,6 +344,7 @@ li>svg {
 .indent>li {
   margin-left: 1rem;
   margin-bottom: 0.6rem;
+  margin-top: 0.4rem;
   line-height: 1;
 }
 
