@@ -16,8 +16,8 @@
         <p>{{ el.Person }}</p>
       </nuxt-link>
       <a :href="`https://www.google.com/search?q=${el.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">{{
-        el.Namn
-      }}</a>
+    el.Namn
+  }}</a>
       <p>{{ el.Pris }}</p>
       <p>{{ el.Count }}</p>
       <p>{{ el.Pris * el.Count }}</p>
@@ -79,12 +79,11 @@ const peopleCount = computed(() => new Set(listWithCurrentDate.map(item => item.
 }
 
 .dark .list-element {
-  color: #b0bac5;
-  background-color: #26292f;
+  color: var(--text-mute);
 }
 
 .dark .list-element:hover {
-  background-color: #35383f;
+  background-color: var(--element-top-hover);
 }
 
 .first-of-date h1 {
@@ -92,20 +91,21 @@ const peopleCount = computed(() => new Set(listWithCurrentDate.map(item => item.
   line-height: 1;
 }
 
+.dark .first-of-date h1,
+.dark .admin-bg h1 {
+  color: white;
+}
+
 .spacer-line {
   width: 100%;
-  height: 4px;
+  height: 1px;
   /* margin-top: -0.2rem; */
   border-radius: 1000rem;
-  background: #e5e7eb;
+  background: var(--border-color);
   content: "";
   float: left;
   /* position: absolute; */
   position: static;
-}
-
-.dark .spacer-line {
-  background-color: #32363c;
 }
 
 

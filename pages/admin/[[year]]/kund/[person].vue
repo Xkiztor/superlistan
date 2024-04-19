@@ -5,9 +5,9 @@
     <div class="statistik">
       <p v-if="filteredArray[0].Comment">{{ filteredArray[0].Comment }}</p>
       <p>{{ filteredArray[0].Phone }}</p>
-      <a :href="`https://www.google.se/maps/search/${filteredArray[0].Adress}`" target="_blank">{{
-        filteredArray[0].Adress
-      }}</a>
+      <a class="link" :href="`https://www.google.se/maps/search/${filteredArray[0].Adress}`" target="_blank">{{
+      filteredArray[0].Adress
+    }}</a>
 
     </div>
     <ul class="list-container">
@@ -95,9 +95,9 @@
         </table>
         <br>
         <p class="underline"><b class="bigger">Att betala: {{
-          Math.round(filteredArray.map(e => e.Pris * e.Count).reduce((a, b) => a +
-            b, 0) / 2)
-        }} kr</b></p>
+      Math.round(filteredArray.map(e => e.Pris * e.Count).reduce((a, b) => a +
+        b, 0) / 2)
+    }} kr</b></p>
         <p>
           Moms ingår med
           {{

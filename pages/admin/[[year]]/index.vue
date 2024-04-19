@@ -8,10 +8,7 @@
     </div>
 
     <div v-if="isLoggedIn == true" class="admin-panel">
-      <div class="log-out">
-        <p>Du är inloggad</p>
-        <button @click="isLoggedIn = false">Logga ut</button>
-      </div>
+
       <div class="admin-layout">
         <div class="statistik">
           <h1>Statistik:</h1>
@@ -27,6 +24,17 @@
             <p>{{ recomendedCount }}% hjärtan (7.8% på hela listan)</p>
             <p>{{ Math.round(totalPrice / peopleCount * 100) / 100 }} kr/person</p>
           </div>
+        </div>
+        <div class="sidebar">
+          <div class="log-out">
+            <p>Du är inloggad</p>
+            <button @click="isLoggedIn = false">Logga ut</button>
+          </div>
+          <button class="show-table" @click="showTable = !showTable">
+            <v-if v-if="!showTable">Visa tabell</v-if>
+            <v-if v-if="showTable">Visa formulerad</v-if>
+          </button>
+          <nuxt-link to="/admin/print"><button>Printa personlistor</button></nuxt-link>
         </div>
         <div class="show-sidebar">
           <button @click="showTable = !showTable">
@@ -218,20 +226,14 @@ const toggleDark = useToggle(isDark)
   width: 100%;
   max-width: 70rem;
   height: fit-content;
-  margin: 0 auto;
-  background: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin: 1rem auto;
+  background: var(--element-bg);
+  border: 1px solid var(--border-color);
 }
 
-/* #16181c */
-
-.dark .admin-bg {
-  background-color: #26292f;
-  color: #ecf9fb;
-}
 
 .dark .admin-bg p {
-  color: #b0bac5;
+  color: var(--text-mute);
 }
 
 .login {
@@ -260,19 +262,15 @@ const toggleDark = useToggle(isDark)
 .list-header {
   display: grid;
   grid-template-columns: 20% 20% 42% 6% 6% 6%;
-  border-bottom: 1px solid rgb(213, 213, 213);
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-color);
   border-radius: 0.5rem;
   padding-left: 0.5rem;
 }
 
-.admin-panel {
-  display: grid;
-}
 
 .list-element {
   padding: 0.1rem;
-  background: #ffffff;
+  /* background: #ffffff; */
   padding-left: 0.5rem;
   border-radius: 1rem;
 }
@@ -300,13 +298,20 @@ const toggleDark = useToggle(isDark)
   white-space: nowrap;
 }
 
+.admin-bg .sidebar {
+  display: grid;
+  place-items: start right
+}
+
+.admin-bg .sidebar .show-table {
+  width: 90%;
+}
 
 .log-out {
   display: grid;
   grid-template-columns: 1fr 1fr;
   place-items: center;
   width: fit-content;
-  margin-left: auto;
 }
 
 .admin-layout {
