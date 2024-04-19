@@ -36,7 +36,25 @@
           </button>
           <nuxt-link to="/admin/print"><button>Printa personlistor</button></nuxt-link>
         </div>
-
+        <div class="show-sidebar">
+          <button @click="showTable = !showTable">
+            <v-if v-if="!showTable">Visa tabell</v-if>
+            <v-if v-if="showTable">Visa formulerad</v-if>
+          </button>
+          <button @click="showTopTen = !showTopTen">
+            <v-if v-if="!showTopTen">Visa vanligaste växterna</v-if>
+            <v-if v-if="showTopTen">Dölj top växterna</v-if>
+          </button>
+        </div>
+        <div class="top-ten" v-if="showTopTen">
+          <h1>Top <input type="text" v-model="topCount"> växter:</h1>
+          <li v-for="(plant, index) in topTen">
+            <p>{{ index + 1 }}</p>
+            <a :href="`https://www.google.com/search?q=${plant.string.replace(/\s+/g, '+')}&tbm=isch&dpr=1`"
+              target="_blank">{{ plant.string }}</a>
+            <p>{{ plant.count }} st.</p>
+          </li>
+        </div>
         <!-- <button @click="fetchUserData()">Ladda in data</button> -->
       </div>
 
@@ -94,6 +112,7 @@ const password = ref('smurf999')
 const typedPassword = ref('')
 
 const showTable = ref(false)
+const showTopTen = ref(false)
 
 const rawUserData = useStorage('raw-user-data', [])
 
@@ -172,6 +191,28 @@ const peopleCount = computed(() => new Set(userData.value.map(item => item.Perso
 const recomendedCount = computed(() => Math.round(userData.value.map(e => e.Rekommenderas).reduce((a, b) => a + b, 0) / userData.value.length * 100 * 100) / 100)
 
 fetchUserData()
+
+
+const topCount = ref(20)
+
+const topTen = computed(() => {
+  let stringCount = {};
+  userData.value.forEach(obj => {
+    if (obj.hasOwnProperty('Namn')) {
+      let str = obj.Namn;
+      if (stringCount.hasOwnProperty(str)) {
+        stringCount[str]++;
+      } else {
+        stringCount[str] = 1;
+      }
+    }
+  });
+  let sortedStrings = Object.keys(stringCount).sort((a, b) => stringCount[b] - stringCount[a]);
+  let top10Strings = sortedStrings.slice(0, topCount.value).map(str => ({ string: str, count: stringCount[str] }));
+  return top10Strings;
+})
+
+console.log(topTen);
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
@@ -293,6 +334,35 @@ const toggleDark = useToggle(isDark)
 .statistik>h1 {
   font-size: 1.4rem;
 }
+
+.show-sidebar button {
+  width: 100%;
+}
+
+.top-ten {
+  margin: 1rem 0;
+}
+
+.top-ten li {
+  display: grid;
+  grid-template-columns: 1.2rem 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.1rem;
+}
+
+.top-ten a {
+  color: var(--text-light);
+}
+
+.dark .top-ten a {
+  color: var(--text-mute-dark);
+}
+
+.top-ten input {
+  width: 3.5rem;
+}
+
+
 
 table {
   text-align: left;
