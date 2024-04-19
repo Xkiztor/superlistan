@@ -207,6 +207,12 @@ html:not(.dark) {
   --border-color: var(--border-color-dark);
 }
 
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
 * {
   font-family: 'Inter', 'Helvetica', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   /* font-family: SFR, 'SFR'; */
