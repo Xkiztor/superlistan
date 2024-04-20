@@ -34,17 +34,11 @@
             <v-if v-if="!showTable">Visa tabell</v-if>
             <v-if v-if="showTable">Visa formulerad</v-if>
           </button>
-          <nuxt-link to="/admin/print"><button>Printa personlistor</button></nuxt-link>
-        </div>
-        <div class="show-sidebar">
-          <button @click="showTable = !showTable">
-            <v-if v-if="!showTable">Visa tabell</v-if>
-            <v-if v-if="showTable">Visa formulerad</v-if>
-          </button>
           <button @click="showTopTen = !showTopTen">
             <v-if v-if="!showTopTen">Visa vanligaste växterna</v-if>
             <v-if v-if="showTopTen">Dölj top växterna</v-if>
           </button>
+          <nuxt-link to="/admin/print"><button>Printa personlistor</button></nuxt-link>
         </div>
         <div class="top-ten" v-if="showTopTen">
           <h1>Top <input type="text" v-model="topCount"> växter:</h1>

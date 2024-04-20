@@ -308,18 +308,13 @@ const handleClick = () => {
   fetchAllList()
 }
 
-
-const printGoogle = () => {
-  console.log(state.googleSearchResult.value);
-}
-
 const openNewTab = (url) => {
   window.open(url, '_blank')
 }
 
 const imageGrid = ref(null)
 
-onClickOutside(() => {
+onClickOutside(imageGrid, () => {
   state.showGoogleSearchResult.value = false
   state.showImages.value = false
 })
@@ -643,21 +638,25 @@ div.main-list {
 }
 
 .search-modal {
+  top: 0;
   position: absolute;
   z-index: 13;
   background: rgba(0, 0, 0, 0.2);
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  padding-top: 30vh;
 }
 
 .search-modal .image-grid {
   position: relative;
-  bottom: 0;
-  height: 70%;
+  /* top: 30vh; */
+  /* bottom: 0; */
+  /* height: 70%; */
   width: 70%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -669,6 +668,8 @@ div.main-list {
   border: 1px solid var(--border-color);
   box-shadow: 0 0 40px 10px rgba(0, 0, 0, 0.1);
 }
+
+
 
 .dark .search-modal .image-grid {
   box-shadow: 0 0 30px 20px rgba(0, 0, 0, 0.5);
@@ -698,7 +699,7 @@ div.main-list {
   margin-bottom: auto;
 }
 
-.search-modal .image-grid .close {
+.search-modal .close {
   background: none;
   position: absolute;
   top: 1rem;
@@ -707,9 +708,38 @@ div.main-list {
   padding: 0;
 }
 
-.search-modal .image-grid h1 {
+.search-modal h1 {
+  padding-right: 2rem;
   grid-column: 1/4;
   color: var(--text);
   font-size: 2rem;
+}
+
+@media screen and (max-width: 800px) {
+  .search-modal {
+    justify-content: flex-end;
+
+  }
+
+  .search-modal .image-grid {
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: min-content;
+  }
+
+  .search-modal .image-grid h1 {
+    font-size: 1.1rem;
+    grid-column: 1/3;
+  }
+
+  .search-modal .image-grid .close {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .search-modal .image-grid>:last-child {
+    display: none;
+  }
+
 }
 </style>

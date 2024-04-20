@@ -5,10 +5,8 @@
         alt="">
       <div>
         <div class="closed">
-          <h2>
-            <Icon name="material-symbols:cancel-outline-rounded" />
-            Listan stängd för i år, öppnar igen nästa år!
-          </h2>
+          <Icon name="material-symbols:cancel-outline-rounded" />
+          <h2>Listan stängd för i år, öppnar igen nästa år!</h2>
         </div>
         <h1 class="main-title">Linders Superlista 2024</h1>
         <p>
@@ -208,7 +206,7 @@
           peter@lindersplantskola.se
         </p>
         <a class="logo" href="https://lindersplantskola.se/" target="_blank"><img src="/lindersplantskola-logo.svg"
-            alt="logo"></a>
+            class="logo" alt="lindersplantskola-logo"></a>
       </div>
     </section>
   </div>
@@ -292,13 +290,20 @@ html:not(.dark) .text-stycke.head img {
 
 .head .closed {
   background: var(--bg-dark);
-  /* background-color: var(--bg); */
   width: fit-content;
   padding: 0.75rem 1rem 0.75rem 0.75rem;
   font-size: 1.5rem;
   border-radius: 10000rem;
   display: grid;
   place-items: center;
+  grid-template-columns: min-content 1fr;
+  gap: 0.5rem;
+}
+
+@media screen and (max-width: 700px) {
+  .head .closed {
+    font-size: 1rem;
+  }
 }
 
 .dark .head .closed {
@@ -475,8 +480,9 @@ li>a,
   font-weight: 600;
 }
 
-.dark .logo img {
-  display: none;
+
+.dark .home-container .logo>img {
+  filter: opacity(85%) invert(98%) sepia(5%) saturate(203%) hue-rotate(228deg) brightness(119%) contrast(100%);
 }
 
 i.red {
