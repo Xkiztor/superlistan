@@ -5,6 +5,7 @@
         alt="">
       <div>
         <div class="closed">
+          <!-- <Icon name="material-symbols:cancel-rounded" /> -->
           <Icon name="material-symbols:cancel-outline-rounded" />
           <h2>Listan stängd för i år, öppnar igen nästa år!</h2>
         </div>

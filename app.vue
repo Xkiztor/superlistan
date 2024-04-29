@@ -118,44 +118,32 @@ const openNavFunc = () => {
   --link-light: #0645AD;
   --link-dark: #75b4f8;
 
-  --bg-light: #fbfbfb;
-  --bg-dark: hsl(240, 6%, 6%);
+  --bg-light: hsl(90, 15%, 98%);
+  --bg-dark: hsl(90, 10%, 6%);
 
-  --element-bg-light: #ffffff;
-  --element-bg-dark: hsl(240, 5%, 13%);
+  --element-bg-light: hsl(0, 0%, 100%);
+  --element-bg-dark: hsl(90, 3%, 13%);
 
-  --element-top-light: #f7f7f7;
-  --element-top-dark: hsl(240, 6%, 16%);
-  --element-top-border-dark: #38383a;
+  --element-top-light: hsl(0, 0%, 97%);
+  --element-top-dark: hsl(96, 3%, 16%);
+  --element-top-border-dark: #383a38;
 
-  --element-top-hover-light: #e0e0e0;
-  --element-top-hover-dark: hsl(240, 3%, 19%);
+  --element-top-hover-light: hsl(0, 0%, 88%);
+  --element-top-hover-dark: hsl(120, 2%, 19%);
 
   --box-shadow-light: 0 0px 0px 1px var(--border-color-light);
-  /* --box-shadow-dark: 0 0px 0px 1px var(--border-color-dark); */
-  /* --box-shadow-light: 0 0.5px 3px 0px rgba(0, 0, 0, 0.07); */
-  /* --box-shadow-dark: 0 0.5px 5px 2px rgba(0, 0, 0, 0.3); */
-
   --input-shadow-light: 0 0px 0px 1px var(--border-color-light);
-  /* --input-shadow-dark: 0 0px 0px 1px var(--border-color-dark); */
-  /* --input-shadow-light: 0 1.5px 3px 0px rgba(0, 0, 0, 0.05); */
-  /* --input-shadow-dark: 0 1.5px 5px 2px rgba(0, 0, 0, 0.3); */
 
   --border-color-light: #e2e1e1;
   --border-color-dark: #2b2b2d;
-  /* --box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
 
-  /* --box-shadow-inset-light: inset 0 -0.5px 3px #cfd1d6; */
-  /* --box-shadow-inset-dark: inset 0 -0.5px 3px #3a3e47e0; */
-
-  /* --text-mute-dark: hsl(0, 0%, 92%); */
   --text-mute-dark: hsl(212, 16%, 85%);
-  --text-mute-light: #787878;
+  --text-mute-light: hsl(0, 0%, 47%);
 
-  --text-white: #fff;
+  --text-white: hsl(0, 0%, 100%);
 
-  --text-light: #000000;
-  --text-dark: hsl(0, 0%, 95%);
+  --text-light: hsl(116, 100%, 7%);
+  --text-dark: hsl(90, 50%, 95%);
 
 }
 
@@ -176,9 +164,9 @@ html:not(.dark) {
 
   --input-shadow: var(--input-shadow-light);
 
-  --text-mute: var(--text-mute-light);
-
   --text: var(--text-light);
+
+  --text-mute: var(--text-mute-light);
 
   --border-color: var(--border-color-light);
 }
@@ -200,11 +188,12 @@ html:not(.dark) {
 
   --input-shadow: var(--input-shadow-dark);
 
-  --text-mute: var(--text-mute-dark);
-
   --text: var(--text-dark);
 
+  --text-mute: var(--text-mute-dark);
+
   --border-color: var(--border-color-dark);
+
 }
 
 *,
@@ -231,6 +220,7 @@ html {
   min-height: 100vh;
   height: fit-content;
   background: var(--bg);
+  color: var(--text);
   /* background: #16181c; */
 }
 

@@ -117,9 +117,9 @@ const dataList = useStorage('datalist', [])
 
 const hasUpdated = useStorage('has-updated', false)
 
-console.log(' ');
-console.log(dataList.value);
-console.log(' ');
+// console.log(' ');
+// console.log(dataList.value);
+// console.log(' ');
 
 const userMessage = ref('Laddar')
 
@@ -145,7 +145,7 @@ const computedList = computed(() => {
 
   let queryArray = state.query.value.toLowerCase().split(" ")
 
-  console.log(queryArray);
+  // console.log(queryArray);
 
 
   newList = newList.filter(item => queryArray.every(str => item.Namn.toLowerCase().includes(str)))
@@ -241,7 +241,7 @@ const handleScrollTo = (letter) => {
 
 watch(computedList, () => {
   scrollTo(0)
-  console.log(computedList.value);
+  // console.log(computedList.value);
 })
 
 /* - - - - - - Adding to cart - - - - - - */
@@ -418,6 +418,7 @@ div.main-list {
 .jump-to button:hover {
   translate: 4px 0;
   background: none;
+  color: var(--primary-green);
 }
 
 .jump-to>div {
@@ -642,7 +643,7 @@ div.main-list {
   position: absolute;
   z-index: 13;
   background: rgba(0, 0, 0, 0.2);
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   height: fit-content;
   display: flex;
@@ -658,6 +659,7 @@ div.main-list {
   /* bottom: 0; */
   /* height: 70%; */
   width: 70%;
+  min-height: 72vh;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: min-content 1fr 1fr 1fr;

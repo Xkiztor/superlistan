@@ -10,7 +10,7 @@ const personerList = ref()
 
 const fetchBestallningar = async () => {
   let search = supabase
-    .from('bestallningar')
+    .from('kundpapper')
     .select()
   const { data, error } = await search
 
@@ -32,7 +32,7 @@ const fetchBestallningar = async () => {
     const uniqueValues = [];
     const seenValues = new Set();
     list.value.forEach(item => {
-      const value = item.Person;
+      const value = item.Förnamn;
       if (!seenValues.has(value)) {
         uniqueValues.push(value);
         seenValues.add(value);
@@ -63,8 +63,8 @@ const getPlantsFromPerson = (person) => {
     console.error('Input is not an array.');
     return [];
   }
-  let newArray = list.value.filter(obj => obj.Person === person)
-  console.log(newArray);
+  let newArray = list.value.filter(obj => obj.Förnamn === person)
+  // console.log(newArray);
   // return list.value
   // return sortedList.filter(true)
   return newArray
@@ -78,7 +78,10 @@ const getPlantsFromPerson = (person) => {
 <template>
   <div class="print-bg">
     <div v-for="person in personerList">
-      <h1>Superlistan 2024 - {{ person }}</h1>
+      <h1>Superlistan 2024<span v-if="person !== getPlantsFromPerson(person)[0].Person"> - {{ person }}</span> - {{
+      getPlantsFromPerson(person)[0].Person }}</h1>
+      <p class="info">0{{ getPlantsFromPerson(person)[0].Phone }}, {{ getPlantsFromPerson(person)[0].Mail }}, {{
+      getPlantsFromPerson(person)[0].Adress }}</p>
       <table class="tabell">
         <tr>
           <th>B</th>
@@ -165,10 +168,9 @@ const getPlantsFromPerson = (person) => {
       </table>
       <div class="sum">
         <p>Summa: {{ getPlantsFromPerson(person).map(e => e.Pris * e.Conf).reduce((a, b) => a + b, 0) }}</p>
-        <p>Redan betalt: {{ Math.ceil(getPlantsFromPerson(person).map(e => e.Pris * e.Conf).reduce((a, b) => a + b, 0)
-      / 2) }}</p>
-        <p>Kvar att betala: {{ Math.floor(getPlantsFromPerson(person).map(e => e.Pris * e.Conf).reduce((a, b) => a + b,
-      0) / 2) }}</p>
+        <p>Redan betalt: {{ getPlantsFromPerson(person)[0].RedanBetalt }}</p>
+        <p>Kvar att betala: {{ getPlantsFromPerson(person).map(e => e.Pris * e.Conf).reduce((a, b) => a + b, 0) -
+      getPlantsFromPerson(person)[0].RedanBetalt }}</p>
       </div>
       <div class="page-break"></div>
     </div>
@@ -185,12 +187,16 @@ const getPlantsFromPerson = (person) => {
   margin: 1rem auto;
   background: white;
   color: black;
-  font-size: 12pt;
+  font-size: 14pt;
   font-family: Arial, Helvetica, sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .print-bg h1 {
   font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.print-bg .info {
   margin-bottom: 0.5rem;
 }
 

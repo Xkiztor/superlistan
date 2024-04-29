@@ -277,7 +277,8 @@ html:not(.dark) button.send:not(.all-fields) {
 button.send.all-fields {
   background: #8dd751;
   box-shadow: 0 0 10px 1px #75d824;
-  border: 2px solid #8ccb58;
+  border: none;
+  /* border: 2px solid #8ccb58; */
 }
 
 button.send.all-fields:hover {
@@ -289,7 +290,8 @@ button.send.all-fields:hover {
 .dark button.send.all-fields {
   background: var(--primary-green);
   box-shadow: 0 0 10px 2px var(--primary-green);
-  border-color: var(--primary-green);
+  border: none;
+  /* border-color: var(--primary-green); */
 }
 
 .modal-text {
