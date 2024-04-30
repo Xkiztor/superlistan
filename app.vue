@@ -135,7 +135,8 @@ const openNavFunc = () => {
   --input-shadow-light: 0 0px 0px 1px var(--border-color-light);
 
   --border-color-light: #e2e1e1;
-  --border-color-dark: #2b2b2d;
+  --border-color-dark: #2b2d2b;
+  --border-color-bright-dark: #3b3d3a;
 
   --text-mute-dark: hsl(212, 16%, 85%);
   --text-mute-light: hsl(0, 0%, 47%);
@@ -205,7 +206,7 @@ html:not(.dark) {
 * {
   font-family: 'Inter', 'Helvetica', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   /* font-family: SFR, 'SFR'; */
-  transition: all 150ms;
+  /* transition: all 150ms; */
   letter-spacing: -0.25px;
 }
 
@@ -396,7 +397,6 @@ input:not([type="checkbox"]) {
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center;
   z-index: 11;
-  transition: all 0.5s;
   letter-spacing: 0.05rem;
   position: relative;
 
@@ -434,13 +434,18 @@ input:not([type="checkbox"]) {
     display: none;
   }
 
-  nav.big-screen-naver .theme-toggle {
-    position: relative;
-  }
+
 
   nav.big-screen-naver a svg.icon,
   nav.big-screen-naver svg {
     font-size: 1.35rem
+  }
+}
+
+@media screen and (max-width: 450px) {
+  nav.big-screen-naver .theme-toggle {
+    position: relative;
+    right: 0;
   }
 }
 
@@ -457,6 +462,8 @@ input:not([type="checkbox"]) {
   align-items: center;
   gap: 0.55rem;
   height: 100%;
+  transition: all 200ms;
+  border-bottom: 2px solid transparent;
 }
 
 .naver>a .icon {
@@ -523,7 +530,7 @@ input:not([type="checkbox"]) {
 }
 
 .big-screen-naver a {
-  border-color: var(--primary-green);
+  /* border-color: var(--primary-green); */
 }
 
 

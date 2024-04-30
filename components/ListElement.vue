@@ -226,6 +226,10 @@ const iconClick = async () => {
   state.showGoogleSearchResult.value = true
   state.searchedPlant.value = props.plant.Namn
 
+  if (state.sidebarMode.value === true) {
+    state.showImages.value = false
+  }
+
   const url = ref(`https://www.googleapis.com/customsearch/v1?cx=0114e20bfe1bc4e87&key=AIzaSyDCXzTT72V9WC44HefCRffYeK7o-sFwE0Y&num=10&start=1&searchType=image&q=${props.plant.Namn.replace(/\s+/g, '+')}`)
 
   const { data, error } = await useFetch(url)

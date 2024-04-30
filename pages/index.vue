@@ -294,7 +294,7 @@ html:not(.dark) .text-stycke.head img {
   width: fit-content;
   padding: 0.75rem 1rem 0.75rem 0.75rem;
   font-size: 1.5rem;
-  border-radius: 10000rem;
+  border-radius: 1rem;
   display: grid;
   place-items: center;
   grid-template-columns: min-content 1fr;

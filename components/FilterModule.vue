@@ -159,7 +159,7 @@ input[type="checkbox"] {
   display: grid;
   place-content: center;
   background: none;
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--border-color-bright-dark);
 }
 
 @media screen and (min-width: 1000px) {

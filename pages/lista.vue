@@ -2,11 +2,26 @@
   <div class="search-modal" v-if="state.showGoogleSearchResult.value">
     <!-- <button @click="printGoogle()">Print</button>
     <button @click="state.showImages.value = !state.showImages.value">Visa bilder</button> -->
-    <div class="image-grid" ref="imageGrid">
-      <h1>{{ state.searchedPlant.value }}</h1>
-      <button class="close" @click="state.showGoogleSearchResult.value = false, state.showImages.value = false">
-        <Icon name="material-symbols:close" size="35" />
-      </button>
+    <div class="image-grid" ref="imageGrid" :class="{ 'sidebar-mode': state.sidebarMode.value }">
+      <div class="top-part">
+        <h1>{{ state.searchedPlant.value }}</h1>
+        <div class="top-buttons">
+          <button v-if="!state.sidebarMode.value" @click="state.sidebarMode.value = true" class="side-swithcher">
+            <!-- <Icon name="fluent:panel-left-expand-24-filled" size="35" /> -->
+            <Icon name="carbon:side-panel-open-filled" size="30" />
+            Sidoläge
+          </button>
+          <button v-else @click="state.sidebarMode.value = false" class="side-swithcher">
+            <!-- <Icon name="material-symbols:fullscreen-rounded" size="35" /> -->
+            <Icon name="carbon:fit-to-screen" size="30" />
+            Fullt läge
+          </button>
+
+          <button class="close" @click="state.showGoogleSearchResult.value = false, state.showImages.value = false">
+            <Icon name="material-symbols:close" size="35" />
+          </button>
+        </div>
+      </div>
       <img @click="openNewTab(state.googleSearchResult.value.items[0].link)" v-if="state.showImages.value"
         :src="state.googleSearchResult.value.items[0].link" alt="">
       <img @click="openNewTab(state.googleSearchResult.value.items[1].link)" v-if="state.showImages.value"
@@ -111,15 +126,9 @@ definePageMeta({
 const state = useGlobalState()
 const onskeList = useGlobalOnskeList()
 
-
-// const dataList = ref([])
 const dataList = useStorage('datalist', [])
 
 const hasUpdated = useStorage('has-updated', false)
-
-// console.log(' ');
-// console.log(dataList.value);
-// console.log(' ');
 
 const userMessage = ref('Laddar')
 
@@ -315,8 +324,10 @@ const openNewTab = (url) => {
 const imageGrid = ref(null)
 
 onClickOutside(imageGrid, () => {
-  state.showGoogleSearchResult.value = false
-  state.showImages.value = false
+  if (state.sidebarMode.value === false) {
+    state.showGoogleSearchResult.value = false
+    state.showImages.value = false
+  }
 })
 </script>
 
@@ -640,9 +651,9 @@ div.main-list {
 
 .search-modal {
   top: 0;
+  background: rgba(0, 0, 0, 0.2);
   position: absolute;
   z-index: 13;
-  background: rgba(0, 0, 0, 0.2);
   width: 100%;
   min-height: 100vh;
   height: fit-content;
@@ -651,6 +662,16 @@ div.main-list {
   align-items: center;
   justify-content: flex-start;
   padding-top: 30vh;
+  transition: background 200ms;
+}
+
+.search-modal:has(.sidebar-mode) {
+  width: 50%;
+  right: 0;
+  background: none;
+  height: 100vh;
+  padding-top: 0;
+  align-items: flex-end;
 }
 
 .search-modal .image-grid {
@@ -658,8 +679,7 @@ div.main-list {
   /* top: 30vh; */
   /* bottom: 0; */
   /* height: 70%; */
-  width: 70%;
-  min-height: 72vh;
+
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: min-content 1fr 1fr 1fr;
@@ -671,7 +691,19 @@ div.main-list {
   box-shadow: 0 0 40px 10px rgba(0, 0, 0, 0.1);
 }
 
+.search-modal .image-grid:not(.sidebar-mode) {
+  width: 70%;
+  min-height: 72vh;
+}
 
+.search-modal .image-grid.sidebar-mode {
+  /* width: 50%; */
+  width: 100%;
+  height: 100%;
+  grid-template-rows: 6% 31% 30% 31%;
+  /* grid-template-rows: min-content min-content min-content min-content; */
+  border-radius: 1rem 0 0 1rem;
+}
 
 .dark .search-modal .image-grid {
   box-shadow: 0 0 30px 20px rgba(0, 0, 0, 0.5);
@@ -701,20 +733,34 @@ div.main-list {
   margin-bottom: auto;
 }
 
-.search-modal .close {
-  background: none;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  margin: 0;
-  padding: 0;
+.search-modal .top-part {
+  grid-column: 1/4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.search-modal .top-buttons {
+  /* position: absolute; */
+  /* top: 1rem; */
+  /* right: 1rem; */
+  display: flex;
+  gap: 1rem;
+}
+
+.search-modal .top-buttons button {
+  white-space: nowrap;
+  margin: 0;
+}
+
+.search-modal .close {}
 
 .search-modal h1 {
   padding-right: 2rem;
-  grid-column: 1/4;
   color: var(--text);
   font-size: 2rem;
+  margin: 0.4rem 0 0.6rem;
+  /* margin-bottom: 1rem */
 }
 
 @media screen and (max-width: 800px) {
