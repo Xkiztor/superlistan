@@ -6,12 +6,13 @@
       <div class="top-part">
         <h1>{{ state.searchedPlant.value }}</h1>
         <div class="top-buttons">
-          <button v-if="!state.sidebarMode.value" @click="state.sidebarMode.value = true" class="side-swithcher">
+          <button v-if="!state.sidebarMode.value" @click="state.sidebarMode.value = true"
+            class="side-swithcher hide-on-phone">
             <!-- <Icon name="fluent:panel-left-expand-24-filled" size="35" /> -->
             <Icon name="carbon:side-panel-open-filled" size="30" />
             Sidoläge
           </button>
-          <button v-else @click="state.sidebarMode.value = false" class="side-swithcher">
+          <button v-else @click="state.sidebarMode.value = false" class="side-swithcher hide-on-phone">
             <!-- <Icon name="material-symbols:fullscreen-rounded" size="35" /> -->
             <Icon name="carbon:fit-to-screen" size="30" />
             Fullt läge
@@ -43,7 +44,8 @@
       <Icon class="loader" v-else name="line-md:loading-loop" size="80" />
     </div>
   </div>
-  <div class="list-layout">
+  <div class="list-layout"
+    :class="{ 'sidebar-layout': state.sidebarMode.value === true && state.showGoogleSearchResult.value === true }">
 
     <div class="filter-container" v-if="shouldFilterOpen">
       <FilterModule @fetch-list="fetchAllList" @handle-click="handleClick" />
@@ -126,7 +128,7 @@ definePageMeta({
 const state = useGlobalState()
 const onskeList = useGlobalOnskeList()
 
-const dataList = useStorage('datalist', [])
+const dataList = ref([])
 
 const hasUpdated = useStorage('has-updated', false)
 
@@ -259,16 +261,6 @@ const handleAdd = (plant, order) => {
 }
 
 
-/* - - - - - - Clearing list cache - - - - - - */
-const hasVisited2024 = useStorage('has-visited-2024', false)
-
-onMounted(() => {
-  if (!hasVisited2024.value) {
-    dataList.value = []
-    hasVisited2024.value = true
-  }
-})
-
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
   if (dataList.value.length <= 0) {
@@ -382,16 +374,28 @@ div.main-list {
 }
 
 * {
-  scrollbar-color: rgb(234, 234, 234) #ffffff00;
-  --scrollbar-color-thumb: rgb(234, 234, 234);
+  scrollbar-color: rgb(232, 227, 215) #ffffff00;
+  --scrollbar-color-thumb: rgb(232, 227, 215);
   --scrollbar-color-track: #ffffff00;
 }
 
+/* * {
+  scrollbar-color: rgb(234, 234, 234) #ffffff00;
+  --scrollbar-color-thumb: rgb(234, 234, 234);
+  --scrollbar-color-track: #ffffff00;
+} */
+
 .dark * {
+  scrollbar-color: #514234 #ffffff00;
+  --scrollbar-color-thumb: #625c55;
+  --scrollbar-color-track: #ffffff00;
+}
+
+/* .dark * {
   scrollbar-color: #6d747b #ffffff00;
   --scrollbar-color-thumb: #6d747b;
   --scrollbar-color-track: #ffffff00;
-}
+} */
 
 /* Track */
 *::-webkit-scrollbar-track {
@@ -571,6 +575,27 @@ div.main-list {
   }
 }
 
+.sidebar-layout .filter-container {
+  display: none;
+}
+
+.sidebar-layout .main-list {
+  grid-column: 1/2;
+  z-index: 13;
+}
+
+.sidebar-layout .jump-to {
+  grid-column: 2/3;
+}
+
+.sidebar-layout .top-info {
+  grid-column: 1/2;
+}
+
+.list-layout.sidebar-layout {
+  grid-template-columns: 50% 50%;
+  padding-left: 1rem
+}
 
 .pointer {
   cursor: pointer;
@@ -700,7 +725,7 @@ div.main-list {
   /* width: 50%; */
   width: 100%;
   height: 100%;
-  grid-template-rows: 6% 31% 30% 31%;
+  grid-template-rows: 8% 30% 30% 30%;
   /* grid-template-rows: min-content min-content min-content min-content; */
   border-radius: 1rem 0 0 1rem;
 }
@@ -766,13 +791,19 @@ div.main-list {
 @media screen and (max-width: 800px) {
   .search-modal {
     justify-content: flex-end;
-
   }
 
   .search-modal .image-grid {
     width: 100%;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: min-content;
+    display: flex;
+    flex-direction: column;
+    /* grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, min-content); */
+  }
+
+  .search-modal .image-grid:not(.sidebar-mode) {
+    width: 100%;
+    min-height: 72vh;
   }
 
   .search-modal .image-grid h1 {
@@ -788,6 +819,5 @@ div.main-list {
   .search-modal .image-grid>:last-child {
     display: none;
   }
-
 }
 </style>

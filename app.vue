@@ -110,7 +110,8 @@ const openNavFunc = () => {
 
 <style>
 :root {
-  --primary-green: #6fa246;
+  --primary-green: #76994e;
+  /* --primary-green: #6fa246; */
 
   --primary-red-light: #ff0000;
   --primary-red-dark: #f36161;
@@ -118,33 +119,49 @@ const openNavFunc = () => {
   --link-light: #0645AD;
   --link-dark: #75b4f8;
 
-  --bg-light: hsl(90, 15%, 98%);
-  --bg-dark: hsl(90, 10%, 6%);
+  --bg-light: #eee9d9;
+  /* --bg-light: hsl(90, 15%, 98%); */
+  --bg-dark: #140f07;
+  /* --bg-dark: hsl(90, 10%, 6%); */
 
-  --element-bg-light: hsl(0, 0%, 100%);
-  --element-bg-dark: hsl(90, 3%, 13%);
+  --element-bg-light: #f7f1e5;
+  /* --element-bg-light: hsl(0, 0%, 100%); */
+  --element-bg-dark: #221c16;
+  /* --element-bg-dark: hsl(90, 3%, 13%); */
 
-  --element-top-light: hsl(0, 0%, 97%);
-  --element-top-dark: hsl(96, 3%, 16%);
-  --element-top-border-dark: #383a38;
+  --element-top-light: #eeeade;
+  /* --element-top-light: hsl(0, 0%, 97%); */
+  --element-top-dark: #2d251d;
+  /* --element-top-dark: hsl(96, 3%, 16%); */
+  --element-top-border-dark: #3f352b;
+  /* --element-top-border-dark: #383a38; */
 
-  --element-top-hover-light: hsl(0, 0%, 88%);
-  --element-top-hover-dark: hsl(120, 2%, 19%);
+  --element-top-hover-light: #e8e3d5;
+  /* --element-top-hover-light: hsl(0, 0%, 88%); */
+  --element-top-hover-dark: #3e3429;
+  /* --element-top-hover-dark: hsl(120, 2%, 19%); */
 
   --box-shadow-light: 0 0px 0px 1px var(--border-color-light);
   --input-shadow-light: 0 0px 0px 1px var(--border-color-light);
 
-  --border-color-light: #e2e1e1;
-  --border-color-dark: #2b2d2b;
-  --border-color-bright-dark: #3b3d3a;
+  --border-color-light: #dbd8ca;
+  /* --border-color-light: #e2e1e1; */
+  --border-color-dark: #2e251e;
+  /* --border-color-dark: #2b2d2b; */
+  --border-color-bright-dark: #473e31;
+  /* --border-color-bright-dark: #3b3d3a; */
 
-  --text-mute-dark: hsl(212, 16%, 85%);
-  --text-mute-light: hsl(0, 0%, 47%);
+  --text-mute-dark: #eae0d4;
+  /* --text-mute-dark: hsl(212, 16%, 85%); */
+  --text-mute-light: hsl(24, 17%, 60%);
+  /* --text-mute-light: hsl(0, 0%, 47%); */
 
   --text-white: hsl(0, 0%, 100%);
 
-  --text-light: hsl(116, 100%, 7%);
-  --text-dark: hsl(90, 50%, 95%);
+  --text-light: #412d21;
+  /* --text-light: hsl(116, 100%, 7%); */
+  --text-dark: #fdf8f3;
+  /* --text-dark: hsl(90, 50%, 95%); */
 
 }
 
@@ -289,6 +306,9 @@ input:not([type="checkbox"]) {
   }
 }
 
+.red {
+  color: var(--primary-red);
+}
 
 
 
@@ -553,7 +573,8 @@ input:not([type="checkbox"]) {
 }
 
 .t-green {
-  border-color: rgb(130, 203, 130);
+  border-color: rgb(153, 196, 103);
+  /* border-color: rgb(130, 203, 130); */
 }
 
 .p-blue {
@@ -572,20 +593,12 @@ input:not([type="checkbox"]) {
   color: rgb(18, 141, 4);
 }
 
-.dark .klattervaxt-icon {
-  color: rgb(98, 147, 93);
-}
-
 .o-lime {
   border-color: rgb(152, 189, 43);
 }
 
 .ormbunke-icon {
   color: rgb(95, 135, 22);
-}
-
-.dark .ormbunke-icon {
-  color: rgb(137, 189, 43);
 }
 
 .g-yellow {
@@ -595,6 +608,8 @@ input:not([type="checkbox"]) {
 .grass-icon {
   color: rgb(181, 168, 23);
 }
+
+/* ------------- */
 
 .dark .grass-icon {
   color: rgb(236, 226, 117);

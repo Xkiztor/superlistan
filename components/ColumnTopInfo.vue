@@ -19,14 +19,14 @@
     </client-only>
     <!-- <p v-if="props.isOnskeLista == false" class=""></p> -->
     <p class="hide-on-phone"></p>
-    <p v-if="props.isOnskeLista == false" @click="handleSort('Höjd')" class="hide-on-phone clickable">
+    <p v-if="props.isOnskeLista == false" class="hide-on-phone">
       Höjd
       <i v-if="state.sortByWhat.value === 'Höjd' && !isOnskeLista">
         <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="26" />
         <Icon v-else name="material-symbols:arrow-drop-up-rounded" size="26" />
       </i>
     </p>
-    <p v-if="props.isOnskeLista == false" @click="handleSort('Kruka')" class="hide-on-phone clickable">
+    <p v-if="props.isOnskeLista == false" class="hide-on-phone">
       Kruka
       <i v-if="state.sortByWhat.value === 'Kruka' && !isOnskeLista">
         <Icon v-if="state.sortAscending.value" name="material-symbols:arrow-drop-down-rounded" size="26" />

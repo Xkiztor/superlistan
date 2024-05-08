@@ -143,6 +143,7 @@ div.bottom-one {
 
 form p {
   line-height: 1;
+  letter-spacing: 0.4px;
 }
 
 
@@ -159,8 +160,14 @@ input[type="checkbox"] {
   display: grid;
   place-content: center;
   background: none;
+  border: 2px solid var(--text-mute);
+  /* border: 2px solid var(--border-color-bright-dark); */
+}
+
+.dark input[type="checkbox"] {
   border: 2px solid var(--border-color-bright-dark);
 }
+
 
 @media screen and (min-width: 1000px) {
   input[type="checkbox"]:hover {

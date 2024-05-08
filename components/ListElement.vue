@@ -1,5 +1,7 @@
 <template>
-  <li class="element" :class="expanded ? 'if-expanded' : ''" ref="testRef">
+  <li class="element"
+    :class="expanded ? 'if-expanded' : '', { 'sidebar-selected': plant.Namn === state.searchedPlant.value && state.sidebarMode.value && state.showGoogleSearchResult.value }"
+    ref="testRef">
     <!-- @click.stop="expanded = !expanded" -->
     <div class="plant-icon"
       :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-lime': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-yellow': plant.Typ == 'G' }"
@@ -9,16 +11,15 @@
       <Icon name="fxemoji:rosette" size="14" v-if="plant.Typ == 'P'" title="Perenner" />
       <Icon name="game-icons:fern" size="14" v-if="plant.Typ == 'O'" title="Ormbunke" class="ormbunke-icon" />
       <Icon name="game-icons:high-grass" size="14" v-if="plant.Typ == 'G'" title="Gräs" class="grass-icon" />
-      <!-- <Icon name="twemoji:sheaf-of-rice" size="16" v-if="plant.Typ == 'G'" title="Gräs" /> -->
       <Icon name="game-icons:curling-vines" size="14" v-if="plant.Typ == 'K'" title="Klätterväxt"
         class="klattervaxt-icon" />
     </div>
 
-    <p class="plant-name" :title="plant.Namn"><a
-        :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
+    <p class="plant-name" :title="plant.Namn">
+      <a :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
         {{
-    plant.Namn
-  }}</a>
+      plant.Namn
+    }}</a>
     </p>
 
     <div class="ikoner hide-on-phone">
@@ -40,15 +41,15 @@
     <p v-else class="nowrap hide-on-phone"
       :class="{ 'error-colorr': changeCount > plant.Lager && plant.Lager != null, 'error-colorrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
       {{ changeCount }}</p>
-    <p v-if="plant.MinOrder && !isOnskeLista" class="hide-on-phone red">{{ plant.MinOrder }} </p>
+    <p v-if="plant.MinOrder && !isOnskeLista" class="hide-on-phone">{{ plant.MinOrder }} </p>
     <p v-else class="hide-on-phone"></p>
     <p v-if="isOnskeLista" class="on-right">{{ plant.Pris * changeCount }} kr</p>
     <p v-else class="on-right">{{ plant.Pris }} kr</p>
 
 
     <button class="on-right expand-button" aria-label="Expandera" @click="handleExpand()">
-      <Icon v-if="!expanded" class="" name="material-symbols:keyboard-arrow-up-rounded" size="20" />
-      <Icon v-else class="" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
+      <Icon v-if="!expanded" class="" name="material-symbols:keyboard-arrow-up-rounded" size="23" />
+      <Icon v-else class="" name="material-symbols:keyboard-arrow-down-rounded" size="23" />
     </button>
 
     <!-- --- --- --- Expanded --- --- --- -->
@@ -77,18 +78,27 @@
           <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
         </div>
         <div v-if="!isOnskeLista" class="add-section">
-          <div class="increment"
+          <div v-if="!isAdded" class="increment"
             :class="{ 'error-borderr': order > plant.Lager && plant.Lager != null, 'error-borderrr': order < plant.MinOrder && plant.MinOrder != null }">
             <input class="btn-input" type="number" min="0" v-model.number="order">
             <button class="add" @click="order++">+</button>
             <button class="subtract" @click="order -= 1">-</button>
           </div>
-          <button v-if="state.countError.value" disabled class="disabled">Lägg till i varukorg</button>
-          <button v-else-if="!isAdded" @click="handleAdd">Lägg till i varukorg</button>
-          <button v-else class="muted-button">
+          <button v-else @click="handleDelete">
+            <Icon class="red" name="material-symbols:delete-forever-outline-rounded" size="24" />
+          </button>
+          <button v-if="!isAdded" :class="{ 'disabled': state.countError.value }" :disabled="state.countError.value"
+            @click="handleAdd">Lägg till i varukorg</button>
+          <button v-else class="muted-button tillagd">
             <Icon class="check-icon" aria-label="Tillagt i varukorgen" name="material-symbols:check-circle-rounded" />
             Tillagd i varukorg
           </button>
+          <!-- <button v-if="state.countError.value" disabled class="disabled">Lägg till i varukorg</button>
+          <button v-else-if="!isAdded" @click="handleAdd">Lägg till i varukorg</button>
+          <button v-else class="muted-button tillagd">
+            <Icon class="check-icon" aria-label="Tillagt i varukorgen" name="material-symbols:check-circle-rounded" />
+            Tillagd i varukorg
+          </button> -->
 
         </div>
         <div v-else class="add-section">
@@ -126,7 +136,7 @@ const onskeList = useGlobalOnskeList()
 const checkIfAdded = () => {
   if (onskeList.onskeList.value.some(obj => obj.id === props.plant.id)) {
     isAdded.value = true
-    console.log(`Has added, id: ${props.plant.id}`);
+    // console.log(`Has added, id: ${props.plant.id}`);
   } else {
     isAdded.value = false
   }
@@ -134,7 +144,6 @@ const checkIfAdded = () => {
 checkIfAdded()
 
 onUpdated(() => {
-  // console.log(`ListElement Updated id: ${props.plant.id}`);
   checkIfAdded()
 })
 
@@ -199,11 +208,11 @@ const handleAdd = () => {
   }
 }
 
-
-
 const handleDelete = () => {
-  console.log(`deleted plant id: ${props.plant.id}`)
-  emit('handleDelete', props.plant.id)
+  const index = onskeList.onskeList.value.findIndex(b => b.id === props.plant.id)
+  console.log(index);
+  onskeList.onskeList.value = onskeList.onskeList.value.filter(b => b.id != props.plant.id)
+  isAdded.value = false
 }
 
 const toolTipCalculator = (firstLetter) => {
@@ -323,6 +332,8 @@ function mouseLeave() {
   background: var(--element-bg);
   /* border-bottom: 1px solid var(--border-color); */
   border-bottom: 1px solid var(--bg);
+
+  --current-icon-color: #000000;
 }
 
 .dark .element {
@@ -339,8 +350,8 @@ function mouseLeave() {
   /* box-shadow: var(--box-shadow); */
   /* border: 1px solid var(--border-color); */
   /* margin: 1rem 0 0; */
-  padding-bottom: 1rem;
-  padding-top: 0.25rem;
+  padding-bottom: 2rem;
+  padding-top: 0.5rem;
   /* padding-left: 0.25rem; */
 }
 
@@ -394,7 +405,7 @@ function mouseLeave() {
 @media screen and (min-width: 500px) {
   .expanded {
     display: grid;
-    grid-template-columns: 15fr 4fr;
+    grid-template-columns: 12fr 5fr;
   }
 }
 
@@ -409,6 +420,67 @@ function mouseLeave() {
 
 .plant-name {
   margin-left: 0.75rem;
+}
+
+/* Alla med .sidebar-selected */
+.element.sidebar-selected {
+  border-right: 2px solid var(--current-icon-color);
+  border-left: 2px solid var(--current-icon-color);
+}
+
+/* Första med .sidebar-selected */
+.sidebar-selected:first-child,
+.element:not(.sidebar-selected)+.sidebar-selected {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  border-top: 2px solid var(--current-icon-color)
+}
+
+/* Sista med .sidebar-selected */
+.element.sidebar-selected:not(:has(~ .sidebar-selected)) {
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-bottom: 2px solid var(--current-icon-color)
+}
+
+.element {
+  transition: border-color 0.5s, border-radius 0.5s;
+}
+
+.element:has(.t-green) {
+  --current-icon-color: rgb(153, 196, 103);
+}
+
+.element:has(.p-blue) {
+  --current-icon-color: rgb(255, 146, 157);
+}
+
+.element:has(.b-green) {
+  --current-icon-color: rgb(89, 161, 79);
+}
+
+.element:has(.k-orange) {
+  --current-icon-color: rgb(130, 203, 130);
+}
+
+.element:has(.o-lime) {
+  --current-icon-color: rgb(152, 189, 43);
+}
+
+.element:has(.g-yellow) {
+  --current-icon-color: rgb(236, 226, 117);
+}
+
+.dark .element:has(.b-green) {
+  --current-icon-color: rgb(25, 89, 45);
+}
+
+.dark .element:has(.p-blue) {
+  --current-icon-color: rgb(255, 146, 157);
+}
+
+.dark .element:has(.k-orange) {
+  --current-icon-color: rgb(89, 161, 79);
 }
 
 .ikoner {
@@ -472,25 +544,36 @@ function mouseLeave() {
 }
 
 .add-section {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
+  display: grid;
   grid-column: 5;
-  /* margin-left: auto; */
+  margin-left: auto;
   grid-column: 2 / 3;
-  width: 100%;
+  margin-right: 0.5rem;
+  /* width: 100%; */
+  height: min-content;
+  gap: 0.5rem;
+  grid-template-columns: max-content max-content;
 }
 
-@media screen and (min-width: 500px) {
-  .add-section {
-    display: grid;
-    place-items: center;
-  }
+.add-section>button {
+  height: 100%;
+  /* padding: 1rem; */
+  margin: 0;
+  flex-grow: 1;
 }
+
+.expanded .add-section button.tillagd {
+  color: var(--primary-green)
+}
+
 
 @media screen and (max-width: 500px) {
   .add-section {
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    width: fit-content;
+    margin: 0 auto;
     border-top: 1px solid var(--border-color);
     padding-top: 0.5rem;
     margin-top: 0.5rem;
@@ -511,7 +594,7 @@ function mouseLeave() {
   height: 100%;
   margin: 0;
   place-items: center;
-  gap: 1rem;
+  gap: 0 1rem;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -525,6 +608,11 @@ function mouseLeave() {
 
 .info-container>p {
   cursor: text;
+}
+
+.info-container a.link-color {
+  text-decoration: underline;
+  color: var(--link)
 }
 
 .kommentar {
@@ -550,13 +638,6 @@ function mouseLeave() {
   }
 }
 
-@media only screen and (min-width: 900px) {
-  .add-section {
-    display: flex;
-    justify-content: flex-end;
-  }
-}
-
 @media only screen and (min-width: 750px) {
   .hide-on-pc {
     display: none !important;
@@ -569,7 +650,7 @@ function mouseLeave() {
   grid-template-rows: 1fr 1fr;
   /* height: 3rem; */
   border-radius: 0.5rem;
-  margin: 0.5rem 0;
+  /* margin: 0.5rem 0; */
 }
 
 .increment *,
@@ -633,14 +714,10 @@ button.disabled {
   color: var(--text-mute-dark);
 }
 
-button.disabled:hover {
+button.disabled:hover,
+button.tillagd:hover {
   cursor: default;
   background: var(--element-top);
-}
-
-.dark button.disabled:hover {
-  cursor: default;
-  background: var(--element-top-dark);
 }
 
 .on-right {

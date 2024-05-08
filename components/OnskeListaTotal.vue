@@ -22,7 +22,8 @@
         <i class="main-value">{{ totalPrice }}</i>
         kr totalt
       </p>
-      <p v-if="totalPrice < 2000" class="disclaimer"><strong>OBS</strong> Lägsta ordersumman är 2000kr</p>
+      <p v-if="totalPrice < 2000" class="disclaimer red"><strong>OBS</strong> Lägsta ordersumman är 2000kr
+      </p>
     </div>
     <div class="lite-mer-plats-där-uppe">
       <p>Beställningen gör du senast 25 februari 2024</p>

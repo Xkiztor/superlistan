@@ -40,14 +40,14 @@
           Du kan lungt jobba vidare en annan dag eftersom växterna sparas automatiskt tills nästa gång.
         </p>
         <p class="paragraph-spacing">
-          Om du trycker på symbolen
+          För att bäställa en växt trycker du på symbolen
           <Icon class="" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
-          till höger i exemplet nedan öppnas en flik med mer info om växten. Där
+          till höger, då öppnas en flik med mer info om växten. Där
           kan du ange hur många du vill ha av växten och trycka “Lägg till i varukorg”.
         </p>
-        <div class="list-example">
+        <!-- <div class="list-example">
           <ListElementExample :plant="testPlant" />
-        </div>
+        </div> -->
         <h1 class="underrubrik">Filter</h1>
         <p>
           På vänster sida finns det en filterfunktion där man kan filtrera och söka i listan för att snabbare hitta det
@@ -290,7 +290,7 @@ html:not(.dark) .text-stycke.head img {
 }
 
 .head .closed {
-  background: var(--bg-dark);
+  background: var(--text);
   width: fit-content;
   padding: 0.75rem 1rem 0.75rem 0.75rem;
   font-size: 1.5rem;
@@ -305,10 +305,6 @@ html:not(.dark) .text-stycke.head img {
   .head .closed {
     font-size: 1rem;
   }
-}
-
-.dark .head .closed {
-  background: var(--bg-light);
 }
 
 .head div.closed * {
@@ -400,6 +396,7 @@ li>svg {
 h1.main-title {
   font-size: 3.5rem;
   font-weight: 900;
+  letter-spacing: 1.5px
 }
 
 @media screen and (max-width: 900px) {

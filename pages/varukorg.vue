@@ -3,7 +3,7 @@
     <div class="onske-list-bg">
       <ColumnTopInfo :isOnskeLista="true" />
       <div v-for="plant in computedList" :key="plant.id">
-        <ListElement :plant="plant" :isOnskeLista="true" @handle-delete="handleDelete" />
+        <ListElement :plant="plant" :isOnskeLista="true" />
       </div>
     </div>
     <div class="bottom-section">
@@ -37,16 +37,6 @@ const computedList = computed(() => {
   })
   return newList
 })
-
-const handleDelete = (n) => {
-  console.log(n)
-  const index = onskeList.onskeList.value.findIndex(b => b.id === n)
-  // const indexFull = onskeList.onskeListFull.value.findIndex(b => b.id === n)
-  console.log(index);
-
-  onskeList.onskeList.value = onskeList.onskeList.value.filter(b => b.id != n)
-  // onskeList.onskeListFull.value = onskeList.onskeListFull.value.filter(b => b.id != n)
-}
 </script>
 
 <style>
