@@ -95,7 +95,8 @@
           </div> -->
           <div class="bottom-spacer"></div>
           <div class="center-bottom" @click="fetchAllList()">
-            {{ userMessage }}
+            <Icon class="loader" v-if="userMessage === 'laddar...'" name="line-md:loading-loop" size="80" />
+            <h2 v-else>{{ userMessage }}</h2>
             <!-- <p v-if="userMessage != 'Här är listan slut'">Om det inte laddas fler, tryck <a class="pointer"
                 @click="fetchAllList()">här</a></p> -->
           </div>
@@ -628,7 +629,7 @@ div.main-list {
 } */
 
 .bottom-spacer {
-  height: 5rem;
+  /* height: 5rem; */
   grid-column-start: 2;
   grid-row-start: 2;
   margin: 1rem auto 5rem;
@@ -642,9 +643,10 @@ div.main-list {
   margin: 1rem auto;
   font-size: 1.5rem;
   text-align: center;
-  position: absolute;
-  bottom: -5rem;
+  /* position: absolute; */
+  /* bottom: -5rem; */
   width: 100%;
+  padding-bottom: 5rem;
 }
 
 .center-bottom>p,

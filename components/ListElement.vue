@@ -56,9 +56,11 @@
     <Transition name="expand">
       <div class="expanded" v-if="expanded">
         <div class="info-container">
-          <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas || !plant.Edible }">
+          <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas }">
             <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
-            <Icon v-if="plant.Edible" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
+          </div>
+          <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Edible }">
+            <Icon v-if="plant.Edible" class="" name="twemoji:fork-and-knife" size="20" />
           </div>
           <p v-if="isOnskeLista" class="hide-on-pc">Antal: {{ changeCount }}</p>
           <p v-if="plant.Höjd" class="hide-on-pc">Höjd: {{ plant.Höjd }}</p>
@@ -522,7 +524,6 @@ function mouseLeave() {
 
 .edible-icon {
   grid-column: 2;
-  color: rgb(199, 33, 33);
 }
 
 .kommentar-icon {
@@ -538,7 +539,8 @@ function mouseLeave() {
 
 
 .expanded p,
-.expanded a {
+.expanded a,
+.expanded .ikoner {
   padding: 0.4rem 0.9rem;
   border-radius: 10rem;
 }
