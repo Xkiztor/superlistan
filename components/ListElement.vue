@@ -44,7 +44,7 @@
     <p v-if="plant.MinOrder && !isOnskeLista" class="hide-on-phone">{{ plant.MinOrder }} </p>
     <p v-else class="hide-on-phone"></p>
     <p v-if="isOnskeLista" class="on-right">{{ plant.Pris * changeCount }} kr</p>
-    <p v-else class="on-right">{{ plant.Pris }} kr</p>
+    <p v-else class="on-right pris">{{ plant.Pris }} kr</p>
 
 
     <button class="on-right expand-button" aria-label="Expandera" @click="handleExpand()">
@@ -79,18 +79,18 @@
           <p v-if="plant.Storlekskommentar">{{ plant.Storlekskommentar }}</p>
           <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
         </div>
-        <div v-if="!isOnskeLista" class="add-section">
+        <form v-if="!isOnskeLista" class="add-section">
           <div v-if="!isAdded" class="increment"
             :class="{ 'error-borderr': order > plant.Lager && plant.Lager != null, 'error-borderrr': order < plant.MinOrder && plant.MinOrder != null }">
             <input class="btn-input" type="number" min="0" v-model.number="order">
-            <button class="add" @click="order++">+</button>
-            <button class="subtract" @click="order -= 1">-</button>
+            <button type="button" class="add" @click="order++">+</button>
+            <button type="button" class="subtract" @click="order -= 1">-</button>
           </div>
           <button v-else @click="handleDelete">
             <Icon class="red" name="material-symbols:delete-forever-outline-rounded" size="24" />
           </button>
           <button v-if="!isAdded" :class="{ 'disabled': state.countError.value }" :disabled="state.countError.value"
-            @click="handleAdd">Lägg till i varukorg</button>
+            @click="handleAdd" type="submit" @submit.prevent="handleAdd">Lägg till i varukorg</button>
           <button v-else class="muted-button tillagd">
             <Icon class="check-icon" aria-label="Tillagt i varukorgen" name="material-symbols:check-circle-rounded" />
             Tillagd i varukorg
@@ -102,7 +102,7 @@
             Tillagd i varukorg
           </button> -->
 
-        </div>
+        </form>
         <div v-else class="add-section">
           <div class="increment"
             :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
@@ -324,9 +324,9 @@ function mouseLeave() {
   /* padding-left: 7px; */
   width: fit-content;
   /* background-color: var(--element-bg); */
-  grid-template-columns: 1fr 33fr 10fr 15fr 8fr 2fr 8fr 3fr;
+  grid-template-columns: 1fr 33fr 10fr 15fr 8fr 2fr 6fr 5fr;
   place-items: center start;
-  transition: all 100ms;
+  transition: all 250ms ease-in-out;
   min-height: 32px;
   z-index: 2;
   position: relative;
@@ -344,11 +344,11 @@ function mouseLeave() {
   border-color: transparent;
 }
 
-.element p {
+.element p:not(.pris) {
   margin-right: 0.5rem;
 }
 
-.if-expanded {
+.if-expanded:not(:first-child) {
   /* box-shadow: var(--box-shadow); */
   /* border: 1px solid var(--border-color); */
   /* margin: 1rem 0 0; */
@@ -362,6 +362,9 @@ function mouseLeave() {
   overflow: hidden;
   min-width: 0px;
   white-space: nowrap;
+}
+
+.element>p:not(.pris) {
   max-width: 90%;
 }
 
@@ -424,6 +427,16 @@ function mouseLeave() {
   margin-left: 0.75rem;
 }
 
+@media screen and (min-width: 600px) {
+  .plant-name:hover {
+    text-decoration: underline var(--text-mute);
+  }
+
+  .dark .plant-name:hover {
+    text-decoration: underline #5d5242;
+  }
+}
+
 /* Alla med .sidebar-selected */
 .element.sidebar-selected {
   border-right: 2px solid var(--current-icon-color);
@@ -446,7 +459,7 @@ function mouseLeave() {
 }
 
 .element {
-  transition: border-color 0.5s, border-radius 0.5s;
+  /* transition: border-color 0.5s, border-radius 0.5s; */
 }
 
 .element:has(.t-green) {
@@ -519,22 +532,31 @@ function mouseLeave() {
 
 .rekommenderas-icon {
   color: #ff5e5e;
+}
+
+.element .rekommenderas-icon {
   grid-column: 1;
 }
 
-.edible-icon {
+.element .edible-icon {
   grid-column: 2;
 }
 
 .kommentar-icon {
-  grid-column: 3;
   color: var(--text-mute);
   /* color: rgb(128, 128, 128); */
 }
 
+.element .kommentar-icon {
+  grid-column: 3;
+}
+
 .länk-icon {
-  grid-column: 4;
   color: rgb(128, 128, 128);
+}
+
+.element .länk-icon {
+  grid-column: 4;
 }
 
 
@@ -736,11 +758,11 @@ button.tillagd:hover {
 }
 
 .expand-enter-active {
-  transition: all 0.2s ease;
+  transition: all 0.2s ease-out;
 }
 
 .expand-leave-active {
-  transition: all 0.2s ease;
+  transition: all 0.2s ease-in;
 }
 
 .expand-enter-from {

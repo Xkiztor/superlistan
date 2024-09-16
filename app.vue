@@ -121,7 +121,7 @@ const openNavFunc = () => {
 
   --bg-light: #eee9d9;
   /* --bg-light: hsl(90, 15%, 98%); */
-  --bg-dark: #140f07;
+  --bg-dark: #1b1611;
   /* --bg-dark: hsl(90, 10%, 6%); */
 
   --element-bg-light: #f7f1e5;
@@ -129,7 +129,7 @@ const openNavFunc = () => {
   --element-bg-dark: #221c16;
   /* --element-bg-dark: hsl(90, 3%, 13%); */
 
-  --element-top-light: #eeeade;
+  --element-top-light: #e8e3d6;
   /* --element-top-light: hsl(0, 0%, 97%); */
   --element-top-dark: #2d251d;
   /* --element-top-dark: hsl(96, 3%, 16%); */
@@ -265,6 +265,7 @@ select,
   cursor: pointer;
   margin: 0.5rem;
   /* cfd1d6 */
+  transition: background 150ms ease-in-out;
 }
 
 .dark .increment,
@@ -282,13 +283,13 @@ input:not([type="checkbox"]) {
 
 .dark .info-container>* {
   background: var(--element-top);
-  box-shadow: var(--box-shadow-inset);
+  /* box-shadow: var(--box-shadow-inset); */
   color: var(--text-mute);
 }
 
 .dark input,
 .dark button {
-  box-shadow: var(--box-shadow-inset);
+  /* box-shadow: var(--box-shadow-inset); */
   color: var(--text);
 }
 
@@ -297,7 +298,7 @@ input:not([type="checkbox"]) {
   .dark button:hover,
   .dark input:hover {
     background: var(--element-top-hover);
-    box-shadow: var(--box-shadow-inset);
+    /* box-shadow: var(--box-shadow-inset); */
   }
 
   select:hover,
@@ -482,7 +483,7 @@ input:not([type="checkbox"]) {
   align-items: center;
   gap: 0.55rem;
   height: 100%;
-  transition: all 200ms;
+  transition: all 200ms ease-in-out;
   border-bottom: 2px solid transparent;
 }
 

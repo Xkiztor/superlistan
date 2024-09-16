@@ -1,7 +1,8 @@
 <template>
   <div class="home-container">
     <section class="text-stycke head">
-      <img src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/Downscale%20-%203IKzqvkmhA.jpg"
+      <img
+        src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/SuperDownscale%20-%203IKzqvkmhA%20-%20superlista%20bakgrund.jpg"
         alt="">
       <div>
         <div class="closed">
@@ -27,7 +28,7 @@
         </p>
       </div>
     </section>
-    <section class="text-stycke">
+    <article class="text-stycke">
       <div>
         <h1>Hur gör jag?</h1>
         <p class="top-desc">
@@ -45,36 +46,28 @@
           till höger, då öppnas en flik med mer info om växten. Där
           kan du ange hur många du vill ha av växten och trycka “Lägg till i varukorg”.
         </p>
-        <!-- <div class="list-example">
+      </div>
+    </article>
+    <!-- <div class="list-example">
           <ListElementExample :plant="testPlant" />
         </div> -->
-        <h1 class="underrubrik">Filter</h1>
-        <p>
-          På vänster sida finns det en filterfunktion där man kan filtrera och söka i listan för att snabbare hitta det
-          du
-          letar efter. Den kan du använda för att
-          söka efter exempelvis ätliga växter, bara träd eller mina tipsade favoriter.
-        </p>
-        <h1 class="underrubrik">Sortera</h1>
-        <p>
-          Om du vill sortera växtlistan efter något annat än växtnamnet (t.ex pris) kan du klicka på kolumens titel
-          ovanför
-          listan.
-          Klicka på den igen för att byta riktning.
-        </p>
-        <!-- Det finns även en ruta där man kan hoppa till begynnelsebokstaven av det man leter efter. -->
-      </div>
-    </section>
-    <section class="text-stycke">
-      <div>
 
-        <h1>Beskrivningar</h1>
+    <article class="text-stycke">
+      <div>
+        <div>
+          <img class="ljus light-dark"
+            src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-lista-ljus.png"
+            alt="">
+          <img class="mork light-dark"
+            src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-lista-mork.png"
+            alt="">
+        </div>
+        <!-- <h1>Beskrivningar</h1>
         <p class="top-desc">
           Nedan beskrivs de symboler och information som finns i Linders Superlista.
-        </p>
+        </p> -->
         <ul>
-          <li>
-            <strong>Typ:</strong> Det finns en kolumn för växttypen och där betyder:
+          <!-- <strong>Typ:</strong> Det finns en kolumn för växttypen och där betyder:
             <ul class="indent type-desc">
               <li>
                 <Icon name="noto:deciduous-tree" size="21" title="Träd" /> = Träd o buskar
@@ -96,94 +89,149 @@
               <li>
                 <Icon name="game-icons:fern" class="ormbunke-icon" size="21" title="Ormbunke" /> = Ormbunkar
               </li>
-            </ul>
-            <p>Om man klickar eller håller över <i class="lite-tjockare">ikonen</i> öppnas ett nytt fönster med Googles
-              bildsök. Lägg denna
-              rutan till
-              sidan av skärmen, på så sätt kan du snabbt se dom olika växterna. Dela gärna skärmen i 2/3 för listan och
-              1/3 för bilderna.
-            </p>
-            <p>
+            </ul> -->
+          <div class="under-picture-align">
+            <li>
+              <h1 class="underrubrik">Sortera</h1>
+              Om du vill sortera växtlistan efter något annat än växtnamnet (t.ex pris) kan du klicka på kolumens titel
+              ovanför
+              listan.
+              Klicka på den igen för att byta riktning.
+            </li>
+            <li>
+              <h1 class="underrubrik">Bildsök</h1>
+              Om man klickar på <i class="lite-tjockare">ikonen</i> öppnas en ruta med 9 bilder från Googles
+              bildsök. Men denna kan man enkelt få bilder på växterna medans man går igenom listan.
+              <br>
               Om du istället klickar på själva <i class="lite-tjockare">växtnamnet</i> öppnas en ny
-              flik (med Googles
-              bildsök) i det fönster du är i.
-            </p>
-          </li>
-          <li>
-            <strong>Ikoner:</strong>
-            <ul class="indent">
+              flik med Googles bildsök där man kan se alla bilder.
+            </li>
+          </div>
+
+          <h1 class="underrubrik">Förklaringar</h1>
+          <div class="förklaringar-align-container">
+            <div class="förklaringar-align">
               <li>
-                <Icon title="Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" /> =
-                <strong>Rekommenderas:</strong> Jag har satt hjärtan för växter jag vill rekommendera. Mina
-                personliga favoriter och växter jag tycker ni inte ska missa att spana in.
+                <strong>Höjd:</strong> Här anges ungefärlig höjd i cm på plantan som säljs.
               </li>
               <li>
-                <Icon title="Ätbar" class="edible-icon" name="twemoji:fork-and-knife" size="20" /> =
-                <strong>Ätlig:</strong> Visar om
-                växten är ätlig eller inte.
+                <strong>Minsta order:</strong> här är angivit det minimumantal som gäller för en viss växt (främst
+                perenner
+                i
+                P9-kruka där det
+                ofta är 12 st som är minimum).
               </li>
               <li>
-                <Icon title="Kommentar" class="kommentar-icon" name="majesticons:comment-2-text" size="20" /> =
-                <strong>Kommentar:</strong>
-                Denna ikoner visar om det finns en kommentar till växten ifråga.
+                <strong>Pris:</strong> Pris med moms per styck
               </li>
               <li>
-                <Icon class="länk-icon" name="mdi:link-variant" size="20" /> = <strong>Länk:</strong> Visar om det finns
-                en
-                länk till
-                växten. Du kan även klicka på ikonen för att öppna länken direkt. Kan vara bilder, videos,
-                blogghemsidor m.m.
+                <strong>Lager:</strong> här står hur många som finns i lager, när det är känt. Står det inget går det
+                ändå
+                bra
+                att beställa.
               </li>
-            </ul>
-          </li>
-          <li>
-            <strong>Kruka:</strong> C står för Container och t.ex. C5 är en 5-liters kruka. C2 en 2-liters kruka osv. P9
-            är en
-            fyrkantskruka
-            med sida 9 cm, P11 en fyrkantskruka med sida 11 cm osv.
-            Ibland finns detta tecken "#" vilket betyder att trädet har odlats i marken. Har ingen större betydelse,
-            ofta
-            är det positivt och ger kraftiga plantor. Leveraras som klump eller i kruka.
-          </li>
-          <li>
-            <strong>Höjd:</strong> Här anges ungefärlig höjd i cm på plantan som säljs.
-          </li>
-          <li>
-            <strong>Minsta order:</strong> här är angivit det minimumantal som gäller för en viss växt (främst perenner
-            i
-            P9-kruka där det
-            ofta är 12 st som är minimum).
-          </li>
-          <li>
-            <strong>Pris:</strong> Pris med moms per styck
-          </li>
-          <li>
-            <strong>Lager:</strong> här står hur många som finns i lager, när det är känt. Står det inget går det ändå
-            bra
-            att beställa.
-          </li>
-          <li>
-            <strong>Storleks-kommentar:</strong> Här står t.ex. "Pa" på dom träd som är toppympade på stam eller i vissa
-            fall
-            uppstammade till en tydlig stam. "Spö" innebär att det mest är en huvudstam och inte så många sidogrenar
-            ännu.
-            På en del träd anges här stamomfång, t.ex. 6-8 vilket betyder att stammen har en omkrets på 6-8 cm mätt 1 m
-            upp.
-          </li>
-          <li>
-            <strong>Zon:</strong> Vad gäller härdighet är det stor variation över listan och mycket är otillräckligt
-            prövat i Sverige. På en del växter har jag angivit svensk zon-tålighet. Zon 0 står för innerstadsmiljöer i
-            zon
-            1.
-          </li>
+              <li>
+                <strong>Zon:</strong> Vad gäller härdighet är det stor variation över listan och mycket är otillräckligt
+                prövat i Sverige. På en del växter har jag angivit svensk zon-tålighet. Zon 0 står för innerstadsmiljöer
+                i
+                zon
+                1.
+              </li>
+            </div>
+            <div class="förklaringar-align">
+              <li>
+                <strong>Kruka:</strong> C står för Container och t.ex. C5 är en 5-liters kruka. C2 en 2-liters kruka
+                osv.
+                P9
+                är en
+                fyrkantskruka
+                med sida 9 cm, P11 en fyrkantskruka med sida 11 cm osv.
+                Ibland finns detta tecken "#" vilket betyder att trädet har odlats i marken. Har ingen större betydelse,
+                ofta
+                är det positivt och ger kraftiga plantor. Leveraras som klump eller i kruka.
+              </li>
+              <li>
+                <strong>Storleks-kommentar:</strong> Här står t.ex. "Pa" på dom träd som är toppympade på stam eller i
+                vissa
+                fall
+                uppstammade till en tydlig stam. "Spö" innebär att det mest är en huvudstam och inte så många sidogrenar
+                ännu.
+                På en del träd anges här stamomfång, t.ex. 6-8 vilket betyder att stammen har en omkrets på 6-8 cm mätt
+                1
+                m
+                upp.
+              </li>
+            </div>
+          </div>
         </ul>
 
       </div>
-    </section>
-    <section class="text-stycke">
+    </article>
+    <article class="text-stycke">
       <div>
-
-
+        <div class="filter-forklaring">
+          <div>
+            <img class="ljus light-dark"
+              src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-filter-ljus.png"
+              alt="">
+            <img class="mork light-dark"
+              src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-filter-mork.png"
+              alt="">
+          </div>
+          <div>
+            <h1 class="underrubrik">Filter</h1>
+            <p>
+              På vänster sida finns det en filterfunktion där man kan filtrera och söka i listan för att snabbare
+              hitta
+              det
+              du
+              letar efter. Den kan du använda för att
+              söka efter exempelvis ätliga växter, bara träd eller mina tipsade favoriter.
+              Sökfunktionen söker efter det vetenskapliga namnet.
+            </p>
+            <h1 class="underrubrik">Ikoner</h1>
+            <!-- <strong>Ikoner:</strong> -->
+            <ul class="icon-list">
+              <li>
+                <Icon title="Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
+                <p>
+                  <strong>Rekommenderas:</strong> Jag har satt hjärtan för växter jag vill rekommendera. Mina
+                  personliga favoriter och växter jag tycker ni inte ska missa att spana in.
+                </p>
+              </li>
+              <li>
+                <Icon title="Ätbar" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
+                <p>
+                  <strong>Ätlig:</strong> Visar om
+                  växten är ätlig eller inte.
+                </p>
+              </li>
+              <li>
+                <Icon title="Kommentar" class="kommentar-icon" name="majesticons:comment-2-text" size="20" />
+                <p>
+                  <strong>Kommentar:</strong>
+                  Denna ikoner visar om det finns en kommentar till växten ifråga.
+                </p>
+              </li>
+              <li>
+                <Icon class="länk-icon" name="mdi:link-variant" size="20" />
+                <p>
+                  <strong>Länk:</strong> Visar om det
+                  finns
+                  en
+                  länk till
+                  växten. Du kan även klicka på ikonen för att öppna länken direkt. Kan vara bilder, videos,
+                  blogghemsidor m.m.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Det finns även en ruta där man kan hoppa till begynnelsebokstaven av det man leter efter. -->
+      </div>
+    </article>
+    <article class="text-stycke betalning">
+      <div>
         <h1>Betalning och Hämtning</h1>
         <p class="paragraph-spacing">
           När jag fått din beställning svarar jag med en faktura på halva beloppet. Resten betalas när du hämtar
@@ -209,7 +257,7 @@
         <a class="logo" href="https://lindersplantskola.se/" target="_blank"><img src="/lindersplantskola-logo.svg"
             class="logo" alt="lindersplantskola-logo"></a>
       </div>
-    </section>
+    </article>
   </div>
 </template>
 
@@ -316,7 +364,7 @@ html:not(.dark) .text-stycke.head img {
 }
 
 .head .closed .icon * {
-  color: var(--primary-red);
+  color: var(--primary-red-dark);
   font-size: 2rem;
 }
 
@@ -452,7 +500,85 @@ li>a,
   }
 }
 
+@media screen and (min-width: 700px) {
+  .filter-forklaring {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
 
+.dark .ljus.light-dark {
+  display: none;
+}
+
+html:not(.dark) .light-dark.mork {
+  display: none;
+}
+
+
+.filter-forklaring img {
+  transform: translateX(-8px) translatey(-8px);
+  /* width: 90%; */
+}
+
+.filter-forklaring>:nth-child(2) {
+  padding-left: 0.5rem;
+}
+
+.filter-forklaring div h1:nth-child(1) {
+  margin-top: 0;
+}
+
+@media screen and (min-width: 500px) {
+  .text-stycke .under-picture-align {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 2rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .text-stycke .förklaringar-align-container {
+    display: grid;
+    grid-template-columns: 8fr 7fr;
+    gap: 2rem;
+    /* margin-bottom: 1rem; */
+  }
+
+  .förklaringar-align-container img {
+    margin-bottom: 1rem;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .text-stycke .förklaringar-align {
+    display: flex;
+    flex-direction: column;
+    /* grid-template-columns: 6fr 3fr; */
+    gap: 2rem;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+  }
+
+  .text-stycke .förklaringar-align>* {
+    /* min-width: 8rem; */
+  }
+}
+
+.text-stycke .icon-list>* {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  place-items: center start;
+  gap: 0.5rem;
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+
+.text-stycke .icon-list p {
+  border-left: 3px solid var(--border-color);
+  padding-left: 0.5rem;
+}
 
 
 .type-desc {
@@ -465,8 +591,16 @@ li>a,
 
 .hälsningar {
   text-align: center;
-  margin: 2rem 0 1rem;
+  margin: 2rem 0 2rem;
   font-size: large;
+}
+
+.text-stycke a.logo {
+  margin-bottom: 6rem
+}
+
+.text-stycke.betalning {
+  text-align: center
 }
 
 .paragraph-spacing {

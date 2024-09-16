@@ -42,6 +42,7 @@
       <img @click="openNewTab(state.googleSearchResult.value.items[8].link)" v-if="state.showImages.value"
         :src="state.googleSearchResult.value.items[8].link" alt="">
       <Icon class="loader" v-else name="line-md:loading-loop" size="80" />
+      <p class="disclaimer">Bilder från google.com</p>
     </div>
   </div>
   <div class="list-layout"
@@ -429,10 +430,11 @@ div.main-list {
   background: none;
   padding: 0 .75rem;
   border: none;
+  transition: color 150ms ease-in-out
 }
 
 .jump-to button:hover {
-  translate: 4px 0;
+  /* transform: translate(4px, 0); */
   background: none;
   color: var(--primary-green);
 }
@@ -688,7 +690,7 @@ div.main-list {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 30vh;
+  padding-top: 10vh;
   transition: background 200ms;
 }
 
@@ -821,5 +823,14 @@ div.main-list {
   .search-modal .image-grid>:last-child {
     display: none;
   }
+}
+
+.search-modal .disclaimer {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1rem;
+  color: white;
+  font-size: 0.8rem;
+  /* text-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
 }
 </style>

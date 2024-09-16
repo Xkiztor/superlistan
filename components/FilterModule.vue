@@ -162,6 +162,7 @@ input[type="checkbox"] {
   background: none;
   border: 2px solid var(--text-mute);
   /* border: 2px solid var(--border-color-bright-dark); */
+  transition: border 150ms ease-in-out;
 }
 
 .dark input[type="checkbox"] {
