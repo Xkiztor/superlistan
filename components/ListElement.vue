@@ -138,7 +138,8 @@ const databasArtikel = computed(() => {
     compressedImages: [],
     url: '',
     svensktNamn: '',
-    finns: false
+    finns: false,
+    ingress: '',
   }
 
   var unformattedSuperlistName = props.plant.Namn.toLowerCase().replace(/'/g, "").replace(/ /g, "")
@@ -172,6 +173,7 @@ const databasArtikel = computed(() => {
   artikelObject.url = `${lignosdatabasenUrl}/planta/${artikel.slakte}/${artikel.art}${artikel.sortnamn ? '/' : ''}${artikel.sortnamn}/`
 
   artikelObject.svensktNamn = artikel.svensktnamn
+  artikelObject.ingress = artikel.ingress
 
   return artikelObject
   // return props.lignosdatabasen
@@ -248,7 +250,10 @@ const databasArtikel = computed(() => {
         </div>
 
         <div class="info-container">
-          <p class="article" v-if="databasArtikel.text">{{ databasArtikel.text }}</p>
+          <p class="article" v-if="databasArtikel.text">
+          <p class="ingress">{{ databasArtikel.ingress }}</p>
+          <p>{{ databasArtikel.text }}</p>
+          </p>
           <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas }">
             <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
           </div>
@@ -627,6 +632,16 @@ const databasArtikel = computed(() => {
     padding: 0 0.6rem;
   }
 }
+
+.expanded .article p {
+  padding: 0;
+}
+
+.expanded .article .ingress {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
 
 .add-section {
   display: grid;
