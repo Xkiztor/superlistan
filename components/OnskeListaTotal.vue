@@ -1,3 +1,22 @@
+<script setup>
+const onskeList = useGlobalOnskeList()
+
+const totalCount = computed(() => onskeList.onskeList.value.map(e => e.Count).reduce((a, b) => a + b, 0))
+const totalPrice = computed(() => onskeList.onskeList.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
+
+
+// const helpRef = ref()
+// const isHovered = useElementHover(helpRef)
+const showModal = ref(false)
+const showHelp = ref(false)
+
+const nollställ = () => {
+  console.log('nollställd');
+  showModal.value = false
+  onskeList.onskeList.value = []
+}
+</script>
+
 <template>
   <div class="onske-list-bg total">
     <h1>Totalt</h1>
@@ -61,44 +80,6 @@
   </div>
 </template>
 
-<script setup>
-const onskeList = useGlobalOnskeList()
-
-const totalCount = computed(() => onskeList.onskeList.value.map(e => e.Count).reduce((a, b) => a + b, 0))
-const totalPrice = computed(() => onskeList.onskeList.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
-
-
-// const helpRef = ref()
-// const isHovered = useElementHover(helpRef)
-const showModal = ref(false)
-const showHelp = ref(false)
-
-const nollställ = () => {
-  console.log('nollställd');
-  showModal.value = false
-  onskeList.onskeList.value = []
-}
-
-var timeout
-
-// watch(isHovered, () => {
-//   if (isHovered.value === true) {
-//     timeout = setTimeout(() => {
-//       showHelp.value = true
-//     }, 300)
-//   }
-//   if (isHovered.value === false) {
-//     clearTimeout(timeout);
-//     showHelp.value = false
-//   }
-// })
-
-// watchEffect(() => {
-//   console.log(showHelp.value);
-//   console.log(isHovered.value);
-// })
-</script>
-
 <style>
 div .total {
   width: 100%;
@@ -138,14 +119,14 @@ div.lite-mer-plats-där-uppe {
   margin-left: 0;
 }
 
-.clear {
+.total .clear {
   display: grid;
   place-items: center start;
   grid-template-rows: max-content max-content;
   grid-template-columns: max-content 1fr;
 }
 
-.clear svg {
+.total .clear svg {
   color: rgb(80, 80, 80);
   cursor: pointer;
 }

@@ -1,128 +1,10 @@
-<template>
-  <li class="element"
-    :class="expanded ? 'if-expanded' : '', { 'sidebar-selected': plant.Namn === state.searchedPlant.value && state.sidebarMode.value && state.showGoogleSearchResult.value }"
-    ref="testRef">
-    <!-- @click.stop="expanded = !expanded" -->
-    <div class="plant-icon"
-      :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-lime': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-yellow': plant.Typ == 'G' }"
-      :title="toolTipCalculator(plant.Typ)" @click.stop="iconClick()">
-      <Icon name="noto:deciduous-tree" size="14" v-if="plant.Typ == 'T'" title="Träd" />
-      <Icon name="noto:evergreen-tree" size="14" v-if="plant.Typ == 'B'" title="Barrträd" />
-      <Icon name="fxemoji:rosette" size="14" v-if="plant.Typ == 'P'" title="Perenner" />
-      <Icon name="game-icons:fern" size="14" v-if="plant.Typ == 'O'" title="Ormbunke" class="ormbunke-icon" />
-      <Icon name="game-icons:high-grass" size="14" v-if="plant.Typ == 'G'" title="Gräs" class="grass-icon" />
-      <Icon name="game-icons:curling-vines" size="14" v-if="plant.Typ == 'K'" title="Klätterväxt"
-        class="klattervaxt-icon" />
-    </div>
-
-    <p class="plant-name" :title="plant.Namn">
-      <a :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
-        {{
-      plant.Namn
-    }}</a>
-    </p>
-
-    <div class="ikoner hide-on-phone">
-      <Icon v-if="plant.Rekommenderas" title="Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill"
-        size="20" />
-      <Icon v-if="plant.Edible" title="Ätbar" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
-      <Icon v-if="plant.Kommentar" :title="plant.Kommentar" class="kommentar-icon" name="majesticons:comment-2-text"
-        size="20" />
-      <a :href="plant.Länk" :title="plant.Länk" target="_blank">
-        <Icon v-if="plant.Länk" class="länk-icon" name="mdi:link-variant" size="20" />
-        <!-- <Icon v-if="plant.Länk" class="länk-icon" name="iconoir:internet" size="20" /> -->
-      </a>
-    </div>
-
-    <!-- --- --- --- List Item Text --- --- --- -->
-    <p v-if="plant.Höjd && !isOnskeLista" :title="plant.Höjd" class="hide-on-phone">{{ plant.Höjd }} cm</p>
-    <p v-else class="hide-on-phone"></p>
-    <p v-if="!isOnskeLista" :title="plant.Kruka" class="nowrap hide-on-phone">{{ plant.Kruka }}</p>
-    <p v-else class="nowrap hide-on-phone"
-      :class="{ 'error-colorr': changeCount > plant.Lager && plant.Lager != null, 'error-colorrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
-      {{ changeCount }}</p>
-    <p v-if="plant.MinOrder && !isOnskeLista" class="hide-on-phone">{{ plant.MinOrder }} </p>
-    <p v-else class="hide-on-phone"></p>
-    <p v-if="isOnskeLista" class="on-right">{{ plant.Pris * changeCount }} kr</p>
-    <p v-else class="on-right pris">{{ plant.Pris }} kr</p>
-
-
-    <button class="on-right expand-button" aria-label="Expandera" @click="handleExpand()">
-      <Icon v-if="!expanded" class="" name="material-symbols:keyboard-arrow-up-rounded" size="23" />
-      <Icon v-else class="" name="material-symbols:keyboard-arrow-down-rounded" size="23" />
-    </button>
-
-    <!-- --- --- --- Expanded --- --- --- -->
-    <Transition name="expand">
-      <div class="expanded" v-if="expanded">
-        <div class="info-container">
-          <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas }">
-            <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
-          </div>
-          <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Edible }">
-            <Icon v-if="plant.Edible" class="" name="twemoji:fork-and-knife" size="20" />
-          </div>
-          <p v-if="isOnskeLista" class="hide-on-pc">Antal: {{ changeCount }}</p>
-          <p v-if="plant.Höjd" class="hide-on-pc">Höjd: {{ plant.Höjd }}</p>
-          <p v-if="plant.Kruka" class="hide-on-pc">Kruka: {{ plant.Kruka }}</p>
-          <p v-if="plant.Höjd && isOnskeLista">Höjd: {{ plant.Höjd }}</p>
-          <p v-if="plant.Kruka && isOnskeLista">Kruka: {{ plant.Kruka }}</p>
-          <p v-if="plant.Lager"
-            :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': order > plant.Lager && plant.Lager != null }">
-            Lager: {{ plant.Lager }}</p>
-          <p v-if="isOnskeLista">{{ plant.Pris }} kr/st</p>
-          <p v-if="plant.MinOrder"
-            :class="{ 'error-borderrr': changeCount < plant.MinOrder && changeCount != 0 && plant.MinOrder != null, 'error-borderr': order < plant.MinOrder && !isOnskeLista && plant.MinOrder != null }">
-            Min. Order: {{ plant.MinOrder }}</p>
-          <a v-if="plant.Länk" :href="plant.Länk" target="_blank" class="link-color underline">Länk</a>
-          <p v-if="plant.Zon">Zon: {{ plant.Zon }}</p>
-          <p v-if="plant.Storlekskommentar">{{ plant.Storlekskommentar }}</p>
-          <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
-        </div>
-        <form v-if="!isOnskeLista" class="add-section">
-          <div v-if="!isAdded" class="increment"
-            :class="{ 'error-borderr': order > plant.Lager && plant.Lager != null, 'error-borderrr': order < plant.MinOrder && plant.MinOrder != null }">
-            <input class="btn-input" type="number" min="0" v-model.number="order">
-            <button type="button" class="add" @click="order++">+</button>
-            <button type="button" class="subtract" @click="order -= 1">-</button>
-          </div>
-          <button v-else @click="handleDelete">
-            <Icon class="red" name="material-symbols:delete-forever-outline-rounded" size="24" />
-          </button>
-          <button v-if="!isAdded" :class="{ 'disabled': state.countError.value }" :disabled="state.countError.value"
-            @click="handleAdd" type="submit" @submit.prevent="handleAdd">Lägg till i varukorg</button>
-          <button v-else class="muted-button tillagd">
-            <Icon class="check-icon" aria-label="Tillagt i varukorgen" name="material-symbols:check-circle-rounded" />
-            Tillagd i varukorg
-          </button>
-          <!-- <button v-if="state.countError.value" disabled class="disabled">Lägg till i varukorg</button>
-          <button v-else-if="!isAdded" @click="handleAdd">Lägg till i varukorg</button>
-          <button v-else class="muted-button tillagd">
-            <Icon class="check-icon" aria-label="Tillagt i varukorgen" name="material-symbols:check-circle-rounded" />
-            Tillagd i varukorg
-          </button> -->
-
-        </form>
-        <div v-else class="add-section">
-          <div class="increment"
-            :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
-            <input class="btn-input" type="number" min="0" v-model.number="changeCount">
-            <button class="add" @click="changeCount++">+</button>
-            <button class="subtract" @click="changeCount -= 1">-</button>
-          </div>
-          <button @click="handleDelete">Ta bort</button>
-        </div>
-      </div>
-    </Transition>
-  </li>
-</template>
-
 <script setup>
 const emit = defineEmits(['addToCart', 'handleDelete'])
 
 const props = defineProps({
   plant: Object,
   isOnskeLista: Boolean,
+  lignosdatabasen: Object,
 })
 
 
@@ -227,13 +109,6 @@ const toolTipCalculator = (firstLetter) => {
 }
 
 const iconClick = async () => {
-  // console.log('Clicked');
-  // window.open(
-  //   `https://www.google.com/search?q=${props.plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`,
-  //   'newwindow',
-  //   'width=1000, height=2000'
-  // );
-  // return false;
   state.showGoogleSearchResult.value = true
   state.searchedPlant.value = props.plant.Namn
 
@@ -255,25 +130,185 @@ const iconClick = async () => {
   }
 }
 
-var timeout
+// * ---------- Lignosdatabasen -----------
+const databasArtikel = computed(() => {
+  var artikelObject = {
+    text: '',
+    images: [],
+    compressedImages: [],
+    url: '',
+    svensktNamn: '',
+    finns: false
+  }
 
-function mouseEnter() {
-  timeout = setTimeout(() => {
-    window.open(
-      `https://www.google.com/search?q=${props.plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`,
-      'newwindow',
-      'width=1000, height=1000'
-    );
-    return false;
-  }, 300)
-}
+  var unformattedSuperlistName = props.plant.Namn.toLowerCase().replace(/'/g, "").replace(/ /g, "")
 
-function mouseLeave() {
-  // console.log('leave');
-  clearTimeout(timeout);
-}
+  var artikel
+  var artikelSameSortnamn = props.lignosdatabasen.filter((e) => `${e.slakte.toLowerCase().replace(/ /g, "")}${e.art.toLowerCase().replace(/ /g, "")}${e.sortnamn.toLowerCase().replace(/'/g, "").replace(/ /g, "")}` === unformattedSuperlistName)[0]
+  var artikelWithoutSortnamn = props.lignosdatabasen.filter((e) => `${e.slakte.toLowerCase().replace(/ /g, "")}${e.art.toLowerCase().replace(/ /g, "")}` === unformattedSuperlistName)[0]
+  if (artikelSameSortnamn) {
+    artikelObject.finns = true
+    artikel = artikelSameSortnamn
+  } else if (false) {
+    // } else if (artikelWithoutSortnamn) {
+    artikel = artikelWithoutSortnamn
+  } else {
+    return false
+  }
+
+  var images = artikel.text.split(/!\[(?!.*omslag)[^\]]*\]\(([^)]+)\)/g).filter(str => str !== '' && str.includes('http') && !str.includes('['))
+  // /!\[[^\]]*\]\(([^)]+)\)/g
+  artikelObject.images = images
+  if (images.length > 2) {
+    artikelObject.compressedImages = images.map(e => e.replace('/upload/', '/upload/t_700bred/'))
+  } else {
+    artikelObject.compressedImages = images.map(e => e.replace('/upload/', '/upload/t_2000bred/'))
+  }
+
+  var text = artikel.text.replace(/!\[.*?\]\(.*?\)|\[.*?\]\(.*?\)/g, '').replace(/[*\-_#{}\[\]]/g, "");
+  artikelObject.text = text
+
+  const lignosdatabasenUrl = 'https://vaxt-databas.netlify.app'
+  artikelObject.url = `${lignosdatabasenUrl}/planta/${artikel.slakte}/${artikel.art}${artikel.sortnamn ? '/' : ''}${artikel.sortnamn}/`
+
+  artikelObject.svensktNamn = artikel.svensktnamn
+
+  return artikelObject
+  // return props.lignosdatabasen
+})
+
 
 </script>
+
+<template>
+  <li class="element"
+    :class="expanded ? 'if-expanded' : '', { 'sidebar-selected': plant.Namn === state.searchedPlant.value && state.sidebarMode.value && state.showGoogleSearchResult.value, 'has-images': databasArtikel.images }"
+    ref="testRef">
+    <!-- @click.stop="expanded = !expanded" -->
+    <div class="plant-icon"
+      :class="{ 't-green': plant.Typ == 'T', 'p-blue': plant.Typ == 'P', 'b-green': plant.Typ == 'B', 'o-lime': plant.Typ == 'O', 'k-orange': plant.Typ == 'K', 'g-yellow': plant.Typ == 'G' }"
+      :title="toolTipCalculator(plant.Typ)" @click.stop="iconClick()">
+      <Icon name="noto:deciduous-tree" size="14" v-if="plant.Typ == 'T'" title="Träd" />
+      <Icon name="noto:evergreen-tree" size="14" v-if="plant.Typ == 'B'" title="Barrträd" />
+      <Icon name="fxemoji:rosette" size="14" v-if="plant.Typ == 'P'" title="Perenner" />
+      <Icon name="game-icons:fern" size="14" v-if="plant.Typ == 'O'" title="Ormbunke" class="ormbunke-icon" />
+      <Icon name="game-icons:high-grass" size="14" v-if="plant.Typ == 'G'" title="Gräs" class="grass-icon" />
+      <Icon name="game-icons:curling-vines" size="14" v-if="plant.Typ == 'K'" title="Klätterväxt"
+        class="klattervaxt-icon" />
+    </div>
+
+    <p class="plant-name" :title="plant.Namn">
+      <a :href="`https://www.google.com/search?q=${plant.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">
+        {{
+          plant.Namn
+        }}</a>
+    </p>
+
+    <div class="ikoner hide-on-phone">
+      <Icon v-if="plant.Rekommenderas" title="Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill"
+        size="20" />
+      <Icon v-if="plant.Edible" title="Ätbar" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
+      <Icon v-if="databasArtikel.finns" title="lignosdatabasen" class="kommentar-icon" name="ooui:articles-ltr"
+        size="20" />
+      <!-- <Icon v-if="plant.Kommentar" :title="plant.Kommentar" class="kommentar-icon" name="majesticons:comment-2-text"
+        size="20" /> -->
+      <a :href="plant.Länk" :title="plant.Länk" target="_blank">
+        <Icon v-if="plant.Länk" class="länk-icon" name="mdi:link-variant" size="20" />
+        <!-- <Icon v-if="plant.Länk" class="länk-icon" name="iconoir:internet" size="20" /> -->
+      </a>
+    </div>
+
+    <!-- --- --- --- List Item Text --- --- --- -->
+    <p v-if="plant.Höjd && !isOnskeLista" :title="plant.Höjd" class="hide-on-phone">{{ plant.Höjd }} cm</p>
+    <p v-else class="hide-on-phone"></p>
+    <p v-if="!isOnskeLista" :title="plant.Kruka" class="nowrap hide-on-phone">{{ plant.Kruka }}</p>
+    <p v-else class="nowrap hide-on-phone"
+      :class="{ 'error-colorr': changeCount > plant.Lager && plant.Lager != null, 'error-colorrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
+      {{ changeCount }}</p>
+    <p v-if="plant.MinOrder && !isOnskeLista" class="hide-on-phone">{{ plant.MinOrder }} </p>
+    <p v-else class="hide-on-phone"></p>
+    <p v-if="isOnskeLista" class="on-right">{{ plant.Pris * changeCount }} kr</p>
+    <p v-else class="on-right pris">{{ plant.Pris }} kr</p>
+
+
+    <button class="on-right expand-button" aria-label="Expandera" @click="handleExpand()">
+      <Icon v-if="!expanded" class="" name="material-symbols:keyboard-arrow-up-rounded" size="23" />
+      <Icon v-else class="" name="material-symbols:keyboard-arrow-down-rounded" size="23" />
+    </button>
+
+    <!-- --- --- --- Expanded --- --- --- -->
+    <Transition name="expand">
+      <div class="expanded" v-if="expanded">
+
+        <div class="image-container" v-if="databasArtikel.images"
+          :style="{ 'grid-template-columns': `repeat(${databasArtikel.images.length}, 1fr)` }">
+          <a v-for="image in databasArtikel.compressedImages" :href="image" target="_blank" :key="image">
+            <img :src="image" alt="">
+          </a>
+        </div>
+
+        <div class="info-container">
+          <p class="article" v-if="databasArtikel.text">{{ databasArtikel.text }}</p>
+          <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas }">
+            <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
+          </div>
+          <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Edible }">
+            <Icon v-if="plant.Edible" class="" name="twemoji:fork-and-knife" size="20" />
+          </div>
+          <p v-if="isOnskeLista" class="hide-on-pc">Antal: {{ changeCount }}</p>
+          <p v-if="plant.Höjd" class="hide-on-pc">Höjd: {{ plant.Höjd }}</p>
+          <p v-if="plant.Kruka" class="hide-on-pc">Kruka: {{ plant.Kruka }}</p>
+          <p v-if="plant.Höjd && isOnskeLista">Höjd: {{ plant.Höjd }}</p>
+          <p v-if="plant.Kruka && isOnskeLista">Kruka: {{ plant.Kruka }}</p>
+          <p v-if="plant.Lager"
+            :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': order > plant.Lager && plant.Lager != null }">
+            Lager: {{ plant.Lager }}</p>
+          <p v-if="isOnskeLista">{{ plant.Pris }} kr/st</p>
+          <p v-if="plant.MinOrder"
+            :class="{ 'error-borderrr': changeCount < plant.MinOrder && changeCount != 0 && plant.MinOrder != null, 'error-borderr': order < plant.MinOrder && !isOnskeLista && plant.MinOrder != null }">
+            Min. Order: {{ plant.MinOrder }}</p>
+          <a v-if="plant.Länk" :href="plant.Länk" target="_blank" class="link-color underline">Länk</a>
+          <p v-if="plant.Zon">Zon: {{ plant.Zon }}</p>
+          <p v-if="plant.Storlekskommentar">{{ plant.Storlekskommentar }}</p>
+          <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
+          <!-- <p>{{ databasArtikel.images }}</p> -->
+          <!-- <a>{{ databasArtikel.url }}</a> -->
+          <a v-if="databasArtikel.url" :href="databasArtikel.url" target="_blank" class="link-color underline">Mer info
+            på Lignosdatabasen</a>
+          <p v-if="databasArtikel.svensktNamn">Svenskt namn: {{ databasArtikel.svensktNamn }}</p>
+        </div>
+
+        <form v-if="!isOnskeLista" class="add-section inte-önskelista">
+          <div v-if="!isAdded" class="increment"
+            :class="{ 'error-borderr': order > plant.Lager && plant.Lager != null, 'error-borderrr': order < plant.MinOrder && plant.MinOrder != null }">
+            <input class="btn-input" type="number" min="0" v-model.number="order">
+            <button type="button" class="add" @click="order++">+</button>
+            <button type="button" class="subtract" @click="order -= 1">-</button>
+          </div>
+          <button v-else @click="handleDelete">
+            <Icon class="red" name="material-symbols:delete-forever-outline-rounded" size="24" />
+          </button>
+          <button v-if="!isAdded" :class="{ 'disabled': state.countError.value }" :disabled="state.countError.value"
+            @click="handleAdd" type="submit" @submit.prevent="handleAdd">Lägg till i varukorg</button>
+          <button v-else @click.prevent="" class="muted-button tillagd">
+            <Icon class="check-icon" aria-label="Tillagt i varukorgen" name="material-symbols:check-circle-rounded" />
+            Tillagd i varukorg
+          </button>
+        </form>
+
+        <div v-else class="add-section önskelista">
+          <div class="increment"
+            :class="{ 'error-borderr': changeCount > plant.Lager && plant.Lager != null, 'error-borderrr': changeCount < plant.MinOrder && plant.MinOrder != null }">
+            <input class="btn-input" type="number" min="0" v-model.number="changeCount">
+            <button class="add" @click="changeCount++">+</button>
+            <button class="subtract" @click="changeCount -= 1">-</button>
+          </div>
+          <button @click="handleDelete">Ta bort</button>
+        </div>
+      </div>
+    </Transition>
+  </li>
+</template>
 
 <style>
 .error-border {
@@ -349,12 +384,23 @@ function mouseLeave() {
 }
 
 .if-expanded:not(:first-child) {
-  /* box-shadow: var(--box-shadow); */
-  /* border: 1px solid var(--border-color); */
-  /* margin: 1rem 0 0; */
-  padding-bottom: 2rem;
   padding-top: 0.5rem;
-  /* padding-left: 0.25rem; */
+}
+
+
+.element.if-expanded {
+  /* padding-bottom: 2rem; */
+  padding-bottom: 0.5rem;
+  margin: 1rem 0;
+  border: 1px solid var(--border-color);
+  /* border-top: 1px solid var(--border-color); */
+  /* border-bottom: 1px solid var(--border-color); */
+  box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.10);
+  border-radius: 1rem;
+}
+
+.dark .element.if-expanded {
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
 }
 
 .element>p {
@@ -378,6 +424,7 @@ function mouseLeave() {
   white-space: normal;
   overflow: visible;
 }
+
 
 .element:hover:not(.if-expanded) {
   /* translate: 7px 0; */
@@ -407,7 +454,7 @@ function mouseLeave() {
 }
 
 
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 600px) {
   .expanded {
     display: grid;
     grid-template-columns: 12fr 5fr;
@@ -567,6 +614,20 @@ function mouseLeave() {
   border-radius: 10rem;
 }
 
+.expanded .article {
+  background: none;
+  border: none;
+  padding: 0 0.1rem;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+@media screen and (min-width: 700px) {
+  .expanded .article {
+    padding: 0 0.6rem;
+  }
+}
+
 .add-section {
   display: grid;
   grid-column: 5;
@@ -583,7 +644,7 @@ function mouseLeave() {
   height: 100%;
   /* padding: 1rem; */
   margin: 0;
-  flex-grow: 1;
+  /* flex-grow: 1; */
 }
 
 .expanded .add-section button.tillagd {
@@ -591,24 +652,69 @@ function mouseLeave() {
 }
 
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   .add-section {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     grid-template-columns: 1fr 1fr;
     place-items: center;
-    width: fit-content;
+    /* width: fit-content; */
     margin: 0 auto;
     border-top: 1px solid var(--border-color);
     padding-top: 0.5rem;
     margin-top: 0.5rem;
   }
 
+  .add-section>button {
+    height: 100%;
+  }
+
 }
+
+@media screen and (min-width: 600px) {
+  .has-images .add-section {
+    place-self: start;
+    margin-right: 1rem;
+  }
+}
+
 
 .check-icon {
   color: var(--primary-green);
   font-size: 1.5rem;
   margin: auto 0;
+}
+
+.expanded .image-container {
+  grid-column: 1/3;
+  display: grid;
+  gap: 1rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.1rem;
+  /* padding: 0.5rem calc(0.4rem + 0.5rem) 0.5rem 0.5rem; */
+  /* grid-template-columns: repeat(5, 1fr); */
+  /* height: 5rem; */
+  width: 100%;
+}
+
+@media screen and (min-width: 700px) {
+  .expanded .image-container {
+    padding: 0.5rem 1rem 1rem 0.6rem;
+  }
+}
+
+.expanded .image-container a {
+  padding: 0;
+}
+
+.expanded .image-container img {
+  max-height: 15rem;
+  border-radius: 1rem;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  /* aspect-ratio: 1/1; */
 }
 
 
@@ -624,7 +730,7 @@ function mouseLeave() {
   justify-content: center;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   .info-container {
     padding-top: 0.5rem;
   }

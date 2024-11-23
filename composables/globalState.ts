@@ -46,7 +46,7 @@ export const useGlobalState = createGlobalState(() => {
   const showImages = ref(false);
   const searchedPlant = ref('');
 
-  const sidebarMode = ref(true);
+  const sidebarMode = ref(false);
 
   return {
     countError,

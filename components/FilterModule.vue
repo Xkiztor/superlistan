@@ -1,3 +1,27 @@
+<script setup>
+defineEmits(['fetchList', 'handleClick'])
+const state = useGlobalState()
+
+const showClear = computed(() => {
+  if (state.favoriteFilter.value || state.edibleFilter.value || state.commentFilter.value || state.linkFilter.value || state.typeFilter.value.T || state.typeFilter.value.B || state.typeFilter.value.P || state.typeFilter.value.K || state.typeFilter.value.O || state.typeFilter.value.G) {
+    return true
+  } else return false
+});
+
+const clearFilters = () => {
+  state.favoriteFilter.value = false
+  state.edibleFilter.value = false
+  state.commentFilter.value = false
+  state.linkFilter.value = false
+  state.typeFilter.value.T = false
+  state.typeFilter.value.B = false
+  state.typeFilter.value.P = false
+  state.typeFilter.value.K = false
+  state.typeFilter.value.O = false
+  state.typeFilter.value.G = false
+}
+</script>
+
 <template>
   <div class="filter-div search-filter-div">
     <div class="search">
@@ -15,7 +39,7 @@
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.favoriteFilter.value">
       <div class="icon-align">
         <Icon class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
-        <p>Favorit</p>
+        <p>Peters favoriter</p>
       </div>
     </form>
     <form class="check-filter-div">
@@ -84,19 +108,13 @@
         <p>Gräs</p>
       </div>
     </form>
+
+    <button @click="clearFilters()" class="clear" :class="{ 'show-clear': showClear }">
+      <Icon name="material-symbols:cancel-outline-rounded" />
+      Rensa filter
+    </button>
   </div>
 </template>
-
-<script setup>
-defineEmits(['fetchList', 'handleClick'])
-const state = useGlobalState()
-
-console.log(state.typeFilter.value.G);
-
-function handleTest() {
-  console.log('chicken');
-}
-</script>
 
 <style>
 @media screen and (max-width: 1200px) {
@@ -106,10 +124,6 @@ function handleTest() {
 
   .filter-div {
     gap: 1rem;
-  }
-
-  .search-filter-div {
-    /* display: none; */
   }
 }
 
@@ -218,16 +232,17 @@ input[type="checkbox"]:checked {
   /* box-shadow: 0 0.5px 3px 0px rgba(0, 0, 0, 0.07); */
   /* box-shadow: 0px 1px 0px 1.5px rgba(0, 0, 0, 0.01); */
   background: var(--element-bg);
-  border-radius: 1rem;
+  border-radius: 100000rem;
   display: flex;
   align-items: center;
-  padding-left: 0.5rem;
+  padding-left: 0.7rem;
   margin-bottom: 1rem;
   border: 1px solid var(--border-color);
 }
 
 .search input {
   margin: 0;
+  margin-left: 0.2rem;
   width: 100%;
   background: none;
   padding: 0.5rem;
@@ -258,7 +273,8 @@ input[type="checkbox"]:checked {
   margin: 0;
   opacity: 0;
   display: grid;
-  place-items: cente
+  place-items: center;
+  border-radius: 1000000rem;
 }
 
 .search button.show-close {
@@ -301,5 +317,47 @@ input.checkboxer {
   grid-template-columns: min-content 1fr;
   place-items: center start;
   margin-left: 0;
+}
+
+.filters .clear {
+  /* border-radius: ; */
+  margin: 0;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  place-items: center start;
+  gap: 0.5rem;
+  grid-template-rows: 1fr;
+  border-radius: 100000rem;
+  margin-top: 0.6rem;
+  padding: 0.5rem;
+  opacity: 0.4;
+  pointer-events: none;
+  border: 1px solid transparent;
+  transition: all 200ms ease;
+}
+
+.filters .clear *,
+.filters .clear {
+  color: var(--text-full-mute);
+}
+
+.filters .clear .icon {
+  font-size: 1.5rem;
+}
+
+.filters .clear.show-clear {
+  pointer-events: all;
+  opacity: 1;
+  border: 1px solid var(--border-color);
+}
+
+.filters .clear.show-clear,
+.filters .clear.show-clear * {
+  color: var(--text);
+}
+
+.dark .filters .clear.show-clear,
+.dark .filters .clear.show-clear * {
+  color: var(--text-mute);
 }
 </style>

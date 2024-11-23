@@ -47,7 +47,8 @@ onClickOutside(target, (event) => {
   width: fit-content;
   padding: 1rem 5rem;
   place-items: center;
-  background: #fff;
+  background: var(--element-bg);
+  color: var(--text);
   height: 30vh;
   border-radius: 1rem;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
@@ -60,11 +61,6 @@ onClickOutside(target, (event) => {
   left: 50%;
   margin-left: -45vw;
   margin-top: -15vh; */
-}
-
-.dark .modal-container {
-  background: #26292f;
-  color: #ecf9fb;
 }
 
 .modal-container>* {
@@ -104,10 +100,5 @@ onClickOutside(target, (event) => {
 
   background: none;
   box-shadow: none;
-}
-
-.modal-close:hover {
-  background: none;
-  transform: scale(140%);
 }
 </style>

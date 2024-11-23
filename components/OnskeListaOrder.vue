@@ -275,16 +275,20 @@ html:not(.dark) button.send:not(.all-fields) {
 }
 
 button.send.all-fields {
-  background: #8dd751;
-  box-shadow: 0 0 10px 1px #75d824;
+  background: var(--primary-green);
+  /* background: #8dd751; */
+  box-shadow: 0 0 15px 3px var(--primary-green);
+  /* box-shadow: 0 0 10px 1px #75d824; */
   border: none;
+  transition: all 150ms ease-in-out;
   /* border: 2px solid #8ccb58; */
 }
 
 button.send.all-fields:hover {
   transform: translateY(-2px);
-  background: #8dd751;
-  box-shadow: 0 2px 15px 2px #86d644 !important;
+  /* background: #8dd751; */
+  box-shadow: 0 2px 15px 6px var(--primary-green);
+  /* box-shadow: 0 2px 15px 2px #86d644 !important; */
 }
 
 .dark button.send.all-fields {
@@ -292,6 +296,10 @@ button.send.all-fields:hover {
   box-shadow: 0 0 10px 2px var(--primary-green);
   border: none;
   /* border-color: var(--primary-green); */
+}
+
+.dark button.send.all-fields:hover {
+  box-shadow: 0 2px 15px 2px var(--primary-green);
 }
 
 .modal-text {
@@ -330,6 +338,7 @@ button.send.all-fields:hover {
   gap: 0.5rem;
   margin: 0.5rem 0;
   border: 1px solid #32a748;
+
   /* box-shadow: inset 0 -0.5px 3px #cfd1d6; */
 }
 

@@ -1,3 +1,72 @@
+<script setup>
+import { useStorage } from '@vueuse/core'
+useHead({
+  title: 'Linders Superlista',
+  // or, instead:
+  // titleTemplate: (title) => `My App - ${title}`,
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=6',
+  charset: 'utf-8',
+  meta: [
+    { name: 'description', content: 'En lista med tusentals växter att beställa från.' },
+    { name: 'keywords', content: 'Lista, Lindersplantskola, superlista, Superlistan, super lista, linders, listan, Växter, ovanliga växter, lista att beställa ifån, plantskola' },
+    { name: 'author', content: 'Ugo Linder, Peter Linder' },
+  ],
+  bodyAttrs: {
+    // class: 'test'
+  },
+  htmlAttrs: {
+    lang: 'se',
+  },
+  link: [
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.googleapis.com'
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:400,500,600,700,800,900&display=swap',
+      crossorigin: ''
+    }
+  ]
+})
+
+useSeoMeta({
+  title: 'Linders Superlista',
+  ogTitle: 'Superlista',
+  description: 'En lista med tusentals växter att beställa från.',
+  ogDescription:
+    'En chans att hitta det du länge letat efter! Linders superlista är en härligt späckad lista med 16 000 rader av ovanliga och odlingsvärda växter att beställa ifrån.',
+  ogImage:
+    'https://lindersplantskola.s3.eu-north-1.amazonaws.com/hemsida-assets/ogImage.jpg',
+});
+
+const isDark = useDark()
+
+const state = useGlobalState()
+
+const onskeList = useGlobalOnskeList()
+const onskeListOld = useGlobalOnskeListOld()
+
+const openNav = ref(false)
+
+const screenSize = useWindowSize()
+const isSmallScreen = computed(() => { return screenSize.width.value <= 1200 ? true : false })
+// const route = useRoute()
+// console.log(route.path)
+const target = ref(null)
+
+onClickOutside(target, (event) => {
+  openNav.value = false
+})
+
+const openNavFunc = () => {
+  if (openNav.value == false) {
+    openNav.value = true
+  }
+}
+
+</script>
+
 <template>
   <div data-theme="light" class="main-layout tou-z65h9k" ref="el" :class="$route.path == '/lista' ? 'page-lista' : ''">
     <nav class="naver" v-if="isSmallScreen && $route.path == '/lista'">
@@ -50,64 +119,6 @@
   </div>
 </template>
 
-<script setup>
-import { useStorage } from '@vueuse/core'
-useHead({
-  title: 'Linders Superlista',
-  // or, instead:
-  // titleTemplate: (title) => `My App - ${title}`,
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=6',
-  charset: 'utf-8',
-  meta: [
-    { name: 'description', content: 'En lista med tusentals växter att beställa från.' },
-    { name: 'keywords', content: 'Lista, Lindersplantskola, superlista, Växter, ovanliga växter, lista att beställa ifån, 2024' },
-    { name: 'author', content: 'Ugo Linder, Peter Linder' },
-  ],
-  bodyAttrs: {
-    // class: 'test'
-  },
-  htmlAttrs: {
-    lang: 'se',
-  },
-  link: [
-    {
-      rel: 'preconnect',
-      href: 'https://fonts.googleapis.com'
-    },
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Inter:400,500,600,700,800,900&display=swap',
-      crossorigin: ''
-    }
-  ]
-})
-const isDark = useDark()
-
-const state = useGlobalState()
-
-const onskeList = useGlobalOnskeList()
-const onskeListOld = useGlobalOnskeListOld()
-
-const openNav = ref(false)
-
-const screenSize = useWindowSize()
-const isSmallScreen = computed(() => { return screenSize.width.value <= 1200 ? true : false })
-// const route = useRoute()
-// console.log(route.path)
-const target = ref(null)
-
-onClickOutside(target, (event) => {
-  openNav.value = false
-})
-
-const openNavFunc = () => {
-  if (openNav.value == false) {
-    openNav.value = true
-  }
-}
-
-</script>
-
 <style>
 :root {
   --primary-green: #76994e;
@@ -136,7 +147,7 @@ const openNavFunc = () => {
   --element-top-border-dark: #3f352b;
   /* --element-top-border-dark: #383a38; */
 
-  --element-top-hover-light: #e8e3d5;
+  --element-top-hover-light: #d9d3c5;
   /* --element-top-hover-light: hsl(0, 0%, 88%); */
   --element-top-hover-dark: #3e3429;
   /* --element-top-hover-dark: hsl(120, 2%, 19%); */
@@ -151,10 +162,13 @@ const openNavFunc = () => {
   --border-color-bright-dark: #473e31;
   /* --border-color-bright-dark: #3b3d3a; */
 
-  --text-mute-dark: #eae0d4;
+  --text-mute-dark: #d8cbbc;
   /* --text-mute-dark: hsl(212, 16%, 85%); */
-  --text-mute-light: hsl(24, 17%, 60%);
+  --text-mute-light: hsl(25, 15%, 54%);
   /* --text-mute-light: hsl(0, 0%, 47%); */
+
+  --text-full-mute-dark: #aea192;
+  --text-full-mute-light: hsl(24, 17%, 60%);
 
   --text-white: hsl(0, 0%, 100%);
 
@@ -186,6 +200,8 @@ html:not(.dark) {
 
   --text-mute: var(--text-mute-light);
 
+  --text-full-mute: var(--text-full-mute-light);
+
   --border-color: var(--border-color-light);
 }
 
@@ -209,6 +225,8 @@ html:not(.dark) {
   --text: var(--text-dark);
 
   --text-mute: var(--text-mute-dark);
+
+  --text-full-mute: var(--text-full-mute-dark);
 
   --border-color: var(--border-color-dark);
 

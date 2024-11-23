@@ -1,3 +1,272 @@
+<script setup>
+// import dataTest from "../composables/dataTest"
+// import { useCounterStore } from '../stores/counter.js'
+/* - - - - - - Supabase Setup - - - - - - */
+import { createClient } from '@supabase/supabase-js'
+import { useStorage } from '@vueuse/core'
+
+const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
+const supabase = createClient(supabaseUrl, supabaseKey)
+
+definePageMeta({
+  // keepalive: true
+})
+
+// })
+/* - - - - - - Refs - - - - - - */
+const state = useGlobalState()
+const onskeList = useGlobalOnskeList()
+const windowSize = useWidth()
+
+const dataList = ref([])
+
+const hasUpdated = useStorage('has-updated', false)
+
+const userMessage = ref('Laddar...')
+
+const listHasBeenFetched = ref(false)
+
+
+const shouldFilterOpen = computed(() => {
+  if (!isCollapsed.value) return true
+  else {
+    if (state.isFilterOpen.value) return true
+    else return false
+  }
+})
+const shouldJumpOpen = computed(() => {
+  if (!isCollapsed.value) return true
+  else {
+    if (state.isJumpOpen.value) return true
+    else return false
+  }
+})
+
+const { data: lignosdatabasen } = await useAsyncData('lignosdatabasen-fetch', async () => {
+  const { data, error } = await supabase.from('växt-databas').select().neq('art', 'slakte').eq('hidden', false).neq('text', 'Ingen info')
+  // const { data, error } = await client.from('växt-databas').select().eq('slakte', `${planta}`).single()
+  if (error) {
+    console.error(error);
+  }
+  console.log(data);
+  return data
+})
+
+
+
+// ! Filter and sort the list
+
+const computedList = computed(() => {
+  let newList = dataList.value
+
+  // ? Search
+  let queryArray = state.query.value.toLowerCase().split(" ")
+  newList = newList.filter(item => queryArray.every(str => item.Namn.toLowerCase().includes(str)))
+
+
+  // ? Filter
+  if (state.favoriteFilter.value) newList = newList.filter(e => e.Rekommenderas == true)
+  if (state.edibleFilter.value) newList = newList.filter(e => e.Edible == true)
+  if (state.commentFilter.value) newList = newList.filter(e => lignosdatabasen.value.map(obj => obj.slakte.toLowerCase().replace(/ /g, "") + obj.art.toLowerCase().replace(/ /g, "") + obj.sortnamn.toLowerCase().replace(/'/g, "").replace(/ /g, "")).join(' ').includes(e.Namn.toLowerCase().replace(/'/g, "").replace(/ /g, "") + ' '))
+  // if (state.commentFilter.value) newList = newList.filter(e => e.Kommentar != null)
+  if (state.linkFilter.value) newList = newList.filter(e => e.Länk != null)
+
+  newList.forEach(e => console.log(e.Namn.toLowerCase().replace(/'/g, "").replace(/ /g, "")))
+  console.log(lignosdatabasen.value.map(obj => obj.slakte.toLowerCase().replace(/ /g, "") + obj.art.toLowerCase().replace(/ /g, "") + obj.sortnamn.toLowerCase().replace(/'/g, "").replace(/ /g, "")).join(' '));
+
+  // ? Sorting
+  newList = newList.sort((a, b) => {
+    // console.log('heho');
+    if (state.sortByWhat.value == 'Namn') {
+      if (a.Namn.toLowerCase() < b.Namn.toLowerCase()) {
+        if (state.sortAscending.value) return -1
+        else return 1
+      }
+      if (a.Namn.toLowerCase() > b.Namn.toLowerCase()) {
+        if (state.sortAscending.value) return 1
+        else return -1
+      }
+      return 0
+    } else if (state.sortByWhat.value == 'Pris') {
+      if (a.Pris < b.Pris) {
+        if (state.sortAscending.value) return -1
+        else return 1
+      }
+      if (a.Pris > b.Pris) {
+        if (state.sortAscending.value) return 1
+        else return -1
+      }
+      return 0
+    } else if (state.sortByWhat.value == 'Höjd') {
+      if (a.Höjd < b.Höjd) {
+        if (state.sortAscending.value) return -1
+        else return 1
+      }
+      if (a.Höjd > b.Höjd) {
+        if (state.sortAscending.value) return 1
+        else return -1
+      }
+      return 0
+    } else if (state.sortByWhat.value == 'Kruka') {
+      if (a.Kruka < b.Kruka) {
+        if (state.sortAscending.value) return -1
+        else return 1
+      }
+      if (a.Kruka > b.Kruka) {
+        if (state.sortAscending.value) return 1
+        else return -1
+      }
+      return 0
+    } else if (state.sortByWhat.value == 'MinOrder') {
+      if (a.MinOrder < b.MinOrder) {
+        if (state.sortAscending.value) return -1
+        else return 1
+      }
+      if (a.MinOrder > b.MinOrder) {
+        if (state.sortAscending.value) return 1
+        else return -1
+      }
+      return 0
+    }
+  })
+
+  // ? Type filter
+  if (state.typeFilter.value.T || state.typeFilter.value.B || state.typeFilter.value.P || state.typeFilter.value.K || state.typeFilter.value.O || state.typeFilter.value.G) {
+    newList = newList.filter(e => state.typeFilter.value[e.Typ])
+  }
+
+  // ? User message
+  if (!newList.length && (state.query.value || state.edibleFilter.value)) {
+    userMessage.value = 'Inga resultat'
+  } else if (dataList.value.length) {
+    userMessage.value = 'Här är listan slut'
+  }
+
+  return newList
+})
+
+// Virtual list settings
+const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(computedList, {
+  itemHeight: 33,
+  overscan: 25,
+})
+
+
+const isCollapsed = computed(() => { return windowSize.value.width <= 1200 ? true : false })
+
+const handleScrollTo = (letter) => {
+  scrollTo(computedList.value.map(e => {
+    return Array.from(e.Namn)[0]
+  }).indexOf(letter))
+}
+
+
+watch(computedList, () => {
+  scrollTo(0)
+  // console.log(computedList.value);
+})
+
+/* - - - - - - Adding to cart - - - - - - */
+const handleAdd = (plant, order) => {
+  onskeList.handleAdd(plant, order)
+}
+
+
+/* - - - - - - Fetching list - - - - - - */
+onMounted(() => {
+  if (dataList.value.length <= 0) {
+    fetchAllList()
+    return
+  } else {
+    userMessage.value = 'Här är listan slut'
+  }
+
+  if (hasUpdated.value === false) {
+    hasUpdated.value = true
+    fetchAllList()
+  }
+
+})
+
+
+
+/* - - - - - - Fetch all list- - - - - - */
+const fetchAllList = async () => {
+  userMessage.value = 'laddar...'
+  dataList.value = []
+  console.log('fetching all');
+  listHasBeenFetched.value = false
+
+  let search = supabase
+    .from('superlista-2024')
+    .select()
+  const { data, error } = await search
+
+  if (error) {
+    console.error(error)
+  }
+  if (data) {
+    // console.log(data)
+    scrollTo(0)
+    listHasBeenFetched.value = false
+    userMessage.value = 'Här är listan slut'
+    console.log(data);
+    dataList.value = data
+  }
+}
+
+
+/* - - - - - - Handling click - - - - - - */
+const handleClick = () => {
+  sortBy.value.ascending = !sortBy.value.ascending
+  fetchAllList()
+}
+
+const openNewTab = (url) => {
+  window.open(url, '_blank')
+}
+
+const imageGrid = ref(null)
+
+onClickOutside(imageGrid, () => {
+  if (state.sidebarMode.value === false) {
+    state.showGoogleSearchResult.value = false
+    state.showImages.value = false
+  }
+})
+
+onMounted(() => {
+  if (windowSize.value.width > 1200) {
+    state.sidebarMode.value = true
+  }
+})
+
+watch(windowSize, () => {
+  if (windowSize.value.width <= 1200) {
+    state.sidebarMode.value = false
+  }
+})
+
+
+const resetFilters = () => {
+  state.favoriteFilter.value = false
+  state.edibleFilter.value = false
+  state.commentFilter.value = false
+  state.linkFilter.value = false
+  state.query.value = ''
+  state.typeFilter.value.B = false
+  state.typeFilter.value.G = false
+  state.typeFilter.value.K = false
+  state.typeFilter.value.O = false
+  state.typeFilter.value.P = false
+  state.typeFilter.value.T = false
+
+  fetchAllList()
+}
+</script>
+
+
 <template>
   <div class="search-modal" v-if="state.showGoogleSearchResult.value">
     <!-- <button @click="printGoogle()">Print</button>
@@ -7,12 +276,12 @@
         <h1>{{ state.searchedPlant.value }}</h1>
         <div class="top-buttons">
           <button v-if="!state.sidebarMode.value" @click="state.sidebarMode.value = true"
-            class="side-swithcher hide-on-phone">
+            class="side-switcher hide-on-phone">
             <!-- <Icon name="fluent:panel-left-expand-24-filled" size="35" /> -->
             <Icon name="carbon:side-panel-open-filled" size="30" />
             Sidoläge
           </button>
-          <button v-else @click="state.sidebarMode.value = false" class="side-swithcher hide-on-phone">
+          <button v-else @click="state.sidebarMode.value = false" class="side-switcher hide-on-phone">
             <!-- <Icon name="material-symbols:fullscreen-rounded" size="35" /> -->
             <Icon name="carbon:fit-to-screen" size="30" />
             Fullt läge
@@ -89,242 +358,24 @@
     <div class="list-bg main-list">
       <div v-bind="containerProps" class="container-props">
         <ul v-bind="wrapperProps" class="wrapper-props">
+
           <ListElement v-for="{ index, data } in list" :key="data.id" :plant="data" @add-to-cart="handleAdd"
-            :isOnskeLista="false" />
-          <!-- <div class="observer" ref="observerTarget">
-            <h1>above 1</h1>
-          </div> -->
+            :isOnskeLista="false" :lignosdatabasen="lignosdatabasen" />
+
           <div class="bottom-spacer"></div>
-          <div class="center-bottom" @click="fetchAllList()">
-            <Icon class="loader" v-if="userMessage === 'laddar...'" name="line-md:loading-loop" size="80" />
-            <h2 v-else>{{ userMessage }}</h2>
-            <!-- <p v-if="userMessage != 'Här är listan slut'">Om det inte laddas fler, tryck <a class="pointer"
-                @click="fetchAllList()">här</a></p> -->
+          <div class="center-bottom">
+            <Icon class="loader" v-if="userMessage === 'laddar...'" @click="fetchAllList()" name="line-md:loading-loop"
+              size="80" />
+            <p v-else-if="userMessage === 'Inga resultat'" @click="resetFilters()">Inga resultalt, klicka här för att
+              nållställa filter</p>
+            <p v-else @click="fetchAllList()">{{ userMessage }}</p>
           </div>
         </ul>
 
       </div>
     </div>
-    <!-- <nuxt-link @click="handleScrollTo" class="scroll-to-top hide-on-phone bg-white">Skolla till toppen {{ fps
-    }}</nuxt-link> -->
   </div>
 </template>
-
-<script setup>
-// import dataTest from "../composables/dataTest"
-// import { useCounterStore } from '../stores/counter.js'
-/* - - - - - - Supabase Setup - - - - - - */
-import { createClient } from '@supabase/supabase-js'
-import { useStorage } from '@vueuse/core'
-
-const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
-const supabase = createClient(supabaseUrl, supabaseKey)
-
-definePageMeta({
-  // keepalive: true
-})
-
-// })
-/* - - - - - - Refs - - - - - - */
-const state = useGlobalState()
-const onskeList = useGlobalOnskeList()
-
-const dataList = ref([])
-
-const hasUpdated = useStorage('has-updated', false)
-
-const userMessage = ref('Laddar')
-
-
-const shouldFilterOpen = computed(() => {
-  if (!isCollapsed.value) return true
-  else {
-    if (state.isFilterOpen.value) return true
-    else return false
-  }
-})
-const shouldJumpOpen = computed(() => {
-  if (!isCollapsed.value) return true
-  else {
-    if (state.isJumpOpen.value) return true
-    else return false
-  }
-})
-
-// Filter and sort the list
-const computedList = computed(() => {
-  let newList = dataList.value
-
-  let queryArray = state.query.value.toLowerCase().split(" ")
-
-  // console.log(queryArray);
-
-
-  newList = newList.filter(item => queryArray.every(str => item.Namn.toLowerCase().includes(str)))
-
-
-  if (state.favoriteFilter.value) newList = newList.filter(e => e.Rekommenderas == true)
-
-  if (state.edibleFilter.value) newList = newList.filter(e => e.Edible == true)
-
-  if (state.commentFilter.value) newList = newList.filter(e => e.Kommentar != null)
-
-  if (state.linkFilter.value) newList = newList.filter(e => e.Länk != null)
-
-  newList = newList.sort((a, b) => {
-    // console.log('heho');
-    if (state.sortByWhat.value == 'Namn') {
-      if (a.Namn.toLowerCase() < b.Namn.toLowerCase()) {
-        if (state.sortAscending.value) return -1
-        else return 1
-      }
-      if (a.Namn.toLowerCase() > b.Namn.toLowerCase()) {
-        if (state.sortAscending.value) return 1
-        else return -1
-      }
-      return 0
-    } else if (state.sortByWhat.value == 'Pris') {
-      if (a.Pris < b.Pris) {
-        if (state.sortAscending.value) return -1
-        else return 1
-      }
-      if (a.Pris > b.Pris) {
-        if (state.sortAscending.value) return 1
-        else return -1
-      }
-      return 0
-    } else if (state.sortByWhat.value == 'Höjd') {
-      if (a.Höjd < b.Höjd) {
-        if (state.sortAscending.value) return -1
-        else return 1
-      }
-      if (a.Höjd > b.Höjd) {
-        if (state.sortAscending.value) return 1
-        else return -1
-      }
-      return 0
-    } else if (state.sortByWhat.value == 'Kruka') {
-      if (a.Kruka < b.Kruka) {
-        if (state.sortAscending.value) return -1
-        else return 1
-      }
-      if (a.Kruka > b.Kruka) {
-        if (state.sortAscending.value) return 1
-        else return -1
-      }
-      return 0
-    } else if (state.sortByWhat.value == 'MinOrder') {
-      if (a.MinOrder < b.MinOrder) {
-        if (state.sortAscending.value) return -1
-        else return 1
-      }
-      if (a.MinOrder > b.MinOrder) {
-        if (state.sortAscending.value) return 1
-        else return -1
-      }
-      return 0
-    }
-  })
-
-  if (state.typeFilter.value.T || state.typeFilter.value.B || state.typeFilter.value.P || state.typeFilter.value.K || state.typeFilter.value.O || state.typeFilter.value.G) {
-    newList = newList.filter(e => state.typeFilter.value[e.Typ])
-  }
-
-  return newList
-})
-
-// Virtual list settings
-const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(computedList, {
-  itemHeight: 33,
-  overscan: 25,
-})
-
-const screenSize = useWindowSize()
-const isCollapsed = computed(() => { return screenSize.width.value <= 1200 ? true : false })
-
-
-const handleScrollTo = (letter) => {
-
-  scrollTo(computedList.value.map(e => {
-    return Array.from(e.Namn)[0]
-  }).indexOf(letter))
-}
-
-
-watch(computedList, () => {
-  scrollTo(0)
-  // console.log(computedList.value);
-})
-
-/* - - - - - - Adding to cart - - - - - - */
-const handleAdd = (plant, order) => {
-  onskeList.handleAdd(plant, order)
-}
-
-
-/* - - - - - - Fetching list - - - - - - */
-onMounted(() => {
-  if (dataList.value.length <= 0) {
-    fetchAllList()
-    return
-  } else {
-    userMessage.value = 'Här är listan slut'
-  }
-
-  if (hasUpdated.value === false) {
-    hasUpdated.value = true
-    fetchAllList()
-  }
-
-})
-
-
-
-/* - - - - - - Fetch all list- - - - - - */
-const fetchAllList = async () => {
-  userMessage.value = 'laddar...'
-  dataList.value = []
-  console.log('fetching all');
-
-  let search = supabase
-    .from('superlista-2024')
-    .select()
-  const { data, error } = await search
-
-  if (error) {
-    console.error(error)
-  }
-  if (data) {
-    // console.log(data)
-    scrollTo(0)
-    userMessage.value = 'Här är listan slut'
-    console.log(data);
-    dataList.value = data
-  }
-}
-
-
-/* - - - - - - Handling click - - - - - - */
-const handleClick = () => {
-  sortBy.value.ascending = !sortBy.value.ascending
-  fetchAllList()
-}
-
-const openNewTab = (url) => {
-  window.open(url, '_blank')
-}
-
-const imageGrid = ref(null)
-
-onClickOutside(imageGrid, () => {
-  if (state.sidebarMode.value === false) {
-    state.showGoogleSearchResult.value = false
-    state.showImages.value = false
-  }
-})
-</script>
-
 
 <style>
 .container-props {
@@ -651,7 +702,7 @@ div.main-list {
   padding-bottom: 5rem;
 }
 
-.center-bottom>p,
+/* .center-bottom>p,
 .center-bottom>a {
   font-size: 0.8rem;
   color: #6c6f87;
@@ -660,7 +711,7 @@ div.main-list {
 .center-bottom>p>a {
   text-decoration: underline !important;
   color: #0645AD;
-}
+} */
 
 .filter-container {
   grid-row: 2/3;
@@ -762,6 +813,8 @@ div.main-list {
   margin-bottom: auto;
 }
 
+
+
 .search-modal .top-part {
   grid-column: 1/4;
   display: flex;
@@ -832,5 +885,15 @@ div.main-list {
   color: white;
   font-size: 0.8rem;
   /* text-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
+}
+
+.search-modal .side-switcher {
+  padding: 0.5rem 0.75rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .search-modal .side-switcher {
+    display: none;
+  }
 }
 </style>

@@ -102,7 +102,7 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const isLoggedIn = useStorage('is-logged-in', false)
 
-const password = ref('smurf999')
+const password = ref('Smurf999')
 const typedPassword = ref('')
 
 const showTable = ref(false)

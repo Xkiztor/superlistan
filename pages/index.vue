@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-    <section class="text-stycke head">
+    <header class="text-stycke head">
       <img
         src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/SuperDownscale%20-%203IKzqvkmhA%20-%20superlista%20bakgrund.jpg"
         alt="">
@@ -17,7 +17,7 @@
           beställa
           ifrån.
           <i>Beställningen gör du senast 25 februari 2024</i> för att sedan
-          hämta dina beställda växter på <a href="https://lindersplantskola.se/hitta-hit/">Linders plantskola</a>
+          hämta dina beställda växter på <a href="https://lindersplantskola.se/">Linders plantskola</a>
           utanför
           Hörby i Skåne under maj 2024.
           Tack vare att du gör beställningen i förväg och själv hämtar ut dina växter kan jag hålla låga priser i
@@ -27,7 +27,7 @@
           komma upp i den summan).
         </p>
       </div>
-    </section>
+    </header>
     <article class="text-stycke">
       <div>
         <h1>Hur gör jag?</h1>
@@ -230,7 +230,7 @@
         <!-- Det finns även en ruta där man kan hoppa till begynnelsebokstaven av det man leter efter. -->
       </div>
     </article>
-    <article class="text-stycke betalning">
+    <footer class="text-stycke betalning">
       <div>
         <h1>Betalning och Hämtning</h1>
         <p class="paragraph-spacing">
@@ -257,7 +257,7 @@
         <a class="logo" href="https://lindersplantskola.se/" target="_blank"><img src="/lindersplantskola-logo.svg"
             class="logo" alt="lindersplantskola-logo"></a>
       </div>
-    </article>
+    </footer>
   </div>
 </template>
 
@@ -296,11 +296,13 @@ const testPlant = {
   position: relative;
   padding: 4rem;
   /* background: linear-gradient(0.25turn, #8ac95757, #57ffe063); */
-  background: #b3ff87;
+  /* background: #77a650; */
+  background: #83aa56;
+
 }
 
 .dark .text-stycke.head {
-  background: #5c8b42;
+  /* background: #5c8b42; */
 }
 
 .text-stycke.head img {
@@ -309,6 +311,7 @@ const testPlant = {
   top: 0;
   left: 0;
   filter: blur(50px) opacity(50%);
+  /* opacity: 0; */
   height: 800%;
   transition: all 1s ease;
 }
@@ -319,6 +322,7 @@ html:not(.dark) .text-stycke.head img {
   left: -10rem;
   /* rotate: -15deg; */
   filter: blur(50px) brightness(200%) contrast(80%) saturate(70%) opacity(50%) hue-rotate(10deg);
+  opacity: 0;
 }
 
 @media screen and (max-width: 900px) {
