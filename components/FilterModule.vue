@@ -52,8 +52,9 @@ const clearFilters = () => {
     <form class="check-filter-div">
       <input type="checkbox" checked="checked" class="checkboxer" v-model="state.commentFilter.value">
       <div class="icon-align">
-        <Icon class="grayed kommentar-icon" name="majesticons:comment-2-text" size="20" />
-        <p>Kommentar</p>
+        <Icon class="grayed kommentar-icon" name="ooui:articles-ltr" size="20" />
+        <!-- <Icon class="grayed kommentar-icon" name="majesticons:comment-2-text" size="20" /> -->
+        <p>Lignosdatabasen</p>
       </div>
     </form>
     <form class="check-filter-div">
