@@ -18,9 +18,6 @@
 //   Zon: "2",
 //   id: 25,
 // }
-defineRouteRules({
-  prerender: true,
-});
 </script>
 
 <template>

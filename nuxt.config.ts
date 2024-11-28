@@ -34,6 +34,10 @@ export default defineNuxtConfig({
   nitro: {
     compressPublicAssets: true,
   },
+
+  routeRules: {
+    '/': { prerender: true },
+  },
   // ssr: true,
   runtimeConfig: {
     // Private keys are only available on the server
