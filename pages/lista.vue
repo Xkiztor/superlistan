@@ -368,7 +368,7 @@ const resetFilters = () => {
               size="80" />
             <p v-else-if="userMessage === 'Inga resultat'" @click="resetFilters()">Inga resultalt, klicka här för att
               nållställa filter</p>
-            <p v-else @click="fetchAllList()">{{ userMessage }}</p>
+            <p v-else @click="fetchAllList()" data-no-crawl="true">{{ userMessage }}</p>
           </div>
         </ul>
 
