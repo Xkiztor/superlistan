@@ -35,6 +35,7 @@ export default defineNuxtConfig({
   nitro: {
     compressPublicAssets: true,
   },
+
   // ssr: true,
   runtimeConfig: {
     // Private keys are only available on the server
@@ -46,11 +47,15 @@ export default defineNuxtConfig({
       anonKey: process.env.ANON_KEY,
     },
   },
+
   site: {
     url: 'https://superlistan.lindersplantskola.se/',
     name: 'Linders Superlista',
   },
+
   app: {
     keepalive: true,
   },
+
+  compatibilityDate: '2024-11-28',
 });
