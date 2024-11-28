@@ -21,6 +21,7 @@ export default defineNuxtConfig({
         },
       },
     ],
+    '@nuxtjs/sitemap',
   ],
 
   css: ['@/assets/css/styles.css'],
@@ -45,8 +46,11 @@ export default defineNuxtConfig({
       anonKey: process.env.ANON_KEY,
     },
   },
+  site: {
+    url: 'https://superlistan.lindersplantskola.se/',
+    name: 'Linders Superlista',
+  },
   app: {
     keepalive: true,
   },
-  keepalive: true,
 });
