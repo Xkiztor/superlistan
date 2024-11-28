@@ -1,3 +1,28 @@
+<script setup>
+
+// const testPlant = {
+//   Edible: null,
+//   "Höjd": "40-50",
+//   Kommentar: "rosablommig vinterbuske, som en ljusrosa forsythia!",
+//   Kruka: "C7,5",
+//   Lager: "1",
+//   "Länk": "https://www.youtube.com/watch?v=C3j75pn6s3c",
+//   MinOrder: null,
+//   Namn: "Abeliophyllum distichum 'Roseum'",
+//   Order: null,
+//   Plantskola: "A",
+//   Pris: 490,
+//   Rekommenderas: true,
+//   Storlekskommentar: null,
+//   Typ: "T",
+//   Zon: "2",
+//   id: 25,
+// }
+defineRouteRules({
+  prerender: true,
+});
+</script>
+
 <template>
   <div class="home-container">
     <header class="text-stycke head">
@@ -261,28 +286,7 @@
   </div>
 </template>
 
-<script setup>
 
-const testPlant = {
-  Edible: null,
-  "Höjd": "40-50",
-  Kommentar: "rosablommig vinterbuske, som en ljusrosa forsythia!",
-  Kruka: "C7,5",
-  Lager: "1",
-  "Länk": "https://www.youtube.com/watch?v=C3j75pn6s3c",
-  MinOrder: null,
-  Namn: "Abeliophyllum distichum 'Roseum'",
-  Order: null,
-  Plantskola: "A",
-  Pris: 490,
-  Rekommenderas: true,
-  Storlekskommentar: null,
-  Typ: "T",
-  Zon: "2",
-  id: 25,
-}
-
-</script>
 
 <style>
 .home-container {
