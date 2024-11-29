@@ -10,14 +10,13 @@
     <div v-if="firstOfDate" class="spacer-line"></div>
   </div>
   <div class="list-element" :class="{ 'is-expanded': isExpanded }">
-    <div class="the-element" @click="isExpanded = !isExpanded">
-      <p>{{ el.created_at }}</p>
-      <nuxt-link :to="`/admin/${$route.params.year}/kund/${el.Person.replace(' ', '+')}`" class="no-link">
-        <p>{{ el.Person }}</p>
+    <!-- <div class="the-element" @click="isExpanded = !isExpanded">
+      <p>created_at</p>
+      <nuxt-link class="no-link">
+        <p>Person</p>
       </nuxt-link>
-      <a :href="`https://www.google.com/search?q=${el.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">{{
-    el.Namn
-  }}</a>
+      <a :href="`https://www.google.com/search?q=${el.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`"
+        target="_blank">namn</a>
       <p>{{ el.Pris }}</p>
       <p>{{ el.Count }}</p>
       <p>{{ el.Pris * el.Count }}</p>
@@ -30,8 +29,31 @@
       <p v-if="el.Comment">{{ el.Comment }}</p>
       <p>Plantskola: {{ el.Plantskola }}</p>
       <nuxt-link :to="`/admin/${$route.params.year}/slakte/${el.Namn.split(' ')[0]}`">Släkte: {{ el.Namn.split(" ")[0]
-      }}</nuxt-link>
+        }}</nuxt-link>
+    </div> -->
+    <div class="the-element" @click="isExpanded = !isExpanded">
+      <p>{{ el.created_at }}</p>
+      <nuxt-link :to="`/admin/${$route.params.year}/kund/${el.Person.replace(' ', '+')}`" class="no-link">
+        <p>{{ el.Person }}</p>
+      </nuxt-link>
+      <a :href="`https://www.google.com/search?q=${el.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`" target="_blank">{{
+        el.Namn
+      }}</a>
+      <p>{{ el.Pris }}</p>
+      <p>{{ el.Count }}</p>
+      <p>{{ el.Pris * el.Count }}</p>
     </div>
+    <div v-if="isExpanded" class="expanded-info">
+      <Icon v-if="el.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
+      <a :href="`https://www.google.se/maps/search/${el.Adress}`" target="_blank">{{ el.Adress }}</a>
+      <p>{{ el.Phone }}</p>
+      <p>{{ el.Mail }}</p>
+      <p v-if="el.Comment">{{ el.Comment }}</p>
+      <p>Plantskola: {{ el.Plantskola }}</p>
+      <nuxt-link :to="`/admin/${$route.params.year}/slakte/${el.Namn.split(' ')[0]}`">Släkte: {{ el.Namn.split(" ")[0]
+        }}</nuxt-link>
+    </div>
+    <!-- {{ el.Person }} -->
   </div>
 </template>
 

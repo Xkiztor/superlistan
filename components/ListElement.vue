@@ -251,10 +251,10 @@ const databasArtikel = computed(() => {
 
         <div class="info-container">
 
-          <p class="article" v-if="databasArtikel.text">
+          <article class="article" v-if="databasArtikel.text">
           <p class="ingress" v-if="databasArtikel.ingress">{{ databasArtikel.ingress }}</p>
           <p>{{ databasArtikel.text }}</p>
-          </p>
+          </article>
 
           <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas }">
             <Icon v-if="plant.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />

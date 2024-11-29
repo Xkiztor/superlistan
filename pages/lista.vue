@@ -44,8 +44,8 @@ const shouldJumpOpen = computed(() => {
 })
 
 const { data: lignosdatabasen } = await useAsyncData('lignosdatabasen-fetch', async () => {
-  const { data, error } = await supabase.from('växt-databas').select().neq('art', 'slakte').eq('hidden', false).neq('text', 'Ingen info')
-  // const { data, error } = await client.from('växt-databas').select().eq('slakte', `${planta}`).single()
+  const { data, error } = await supabase.from('lignosdatabasen').select().neq('art', 'slakte').eq('hidden', false).neq('text', 'Ingen info')
+  // const { data, error } = await client.from('lignosdatabasen').select().eq('slakte', `${planta}`).single()
   if (error) {
     console.error(error);
   }

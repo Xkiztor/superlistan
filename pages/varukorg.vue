@@ -3,7 +3,7 @@
     <div class="onske-list-bg">
       <ColumnTopInfo :isOnskeLista="true" />
       <div v-for="plant in computedList" :key="plant.id">
-        <ListElement :plant="plant" :isOnskeLista="true" />
+        <ListElement :plant="plant" :isOnskeLista="true" :lignosdatabasen="lignosdatabasen"/>
       </div>
     </div>
     <div class="bottom-section">
@@ -36,6 +36,16 @@ const computedList = computed(() => {
     }
   })
   return newList
+})
+
+const { data: lignosdatabasen } = await useAsyncData('lignosdatabasen-fetch', async () => {
+  const { data, error } = await supabase.from('lignosdatabasen').select().neq('art', 'slakte').eq('hidden', false).neq('text', 'Ingen info')
+  // const { data, error } = await client.from('lignosdatabasen').select().eq('slakte', `${planta}`).single()
+  if (error) {
+    console.error(error);
+  }
+  console.log(data);
+  return data
 })
 </script>
 

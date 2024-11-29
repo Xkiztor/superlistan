@@ -79,48 +79,50 @@ const getPlantsFromPerson = (person) => {
   <div class="print-bg">
     <div v-for="person in personerList">
       <h1>Superlistan 2024<span v-if="person !== getPlantsFromPerson(person)[0].Person"> - {{ person }}</span> - {{
-      getPlantsFromPerson(person)[0].Person }}</h1>
+        getPlantsFromPerson(person)[0].Person }}</h1>
       <p class="info">0{{ getPlantsFromPerson(person)[0].Phone }}, {{ getPlantsFromPerson(person)[0].Mail }}, {{
-      getPlantsFromPerson(person)[0].Adress }}</p>
-      <table class="tabell">
-        <tr>
-          <th>B</th>
-          <th>C</th>
-          <th>Namn</th>
-          <th>Kruka</th>
-          <th>Höjd</th>
-          <th></th>
-          <th>Pris</th>
-          <th></th>
-        </tr>
-        <tr v-for="planta in getPlantsFromPerson(person)">
-          <td>
-            <p>{{ planta.Best }}</p>
-          </td>
-          <td>
-            <p>{{ planta.Conf }}</p>
-          </td>
-          <td>
-            <p
-              :class="{ 'red': planta.Status === 'R', 'green': planta.Status === 'G', 'purple': planta.Status === 'L' }">
-              {{ planta.Namn }}</p>
-          </td>
-          <td>
-            <p>{{ planta.Kruka }}</p>
-          </td>
-          <td>
-            <p>{{ planta.Höjd }}</p>
-          </td>
-          <td>
-            <p>{{ planta.Kommentar }}</p>
-          </td>
-          <td>
-            <p>{{ planta.Pris }}</p>
-          </td>
-          <td>
-            <p>{{ planta.Pris * planta.Conf }}</p>
-          </td>
-        </tr>
+        getPlantsFromPerson(person)[0].Adress }}</p>
+      <table>
+        <tbody class="tabell">
+          <tr>
+            <th>B</th>
+            <th>C</th>
+            <th>Namn</th>
+            <th>Kruka</th>
+            <th>Höjd</th>
+            <th></th>
+            <th>Pris</th>
+            <th></th>
+          </tr>
+          <tr v-for="planta in getPlantsFromPerson(person)">
+            <td>
+              <p>{{ planta.Best }}</p>
+            </td>
+            <td>
+              <p>{{ planta.Conf }}</p>
+            </td>
+            <td>
+              <p
+                :class="{ 'red': planta.Status === 'R', 'green': planta.Status === 'G', 'purple': planta.Status === 'L' }">
+                {{ planta.Namn }}</p>
+            </td>
+            <td>
+              <p>{{ planta.Kruka }}</p>
+            </td>
+            <td>
+              <p>{{ planta.Höjd }}</p>
+            </td>
+            <td>
+              <p>{{ planta.Kommentar }}</p>
+            </td>
+            <td>
+              <p>{{ planta.Pris }}</p>
+            </td>
+            <td>
+              <p>{{ planta.Pris * planta.Conf }}</p>
+            </td>
+          </tr>
+        </tbody>
         <!-- <tr>
           <td></td>
           <td></td>
@@ -170,7 +172,7 @@ const getPlantsFromPerson = (person) => {
         <p>Summa: {{ getPlantsFromPerson(person).map(e => e.Pris * e.Conf).reduce((a, b) => a + b, 0) }}</p>
         <p>Redan betalt: {{ getPlantsFromPerson(person)[0].RedanBetalt }}</p>
         <p>Kvar att betala: {{ getPlantsFromPerson(person).map(e => e.Pris * e.Conf).reduce((a, b) => a + b, 0) -
-      getPlantsFromPerson(person)[0].RedanBetalt }}</p>
+          getPlantsFromPerson(person)[0].RedanBetalt }}</p>
       </div>
       <div class="page-break"></div>
     </div>

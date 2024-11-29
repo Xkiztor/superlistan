@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     'nuxt-icon',
+    '@nuxtjs/sitemap',
     [
       'nuxt-mail',
       {
@@ -21,7 +22,6 @@ export default defineNuxtConfig({
         },
       },
     ],
-    '@nuxtjs/sitemap',
   ],
 
   css: ['@/assets/css/styles.css'],
@@ -33,6 +33,7 @@ export default defineNuxtConfig({
   //   },
   // },
   nitro: {
+    preset: 'netlify',
     compressPublicAssets: true,
   },
 
@@ -55,6 +56,15 @@ export default defineNuxtConfig({
 
   app: {
     keepalive: true,
+  },
+
+  build: {
+    analyze: true, // Helps analyze build size and bottlenecks
+  },
+  vite: {
+    build: {
+      target: 'esnext', // Targets modern JS for better performance
+    },
   },
 
   compatibilityDate: '2024-11-28',

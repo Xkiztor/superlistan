@@ -1,3 +1,129 @@
+<script setup>
+import { createClient } from '@supabase/supabase-js'
+import { useStorage } from '@vueuse/core'
+const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
+
+const isLoggedIn = useStorage('is-logged-in', false)
+
+const password = ref('Smurf999')
+const typedPassword = ref('')
+
+const showTable = ref(false)
+const showTopTen = ref(false)
+
+const rawUserData = useStorage('raw-user-data', [])
+
+const route = useRoute()
+
+if (!route.params.year) {
+  navigateTo('/admin/2024')
+}
+
+const loggIn = () => {
+  if (typedPassword.value === password.value) {
+    isLoggedIn.value = true
+  }
+  else {
+    typedPassword.value = ''
+  }
+}
+
+
+
+const config = useRuntimeConfig()
+const supabase = createClient(supabaseUrl, supabaseKey)
+
+const fetchUserData = async () => {
+  const { data, error } = await supabase
+    .from(`user-data-${route.params.year}`)
+    .select()
+    .order('created_at')
+
+  console.log('Fething user data');
+  if (error) {
+    console.error(error)
+  }
+  if (data) {
+    rawUserData.value = data
+    // console.log(data);
+
+    // rawUserData.value.map(e => e.created_at = e.created_at.replace('2023-', ''))
+    // rawUserData.value.map(e => e.created_at = e.created_at.replace('2024-', ''))
+    rawUserData.value.map(e => e.created_at = e.created_at.replace('T', ' | '))
+    // rawUserData.value.map(e => e.created_at = e.created_at.slice(0, -6))
+    rawUserData.value.map(e => e.created_at = e.created_at.replace('.', ''))
+    rawUserData.value.map(e => e.created_at = e.created_at.substring(0, 18))
+
+    // console.log(rawUserData.value);
+  }
+}
+
+const userData = computed(() => {
+  let list = rawUserData.value
+  // list = rawUserData.value.sort((a, b) => {
+  //   if (a.Namn > b.Namn) return 1
+  //   if (a.Namn < b.Namn) return -1
+  //   else return 0
+  // })
+  list.sort((a, b) => {
+    if (a.Namn > b.Namn) return 1
+    else if (a.Namn < b.Namn) return -1
+    else return 0
+  })
+  // list = list.sort((a, b) => {
+  //   if (a.Person > b.Person) return 1
+  //   if (a.Person < b.Person) return -1
+  //   else return 0
+  // })
+  list.sort((a, b) => {
+    if (a.created_at > b.created_at) return 1
+    if (a.created_at < b.created_at) return -1
+    else return 0
+  })
+  // console.log(list);
+  return list
+})
+
+const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(userData, {
+  itemHeight: 24,
+  overscan: 25,
+})
+
+
+const totalCount = computed(() => userData.value.map(e => e.Count).reduce((a, b) => a + b, 0))
+const totalPrice = computed(() => userData.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
+const peopleCount = computed(() => new Set(userData.value.map(item => item.Person)).size)
+const recomendedCount = computed(() => Math.round(userData.value.map(e => e.Rekommenderas).reduce((a, b) => a + b, 0) / userData.value.length * 100 * 100) / 100)
+
+fetchUserData()
+
+
+const topCount = ref(20)
+
+const topTen = computed(() => {
+  let stringCount = {};
+  userData.value.forEach(obj => {
+    if (obj.hasOwnProperty('Namn')) {
+      let str = obj.Namn;
+      if (stringCount.hasOwnProperty(str)) {
+        stringCount[str]++;
+      } else {
+        stringCount[str] = 1;
+      }
+    }
+  });
+  let sortedStrings = Object.keys(stringCount).sort((a, b) => stringCount[b] - stringCount[a]);
+  let top10Strings = sortedStrings.slice(0, topCount.value).map(str => ({ string: str, count: stringCount[str] }));
+  return top10Strings;
+})
+
+// console.log(topTen);
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+</script>
+
 <template>
   <div class="admin-bg">
 
@@ -31,12 +157,12 @@
             <button @click="isLoggedIn = false">Logga ut</button>
           </div>
           <button class="show-table" @click="showTable = !showTable">
-            <v-if v-if="!showTable">Visa tabell</v-if>
-            <v-if v-if="showTable">Visa formulerad</v-if>
+            <span v-if="!showTable">Visa tabell</span>
+            <span v-if="showTable">Visa formulerad</span>
           </button>
           <button @click="showTopTen = !showTopTen">
-            <v-if v-if="!showTopTen">Visa vanligaste växterna</v-if>
-            <v-if v-if="showTopTen">Dölj top växterna</v-if>
+            <span v-if="!showTopTen">Visa vanligaste växterna</span>
+            <span v-if="showTopTen">Dölj top växterna</span>
           </button>
           <nuxt-link to="/admin/print"><button>Printa personlistor</button></nuxt-link>
         </div>
@@ -60,158 +186,45 @@
         <p>Antal</p>
         <p>Total</p>
       </div>
-      <ul class="admin-list-container" v-if="!showTable">
-        <li v-for="(item, index) in userData" class="list-el">
-          <AdminListElement :el="item" :index="index" :userData="userData" :isPersonPage="false" />
-        </li>
-      </ul>
-      <table v-if="showTable">
-        <tr v-for="item in userData">
-          <th>
-            <p>{{ item.created_at }}</p>
-          </th>
-          <th>
-            <p>{{ item.Person }}</p>
-          </th>
-          <th>
-            <p>{{ item.Plantskola }}</p>
-          </th>
-          <th>
-            <p>{{ item.Count }}</p>
-          </th>
-          <th>
-            <p>{{ item.Namn }}</p>
-          </th>
-          <th>
-            <p>{{ item.Pris }}</p>
-          </th>
-          <th>
-            <p>{{ item.Pris * item.Count }}</p>
-          </th>
-        </tr>
+      <!-- {{userData}} -->
+      <div v-bind="containerProps" class="container-props" v-if="!showTable">
+        <ul v-bind="wrapperProps" class="admin-list-container wrapper-props">
+          <li v-for="{ index, data } in list" class="list-el">
+            <AdminListElement :el="data" :index="index" :userData="userData" :isPersonPage="false" />
+          </li>
+        </ul>
+      </div>
+
+      <table>
+        <tbody v-if="showTable">
+          <tr v-for="item in userData">
+            <th>
+              <p>{{ item.created_at }}</p>
+            </th>
+            <th>
+              <p>{{ item.Person }}</p>
+            </th>
+            <th>
+              <p>{{ item.Plantskola }}</p>
+            </th>
+            <th>
+              <p>{{ item.Count }}</p>
+            </th>
+            <th>
+              <p>{{ item.Namn }}</p>
+            </th>
+            <th>
+              <p>{{ item.Pris }}</p>
+            </th>
+            <th>
+              <p>{{ item.Pris * item.Count }}</p>
+            </th>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
 </template>
-
-<script setup>
-import { createClient } from '@supabase/supabase-js'
-import { useStorage } from '@vueuse/core'
-const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
-
-const isLoggedIn = useStorage('is-logged-in', false)
-
-const password = ref('Smurf999')
-const typedPassword = ref('')
-
-const showTable = ref(false)
-const showTopTen = ref(false)
-
-const rawUserData = useStorage('raw-user-data', [])
-
-const route = useRoute()
-
-if (!route.params.year) {
-  navigateTo('/admin/2024')
-}
-
-const loggIn = () => {
-  if (typedPassword.value === password.value) {
-    isLoggedIn.value = true
-  }
-  else {
-    typedPassword.value = ''
-  }
-}
-
-const config = useRuntimeConfig()
-const supabase = createClient(supabaseUrl, supabaseKey)
-
-const fetchUserData = async () => {
-  const { data, error } = await supabase
-    .from(`user-data-${route.params.year}`)
-    .select()
-    .order('created_at')
-
-  console.log('Fething user data');
-  if (error) {
-    console.error(error)
-  }
-  if (data) {
-    rawUserData.value = data
-    // console.log(data);
-
-    // rawUserData.value.map(e => e.created_at = e.created_at.replace('2023-', ''))
-    // rawUserData.value.map(e => e.created_at = e.created_at.replace('2024-', ''))
-    rawUserData.value.map(e => e.created_at = e.created_at.replace('T', ' | '))
-    // rawUserData.value.map(e => e.created_at = e.created_at.slice(0, -6))
-    rawUserData.value.map(e => e.created_at = e.created_at.replace('.', ''))
-    rawUserData.value.map(e => e.created_at = e.created_at.substring(0, 18))
-
-    console.log(rawUserData.value);
-  }
-}
-
-const userData = computed(() => {
-  let list = rawUserData.value
-  // list = rawUserData.value.sort((a, b) => {
-  //   if (a.Namn > b.Namn) return 1
-  //   if (a.Namn < b.Namn) return -1
-  //   else return 0
-  // })
-  list.sort((a, b) => {
-    if (a.Namn > b.Namn) return 1
-    else if (a.Namn < b.Namn) return -1
-    else return 0
-  })
-  // list = list.sort((a, b) => {
-  //   if (a.Person > b.Person) return 1
-  //   if (a.Person < b.Person) return -1
-  //   else return 0
-  // })
-  list.sort((a, b) => {
-    if (a.created_at > b.created_at) return 1
-    if (a.created_at < b.created_at) return -1
-    else return 0
-  })
-  console.log(list);
-  return list
-})
-
-const totalCount = computed(() => userData.value.map(e => e.Count).reduce((a, b) => a + b, 0))
-const totalPrice = computed(() => userData.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
-const peopleCount = computed(() => new Set(userData.value.map(item => item.Person)).size)
-const recomendedCount = computed(() => Math.round(userData.value.map(e => e.Rekommenderas).reduce((a, b) => a + b, 0) / userData.value.length * 100 * 100) / 100)
-
-fetchUserData()
-
-
-const topCount = ref(20)
-
-const topTen = computed(() => {
-  let stringCount = {};
-  userData.value.forEach(obj => {
-    if (obj.hasOwnProperty('Namn')) {
-      let str = obj.Namn;
-      if (stringCount.hasOwnProperty(str)) {
-        stringCount[str]++;
-      } else {
-        stringCount[str] = 1;
-      }
-    }
-  });
-  let sortedStrings = Object.keys(stringCount).sort((a, b) => stringCount[b] - stringCount[a]);
-  let top10Strings = sortedStrings.slice(0, topCount.value).map(str => ({ string: str, count: stringCount[str] }));
-  return top10Strings;
-})
-
-console.log(topTen);
-
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
-</script>
-
 
 <style>
 .admin-bg {
@@ -261,6 +274,22 @@ const toggleDark = useToggle(isDark)
   padding-left: 0.5rem;
 }
 
+.container-props {
+  transition: none;
+  border: 1px solid var(--border-color);
+  background: var(--element-bg);
+  height: 100%;
+  border-radius: 1rem;
+  width: auto;
+  max-height: 100vh !important;
+}
+
+
+.wrapper-props {
+  transition: none;
+  position: relative;
+  /* padding-bottom: 5rem; */
+}
 
 .list-element {
   padding: 0.1rem;
