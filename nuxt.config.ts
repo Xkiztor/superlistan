@@ -38,6 +38,7 @@ export default defineNuxtConfig({
   },
   // ssr: false,
   // ssr: true,
+  debug: true,
   runtimeConfig: {
     // Private keys are only available on the server
     apiSecret: '123',
