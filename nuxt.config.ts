@@ -63,7 +63,8 @@ export default defineNuxtConfig({
   },
   vite: {
     build: {
-      target: 'esnext', // Targets modern JS for better performance
+      target: 'static', // Targets modern JS for better performance
+      // target: 'esnext', // Targets modern JS for better performance
     },
   },
 
