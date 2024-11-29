@@ -36,7 +36,7 @@ export default defineNuxtConfig({
     // preset: 'netlify',
     compressPublicAssets: true,
   },
-  ssr: false,
+  // ssr: false,
   // ssr: true,
   runtimeConfig: {
     // Private keys are only available on the server
@@ -63,8 +63,7 @@ export default defineNuxtConfig({
   },
   vite: {
     build: {
-      target: 'static', // Targets modern JS for better performance
-      // target: 'esnext', // Targets modern JS for better performance
+      target: 'esnext', // Targets modern JS for better performance
     },
   },
 
