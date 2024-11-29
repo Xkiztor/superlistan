@@ -72,8 +72,8 @@ const computedList = computed(() => {
   // if (state.commentFilter.value) newList = newList.filter(e => e.Kommentar != null)
   if (state.linkFilter.value) newList = newList.filter(e => e.Länk != null)
 
-  newList.forEach(e => console.log(e.Namn.toLowerCase().replace(/'/g, "").replace(/ /g, "")))
-  console.log(lignosdatabasen.value.map(obj => obj.slakte.toLowerCase().replace(/ /g, "") + obj.art.toLowerCase().replace(/ /g, "") + obj.sortnamn.toLowerCase().replace(/'/g, "").replace(/ /g, "")).join(' '));
+  // newList.forEach(e => console.log(e.Namn.toLowerCase().replace(/'/g, "").replace(/ /g, "")))
+  // console.log(lignosdatabasen.value.map(obj => obj.slakte.toLowerCase().replace(/ /g, "") + obj.art.toLowerCase().replace(/ /g, "") + obj.sortnamn.toLowerCase().replace(/'/g, "").replace(/ /g, "")).join(' '));
 
   // ? Sorting
   newList = newList.sort((a, b) => {

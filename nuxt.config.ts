@@ -33,10 +33,10 @@ export default defineNuxtConfig({
   //   },
   // },
   nitro: {
-    preset: 'netlify',
+    // preset: 'netlify',
     compressPublicAssets: true,
   },
-
+  ssr: false,
   // ssr: true,
   runtimeConfig: {
     // Private keys are only available on the server
