@@ -252,8 +252,8 @@ const databasArtikel = computed(() => {
         <div class="info-container">
 
           <article class="article" v-if="databasArtikel.text">
-          <p class="ingress" v-if="databasArtikel.ingress">{{ databasArtikel.ingress }}</p>
-          <p>{{ databasArtikel.text }}</p>
+            <p class="ingress" v-if="databasArtikel.ingress">{{ databasArtikel.ingress }}</p>
+            <p>{{ databasArtikel.text }}</p>
           </article>
 
           <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas }">
@@ -830,11 +830,12 @@ const databasArtikel = computed(() => {
 
 .increment input:focus,
 .increment input:hover {
-  box-shadow: var(--box-shadow-inset);
+  /* box-shadow: var(--box-shadow-inset); */
+  background: var(--element-top-hover);
 }
 
 .dark .increment input:focus {
-  box-shadow: var(--box-shadow-inset-dark);
+  /* box-shadow: var(--box-shadow-inset-dark); */
 }
 
 .dark .increment input {
