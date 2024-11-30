@@ -33,7 +33,7 @@ export default defineNuxtConfig({
   //   },
   // },
   nitro: {
-    preset: 'netlify',
+    // preset: 'netlify',
     compressPublicAssets: true,
   },
   // ssr: false,

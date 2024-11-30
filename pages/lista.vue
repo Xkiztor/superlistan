@@ -49,7 +49,7 @@ const { data: lignosdatabasen } = await useAsyncData('lignosdatabasen-fetch', as
   if (error) {
     console.error(error);
   }
-  console.log(data);
+  // console.log(data);
   return data
 })
 
