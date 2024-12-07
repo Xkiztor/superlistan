@@ -1,14 +1,18 @@
 <script setup>
-import { useStorage } from '@vueuse/core'
+import { useStorage } from '@vueuse/core';
 useHead({
-  title: 'Linders Superlista',
+  title: 'Linders Superlista - Beställ från tusentals växter',
   // or, instead:
   // titleTemplate: (title) => `My App - ${title}`,
   viewport: 'width=device-width, initial-scale=1, maximum-scale=6',
   charset: 'utf-8',
   meta: [
     { name: 'description', content: 'En lista med tusentals växter att beställa från.' },
-    { name: 'keywords', content: 'Lista, Lindersplantskola, superlista, Superlistan, super lista, linders, listan, Växter, ovanliga växter, lista att beställa ifån, plantskola' },
+    {
+      name: 'keywords',
+      content:
+        'Lista, Lindersplantskola, superlista, Superlistan, super lista, linders, listan, Växter, ovanliga växter, lista att beställa ifån, plantskola',
+    },
     { name: 'author', content: 'Ugo Linder, Peter Linder' },
   ],
   bodyAttrs: {
@@ -20,76 +24,104 @@ useHead({
   link: [
     {
       rel: 'preconnect',
-      href: 'https://fonts.googleapis.com'
+      href: 'https://fonts.googleapis.com',
     },
     {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Inter:400,500,600,700,800,900&display=swap',
-      crossorigin: ''
-    }
-  ]
-})
+      crossorigin: '',
+    },
+    {
+      rel: 'canonical',
+      href: 'https://lignosdatabasen.se',
+    },
+  ],
+});
 
 useSeoMeta({
   title: 'Linders Superlista',
   ogTitle: 'Superlista',
-  description: 'En lista med tusentals växter att beställa från.',
+  description: 'En härligt speckad lista med tusentals växter att beställa från.',
   ogDescription:
-    'En chans att hitta det du länge letat efter! Linders superlista är en härligt späckad lista med 16 000 rader av ovanliga och odlingsvärda växter att beställa ifrån.',
-  ogImage:
-    'https://lindersplantskola.s3.eu-north-1.amazonaws.com/hemsida-assets/ogImage.jpg',
+    'En chans att hitta det du länge letat efter! Linders superlista är en härligt späckad lista med 16 000 rader av ovanliga och odlingsvärda växter att beställa ifrån och hämta upp i Hörby i Skåne.',
+  ogImage: 'https://lindersplantskola.s3.eu-north-1.amazonaws.com/hemsida-assets/ogImage.jpg',
 });
 
-const isDark = useDark()
+const isDark = useDark();
 
-const state = useGlobalState()
+const state = useGlobalState();
 
-const onskeList = useGlobalOnskeList()
-const onskeListOld = useGlobalOnskeListOld()
+const onskeList = useGlobalOnskeList();
+const onskeListOld = useGlobalOnskeListOld();
 
-const openNav = ref(false)
+const openNav = ref(false);
 
-const screenSize = useWindowSize()
-const isSmallScreen = computed(() => { return screenSize.width.value <= 1200 ? true : false })
+const screenSize = useWindowSize();
+const isSmallScreen = computed(() => {
+  return screenSize.width.value <= 1200 ? true : false;
+});
 // const route = useRoute()
 // console.log(route.path)
-const target = ref(null)
+const target = ref(null);
 
 onClickOutside(target, (event) => {
-  openNav.value = false
-})
+  openNav.value = false;
+});
 
 const openNavFunc = () => {
   if (openNav.value == false) {
-    openNav.value = true
+    openNav.value = true;
   }
-}
-
+};
 </script>
 
 <template>
-  <div data-theme="light" class="main-layout tou-z65h9k" ref="el" :class="$route.path == '/lista' ? 'page-lista' : ''">
+  <div
+    data-theme="light"
+    class="main-layout tou-z65h9k"
+    ref="el"
+    :class="$route.path == '/lista' ? 'page-lista' : ''"
+  >
     <nav class="naver" v-if="isSmallScreen && $route.path == '/lista'">
       <button @click="state.openFilter" :class="{ 'if-filter-open': state.isFilterOpen.value }">
-        <Icon class=" nav-icon" name="mdi:filter" size="30" />
+        <Icon class="nav-icon" name="mdi:filter" size="30" />
       </button>
       <button @click="state.openJump" :class="{ 'if-filter-open': state.isJumpOpen.value }">
-        <Icon class=" nav-icon" name="quill:jump-alt" size="32" />
+        <Icon class="nav-icon" name="quill:jump-alt" size="32" />
       </button>
       <div class="dropdown-menu">
         <button>
-          <Icon @click="openNavFunc()" v-if="!openNav" class=" nav-icon" name="material-symbols:menu-rounded"
-            size="30" />
-          <Icon @click="openNav = false" v-if="openNav" class=" nav-icon" name="material-symbols:close" size="30" />
+          <Icon
+            @click="openNavFunc()"
+            v-if="!openNav"
+            class="nav-icon"
+            name="material-symbols:menu-rounded"
+            size="30"
+          />
+          <Icon
+            @click="openNav = false"
+            v-if="openNav"
+            class="nav-icon"
+            name="material-symbols:close"
+            size="30"
+          />
         </button>
         <div class="dropdown" v-if="openNav" ref="target">
           <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/" @click="openNav = false">
             <Icon name="material-symbols:home-outline-rounded" />Hem
           </nuxt-link>
-          <nuxt-link :class="$route.path == '/lista' ? 'active' : ''" to="/lista" @click="openNav = false">
+          <nuxt-link
+            :class="$route.path == '/lista' ? 'active' : ''"
+            to="/lista"
+            @click="openNav = false"
+          >
             <Icon name="ant-design:unordered-list-outlined" />Listan
           </nuxt-link>
-          <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg" @click="openNav = false">
+          <nuxt-link
+            :class="$route.path == '/onske-lista' ? 'active' : ''"
+            to="/varukorg"
+            @click="openNav = false"
+          >
             <Icon name="material-symbols:shopping-cart-outline" />Varukorg
           </nuxt-link>
           <ThemeToggle />
@@ -97,7 +129,7 @@ const openNavFunc = () => {
       </div>
     </nav>
     <nav class="naver big-screen-naver" v-else>
-      <img src="/lindersplantskola-logo.svg" class="logo" alt="lindersplantskola-logo">
+      <img src="/lindersplantskola-logo.svg" class="logo" alt="lindersplantskola-logo" />
       <nuxt-link :class="$route.path == '/' ? 'active' : ''" to="/">
         <Icon name="material-symbols:home-outline-rounded" /><i>Hem</i>
       </nuxt-link>
@@ -127,7 +159,7 @@ const openNavFunc = () => {
   --primary-red-light: #ff0000;
   --primary-red-dark: #f36161;
 
-  --link-light: #0645AD;
+  --link-light: #0645ad;
   --link-dark: #75b4f8;
 
   --bg-light: #eee9d9;
@@ -176,7 +208,6 @@ const openNavFunc = () => {
   /* --text-light: hsl(116, 100%, 7%); */
   --text-dark: #fdf8f3;
   /* --text-dark: hsl(90, 50%, 95%); */
-
 }
 
 html:not(.dark) {
@@ -229,7 +260,6 @@ html:not(.dark) {
   --text-full-mute: var(--text-full-mute-dark);
 
   --border-color: var(--border-color-dark);
-
 }
 
 *,
@@ -239,7 +269,8 @@ html:not(.dark) {
 }
 
 * {
-  font-family: 'Inter', 'Helvetica', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', 'Helvetica', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   /* font-family: SFR, 'SFR'; */
   /* transition: all 150ms; */
   letter-spacing: -0.25px;
@@ -247,7 +278,8 @@ html:not(.dark) {
 
 h1 {
   /* font-family: SFB, 'SFB'; */
-  font-family: 'Inter', 'Helvetica', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', 'Helvetica', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 600;
   /* stroke: 2px solid #116fea; */
 }
@@ -269,12 +301,11 @@ html:has(.home-container) {
   background: var(--element-bg);
 }
 
-
 button,
-.navigator>a,
+.navigator > a,
 input,
 select,
-.info-container>* {
+.info-container > * {
   padding: 0.4rem;
   border-radius: 0.5rem;
   background-color: var(--element-top);
@@ -288,18 +319,17 @@ select,
 
 .dark .increment,
 .dark .expanded button:not(.increment *),
-.dark .info-container>*,
+.dark .info-container > *,
 .dark .onske-list-bg button:not(.element *),
 .dark .onske-list-bg input {
   border: 1px solid var(--element-top-border-dark);
 }
 
-input:not([type="checkbox"]) {
+input:not([type='checkbox']) {
   cursor: text;
 }
 
-
-.dark .info-container>* {
+.dark .info-container > * {
   background: var(--element-top);
   /* box-shadow: var(--box-shadow-inset); */
   color: var(--text-mute);
@@ -312,7 +342,6 @@ input:not([type="checkbox"]) {
 }
 
 @media screen and (min-width: 1000px) {
-
   .dark button:hover,
   .dark input:hover {
     background: var(--element-top-hover);
@@ -329,16 +358,12 @@ input:not([type="checkbox"]) {
   color: var(--primary-red);
 }
 
-
-
-
 .main-layout {
   display: grid;
   place-items: center;
   /* padding: 0 1rem; */
   grid-template-rows: min-content auto;
   min-height: 100vh !important;
-
 }
 
 .dark .main-layout {
@@ -388,24 +413,21 @@ input:not([type="checkbox"]) {
   box-shadow: none;
 }
 
-.dropdown>.active {
+.dropdown > .active {
   border: none;
   opacity: 0.2;
 }
-
 
 .dropdown-menu {
   position: relative;
   display: inline-block;
 }
 
-.naver>button:not(.if-filter-open),
-.naver>div>button:not(.if-filter-open) {
+.naver > button:not(.if-filter-open),
+.naver > div > button:not(.if-filter-open) {
   background: none;
   box-shadow: none;
 }
-
-
 
 .nav-icon {
   cursor: pointer;
@@ -439,20 +461,18 @@ input:not([type="checkbox"]) {
   letter-spacing: 0.05rem;
   position: relative;
 
-
   border-bottom: 1px solid var(--border-color);
   background: var(--element-bg);
   /* box-shadow: var(--box-shadow); */
 }
 
-
-.big-screen-naver>.theme-toggle {
+.big-screen-naver > .theme-toggle {
   position: absolute;
   right: 1rem;
   margin: 0;
 }
 
-.big-screen-naver>img {
+.big-screen-naver > img {
   position: absolute;
   left: 1rem;
   margin: 0;
@@ -464,20 +484,18 @@ input:not([type="checkbox"]) {
 
 @media screen and (max-width: 1200px) {
   .naver img.logo {
-    display: none
+    display: none;
   }
 }
 
 @media screen and (max-width: 350px) {
-  .big-screen-naver>a i {
+  .big-screen-naver > a i {
     display: none;
   }
 
-
-
   nav.big-screen-naver a svg.icon,
   nav.big-screen-naver svg {
-    font-size: 1.35rem
+    font-size: 1.35rem;
   }
 }
 
@@ -488,11 +506,12 @@ input:not([type="checkbox"]) {
   }
 }
 
-.dark .big-screen-naver>img {
-  filter: opacity(85%) invert(98%) sepia(5%) saturate(203%) hue-rotate(228deg) brightness(119%) contrast(100%);
+.dark .big-screen-naver > img {
+  filter: opacity(85%) invert(98%) sepia(5%) saturate(203%) hue-rotate(228deg) brightness(119%)
+    contrast(100%);
 }
 
-.naver>a {
+.naver > a {
   /* font-size: 16px; */
   font-size: 1.075rem;
   font-weight: 400;
@@ -505,7 +524,7 @@ input:not([type="checkbox"]) {
   border-bottom: 2px solid transparent;
 }
 
-.naver>a .icon {
+.naver > a .icon {
   font-size: 1.3em;
 }
 
@@ -522,18 +541,16 @@ input:not([type="checkbox"]) {
   color: var(--primary-green);
 }
 
-.big-screen-naver>a:hover {
+.big-screen-naver > a:hover {
   /* transform: scale(105%); */
   opacity: 0.5;
   /* font-weight: 800; */
-
 }
 
-.big-screen-naver>a {
+.big-screen-naver > a {
   padding: 0.7rem 1rem;
   /* border-radius: 1rem; */
 }
-
 
 @media screen and (max-width: 1000px) {
   .naver {
@@ -542,7 +559,7 @@ input:not([type="checkbox"]) {
 }
 
 @media screen and (max-width: 500px) {
-  .naver>a {
+  .naver > a {
     font-size: 0.9rem;
     padding: 0.5rem 0.6rem;
     /* border-radius: 0.75rem; */
@@ -565,13 +582,11 @@ input:not([type="checkbox"]) {
     /* background: var(--element-top); */
     border-bottom: 2px solid var(--primary-green);
   }
-
 }
 
 .big-screen-naver a {
   /* border-color: var(--primary-green); */
 }
-
 
 .the-grid {
   padding: 1rem;
@@ -583,8 +598,7 @@ input:not([type="checkbox"]) {
   margin: 2px;
 }
 
-@media screen and (max-width:1200px) {
-
+@media screen and (max-width: 1200px) {
   .main-layout {
     /* grid-template-rows: min-content auto; */
     /* height: 100vh; */

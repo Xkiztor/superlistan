@@ -1,5 +1,4 @@
 <script setup>
-
 // const testPlant = {
 //   Edible: null,
 //   "Höjd": "40-50",
@@ -25,27 +24,29 @@
     <header class="text-stycke head">
       <img
         src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/SuperDownscale%20-%203IKzqvkmhA%20-%20superlista%20bakgrund.jpg"
-        alt="">
+        alt=""
+      />
       <div>
-        <div class="closed">
-          <!-- <Icon name="material-symbols:cancel-rounded" /> -->
+        <!-- <div class="closed">
           <Icon name="material-symbols:cancel-outline-rounded" />
           <h2>Listan stängd för i år, öppnar igen nästa år!</h2>
+        </div> -->
+        <div class="closed coming-soon">
+          <!-- <Icon name="material-symbols:cancel-rounded" /> -->
+          <Icon name="mage:megaphone-a-fill" />
+          <!-- <Icon name="hugeicons:coming-soon-02" /> -->
+          <h2>Superlistan 2025 kommer snart!</h2>
+          <Icon name="mage:megaphone-a-fill" />
         </div>
         <h1 class="main-title">Linders Superlista 2024</h1>
         <p>
-          En chans att hitta det du länge letat efter!
-          Linders superlista är en härligt späckad lista med 16 000 rader av ovanliga och odlingsvärda växter att
-          beställa
-          ifrån.
-          <i>Beställningen gör du senast 25 februari 2024</i> för att sedan
-          hämta dina beställda växter på <a href="https://lindersplantskola.se/">Linders plantskola</a>
-          utanför
-          Hörby i Skåne under maj 2024.
-          Tack vare att du gör beställningen i förväg och själv hämtar ut dina växter kan jag hålla låga priser i
-          Linders
-          superlista. Alla priser är inklusive moms. Lägsta ordersumma är 2000 kr. (Gå ihop med en vän om det är svårt
-          att
+          En chans att hitta det du länge letat efter! Linders superlista är en härligt späckad
+          lista med 16 000 rader av ovanliga och odlingsvärda växter att beställa ifrån.
+          <i>Beställningen gör du senast 25 februari 2024</i> för att sedan hämta dina beställda
+          växter på <a href="https://lindersplantskola.se/">Linders plantskola</a>
+          utanför Hörby i Skåne under maj 2024. Tack vare att du gör beställningen i förväg och
+          själv hämtar ut dina växter kan jag hålla låga priser i Linders superlista. Alla priser är
+          inklusive moms. Lägsta ordersumma är 2000 kr. (Gå ihop med en vän om det är svårt att
           komma upp i den summan).
         </p>
       </div>
@@ -54,19 +55,19 @@
       <div>
         <h1>Hur gör jag?</h1>
         <p class="top-desc">
-          Listan med växter hittar du under fliken <nuxt-link class="link" to="/lista">Listan</nuxt-link> överst på
-          denna
-          sida. I listan kan du söka
-          och ange hur många av en viss växt som du vill ha. Under fliken <nuxt-link class="link"
-            to="/varukorg">Varukorg</nuxt-link> kan du sedan se vilka växter du valt,
-          justera antal, fylla i dina kontaktuppgifter och sedan skicka in din beställning.
-          Du kan lungt jobba vidare en annan dag eftersom växterna sparas automatiskt tills nästa gång.
+          Listan med växter hittar du under fliken
+          <nuxt-link class="link" to="/lista">Listan</nuxt-link> överst på denna sida. I listan kan
+          du söka och ange hur många av en viss växt som du vill ha. Under fliken
+          <nuxt-link class="link" to="/varukorg">Varukorg</nuxt-link> kan du sedan se vilka växter
+          du valt, justera antal, fylla i dina kontaktuppgifter och sedan skicka in din beställning.
+          Du kan lungt jobba vidare en annan dag eftersom växterna sparas automatiskt tills nästa
+          gång.
         </p>
         <p class="paragraph-spacing">
           För att bäställa en växt trycker du på symbolen
           <Icon class="" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
-          till höger, då öppnas en flik med mer info om växten. Där
-          kan du ange hur många du vill ha av växten och trycka “Lägg till i varukorg”.
+          till höger, då öppnas en flik med mer info om växten. Där kan du ange hur många du vill ha
+          av växten och trycka “Lägg till i varukorg”.
         </p>
       </div>
     </article>
@@ -77,12 +78,16 @@
     <article class="text-stycke">
       <div>
         <div>
-          <img class="ljus light-dark"
+          <img
+            class="ljus light-dark"
             src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-lista-ljus.png"
-            alt="">
-          <img class="mork light-dark"
+            alt=""
+          />
+          <img
+            class="mork light-dark"
             src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-lista-mork.png"
-            alt="">
+            alt=""
+          />
         </div>
         <!-- <h1>Beskrivningar</h1>
         <p class="top-desc">
@@ -115,16 +120,15 @@
           <div class="under-picture-align">
             <li>
               <h1 class="underrubrik">Sortera</h1>
-              Om du vill sortera växtlistan efter något annat än växtnamnet (t.ex pris) kan du klicka på kolumens titel
-              ovanför
-              listan.
-              Klicka på den igen för att byta riktning.
+              Om du vill sortera växtlistan efter något annat än växtnamnet (t.ex pris) kan du
+              klicka på kolumens titel ovanför listan. Klicka på den igen för att byta riktning.
             </li>
             <li>
               <h1 class="underrubrik">Bildsök</h1>
-              Om man klickar på <i class="lite-tjockare">ikonen</i> öppnas en ruta med 9 bilder från Googles
-              bildsök. Men denna kan man enkelt få bilder på växterna medans man går igenom listan.
-              <br>
+              Om man klickar på <i class="lite-tjockare">ikonen</i> öppnas en ruta med 9 bilder från
+              Googles bildsök. Men denna kan man enkelt få bilder på växterna medans man går igenom
+              listan.
+              <br />
               Om du istället klickar på själva <i class="lite-tjockare">växtnamnet</i> öppnas en ny
               flik med Googles bildsök där man kan se alla bilder.
             </li>
@@ -133,103 +137,92 @@
           <h1 class="underrubrik">Förklaringar</h1>
           <div class="förklaringar-align-container">
             <div class="förklaringar-align">
+              <li><strong>Höjd:</strong> Här anges ungefärlig höjd i cm på plantan som säljs.</li>
               <li>
-                <strong>Höjd:</strong> Här anges ungefärlig höjd i cm på plantan som säljs.
+                <strong>Minsta order:</strong> här är angivit det minimumantal som gäller för en
+                viss växt (främst perenner i P9-kruka där det ofta är 12 st som är minimum).
+              </li>
+              <li><strong>Pris:</strong> Pris med moms per styck</li>
+              <li>
+                <strong>Lager:</strong> här står hur många som finns i lager, när det är känt. Står
+                det inget går det ändå bra att beställa.
               </li>
               <li>
-                <strong>Minsta order:</strong> här är angivit det minimumantal som gäller för en viss växt (främst
-                perenner
-                i
-                P9-kruka där det
-                ofta är 12 st som är minimum).
-              </li>
-              <li>
-                <strong>Pris:</strong> Pris med moms per styck
-              </li>
-              <li>
-                <strong>Lager:</strong> här står hur många som finns i lager, när det är känt. Står det inget går det
-                ändå
-                bra
-                att beställa.
-              </li>
-              <li>
-                <strong>Zon:</strong> Vad gäller härdighet är det stor variation över listan och mycket är otillräckligt
-                prövat i Sverige. På en del växter har jag angivit svensk zon-tålighet. Zon 0 står för innerstadsmiljöer
-                i
-                zon
-                1.
+                <strong>Zon:</strong> Vad gäller härdighet är det stor variation över listan och
+                mycket är otillräckligt prövat i Sverige. På en del växter har jag angivit svensk
+                zon-tålighet. Zon 0 står för innerstadsmiljöer i zon 1.
               </li>
             </div>
             <div class="förklaringar-align">
               <li>
-                <strong>Kruka:</strong> C står för Container och t.ex. C5 är en 5-liters kruka. C2 en 2-liters kruka
-                osv.
-                P9
-                är en
-                fyrkantskruka
-                med sida 9 cm, P11 en fyrkantskruka med sida 11 cm osv.
-                Ibland finns detta tecken "#" vilket betyder att trädet har odlats i marken. Har ingen större betydelse,
-                ofta
-                är det positivt och ger kraftiga plantor. Leveraras som klump eller i kruka.
+                <strong>Kruka:</strong> C står för Container och t.ex. C5 är en 5-liters kruka. C2
+                en 2-liters kruka osv. P9 är en fyrkantskruka med sida 9 cm, P11 en fyrkantskruka
+                med sida 11 cm osv. Ibland finns detta tecken "#" vilket betyder att trädet har
+                odlats i marken. Har ingen större betydelse, ofta är det positivt och ger kraftiga
+                plantor. Leveraras som klump eller i kruka.
               </li>
               <li>
-                <strong>Storleks-kommentar:</strong> Här står t.ex. "Pa" på dom träd som är toppympade på stam eller i
-                vissa
-                fall
-                uppstammade till en tydlig stam. "Spö" innebär att det mest är en huvudstam och inte så många sidogrenar
-                ännu.
-                På en del träd anges här stamomfång, t.ex. 6-8 vilket betyder att stammen har en omkrets på 6-8 cm mätt
-                1
-                m
-                upp.
+                <strong>Storleks-kommentar:</strong> Här står t.ex. "Pa" på dom träd som är
+                toppympade på stam eller i vissa fall uppstammade till en tydlig stam. "Spö" innebär
+                att det mest är en huvudstam och inte så många sidogrenar ännu. På en del träd anges
+                här stamomfång, t.ex. 6-8 vilket betyder att stammen har en omkrets på 6-8 cm mätt 1
+                m upp.
               </li>
             </div>
           </div>
         </ul>
-
       </div>
     </article>
     <article class="text-stycke">
       <div>
         <div class="filter-forklaring">
           <div>
-            <img class="ljus light-dark"
+            <img
+              class="ljus light-dark"
               src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-filter-ljus.png"
-              alt="">
-            <img class="mork light-dark"
+              alt=""
+            />
+            <img
+              class="mork light-dark"
               src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-filter-mork.png"
-              alt="">
+              alt=""
+            />
           </div>
           <div>
             <h1 class="underrubrik">Filter</h1>
             <p>
-              På vänster sida finns det en filterfunktion där man kan filtrera och söka i listan för att snabbare
-              hitta
-              det
-              du
-              letar efter. Den kan du använda för att
-              söka efter exempelvis ätliga växter, bara träd eller mina tipsade favoriter.
-              Sökfunktionen söker efter det vetenskapliga namnet.
+              På vänster sida finns det en filterfunktion där man kan filtrera och söka i listan för
+              att snabbare hitta det du letar efter. Den kan du använda för att söka efter
+              exempelvis ätliga växter, bara träd eller mina tipsade favoriter. Sökfunktionen söker
+              efter det vetenskapliga namnet.
             </p>
             <h1 class="underrubrik">Ikoner</h1>
             <!-- <strong>Ikoner:</strong> -->
             <ul class="icon-list">
               <li>
-                <Icon title="Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
+                <Icon
+                  title="Rekommenderas"
+                  class="rekommenderas-icon"
+                  name="ph:heart-straight-fill"
+                  size="20"
+                />
                 <p>
-                  <strong>Rekommenderas:</strong> Jag har satt hjärtan för växter jag vill rekommendera. Mina
-                  personliga favoriter och växter jag tycker ni inte ska missa att spana in.
+                  <strong>Rekommenderas:</strong> Jag har satt hjärtan för växter jag vill
+                  rekommendera. Mina personliga favoriter och växter jag tycker ni inte ska missa
+                  att spana in.
                 </p>
               </li>
               <li>
                 <Icon title="Ätbar" class="edible-icon" name="twemoji:fork-and-knife" size="20" />
-                <p>
-                  <strong>Ätlig:</strong> Visar om
-                  växten är ätlig eller inte.
-                </p>
+                <p><strong>Ätlig:</strong> Visar om växten är ätlig eller inte.</p>
               </li>
               <li>
-                <Icon title="Kommentar" class="kommentar-icon" name="majesticons:comment-2-text" size="20" />
+                <Icon
+                  title="Kommentar"
+                  class="kommentar-icon"
+                  name="majesticons:comment-2-text"
+                  size="20"
+                />
                 <p>
                   <strong>Kommentar:</strong>
                   Denna ikoner visar om det finns en kommentar till växten ifråga.
@@ -238,12 +231,8 @@
               <li>
                 <Icon class="länk-icon" name="mdi:link-variant" size="20" />
                 <p>
-                  <strong>Länk:</strong> Visar om det
-                  finns
-                  en
-                  länk till
-                  växten. Du kan även klicka på ikonen för att öppna länken direkt. Kan vara bilder, videos,
-                  blogghemsidor m.m.
+                  <strong>Länk:</strong> Visar om det finns en länk till växten. Du kan även klicka
+                  på ikonen för att öppna länken direkt. Kan vara bilder, videos, blogghemsidor m.m.
                 </p>
               </li>
             </ul>
@@ -256,34 +245,34 @@
       <div>
         <h1>Betalning och Hämtning</h1>
         <p class="paragraph-spacing">
-          När jag fått din beställning svarar jag med en faktura på halva beloppet. Resten betalas när du hämtar
-          växterna
-          i maj och vi ser exakt vad
-          som har gått att få tag på (jag räknar med att få tag på ungefär 60-80 % av det du beställt).
-          Jag kan inte skicka växterna utan dom hämtas här i plantskolan utanför Hörby under maj månad.
+          När jag fått din beställning svarar jag med en faktura på halva beloppet. Resten betalas
+          när du hämtar växterna i maj och vi ser exakt vad som har gått att få tag på (jag räknar
+          med att få tag på ungefär 60-80 % av det du beställt). Jag kan inte skicka växterna utan
+          dom hämtas här i plantskolan utanför Hörby under maj månad.
         </p>
         <p class="paragraph-spacing">
           Hemkörning kan erbjudas till Malmö/Lund-området samt Hörby/Höör och kostar 750 kr.
         </p>
         <p>
           Anmäl dig gärna till mitt nyhetsbrev där jag bland annat kommer att presentera växter ur
-          Superlistan löpande under jan-feb.
-          Direktlänk till nyhetsbrevet
-          <a target="_blank" href="https://lindersplantskola.se/linders-superlista/nyhetsbrev-superlistan/">här!</a>
+          Superlistan löpande under jan-feb. Direktlänk till nyhetsbrevet
+          <a
+            target="_blank"
+            href="https://lindersplantskola.se/linders-superlista/nyhetsbrev-superlistan/"
+            >här!</a
+          >
           Där kan du också läsa tidigare nyhetsbrev.
         </p>
         <p class="hälsningar">
-          Med gröna hälsningar / Peter Linder, 0733-518 716,
-          peter@lindersplantskola.se
+          Med gröna hälsningar / Peter Linder, 0733-518 716, peter@lindersplantskola.se
         </p>
-        <a class="logo" href="https://lindersplantskola.se/" target="_blank"><img src="/lindersplantskola-logo.svg"
-            class="logo" alt="lindersplantskola-logo"></a>
+        <a class="logo" href="https://lindersplantskola.se/" target="_blank"
+          ><img src="/lindersplantskola-logo.svg" class="logo" alt="lindersplantskola-logo"
+        /></a>
       </div>
     </footer>
   </div>
 </template>
-
-
 
 <style>
 .home-container {
@@ -299,7 +288,6 @@
   /* background: linear-gradient(0.25turn, #8ac95757, #57ffe063); */
   /* background: #77a650; */
   background: #83aa56;
-
 }
 
 .dark .text-stycke.head {
@@ -350,7 +338,7 @@ html:not(.dark) .text-stycke.head img {
   border-radius: 1rem;
   display: grid;
   place-items: center;
-  grid-template-columns: min-content 1fr;
+  grid-template-columns: min-content 1fr min-content;
   gap: 0.5rem;
 }
 
@@ -372,6 +360,12 @@ html:not(.dark) .text-stycke.head img {
   color: var(--primary-red-dark);
   font-size: 2rem;
 }
+.head .closed.coming-soon .icon * {
+  color: var(--text-dark);
+}
+.dark .head .closed.coming-soon .icon * {
+  color: var(--text-light);
+}
 
 .head .closed .icon {
   font-size: 2rem;
@@ -389,21 +383,21 @@ li {
 }
 
 p {
-  display: block
+  display: block;
 }
 
-li>svg {
+li > svg {
   color: var(--text-mute-dark);
 }
 
-.indent>li {
+.indent > li {
   margin-left: 1rem;
   margin-bottom: 0.6rem;
   margin-top: 0.4rem;
   line-height: 1;
 }
 
-.indent>li>strong {
+.indent > li > strong {
   font-weight: 500;
 }
 
@@ -422,7 +416,7 @@ li>svg {
   margin: 0 auto 0rem;
 }
 
-.text-stycke>div {
+.text-stycke > div {
   max-width: 80ch;
   margin: 0 auto;
 }
@@ -435,7 +429,7 @@ li>svg {
   color: var(--text-white);
 }
 
-.text-stycke ul>li {
+.text-stycke ul > li {
   margin-bottom: 1rem;
 }
 
@@ -449,12 +443,10 @@ li>svg {
 h1.main-title {
   font-size: 3.5rem;
   font-weight: 900;
-  letter-spacing: 1.5px
+  letter-spacing: 1.5px;
 }
 
 @media screen and (max-width: 900px) {
-
-
   h1.underrubrik {
     /* text-align: center; */
     margin-top: 1.5rem;
@@ -478,22 +470,22 @@ h1.main-title {
   }
 }
 
-.text-stycke>div>a,
-.text-stycke>div>img {
+.text-stycke > div > a,
+.text-stycke > div > img {
   display: block;
   width: 50%;
   margin: 0 auto 2rem;
 }
 
-li>a,
-.text-stycke>div>p>a,
+li > a,
+.text-stycke > div > p > a,
 .link {
   text-decoration: underline;
   color: var(--link-light);
 }
 
-.dark li>a,
-.dark .text-stycke p>a,
+.dark li > a,
+.dark .text-stycke p > a,
 .dark .link {
   text-decoration: underline;
   color: var(--link-dark);
@@ -520,13 +512,12 @@ html:not(.dark) .light-dark.mork {
   display: none;
 }
 
-
 .filter-forklaring img {
   transform: translateX(-8px) translatey(-8px);
   /* width: 90%; */
 }
 
-.filter-forklaring>:nth-child(2) {
+.filter-forklaring > :nth-child(2) {
   padding-left: 0.5rem;
 }
 
@@ -566,12 +557,12 @@ html:not(.dark) .light-dark.mork {
     justify-content: space-between;
   }
 
-  .text-stycke .förklaringar-align>* {
+  .text-stycke .förklaringar-align > * {
     /* min-width: 8rem; */
   }
 }
 
-.text-stycke .icon-list>* {
+.text-stycke .icon-list > * {
   display: grid;
   grid-template-columns: max-content 1fr;
   place-items: center start;
@@ -584,7 +575,6 @@ html:not(.dark) .light-dark.mork {
   border-left: 3px solid var(--border-color);
   padding-left: 0.5rem;
 }
-
 
 .type-desc {
   margin-bottom: 0.5rem;
@@ -601,25 +591,24 @@ html:not(.dark) .light-dark.mork {
 }
 
 .text-stycke a.logo {
-  margin-bottom: 6rem
+  margin-bottom: 6rem;
 }
 
 .text-stycke.betalning {
-  text-align: center
+  text-align: center;
 }
 
 .paragraph-spacing {
   margin-bottom: 0.5rem;
 }
 
-
 .lite-tjockare {
   font-weight: 600;
 }
 
-
-.dark .home-container .logo>img {
-  filter: opacity(85%) invert(98%) sepia(5%) saturate(203%) hue-rotate(228deg) brightness(119%) contrast(100%);
+.dark .home-container .logo > img {
+  filter: opacity(85%) invert(98%) sepia(5%) saturate(203%) hue-rotate(228deg) brightness(119%)
+    contrast(100%);
 }
 
 i.red {
