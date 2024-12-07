@@ -35,6 +35,10 @@ useHead({
       rel: 'canonical',
       href: 'https://lignosdatabasen.se',
     },
+    {
+      rel: 'nofollow',
+      href: 'https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/SuperDownscale%20-%203IKzqvkmhA%20-%20superlista%20bakgrund.jpg',
+    },
   ],
 });
 

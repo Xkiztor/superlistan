@@ -25,6 +25,7 @@
       <img
         src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/SuperDownscale%20-%203IKzqvkmhA%20-%20superlista%20bakgrund.jpg"
         alt=""
+        robots="noindex"
       />
       <div>
         <!-- <div class="closed">
