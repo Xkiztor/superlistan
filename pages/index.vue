@@ -103,12 +103,12 @@
         <div>
           <img
             class="ljus light-dark"
-            src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-lista-ljus.png"
+            src="https://res.cloudinary.com/dxwhmugdr/image/upload/v1734208362/14_firefox_EZ0ky_gdroim.png"
             alt=""
           />
           <img
             class="mork light-dark"
-            src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-lista-mork.png"
+            src="https://res.cloudinary.com/dxwhmugdr/image/upload/v1734208058/14_firefox_kHJKE_nrzufu.png"
             alt=""
           />
         </div>
@@ -202,12 +202,12 @@
           <div>
             <img
               class="ljus light-dark"
-              src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-filter-ljus.png"
+              src="https://res.cloudinary.com/dxwhmugdr/image/upload/v1734208361/14_firefox_47YAm_eqlrx4.png"
               alt=""
             />
             <img
               class="mork light-dark"
-              src="https://oykwqfkocubjvrixrunf.supabase.co/storage/v1/object/public/bilder/superlistan-filter-mork.png"
+              src="https://res.cloudinary.com/dxwhmugdr/image/upload/v1734208058/14_firefox_hZfCU_rmlpom.png"
               alt=""
             />
           </div>
@@ -546,6 +546,7 @@ li > a,
   .filter-forklaring {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
 }
 
