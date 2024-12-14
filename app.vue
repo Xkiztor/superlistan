@@ -88,7 +88,8 @@ const openNavFunc = () => {
   >
     <nav class="naver" v-if="isSmallScreen && $route.path == '/lista'">
       <button @click="state.openFilter" :class="{ 'if-filter-open': state.isFilterOpen.value }">
-        <Icon class="nav-icon" name="mdi:filter" size="30" />
+        <Icon v-if="state.isFilterOpen.value" class="nav-icon" name="mdi:filter-remove" size="30" />
+        <Icon v-else class="nav-icon" name="mdi:filter-cog" size="30" />
       </button>
       <button @click="state.openJump" :class="{ 'if-filter-open': state.isJumpOpen.value }">
         <Icon class="nav-icon" name="quill:jump-alt" size="32" />

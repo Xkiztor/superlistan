@@ -2,75 +2,90 @@
 // import dataTest from "../composables/dataTest"
 // import { useCounterStore } from '../stores/counter.js'
 /* - - - - - - Supabase Setup - - - - - - */
-import { createClient } from '@supabase/supabase-js'
-import { useStorage } from '@vueuse/core'
+import { createClient } from '@supabase/supabase-js';
+import { useStorage } from '@vueuse/core';
 
-const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co';
+const supabaseKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 definePageMeta({
   // keepalive: true
-})
+});
 
 // })
 /* - - - - - - Refs - - - - - - */
-const state = useGlobalState()
-const onskeList = useGlobalOnskeList()
-const windowSize = useWidth()
+const state = useGlobalState();
+const onskeList = useGlobalOnskeList();
+const windowSize = useWidth();
 
-const dataList = ref([])
+const dataList = ref([]);
 
-const hasUpdated = useStorage('has-updated', false)
+const hasUpdated = useStorage('has-updated', false);
 
-const userMessage = ref('Laddar...')
+const userMessage = ref('Laddar...');
 
-const listHasBeenFetched = ref(false)
-
+const listHasBeenFetched = ref(false);
 
 const shouldFilterOpen = computed(() => {
-  if (!isCollapsed.value) return true
+  if (!isCollapsed.value) return true;
   else {
-    if (state.isFilterOpen.value) return true
-    else return false
+    if (state.isFilterOpen.value) return true;
+    else return false;
   }
-})
+});
 const shouldJumpOpen = computed(() => {
-  if (!isCollapsed.value) return true
+  if (!isCollapsed.value) return true;
   else {
-    if (state.isJumpOpen.value) return true
-    else return false
+    if (state.isJumpOpen.value) return true;
+    else return false;
   }
-})
+});
 
 const { data: lignosdatabasen } = await useAsyncData('lignosdatabasen-fetch', async () => {
-  const { data, error } = await supabase.from('lignosdatabasen').select().neq('art', 'slakte').eq('hidden', false).neq('text', 'Ingen info')
+  const { data, error } = await supabase
+    .from('lignosdatabasen')
+    .select()
+    .neq('art', 'slakte')
+    .eq('hidden', false)
+    .neq('text', 'Ingen info');
   // const { data, error } = await client.from('lignosdatabasen').select().eq('slakte', `${planta}`).single()
   if (error) {
     console.error(error);
   }
   // console.log(data);
-  return data
-})
-
-
+  return data;
+});
 
 // ! Filter and sort the list
 
 const computedList = computed(() => {
-  let newList = dataList.value
+  let newList = dataList.value;
 
   // ? Search
-  let queryArray = state.query.value.toLowerCase().split(" ")
-  newList = newList.filter(item => queryArray.every(str => item.Namn.toLowerCase().includes(str)))
-
+  let queryArray = state.query.value.toLowerCase().split(' ');
+  newList = newList.filter((item) =>
+    queryArray.every((str) => item.Namn.toLowerCase().includes(str))
+  );
 
   // ? Filter
-  if (state.favoriteFilter.value) newList = newList.filter(e => e.Rekommenderas == true)
-  if (state.edibleFilter.value) newList = newList.filter(e => e.Edible == true)
-  if (state.commentFilter.value) newList = newList.filter(e => lignosdatabasen.value.map(obj => obj.slakte.toLowerCase().replace(/ /g, "") + obj.art.toLowerCase().replace(/ /g, "") + obj.sortnamn.toLowerCase().replace(/'/g, "").replace(/ /g, "")).join(' ').includes(e.Namn.toLowerCase().replace(/'/g, "").replace(/ /g, "") + ' '))
+  if (state.favoriteFilter.value) newList = newList.filter((e) => e.Rekommenderas == true);
+  if (state.edibleFilter.value) newList = newList.filter((e) => e.Edible == true);
+  if (state.commentFilter.value)
+    newList = newList.filter((e) =>
+      lignosdatabasen.value
+        .map(
+          (obj) =>
+            obj.slakte.toLowerCase().replace(/ /g, '') +
+            obj.art.toLowerCase().replace(/ /g, '') +
+            obj.sortnamn.toLowerCase().replace(/'/g, '').replace(/ /g, '')
+        )
+        .join(' ')
+        .includes(e.Namn.toLowerCase().replace(/'/g, '').replace(/ /g, '') + ' ')
+    );
   // if (state.commentFilter.value) newList = newList.filter(e => e.Kommentar != null)
-  if (state.linkFilter.value) newList = newList.filter(e => e.Länk != null)
+  if (state.linkFilter.value) newList = newList.filter((e) => e.Länk != null);
 
   // newList.forEach(e => console.log(e.Namn.toLowerCase().replace(/'/g, "").replace(/ /g, "")))
   // console.log(lignosdatabasen.value.map(obj => obj.slakte.toLowerCase().replace(/ /g, "") + obj.art.toLowerCase().replace(/ /g, "") + obj.sortnamn.toLowerCase().replace(/'/g, "").replace(/ /g, "")).join(' '));
@@ -80,192 +95,199 @@ const computedList = computed(() => {
     // console.log('heho');
     if (state.sortByWhat.value == 'Namn') {
       if (a.Namn.toLowerCase() < b.Namn.toLowerCase()) {
-        if (state.sortAscending.value) return -1
-        else return 1
+        if (state.sortAscending.value) return -1;
+        else return 1;
       }
       if (a.Namn.toLowerCase() > b.Namn.toLowerCase()) {
-        if (state.sortAscending.value) return 1
-        else return -1
+        if (state.sortAscending.value) return 1;
+        else return -1;
       }
-      return 0
+      return 0;
     } else if (state.sortByWhat.value == 'Pris') {
       if (a.Pris < b.Pris) {
-        if (state.sortAscending.value) return -1
-        else return 1
+        if (state.sortAscending.value) return -1;
+        else return 1;
       }
       if (a.Pris > b.Pris) {
-        if (state.sortAscending.value) return 1
-        else return -1
+        if (state.sortAscending.value) return 1;
+        else return -1;
       }
-      return 0
+      return 0;
     } else if (state.sortByWhat.value == 'Höjd') {
       if (a.Höjd < b.Höjd) {
-        if (state.sortAscending.value) return -1
-        else return 1
+        if (state.sortAscending.value) return -1;
+        else return 1;
       }
       if (a.Höjd > b.Höjd) {
-        if (state.sortAscending.value) return 1
-        else return -1
+        if (state.sortAscending.value) return 1;
+        else return -1;
       }
-      return 0
+      return 0;
     } else if (state.sortByWhat.value == 'Kruka') {
       if (a.Kruka < b.Kruka) {
-        if (state.sortAscending.value) return -1
-        else return 1
+        if (state.sortAscending.value) return -1;
+        else return 1;
       }
       if (a.Kruka > b.Kruka) {
-        if (state.sortAscending.value) return 1
-        else return -1
+        if (state.sortAscending.value) return 1;
+        else return -1;
       }
-      return 0
+      return 0;
     } else if (state.sortByWhat.value == 'MinOrder') {
       if (a.MinOrder < b.MinOrder) {
-        if (state.sortAscending.value) return -1
-        else return 1
+        if (state.sortAscending.value) return -1;
+        else return 1;
       }
       if (a.MinOrder > b.MinOrder) {
-        if (state.sortAscending.value) return 1
-        else return -1
+        if (state.sortAscending.value) return 1;
+        else return -1;
       }
-      return 0
+      return 0;
     }
-  })
+  });
 
   // ? Type filter
-  if (state.typeFilter.value.T || state.typeFilter.value.B || state.typeFilter.value.P || state.typeFilter.value.K || state.typeFilter.value.O || state.typeFilter.value.G) {
-    newList = newList.filter(e => state.typeFilter.value[e.Typ])
+  if (
+    state.typeFilter.value.T ||
+    state.typeFilter.value.B ||
+    state.typeFilter.value.P ||
+    state.typeFilter.value.K ||
+    state.typeFilter.value.O ||
+    state.typeFilter.value.G
+  ) {
+    newList = newList.filter((e) => state.typeFilter.value[e.Typ]);
   }
 
   // ? User message
   if (!newList.length && (state.query.value || state.edibleFilter.value)) {
-    userMessage.value = 'Inga resultat'
+    userMessage.value = 'Inga resultat';
   } else if (dataList.value.length) {
-    userMessage.value = 'Här är listan slut'
+    userMessage.value = 'Här är listan slut';
   }
 
-  return newList
-})
+  return newList;
+});
 
 // Virtual list settings
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(computedList, {
   itemHeight: 33,
   overscan: 25,
-})
+});
 
-
-const isCollapsed = computed(() => { return windowSize.value.width <= 1200 ? true : false })
+const isCollapsed = computed(() => {
+  return windowSize.value.width <= 1200 ? true : false;
+});
 
 const handleScrollTo = (letter) => {
-  scrollTo(computedList.value.map(e => {
-    return Array.from(e.Namn)[0]
-  }).indexOf(letter))
-}
-
+  scrollTo(
+    computedList.value
+      .map((e) => {
+        return Array.from(e.Namn)[0];
+      })
+      .indexOf(letter)
+  );
+};
 
 watch(computedList, () => {
-  scrollTo(0)
+  scrollTo(0);
   // console.log(computedList.value);
-})
+});
 
 /* - - - - - - Adding to cart - - - - - - */
 const handleAdd = (plant, order) => {
-  onskeList.handleAdd(plant, order)
-}
-
+  onskeList.handleAdd(plant, order);
+};
 
 /* - - - - - - Fetching list - - - - - - */
 onMounted(() => {
   if (dataList.value.length <= 0) {
-    fetchAllList()
-    return
+    fetchAllList();
+    return;
   } else {
-    userMessage.value = 'Här är listan slut'
+    userMessage.value = 'Här är listan slut';
   }
 
   if (hasUpdated.value === false) {
-    hasUpdated.value = true
-    fetchAllList()
+    hasUpdated.value = true;
+    fetchAllList();
   }
-
-})
-
-
+});
 
 /* - - - - - - Fetch all list- - - - - - */
 const fetchAllList = async () => {
-  userMessage.value = 'laddar...'
-  dataList.value = []
+  userMessage.value = 'laddar...';
+  dataList.value = [];
   console.log('fetching all');
-  listHasBeenFetched.value = false
+  listHasBeenFetched.value = false;
 
-  let search = supabase
-    .from('superlista-2024')
-    .select()
-  const { data, error } = await search
+  let search = supabase.from('superlista-2024').select();
+  const { data, error } = await search;
 
   if (error) {
-    console.error(error)
+    console.error(error);
   }
   if (data) {
     // console.log(data)
-    scrollTo(0)
-    listHasBeenFetched.value = false
-    userMessage.value = 'Här är listan slut'
+    scrollTo(0);
+    listHasBeenFetched.value = false;
+    userMessage.value = 'Här är listan slut';
     console.log(data);
-    dataList.value = data
+    dataList.value = data;
   }
-}
-
+};
 
 /* - - - - - - Handling click - - - - - - */
 const handleClick = () => {
-  sortBy.value.ascending = !sortBy.value.ascending
-  fetchAllList()
-}
+  sortBy.value.ascending = !sortBy.value.ascending;
+  fetchAllList();
+};
 
 const openNewTab = (url) => {
-  window.open(url, '_blank')
-}
+  window.open(url, '_blank');
+};
 
-const imageGrid = ref(null)
+const imageGrid = ref(null);
 
 onClickOutside(imageGrid, () => {
   if (state.sidebarMode.value === false) {
-    state.showGoogleSearchResult.value = false
-    state.showImages.value = false
+    state.showGoogleSearchResult.value = false;
+    state.showImages.value = false;
   }
-})
+});
 
 onMounted(() => {
   if (windowSize.value.width > 1200) {
-    state.sidebarMode.value = true
+    state.sidebarMode.value = true;
   }
-})
+});
 
 watch(windowSize, () => {
   if (windowSize.value.width <= 1200) {
-    state.sidebarMode.value = false
+    state.sidebarMode.value = false;
   }
-})
-
+});
 
 const resetFilters = () => {
-  state.favoriteFilter.value = false
-  state.edibleFilter.value = false
-  state.commentFilter.value = false
-  state.linkFilter.value = false
-  state.query.value = ''
-  state.typeFilter.value.B = false
-  state.typeFilter.value.G = false
-  state.typeFilter.value.K = false
-  state.typeFilter.value.O = false
-  state.typeFilter.value.P = false
-  state.typeFilter.value.T = false
+  state.favoriteFilter.value = false;
+  state.edibleFilter.value = false;
+  state.commentFilter.value = false;
+  state.linkFilter.value = false;
+  state.query.value = '';
+  state.typeFilter.value.B = false;
+  state.typeFilter.value.G = false;
+  state.typeFilter.value.K = false;
+  state.typeFilter.value.O = false;
+  state.typeFilter.value.P = false;
+  state.typeFilter.value.T = false;
 
-  fetchAllList()
-}
+  fetchAllList();
+};
+
+const bigImage = ref(null);
+onClickOutside(bigImage, () => {
+  state.showImageModal.value = false;
+});
 </script>
-
 
 <template>
   <div class="search-modal" v-if="state.showGoogleSearchResult.value">
@@ -275,48 +297,101 @@ const resetFilters = () => {
       <div class="top-part">
         <h1>{{ state.searchedPlant.value }}</h1>
         <div class="top-buttons">
-          <button v-if="!state.sidebarMode.value" @click="state.sidebarMode.value = true"
-            class="side-switcher hide-on-phone">
+          <button
+            v-if="!state.sidebarMode.value"
+            @click="state.sidebarMode.value = true"
+            class="side-switcher hide-on-phone"
+          >
             <!-- <Icon name="fluent:panel-left-expand-24-filled" size="35" /> -->
             <Icon name="carbon:side-panel-open-filled" size="30" />
             Sidoläge
           </button>
-          <button v-else @click="state.sidebarMode.value = false" class="side-switcher hide-on-phone">
+          <button
+            v-else
+            @click="state.sidebarMode.value = false"
+            class="side-switcher hide-on-phone"
+          >
             <!-- <Icon name="material-symbols:fullscreen-rounded" size="35" /> -->
             <Icon name="carbon:fit-to-screen" size="30" />
             Fullt läge
           </button>
 
-          <button class="close" @click="state.showGoogleSearchResult.value = false, state.showImages.value = false">
+          <button
+            class="close"
+            @click="(state.showGoogleSearchResult.value = false), (state.showImages.value = false)"
+          >
             <Icon name="material-symbols:close" size="35" />
           </button>
         </div>
       </div>
-      <img @click="openNewTab(state.googleSearchResult.value.items[0].link)" v-if="state.showImages.value"
-        :src="state.googleSearchResult.value.items[0].link" alt="">
-      <img @click="openNewTab(state.googleSearchResult.value.items[1].link)" v-if="state.showImages.value"
-        :src="state.googleSearchResult.value.items[1].link" alt="">
-      <img @click="openNewTab(state.googleSearchResult.value.items[2].link)" v-if="state.showImages.value"
-        :src="state.googleSearchResult.value.items[2].link" alt="">
-      <img @click="openNewTab(state.googleSearchResult.value.items[3].link)" v-if="state.showImages.value"
-        :src="state.googleSearchResult.value.items[3].link" alt="">
-      <img @click="openNewTab(state.googleSearchResult.value.items[4].link)" v-if="state.showImages.value"
-        :src="state.googleSearchResult.value.items[4].link" alt="">
-      <img @click="openNewTab(state.googleSearchResult.value.items[5].link)" v-if="state.showImages.value"
-        :src="state.googleSearchResult.value.items[5].link" alt="">
-      <img @click="openNewTab(state.googleSearchResult.value.items[6].link)" v-if="state.showImages.value"
-        :src="state.googleSearchResult.value.items[6].link" alt="">
-      <img @click="openNewTab(state.googleSearchResult.value.items[7].link)" v-if="state.showImages.value"
-        :src="state.googleSearchResult.value.items[7].link" alt="">
-      <img @click="openNewTab(state.googleSearchResult.value.items[8].link)" v-if="state.showImages.value"
-        :src="state.googleSearchResult.value.items[8].link" alt="">
+      <img
+        @click="openNewTab(state.googleSearchResult.value.items[0].link)"
+        v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[0].link"
+        alt=""
+      />
+      <img
+        @click="openNewTab(state.googleSearchResult.value.items[1].link)"
+        v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[1].link"
+        alt=""
+      />
+      <img
+        @click="openNewTab(state.googleSearchResult.value.items[2].link)"
+        v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[2].link"
+        alt=""
+      />
+      <img
+        @click="openNewTab(state.googleSearchResult.value.items[3].link)"
+        v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[3].link"
+        alt=""
+      />
+      <img
+        @click="openNewTab(state.googleSearchResult.value.items[4].link)"
+        v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[4].link"
+        alt=""
+      />
+      <img
+        @click="openNewTab(state.googleSearchResult.value.items[5].link)"
+        v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[5].link"
+        alt=""
+      />
+      <img
+        @click="openNewTab(state.googleSearchResult.value.items[6].link)"
+        v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[6].link"
+        alt=""
+      />
+      <img
+        @click="openNewTab(state.googleSearchResult.value.items[7].link)"
+        v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[7].link"
+        alt=""
+      />
+      <img
+        @click="openNewTab(state.googleSearchResult.value.items[8].link)"
+        v-if="state.showImages.value"
+        :src="state.googleSearchResult.value.items[8].link"
+        alt=""
+      />
       <Icon class="loader" v-else name="line-md:loading-loop" size="80" />
       <p class="disclaimer">Bilder från google.com</p>
     </div>
   </div>
-  <div class="list-layout"
-    :class="{ 'sidebar-layout': state.sidebarMode.value === true && state.showGoogleSearchResult.value === true }">
-
+  <div class="big-image" v-if="state.showImageModal.value">
+    <img ref="bigImage" :src="state.currentImages.value[state.currentImageIndex.value]" alt="" />
+  </div>
+  <div
+    class="list-layout"
+    :class="{
+      'sidebar-layout':
+        state.sidebarMode.value === true && state.showGoogleSearchResult.value === true,
+    }"
+  >
     <div class="filter-container" v-if="shouldFilterOpen">
       <FilterModule @fetch-list="fetchAllList" @handle-click="handleClick" />
     </div>
@@ -358,20 +433,30 @@ const resetFilters = () => {
     <div class="list-bg main-list">
       <div v-bind="containerProps" class="container-props">
         <ul v-bind="wrapperProps" class="wrapper-props">
-
-          <ListElement v-for="{ index, data } in list" :key="data.id" :plant="data" @add-to-cart="handleAdd"
-            :isOnskeLista="false" :lignosdatabasen="lignosdatabasen" />
+          <ListElement
+            v-for="{ index, data } in list"
+            :key="data.id"
+            :plant="data"
+            @add-to-cart="handleAdd"
+            :isOnskeLista="false"
+            :lignosdatabasen="lignosdatabasen"
+          />
 
           <div class="bottom-spacer"></div>
           <div class="center-bottom">
-            <Icon class="loader" v-if="userMessage === 'laddar...'" @click="fetchAllList()" name="line-md:loading-loop"
-              size="80" />
-            <p v-else-if="userMessage === 'Inga resultat'" @click="resetFilters()">Inga resultalt, klicka här för att
-              nållställa filter</p>
+            <Icon
+              class="loader"
+              v-if="userMessage === 'laddar...'"
+              @click="fetchAllList()"
+              name="line-md:loading-loop"
+              size="80"
+            />
+            <p v-else-if="userMessage === 'Inga resultat'" @click="resetFilters()">
+              Inga resultalt, klicka här för att nållställa filter
+            </p>
             <p v-else @click="fetchAllList()" data-no-crawl="true">{{ userMessage }}</p>
           </div>
         </ul>
-
       </div>
     </div>
   </div>
@@ -396,7 +481,6 @@ const resetFilters = () => {
   /* overflow: hidden; */
   /* padding: 0.2rem 1rem; */
 }
-
 
 .wrapper-props {
   transition: none;
@@ -479,9 +563,9 @@ div.main-list {
 .jump-to button {
   margin: 0;
   background: none;
-  padding: 0 .75rem;
+  padding: 0 0.75rem;
   border: none;
-  transition: color 150ms ease-in-out
+  transition: color 150ms ease-in-out;
 }
 
 .jump-to button:hover {
@@ -490,7 +574,7 @@ div.main-list {
   color: var(--primary-green);
 }
 
-.jump-to>div {
+.jump-to > div {
   display: grid;
   /* gap: 1rem; */
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -505,16 +589,13 @@ div.main-list {
   border: 1px solid var(--border-color);
 }
 
-
-
 @media screen and (max-width: 1200px) {
-
   .jump-to,
-  .jump-to>div {
+  .jump-to > div {
     width: 100%;
   }
 
-  .jump-to>div {
+  .jump-to > div {
     gap: 1rem;
     padding: 1.5rem 1rem;
   }
@@ -534,7 +615,7 @@ div.main-list {
 }
 
 @media screen and (min-width: 1200px) {
-  .jump-to>div {
+  .jump-to > div {
     display: flex;
     margin-left: 2rem;
   }
@@ -568,7 +649,6 @@ div.main-list {
   padding-right: 2rem;
   padding-left: 2rem;
 
-
   height: 100% !important;
 }
 
@@ -593,7 +673,6 @@ div.main-list {
     display: flex;
     flex-direction: column;
   }
-
 
   .main-list.list-bg {
     order: 3;
@@ -648,16 +727,15 @@ div.main-list {
 
 .list-layout.sidebar-layout {
   grid-template-columns: 50% 50%;
-  padding-left: 1rem
+  padding-left: 1rem;
 }
 
 .pointer {
   cursor: pointer;
 }
 
-
 .html {
-  transition: all 1s
+  transition: all 1s;
 }
 
 .loader-style {
@@ -798,7 +876,7 @@ div.main-list {
 }
 
 .search-modal .image-grid .loader * {
-  color: var(--text)
+  color: var(--text);
 }
 
 .search-modal .image-grid .loader {
@@ -812,8 +890,6 @@ div.main-list {
   margin-top: auto;
   margin-bottom: auto;
 }
-
-
 
 .search-modal .top-part {
   grid-column: 1/4;
@@ -835,7 +911,8 @@ div.main-list {
   margin: 0;
 }
 
-.search-modal .close {}
+.search-modal .close {
+}
 
 .search-modal h1 {
   padding-right: 2rem;
@@ -873,7 +950,7 @@ div.main-list {
     right: 0.5rem;
   }
 
-  .search-modal .image-grid>:last-child {
+  .search-modal .image-grid > :last-child {
     display: none;
   }
 }
@@ -895,5 +972,34 @@ div.main-list {
   .search-modal .side-switcher {
     display: none;
   }
+}
+
+.big-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 12;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  /* justify-content: center; */
+  /* flex-shrink: 1; */
+  backdrop-filter: blur(2px);
+  padding: 2rem 2rem 3rem;
+  object-fit: scale-down;
+}
+
+.big-image img {
+  box-shadow: 0 0 100px 5px rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+  max-height: 100%;
+  /* height: 100%; */
+  max-width: 100%;
+  /* object-fit: cover; */
+  transition: none;
+  /* flex-shrink: 1; */
+  /* flex-grow: 1; */
+  margin: auto;
 }
 </style>

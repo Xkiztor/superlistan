@@ -28,17 +28,39 @@
         robots="noindex"
       />
       <div>
+        <!-- Stängd lista -->
         <!-- <div class="closed">
           <Icon name="material-symbols:cancel-outline-rounded" />
           <h2>Listan stängd för i år, öppnar igen nästa år!</h2>
         </div> -->
-        <div class="closed coming-soon">
-          <!-- <Icon name="material-symbols:cancel-rounded" /> -->
+
+        <!-- Närmar sig -->
+        <!-- <div class="closed coming-soon">
           <Icon name="mage:megaphone-a-fill" />
-          <!-- <Icon name="hugeicons:coming-soon-02" /> -->
           <h2>Superlistan 2025 kommer snart!</h2>
           <Icon name="mage:megaphone-a-fill" />
+        </div> -->
+
+        <!-- Väldigt nära med ungefärlig tid -->
+        <div class="closed coming-soon two-row">
+          <div>
+            <Icon name="mage:megaphone-a-fill" />
+            <h2><strong>Superlistan 2025 kommer snart!</strong></h2>
+            <Icon name="mage:megaphone-a-fill" />
+          </div>
+          <div>
+            <p><strong>Förväntas bli klar runt jul</strong></p>
+            <p>
+              Prenumerera på <a href="https://lindersplantskola.se/">nyhetsbrevet</a> och håll koll
+              på <a href="https://www.instagram.com/fotodendron/">Instagram</a>/<a
+                href="https://www.facebook.com/LindersPlantskola"
+                >Facebook</a
+              >
+              så du inte missar när den släpps!
+            </p>
+          </div>
         </div>
+
         <h1 class="main-title">Linders Superlista 2024</h1>
         <p>
           En chans att hitta det du länge letat efter! Linders superlista är en härligt späckad
@@ -259,7 +281,7 @@
           Superlistan löpande under jan-feb. Direktlänk till nyhetsbrevet
           <a
             target="_blank"
-            href="https://lindersplantskola.se/linders-superlista/nyhetsbrev-superlistan/"
+            href="https://us7.campaign-archive.com/home/?u=0e9eb9946e9781ae0c59149df&id=9e50a747e2"
             >här!</a
           >
           Där kan du också läsa tidigare nyhetsbrev.
@@ -366,6 +388,28 @@ html:not(.dark) .text-stycke.head img {
 }
 .dark .head .closed.coming-soon .icon * {
   color: var(--text-light);
+}
+
+.head .closed.coming-soon.two-row {
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  max-width: 35ch;
+}
+
+.head .closed.coming-soon.two-row div:nth-child(1) {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  grid-template-columns: min-content 1fr min-content;
+}
+.head .closed.coming-soon.two-row div:nth-child(2) {
+  font-size: 1rem;
+  display: grid;
+  place-items: center;
+  gap: 0.25rem;
+  text-align: center;
 }
 
 .head .closed .icon {

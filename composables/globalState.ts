@@ -48,6 +48,10 @@ export const useGlobalState = createGlobalState(() => {
 
   const sidebarMode = ref(false);
 
+  const currentImageIndex = ref(0);
+  const currentImages = ref([]);
+  const showImageModal = ref(false);
+
   return {
     countError,
     openNav,
@@ -71,5 +75,8 @@ export const useGlobalState = createGlobalState(() => {
     showImages,
     searchedPlant,
     sidebarMode,
+    currentImageIndex,
+    currentImages,
+    showImageModal
   };
 });
