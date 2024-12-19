@@ -241,14 +241,15 @@
               </li>
               <li>
                 <Icon
-                  title="Kommentar"
+                  title="Lignosdatabasen"
                   class="kommentar-icon"
-                  name="majesticons:comment-2-text"
+                  name="ooui:articles-ltr"
                   size="20"
                 />
                 <p>
-                  <strong>Kommentar:</strong>
-                  Denna ikoner visar om det finns en kommentar till växten ifråga.
+                  <strong>Lignosdatabasen:</strong>
+                  Denna visas ifall det finns information om växten på
+                  <a href="https://lignosdatabasen.se/">Lignosdatabasen.se</a>
                 </p>
               </li>
               <li>

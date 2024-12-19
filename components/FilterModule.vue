@@ -1,56 +1,81 @@
 <script setup>
-defineEmits(['fetchList', 'handleClick'])
-const state = useGlobalState()
+defineEmits(['fetchList', 'handleClick']);
+const state = useGlobalState();
 
 const showClear = computed(() => {
-  if (state.favoriteFilter.value || state.edibleFilter.value || state.commentFilter.value || state.linkFilter.value || state.typeFilter.value.T || state.typeFilter.value.B || state.typeFilter.value.P || state.typeFilter.value.K || state.typeFilter.value.O || state.typeFilter.value.G) {
-    return true
-  } else return false
+  if (
+    state.favoriteFilter.value ||
+    state.edibleFilter.value ||
+    state.lignosdatabasenFilter.value ||
+    state.linkFilter.value ||
+    state.typeFilter.value.T ||
+    state.typeFilter.value.B ||
+    state.typeFilter.value.P ||
+    state.typeFilter.value.K ||
+    state.typeFilter.value.O ||
+    state.typeFilter.value.G
+  ) {
+    return true;
+  } else return false;
 });
 
 const clearFilters = () => {
-  state.favoriteFilter.value = false
-  state.edibleFilter.value = false
-  state.commentFilter.value = false
-  state.linkFilter.value = false
-  state.typeFilter.value.T = false
-  state.typeFilter.value.B = false
-  state.typeFilter.value.P = false
-  state.typeFilter.value.K = false
-  state.typeFilter.value.O = false
-  state.typeFilter.value.G = false
-}
+  state.favoriteFilter.value = false;
+  state.edibleFilter.value = false;
+  state.lignosdatabasenFilter.value = false;
+  state.linkFilter.value = false;
+  state.typeFilter.value.T = false;
+  state.typeFilter.value.B = false;
+  state.typeFilter.value.P = false;
+  state.typeFilter.value.K = false;
+  state.typeFilter.value.O = false;
+  state.typeFilter.value.G = false;
+};
 </script>
 
 <template>
   <div class="filter-div search-filter-div">
     <div class="search">
       <Icon name="material-symbols:search" size="26" />
-      <input v-model="state.query.value" placeholder="Sök" type="text">
+      <input v-model="state.query.value" placeholder="Sök" type="text" />
       <button @click="state.query.value = ''" :class="{ 'show-close': state.query.value }">
         <Icon name="ion:close-round" />
       </button>
     </div>
     <!-- <input type="text" placeholder=" Sök" v-model.prevent="state.query.value" class="m-2" title="Sök"> -->
-
   </div>
   <div class="filters">
     <form class="check-filter-div">
-      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.favoriteFilter.value">
+      <input
+        type="checkbox"
+        checked="checked"
+        class="checkboxer"
+        v-model="state.favoriteFilter.value"
+      />
       <div class="icon-align">
         <Icon class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
         <p>Peters favoriter</p>
       </div>
     </form>
     <form class="check-filter-div">
-      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.edibleFilter.value">
+      <input
+        type="checkbox"
+        checked="checked"
+        class="checkboxer"
+        v-model="state.edibleFilter.value"
+      />
       <div class="icon-align">
         <Icon class="grayed edible-icon" name="twemoji:fork-and-knife" size="20" />
         <p>Ätlig</p>
       </div>
     </form>
     <form class="check-filter-div">
-      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.commentFilter.value">
+      <input
+        type="checkbox"
+        checked="checked"
+        class="checkboxer"
+        v-model="state.lignosdatabasenFilter.value"
+      />
       <div class="icon-align">
         <Icon class="grayed kommentar-icon" name="ooui:articles-ltr" size="20" />
         <!-- <Icon class="grayed kommentar-icon" name="majesticons:comment-2-text" size="20" /> -->
@@ -58,7 +83,12 @@ const clearFilters = () => {
       </div>
     </form>
     <form class="check-filter-div">
-      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.linkFilter.value">
+      <input
+        type="checkbox"
+        checked="checked"
+        class="checkboxer"
+        v-model="state.linkFilter.value"
+      />
       <div class="icon-align">
         <Icon class="grayed länk-icon" name="mdi:link-variant" size="20" />
         <p>Länk</p>
@@ -68,42 +98,77 @@ const clearFilters = () => {
     <!-------------  ----------------->
 
     <form class="check-filter-div">
-      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.T">
+      <input
+        type="checkbox"
+        checked="checked"
+        class="checkboxer"
+        v-model="state.typeFilter.value.T"
+      />
       <div class="icon-align">
         <Icon name="noto:deciduous-tree" size="18" title="Träd" />
-        <p>Träd</p>
+        <p>Träd och buskar</p>
       </div>
     </form>
     <form class="check-filter-div">
-      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.B">
+      <input
+        type="checkbox"
+        checked="checked"
+        class="checkboxer"
+        v-model="state.typeFilter.value.B"
+      />
       <div class="icon-align">
         <Icon name="noto:evergreen-tree" size="18" title="Barrträd" />
         <p>Barrträd</p>
       </div>
     </form>
     <form class="check-filter-div">
-      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.P">
+      <input
+        type="checkbox"
+        checked="checked"
+        class="checkboxer"
+        v-model="state.typeFilter.value.P"
+      />
       <div class="icon-align">
         <Icon name="fxemoji:rosette" size="18" title="Perenner" />
         <p>Perenner</p>
       </div>
     </form>
     <form class="check-filter-div">
-      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.K">
+      <input
+        type="checkbox"
+        checked="checked"
+        class="checkboxer"
+        v-model="state.typeFilter.value.K"
+      />
       <div class="icon-align">
-        <Icon name="game-icons:curling-vines" class="klattervaxt-icon" size="18" title="Klätterväxt" />
+        <Icon
+          name="game-icons:curling-vines"
+          class="klattervaxt-icon"
+          size="18"
+          title="Klätterväxt"
+        />
         <p>Klätterväxter</p>
       </div>
     </form>
     <form class="check-filter-div">
-      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.O">
+      <input
+        type="checkbox"
+        checked="checked"
+        class="checkboxer"
+        v-model="state.typeFilter.value.O"
+      />
       <div class="icon-align">
         <Icon name="game-icons:fern" class="ormbunke-icon" size="18" title="Ormbunke" />
         <p>Ormbunke</p>
       </div>
     </form>
     <form class="check-filter-div">
-      <input type="checkbox" checked="checked" class="checkboxer" v-model="state.typeFilter.value.G">
+      <input
+        type="checkbox"
+        checked="checked"
+        class="checkboxer"
+        v-model="state.typeFilter.value.G"
+      />
       <div class="icon-align">
         <Icon name="game-icons:high-grass" class="grass-icon" size="18" title="Gräs" />
         <p>Gräs</p>
@@ -128,9 +193,7 @@ const clearFilters = () => {
   }
 }
 
-
 @media screen and (min-width: 1200px) {
-
   .bottom-one {
     grid-template-columns: 1fr !important;
     grid-template-rows: 1fr 1fr !important;
@@ -155,14 +218,12 @@ div.bottom-one {
   width: 100%;
 }
 
-
 form p {
   line-height: 1;
   letter-spacing: 0.4px;
 }
 
-
-input[type="checkbox"] {
+input[type='checkbox'] {
   -webkit-appearance: none;
   appearance: none;
   margin: 0;
@@ -180,22 +241,20 @@ input[type="checkbox"] {
   transition: border 150ms ease-in-out;
 }
 
-.dark input[type="checkbox"] {
+.dark input[type='checkbox'] {
   border: 2px solid var(--border-color-bright-dark);
 }
 
-
 @media screen and (min-width: 1000px) {
-  input[type="checkbox"]:hover {
+  input[type='checkbox']:hover {
     /* background-color: var(--element-top-hover); */
     border-color: var(--primary-green);
     opacity: 0.8;
   }
 }
 
-
-input[type="checkbox"]::before {
-  content: "";
+input[type='checkbox']::before {
+  content: '';
   width: 0.65em;
   height: 0.65em;
   transform: scale(0);
@@ -208,13 +267,13 @@ input[type="checkbox"]::before {
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
 
-input[type="checkbox"]:checked::before {
+input[type='checkbox']:checked::before {
   transform: scale(1);
   background: white;
   /* background: var(--text); */
 }
 
-input[type="checkbox"]:checked {
+input[type='checkbox']:checked {
   /* transform: scale(1.3); */
   background-color: var(--primary-green);
   border-color: var(--primary-green);
@@ -282,23 +341,23 @@ input[type="checkbox"]:checked {
   opacity: 1;
 }
 
-.filter-div>p {
+.filter-div > p {
   height: fit-content;
 }
 
-.filter-div>button,
-.filter-div>select {
+.filter-div > button,
+.filter-div > select {
   width: 100%;
 }
 
-.filter-div>button,
-.filter-div>select,
-.filter-div>input {
+.filter-div > button,
+.filter-div > select,
+.filter-div > input {
   margin: 0.5rem 0;
   width: 100%;
 }
 
-.filter-div>select {
+.filter-div > select {
   text-align: center;
 }
 

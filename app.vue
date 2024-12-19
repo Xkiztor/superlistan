@@ -316,10 +316,16 @@ select,
   background-color: var(--element-top);
   box-shadow: var(--box-shadow-inset);
   /* border: none; */
-  cursor: pointer;
   margin: 0.5rem;
   /* cfd1d6 */
   transition: background 150ms ease-in-out;
+}
+
+button,
+.navigator > a,
+input,
+select {
+  cursor: pointer;
 }
 
 .dark .increment,
@@ -628,7 +634,7 @@ input:not([type='checkbox']) {
 }
 
 .klattervaxt-icon {
-  color: rgb(18, 141, 4);
+  color: rgb(77, 141, 4);
 }
 
 .o-lime {
@@ -644,7 +650,7 @@ input:not([type='checkbox']) {
 }
 
 .grass-icon {
-  color: rgb(181, 168, 23);
+  color: rgb(173, 168, 2);
 }
 
 /* ------------- */

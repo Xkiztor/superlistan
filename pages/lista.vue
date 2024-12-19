@@ -72,19 +72,21 @@ const computedList = computed(() => {
   // ? Filter
   if (state.favoriteFilter.value) newList = newList.filter((e) => e.Rekommenderas == true);
   if (state.edibleFilter.value) newList = newList.filter((e) => e.Edible == true);
-  if (state.commentFilter.value)
+  if (state.lignosdatabasenFilter.value) {
     newList = newList.filter((e) =>
       lignosdatabasen.value
         .map(
           (obj) =>
             obj.slakte.toLowerCase().replace(/ /g, '') +
             obj.art.toLowerCase().replace(/ /g, '') +
-            obj.sortnamn.toLowerCase().replace(/'/g, '').replace(/ /g, '')
+            obj.sortnamn.toLowerCase().replace(/'/g, '').replace(/ /g, '') +
+            ' '
         )
         .join(' ')
         .includes(e.Namn.toLowerCase().replace(/'/g, '').replace(/ /g, '') + ' ')
     );
-  // if (state.commentFilter.value) newList = newList.filter(e => e.Kommentar != null)
+  }
+  // if (state.lignosdatabasenFilter.value) newList = newList.filter(e => e.Kommentar != null)
   if (state.linkFilter.value) newList = newList.filter((e) => e.Länk != null);
 
   // newList.forEach(e => console.log(e.Namn.toLowerCase().replace(/'/g, "").replace(/ /g, "")))
@@ -94,11 +96,11 @@ const computedList = computed(() => {
   newList = newList.sort((a, b) => {
     // console.log('heho');
     if (state.sortByWhat.value == 'Namn') {
-      if (a.Namn.toLowerCase() < b.Namn.toLowerCase()) {
+      if (a.Namn.toLowerCase().replace(/x /g, '') < b.Namn.toLowerCase().replace(/x /g, '')) {
         if (state.sortAscending.value) return -1;
         else return 1;
       }
-      if (a.Namn.toLowerCase() > b.Namn.toLowerCase()) {
+      if (a.Namn.toLowerCase().replace(/x /g, '') > b.Namn.toLowerCase().replace(/x /g, '')) {
         if (state.sortAscending.value) return 1;
         else return -1;
       }
@@ -270,7 +272,7 @@ watch(windowSize, () => {
 const resetFilters = () => {
   state.favoriteFilter.value = false;
   state.edibleFilter.value = false;
-  state.commentFilter.value = false;
+  state.lignosdatabasenFilter.value = false;
   state.linkFilter.value = false;
   state.query.value = '';
   state.typeFilter.value.B = false;

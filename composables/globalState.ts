@@ -28,7 +28,7 @@ export const useGlobalState = createGlobalState(() => {
   });
   const favoriteFilter = ref(false);
   const edibleFilter = ref(false);
-  const commentFilter = ref(false);
+  const lignosdatabasenFilter = ref(false);
   const linkFilter = ref(false);
   const query = ref('');
 
@@ -63,7 +63,7 @@ export const useGlobalState = createGlobalState(() => {
     typeFilter,
     favoriteFilter,
     edibleFilter,
-    commentFilter,
+    lignosdatabasenFilter,
     linkFilter,
     query,
     switchFilterDirection,

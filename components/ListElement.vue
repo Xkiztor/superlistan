@@ -188,11 +188,17 @@ const databasArtikel = computed(() => {
   }
 
   var text = artikel.text
-    .replace(/!\[.*?\]\(.*?\)|\[.*?\]\(.*?\)/g, '')
-    .replace(/[*\-_#{}\[\]]/g, '');
+    .replace(/::Fifty|<div>|<\/div>|::/g, '')
+    .replace(/!\[.*?\]\(.*?\)|\{.*?\}/g, '') // Remove ![](){}
+    .replace(/---/g, '') // Remove ---
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1'); // Remove []()
+
+  // .replace(/!\[.*?\]\(.*?\)\{.*?\}|\[.*?\]\(.*?\)/g, '') // Remove ![](){} and []()
+  // .replace(/[*_#{}[\]]|(?<!\w)-|-(?!\w)/g, ''); // Remove special characters
+  // .replace(/[*\-_#{}\[\]]/g, '');
   artikelObject.text = text;
 
-  const lignosdatabasenUrl = 'https://lignosdatabasen.netlify.app';
+  const lignosdatabasenUrl = 'https://lignosdatabasen.se';
   artikelObject.url = `${lignosdatabasenUrl}/planta/${artikel.slakte}/${artikel.art}${
     artikel.sortnamn ? '/' : ''
   }${artikel.sortnamn}/`;
