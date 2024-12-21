@@ -7,37 +7,48 @@
     </div> -->
     <div class="input-layout">
       <label for="user-name">Namn: </label>
-      <input v-model="orderName" id="user-name" type="text" placeholder="Ex. Peter Linder">
+      <input v-model="orderName" id="user-name" type="text" placeholder="Ex. Peter Linder" />
     </div>
     <div class="input-layout">
       <label for="user-mail">Mailadress: </label>
-      <input v-model="orderMail" id="user-mail" type="text" placeholder="Ex. peter@lindersplantskola.se">
+      <input
+        v-model="orderMail"
+        id="user-mail"
+        type="text"
+        placeholder="Ex. peter@lindersplantskola.se"
+      />
     </div>
     <div class="input-layout">
       <label for="user-adress">Adress: </label>
-      <input v-model="orderAdress" id="user-adress" type="text" placeholder="Ex. Köinge 6902, 242 92 Hörby">
+      <input
+        v-model="orderAdress"
+        id="user-adress"
+        type="text"
+        placeholder="Ex. Köinge 6902, 242 92 Hörby"
+      />
     </div>
     <div class="input-layout">
       <label for="user-phone">Telefonnummer: </label>
-      <input v-model="orderPhone" id="user-phone" type="tel" placeholder="Ex. 0733518716">
+      <input v-model="orderPhone" id="user-phone" type="tel" placeholder="Ex. 0733518716" />
     </div>
     <div class="input-layout">
       <label for="user-comment">Kommentar: </label>
-      <input v-model="orderComment" id="user-comment" type="text" placeholder="(Frivilligt)">
+      <input v-model="orderComment" id="user-comment" type="text" placeholder="(Frivilligt)" />
     </div>
-    <button @click="handleSend" :class="{ 'all-fields': orderName && orderMail && orderAdress && orderPhone }"
-      class="send">Skicka in</button>
+    <button
+      @click="handleSend"
+      :class="{ 'all-fields': orderName && orderMail && orderAdress && orderPhone }"
+      class="send"
+    >
+      Skicka in
+    </button>
     <!-- <button @click="mailjsSend()">Skicka mailjs test</button> -->
   </div>
   <div class="modals">
     <Modal v-if="showModal" @close-modal="showModal = false">
       <div>
-        <h1 class="modal-text">
-          Tack!
-        </h1>
-        <h1 class="modal-text">
-          Din lista är inskickad!
-        </h1>
+        <h1 class="modal-text">Tack!</h1>
+        <h1 class="modal-text">Din lista är inskickad!</h1>
       </div>
     </Modal>
     <Modal v-if="showModalError" @close-modal="showModalError = false">
@@ -57,131 +68,126 @@
       </div>
     </Modal>
     <Modal v-if="showConfirmModal" @close-modal="showConfirmModal = false">
-      <h1 class="modal-text">
-        Är du säker?
-      </h1>
+      <h1 class="modal-text">Är du säker?</h1>
     </Modal>
     <Modal v-if="showModalCountError" @close-modal="showModalCountError = false">
       <div>
         <Icon class="warning" name="mi:warning" size="60" />
-        <h1 class="modal-text">
-          Vänligen ange korrekt antal växter!
-        </h1>
+        <h1 class="modal-text">Vänligen ange korrekt antal växter!</h1>
       </div>
     </Modal>
     <Modal v-if="showModalPriceError" @close-modal="showModalPriceError = false">
       <div>
         <Icon class="warning" name="mi:warning" size="60" />
-        <h1 class="modal-text">
-          Lägsta ordersumman är 2000kr
-        </h1>
+        <h1 class="modal-text">Lägsta ordersumman är 2000kr</h1>
       </div>
     </Modal>
     <Modal v-if="showModalNoName" @close-modal="showModalNoName = false">
       <div>
         <Icon class="warning" name="mi:warning" size="60" />
-        <h1 class="modal-text">
-          Vänligen fyll i alla fält!
-        </h1>
+        <h1 class="modal-text">Vänligen fyll i alla fält!</h1>
       </div>
     </Modal>
   </div>
 </template>
 
 <script setup>
-import { useStorage } from '@vueuse/core'
-import { createClient } from '@supabase/supabase-js'
+import { useStorage } from '@vueuse/core';
+import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co';
+const supabaseKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-const onskeList = useGlobalOnskeList()
+const onskeList = useGlobalOnskeList();
 
-const showModal = ref(false)
-const showModalError = ref(false)
-const showModalNoName = ref(false)
-const showModalCountError = ref(false)
-const showModalPriceError = ref(false)
-const showConfirmModal = ref(false)
+const showModal = ref(false);
+const showModalError = ref(false);
+const showModalNoName = ref(false);
+const showModalCountError = ref(false);
+const showModalPriceError = ref(false);
+const showConfirmModal = ref(false);
 
-const errorMessage = ref({})
+const errorMessage = ref({});
 
-const orderName = ref('')
-const orderMail = ref('')
-const orderAdress = ref('')
-const orderPhone = ref('')
-const orderComment = ref('')
+const orderName = ref('');
+const orderMail = ref('');
+const orderAdress = ref('');
+const orderPhone = ref('');
+const orderComment = ref('');
 
 // const hasSent = ref(false)
-const hasSent = useStorage('has-sent', false)
+const hasSent = useStorage('has-sent', false);
 
-const state = useGlobalState()
-
+const state = useGlobalState();
 
 const handleSend = async () => {
-  let hasSentMail = false
-  let hasError = false
+  let hasSentMail = false;
+  let hasError = false;
 
   // if (hasSent.value == true) { }
-  if (onskeList.onskeList.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0) < 2000 && hasSent.value === false) {
-    showModalPriceError.value = true
-    return
+  if (
+    onskeList.onskeList.value.map((e) => e.Pris * e.Count).reduce((a, b) => a + b, 0) < 2000 &&
+    hasSent.value === false
+  ) {
+    showModalPriceError.value = true;
+    return;
   }
-  if (orderName.value == '' || orderMail.value == '' || orderAdress.value == '' || orderPhone.value == '') {
+  if (
+    orderName.value == '' ||
+    orderMail.value == '' ||
+    orderAdress.value == '' ||
+    orderPhone.value == ''
+  ) {
     console.log('no name');
-    showModalNoName.value = true
-    return
+    showModalNoName.value = true;
+    return;
   }
   if (state.countError.value == true) {
-    showModalCountError.value = true
-    return
+    showModalCountError.value = true;
+    return;
   }
 
-
-
   const listWithName = onskeList.onskeList.value.map((e) => {
-    e.Person = orderName.value
-    e.Mail = orderMail.value
-    e.Adress = orderAdress.value
-    e.Phone = orderPhone.value
-    e.Comment = orderComment.value
+    e.Person = orderName.value;
+    e.Mail = orderMail.value;
+    e.Adress = orderAdress.value;
+    e.Phone = orderPhone.value;
+    e.Comment = orderComment.value;
     // delete e.Count
-    return e
-  })
+    return e;
+  });
   console.log(listWithName);
 
   const sendList = async (index) => {
-    const { error, data } = await supabase
-      .from('user-data-2024')
-      .insert(listWithName[index])
+    const { error, data } = await supabase.from('user-data-2025').insert(listWithName[index]);
 
     if (error) {
       console.error(error);
-      hasError = true
-      showModalError.value = true
-      errorMessage.value = error
-      return error
+      hasError = true;
+      showModalError.value = true;
+      errorMessage.value = error;
+      return error;
     }
 
     if (data) {
       console.log('sent in list to supabase SUCCESS, Here comes the data:');
       console.log(data);
       if (!hasSentMail) {
-        sendNuxtMail()
-        hasSentMail = true
+        sendNuxtMail();
+        hasSentMail = true;
         console.log('Sent ONE mail');
       }
-      hasError = false
-      hasSent.value = true
-      showModal.value = true
-      return data
+      hasError = false;
+      hasSent.value = true;
+      showModal.value = true;
+      return data;
     }
-  }
-
+  };
 
   for (let i = 0; i < listWithName.length; i++) {
-    sendList(i)
+    sendList(i);
   }
 
   // if (!hasError && success) {
@@ -190,37 +196,38 @@ const handleSend = async () => {
   //   sendNuxtMail()
   //   success = false
   // }
-}
+};
 import emailjs from '@emailjs/browser';
 
 var templateParams = {
-  email: `${orderMail.value}`
+  email: `${orderMail.value}`,
   // to: orderMail.value
-}
+};
 
 const mailjsSend = () => {
-  emailjs.send('service_wqm24rb', 'template_1dpj2ax', templateParams, 'KOZ_38k0rE7nZmhIm')
-    .then((result) => {
+  emailjs.send('service_wqm24rb', 'template_1dpj2ax', templateParams, 'KOZ_38k0rE7nZmhIm').then(
+    (result) => {
       console.log('SUCCESS!', result.text);
-    }, (error) => {
+    },
+    (error) => {
       console.log('FAILED...', error.text);
-    });
-}
+    }
+  );
+};
 
-
-const mail = useMail()
+const mail = useMail();
 
 const sendNuxtMail = () => {
   console.log('Sending nuxt mail');
 
-  const plantList = []
-  onskeList.onskeList.value.forEach((obj) => plantList.push(obj.Namn))
+  const plantList = [];
+  onskeList.onskeList.value.forEach((obj) => plantList.push(obj.Namn));
   console.log(plantList);
 
-  let totalPrice = 0
+  let totalPrice = 0;
 
   for (const object of onskeList.onskeList.value) {
-    totalPrice += object.Pris * object.Count
+    totalPrice += object.Pris * object.Count;
   }
   console.log(`Total price: ${totalPrice}`);
 
@@ -228,9 +235,15 @@ const sendNuxtMail = () => {
     from: 'Superlistan',
     subject: `Lista från ${orderName.value} inskickad`,
     // text: `Hej ${orderName.value}! Tack för din beställning! Din lista är nu inskickad.`,
-    text: `${orderName.value} har skickat in sin lista!\n\nBeställning: \n${plantList.join('\n')}\n \nTotalt: ${totalPrice}kr\n  \nEpost: ${orderMail.value}\nTelefonnummer: ${orderPhone.value}\nAdress: ${orderAdress.value}\nKommentar: ${orderComment.value}\n \nAdmin sidan: https://superlistan.lindersplantskola.se/admin/2024`,
-  })
-}
+    text: `${orderName.value} har skickat in sin lista!\n\nBeställning: \n${plantList.join(
+      '\n'
+    )}\n \nTotalt: ${totalPrice}kr\n  \nEpost: ${orderMail.value}\nTelefonnummer: ${
+      orderPhone.value
+    }\nAdress: ${orderAdress.value}\nKommentar: ${
+      orderComment.value
+    }\n \nAdmin sidan: https://superlistan.lindersplantskola.se/admin/2024`,
+  });
+};
 </script>
 
 <style>
@@ -238,7 +251,7 @@ const sendNuxtMail = () => {
   margin-top: 1rem;
 }
 
-@media screen and (max-width:800px) {
+@media screen and (max-width: 800px) {
   .order:is(div) {
     margin-top: 0;
   }
@@ -314,12 +327,12 @@ button.send.all-fields:hover {
   margin: 0.3rem 0;
 }
 
-.input-layout>input {
+.input-layout > input {
   width: 100%;
   cursor: text;
 }
 
-.input-layout>input::placeholder {
+.input-layout > input::placeholder {
   color: #8f8f8f;
 }
 
@@ -347,7 +360,7 @@ button.send.all-fields:hover {
   color: #9ea8b2;
 }
 
-.sent-in-badge>svg {
+.sent-in-badge > svg {
   color: #32a748;
 }
 

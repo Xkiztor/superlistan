@@ -1,7 +1,10 @@
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { createGlobalState, useStorage } from '@vueuse/core';
 
 export const useGlobalState = createGlobalState(() => {
+  const route = useRoute();
+
   const countError = ref(false);
 
   const isNavOpen = ref(false);
@@ -30,7 +33,7 @@ export const useGlobalState = createGlobalState(() => {
   const edibleFilter = ref(false);
   const lignosdatabasenFilter = ref(false);
   const linkFilter = ref(false);
-  const query = ref('');
+  const query = ref(route.query.s || '');
 
   const sortByWhat = ref('Namn');
   const sortAscending = ref(true);

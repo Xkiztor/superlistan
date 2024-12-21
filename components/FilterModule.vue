@@ -1,6 +1,10 @@
 <script setup>
+import { useRouter, useRoute } from 'vue-router';
+
 defineEmits(['fetchList', 'handleClick']);
 const state = useGlobalState();
+const router = useRouter();
+const route = useRoute();
 
 const showClear = computed(() => {
   if (
@@ -31,14 +35,36 @@ const clearFilters = () => {
   state.typeFilter.value.O = false;
   state.typeFilter.value.G = false;
 };
+
+watch(
+  () => route.query.s,
+  (newQuery) => {
+    state.query.value = newQuery || '';
+  }
+);
+
+const updateQuery = (newQuery) => {
+  const query = { ...route.query };
+  if (newQuery) {
+    query.s = newQuery;
+  } else {
+    delete query.s;
+  }
+  router.push({ query });
+};
 </script>
 
 <template>
   <div class="filter-div search-filter-div">
     <div class="search">
       <Icon name="material-symbols:search" size="26" />
-      <input v-model="state.query.value" placeholder="Sök" type="text" />
-      <button @click="state.query.value = ''" :class="{ 'show-close': state.query.value }">
+      <input
+        v-model="state.query.value"
+        @input="updateQuery($event.target.value)"
+        placeholder="Sök"
+        type="text"
+      />
+      <button @click="updateQuery('')" :class="{ 'show-close': state.query.value }">
         <Icon name="ion:close-round" />
       </button>
     </div>

@@ -396,13 +396,14 @@ html:not(.dark) .text-stycke.head img {
   grid-template-rows: min-content 1fr;
   grid-template-columns: 1fr;
   gap: 0.75rem;
-  max-width: 35ch;
+  max-width: 42ch;
 }
 
 .head .closed.coming-soon.two-row div:nth-child(1) {
   width: 100%;
   display: grid;
   place-items: center;
+  gap: 0.5rem;
   grid-template-columns: min-content 1fr min-content;
 }
 .head .closed.coming-soon.two-row div:nth-child(2) {

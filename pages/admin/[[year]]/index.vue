@@ -1,109 +1,115 @@
 <script setup>
-import { createClient } from '@supabase/supabase-js'
-import { useStorage } from '@vueuse/core'
-const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
+import { createClient } from '@supabase/supabase-js';
+import { useStorage } from '@vueuse/core';
+const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co';
+const supabaseKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4';
 
-const isLoggedIn = useStorage('is-logged-in', false)
+const isLoggedIn = useStorage('is-logged-in', false);
 
-const password = ref('Smurf999')
-const typedPassword = ref('')
+const password = ref('Smurf999');
+const typedPassword = ref('');
 
-const showTable = ref(false)
-const showTopTen = ref(false)
+const showTable = ref(false);
+const showTopTen = ref(false);
 
-const rawUserData = useStorage('raw-user-data', [])
+const rawUserData = useStorage('raw-user-data', []);
 
-const route = useRoute()
+const route = useRoute();
 
 if (!route.params.year) {
-  navigateTo('/admin/2024')
+  navigateTo('/admin/2025');
 }
 
 const loggIn = () => {
   if (typedPassword.value === password.value) {
-    isLoggedIn.value = true
+    isLoggedIn.value = true;
+  } else {
+    typedPassword.value = '';
   }
-  else {
-    typedPassword.value = ''
-  }
-}
+};
 
-
-
-const config = useRuntimeConfig()
-const supabase = createClient(supabaseUrl, supabaseKey)
+const config = useRuntimeConfig();
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const fetchUserData = async () => {
   const { data, error } = await supabase
     .from(`user-data-${route.params.year}`)
     .select()
-    .order('created_at')
+    .order('created_at');
 
   console.log('Fething user data');
   if (error) {
-    console.error(error)
+    console.error(error);
   }
   if (data) {
-    rawUserData.value = data
+    rawUserData.value = data;
     // console.log(data);
 
     // rawUserData.value.map(e => e.created_at = e.created_at.replace('2023-', ''))
     // rawUserData.value.map(e => e.created_at = e.created_at.replace('2024-', ''))
-    rawUserData.value.map(e => e.created_at = e.created_at.replace('T', ' | '))
+    rawUserData.value.map((e) => (e.created_at = e.created_at.replace('T', ' | ')));
     // rawUserData.value.map(e => e.created_at = e.created_at.slice(0, -6))
-    rawUserData.value.map(e => e.created_at = e.created_at.replace('.', ''))
-    rawUserData.value.map(e => e.created_at = e.created_at.substring(0, 18))
+    rawUserData.value.map((e) => (e.created_at = e.created_at.replace('.', '')));
+    rawUserData.value.map((e) => (e.created_at = e.created_at.substring(0, 18)));
 
     // console.log(rawUserData.value);
   }
-}
+};
 
 const userData = computed(() => {
-  let list = rawUserData.value
+  let list = rawUserData.value;
   // list = rawUserData.value.sort((a, b) => {
   //   if (a.Namn > b.Namn) return 1
   //   if (a.Namn < b.Namn) return -1
   //   else return 0
   // })
   list.sort((a, b) => {
-    if (a.Namn > b.Namn) return 1
-    else if (a.Namn < b.Namn) return -1
-    else return 0
-  })
+    if (a.Namn > b.Namn) return 1;
+    else if (a.Namn < b.Namn) return -1;
+    else return 0;
+  });
   // list = list.sort((a, b) => {
   //   if (a.Person > b.Person) return 1
   //   if (a.Person < b.Person) return -1
   //   else return 0
   // })
   list.sort((a, b) => {
-    if (a.created_at > b.created_at) return 1
-    if (a.created_at < b.created_at) return -1
-    else return 0
-  })
+    if (a.created_at > b.created_at) return 1;
+    if (a.created_at < b.created_at) return -1;
+    else return 0;
+  });
   // console.log(list);
-  return list
-})
+  return list;
+});
 
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(userData, {
   itemHeight: 24,
   overscan: 25,
-})
+});
 
+const totalCount = computed(() => userData.value.map((e) => e.Count).reduce((a, b) => a + b, 0));
+const totalPrice = computed(() =>
+  userData.value.map((e) => e.Pris * e.Count).reduce((a, b) => a + b, 0)
+);
+const peopleCount = computed(() => new Set(userData.value.map((item) => item.Person)).size);
+const recomendedCount = computed(
+  () =>
+    Math.round(
+      (userData.value.map((e) => e.Rekommenderas).reduce((a, b) => a + b, 0) /
+        userData.value.length) *
+        100 *
+        100
+    ) / 100
+);
 
-const totalCount = computed(() => userData.value.map(e => e.Count).reduce((a, b) => a + b, 0))
-const totalPrice = computed(() => userData.value.map(e => e.Pris * e.Count).reduce((a, b) => a + b, 0))
-const peopleCount = computed(() => new Set(userData.value.map(item => item.Person)).size)
-const recomendedCount = computed(() => Math.round(userData.value.map(e => e.Rekommenderas).reduce((a, b) => a + b, 0) / userData.value.length * 100 * 100) / 100)
+fetchUserData();
 
-fetchUserData()
-
-
-const topCount = ref(20)
+const topCount = ref(20);
 
 const topTen = computed(() => {
   let stringCount = {};
-  userData.value.forEach(obj => {
+  userData.value.forEach((obj) => {
     if (obj.hasOwnProperty('Namn')) {
       let str = obj.Namn;
       if (stringCount.hasOwnProperty(str)) {
@@ -114,27 +120,27 @@ const topTen = computed(() => {
     }
   });
   let sortedStrings = Object.keys(stringCount).sort((a, b) => stringCount[b] - stringCount[a]);
-  let top10Strings = sortedStrings.slice(0, topCount.value).map(str => ({ string: str, count: stringCount[str] }));
+  let top10Strings = sortedStrings
+    .slice(0, topCount.value)
+    .map((str) => ({ string: str, count: stringCount[str] }));
   return top10Strings;
-})
+});
 
 // console.log(topTen);
 
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
 </script>
 
 <template>
   <div class="admin-bg">
-
     <div class="login" v-if="isLoggedIn == false">
       <h1>Admin Lösenord</h1>
-      <input type="password" v-model="typedPassword">
+      <input type="password" v-model="typedPassword" />
       <button @click="loggIn">Logga in</button>
     </div>
 
     <div v-if="isLoggedIn == true" class="admin-panel">
-
       <div class="admin-layout">
         <div class="statistik">
           <h1>Statistik:</h1>
@@ -145,10 +151,10 @@ const toggleDark = useToggle(isDark)
             <p>{{ totalPrice }} kr totalt</p>
             <p>{{ Math.round(totalPrice * 0.8) }} kr utan moms</p>
             <p>{{ peopleCount }} personer</p>
-            <p>{{ Math.round(totalCount / peopleCount * 100) / 100 }} plantor per person</p>
+            <p>{{ Math.round((totalCount / peopleCount) * 100) / 100 }} plantor per person</p>
             <div></div>
             <p>{{ recomendedCount }}% hjärtan (7.8% på hela listan)</p>
-            <p>{{ Math.round(totalPrice / peopleCount * 100) / 100 }} kr/person</p>
+            <p>{{ Math.round((totalPrice / peopleCount) * 100) / 100 }} kr/person</p>
           </div>
         </div>
         <div class="sidebar">
@@ -167,11 +173,17 @@ const toggleDark = useToggle(isDark)
           <nuxt-link to="/admin/print"><button>Printa personlistor</button></nuxt-link>
         </div>
         <div class="top-ten" v-if="showTopTen">
-          <h1>Top <input type="text" v-model="topCount"> växter:</h1>
+          <h1>Top <input type="text" v-model="topCount" /> växter:</h1>
           <li v-for="(plant, index) in topTen">
             <p>{{ index + 1 }}</p>
-            <a :href="`https://www.google.com/search?q=${plant.string.replace(/\s+/g, '+')}&tbm=isch&dpr=1`"
-              target="_blank">{{ plant.string }}</a>
+            <a
+              :href="`https://www.google.com/search?q=${plant.string.replace(
+                /\s+/g,
+                '+'
+              )}&tbm=isch&dpr=1`"
+              target="_blank"
+              >{{ plant.string }}</a
+            >
             <p>{{ plant.count }} st.</p>
           </li>
         </div>
@@ -187,10 +199,15 @@ const toggleDark = useToggle(isDark)
         <p>Total</p>
       </div>
       <!-- {{userData}} -->
-      <div v-bind="containerProps" class="container-props" v-if="!showTable">
-        <ul v-bind="wrapperProps" class="admin-list-container wrapper-props">
+      <div v-bind="containerProps" class="admin-container-props" v-if="!showTable">
+        <ul v-bind="wrapperProps" class="admin-list-container admin-wrapper-props">
           <li v-for="{ index, data } in list" class="list-el">
-            <AdminListElement :el="data" :index="index" :userData="userData" :isPersonPage="false" />
+            <AdminListElement
+              :el="data"
+              :index="index"
+              :userData="userData"
+              :isPersonPage="false"
+            />
           </li>
         </ul>
       </div>
@@ -238,7 +255,6 @@ const toggleDark = useToggle(isDark)
   border: 1px solid var(--border-color);
 }
 
-
 .dark .admin-bg p {
   color: var(--text-mute);
 }
@@ -250,13 +266,13 @@ const toggleDark = useToggle(isDark)
   justify-content: center;
 }
 
-.login>h1 {
+.login > h1 {
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
 
-.login>button {
+.login > button {
   width: auto;
 }
 
@@ -274,18 +290,18 @@ const toggleDark = useToggle(isDark)
   padding-left: 0.5rem;
 }
 
-.container-props {
+.admin-container-props {
   transition: none;
   border: 1px solid var(--border-color);
   background: var(--element-bg);
-  height: 100%;
+  height: 80vh;
   border-radius: 1rem;
   width: auto;
   max-height: 100vh !important;
+  overflow-x: hidden;
 }
 
-
-.wrapper-props {
+.admin-wrapper-props {
   transition: none;
   position: relative;
   /* padding-bottom: 5rem; */
@@ -315,7 +331,7 @@ const toggleDark = useToggle(isDark)
   margin: 1rem 0;
 }
 
-.list-element>* {
+.list-element > * {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -323,7 +339,7 @@ const toggleDark = useToggle(isDark)
 
 .admin-bg .sidebar {
   display: grid;
-  place-items: start right
+  place-items: start right;
 }
 
 .admin-bg .sidebar .show-table {
@@ -343,18 +359,18 @@ const toggleDark = useToggle(isDark)
   margin-bottom: 2rem;
 }
 
-.admin-layout>button {
+.admin-layout > button {
   max-height: 3rem;
 }
 
-.statistik>div {
+.statistik > div {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 0.3fr 1fr 1fr;
   grid-auto-flow: column;
 }
 
-.statistik>h1 {
+.statistik > h1 {
   font-size: 1.4rem;
 }
 
@@ -384,8 +400,6 @@ const toggleDark = useToggle(isDark)
 .top-ten input {
   width: 3.5rem;
 }
-
-
 
 table {
   text-align: left;
