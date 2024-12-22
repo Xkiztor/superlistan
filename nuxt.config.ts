@@ -2,27 +2,22 @@
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  modules: [
-    '@vueuse/nuxt',
-    'nuxt-icon',
-    [
-      'nuxt-mail',
-      {
-        message: {
-          // to: 'ugo.linder@gmail.com',
-          to: 'peter@lindersplantskola.se',
-        },
-        smtp: {
-          service: 'gmail',
-          auth: {
-            user: 'ugo.linder@gmail.com',
-            pass: 'dcni tmfj wwfy cxwv',
-          },
+  modules: ['@vueuse/nuxt', 'nuxt-icon', [
+    'nuxt-mail',
+    {
+      message: {
+        // to: 'ugo.linder@gmail.com',
+        to: 'peter@lindersplantskola.se',
+      },
+      smtp: {
+        service: 'gmail',
+        auth: {
+          user: 'ugo.linder@gmail.com',
+          pass: 'dcni tmfj wwfy cxwv',
         },
       },
-    ],
-    '@nuxtjs/sitemap',
-  ],
+    },
+  ], '@nuxtjs/sitemap'],
 
   css: ['@/assets/css/styles.css'],
 

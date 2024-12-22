@@ -593,7 +593,7 @@ const openImage = (index) => {
   /* padding-top: 0.4rem; */
 }
 
-.if-expanded > p {
+.if-expanded > div > p {
   white-space: normal;
   overflow: visible;
 }
