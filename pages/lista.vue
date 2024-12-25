@@ -811,11 +811,12 @@ div.main-list {
 
 .search-modal {
   top: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.2);
   position: absolute;
   z-index: 13;
   width: 100%;
-  min-height: 100vh;
+  min-height: 200vh;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -854,6 +855,8 @@ div.main-list {
 .search-modal .image-grid:not(.sidebar-mode) {
   width: 70%;
   min-height: 72vh;
+  height: fit-content;
+  flex-grow: 1;
 }
 
 .search-modal .image-grid.sidebar-mode {

@@ -865,17 +865,38 @@ const openImage = (index) => {
 .expanded .image-container {
   grid-column: 1/3;
   display: grid;
-  gap: 1rem;
   padding: 0.5rem 0.5rem 0.5rem 0.1rem;
   /* padding: 0.5rem calc(0.4rem + 0.5rem) 0.5rem 0.5rem; */
   /* grid-template-columns: repeat(5, 1fr); */
   /* height: 5rem; */
   width: 100%;
+  gap: 0.25rem;
+}
+
+@media screen and (min-width: 500px) {
+  .expanded .image-container {
+    gap: 1rem;
+  }
 }
 
 @media screen and (min-width: 700px) {
   .expanded .image-container {
     padding: 0.5rem 1rem 1rem 0.6rem;
+  }
+}
+
+@media screen and (max-width: 499px) {
+  .expanded div.image-container img {
+    border-radius: 0.25rem;
+  }
+  .expanded div.image-container img:first-child {
+    border-radius: 1rem 0.25rem 0.25rem 1rem;
+  }
+  .expanded div.image-container img:last-child {
+    border-radius: 0.25rem 1rem 1rem 0.25rem;
+  }
+  .expanded div.image-container img:only-child {
+    border-radius: 1rem;
   }
 }
 
