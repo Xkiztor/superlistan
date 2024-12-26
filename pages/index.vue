@@ -64,7 +64,7 @@
         <h1 class="main-title">Linders Superlista 2025</h1>
         <p>
           En chans att hitta det du länge letat efter! Linders superlista är en härligt späckad
-          lista med 16 000 rader av ovanliga och odlingsvärda växter att beställa ifrån.
+          lista med 18 000 rader av ovanliga och odlingsvärda växter att beställa ifrån.
           <i>Beställningen gör du senast 23 februari 2025</i> för att sedan hämta dina beställda
           växter på <a href="https://lindersplantskola.se/">Linders plantskola</a>
           utanför Hörby i Skåne under maj 2025. Tack vare att du gör beställningen i förväg och

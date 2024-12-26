@@ -10,7 +10,7 @@ const list = ref();
 const personerList = ref();
 
 const fetchBestallningar = async () => {
-  let search = supabase.from('kundpapper').select();
+  let search = supabase.from('kundpapper-2024').select();
   const { data, error } = await search;
 
   if (error) {
