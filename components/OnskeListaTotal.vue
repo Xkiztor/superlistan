@@ -49,7 +49,7 @@ const nollställ = () => {
       </p>
     </div>
     <div class="lite-mer-plats-där-uppe">
-      <p>Beställningen gör du senast 23 februari 2025</p>
+      <p><strong>Beställningen gör du senast 23 februari 2025</strong></p>
       <p>Dina beställda växter hämtar du på Linders plantskola under Maj 2025.</p>
       <p>Betalningen sker i två steg, se under <nuxt-link class="link" to="/">hem</nuxt-link>.</p>
     </div>

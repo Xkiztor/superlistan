@@ -135,12 +135,12 @@ const handleSend = async () => {
     return;
   }
   if (
-    orderName.value == '' ||
-    orderMail.value == '' ||
-    orderAdress.value == '' ||
-    orderPhone.value == ''
+    orderName.value === '' ||
+    orderMail.value === '' ||
+    orderAdress.value === '' ||
+    orderPhone.value === ''
   ) {
-    console.log('no name');
+    console.log('saknas');
     showModalNoName.value = true;
     return;
   }
@@ -182,6 +182,10 @@ const handleSend = async () => {
       hasError = false;
       hasSent.value = true;
       showModal.value = true;
+      orderName.value = '';
+      orderMail.value = '';
+      orderAdress.value = '';
+      orderPhone.value = '';
       return data;
     }
   };

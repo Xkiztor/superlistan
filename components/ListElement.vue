@@ -369,6 +369,14 @@ const openImage = (index) => {
             <p class="ingress" v-if="databasArtikel.ingress">{{ databasArtikel.ingress }}</p>
             <p>{{ databasArtikel.text }}</p>
           </article>
+          <a
+            v-if="databasArtikel.url"
+            :href="databasArtikel.url"
+            target="_blank"
+            class="link-color underline"
+            >Mer info på Lignosdatabasen</a
+          >
+          <p v-if="databasArtikel.svensktNamn">Svenskt namn: {{ databasArtikel.svensktNamn }}</p>
 
           <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Rekommenderas }">
             <Icon
@@ -393,7 +401,7 @@ const openImage = (index) => {
               'error-borderrr': order > plant.Lager && plant.Lager != null,
             }"
           >
-            Lager: {{ plant.Lager }}
+            Lager: {{ plant.Lager }} st
           </p>
           <p v-if="isOnskeLista">{{ plant.Pris }} kr/st</p>
           <p
@@ -404,7 +412,7 @@ const openImage = (index) => {
               'error-borderr': order < plant.MinOrder && !isOnskeLista && plant.MinOrder != null,
             }"
           >
-            Min. Order: {{ plant.MinOrder }}
+            Minsta Order: {{ plant.MinOrder }} st
           </p>
           <a v-if="plant.Länk" :href="plant.Länk" target="_blank" class="link-color underline"
             >Länk{{ plant.ExtraLänk ? ' 1' : '' }}</a
@@ -421,14 +429,6 @@ const openImage = (index) => {
           <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
           <!-- <p>{{ databasArtikel.images }}</p> -->
           <!-- <a>{{ databasArtikel.url }}</a> -->
-          <a
-            v-if="databasArtikel.url"
-            :href="databasArtikel.url"
-            target="_blank"
-            class="link-color underline"
-            >Mer info på Lignosdatabasen</a
-          >
-          <p v-if="databasArtikel.svensktNamn">Svenskt namn: {{ databasArtikel.svensktNamn }}</p>
         </div>
 
         <form v-if="!isOnskeLista" class="add-section inte-önskelista">
@@ -534,7 +534,7 @@ const openImage = (index) => {
   width: fit-content;
   /* background-color: var(--element-bg); */
   transition: all 250ms ease-in-out;
-  min-height: 32px;
+  min-height: 33px;
   z-index: 2;
   position: relative;
   border: 1px solid transparent;

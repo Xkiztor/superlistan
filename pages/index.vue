@@ -66,7 +66,7 @@
           En chans att hitta det du länge letat efter! Linders superlista är en härligt späckad
           lista med 18 000 rader av ovanliga och odlingsvärda växter att beställa ifrån.
           <i>Beställningen gör du senast 23 februari 2025</i> för att sedan hämta dina beställda
-          växter på <a href="https://lindersplantskola.se/">Linders plantskola</a>
+          växter på <a href="https://lindersplantskola.se/" target="_blank">Linders plantskola</a>
           utanför Hörby i Skåne under maj 2025. Tack vare att du gör beställningen i förväg och
           själv hämtar ut dina växter kan jag hålla låga priser i Linders superlista. Alla priser är
           inklusive moms. Lägsta ordersumma är 2000 kr. (Gå ihop med en vän om det är svårt att
@@ -87,7 +87,7 @@
           gång.
         </p>
         <p class="paragraph-spacing">
-          För att bäställa en växt trycker du på symbolen
+          För att beställa en växt trycker du på symbolen
           <Icon class="" name="material-symbols:keyboard-arrow-down-rounded" size="20" />
           till höger, då öppnas en flik med mer info om växten. Där kan du ange hur många du vill ha
           av växten och trycka “Lägg till i varukorg”.
@@ -147,10 +147,10 @@
               klicka på kolumens titel ovanför listan. Klicka på den igen för att byta riktning.
             </li>
             <li>
-              <h1 class="underrubrik">Bildsök</h1>
-              Om man klickar på <i class="lite-tjockare">ikonen</i> öppnas en ruta med 9 bilder från
-              Googles bildsök. Men denna kan man enkelt få bilder på växterna medans man går igenom
-              listan.
+              <h1 class="underrubrik">Bildsök - <span class="nyhet">Nyhet!</span></h1>
+              Om man klickar på <i class="lite-tjockare">växtens ikon</i> öppnas en ruta med 9
+              bilder från Googles bildsök. Men denna kan man enkelt få bilder på växterna medans man
+              går igenom listan.
               <br />
               Om du istället klickar på själva <i class="lite-tjockare">växtnamnet</i> öppnas en ny
               flik med Googles bildsök där man kan se alla bilder.
@@ -160,20 +160,20 @@
           <h1 class="underrubrik">Förklaringar</h1>
           <div class="förklaringar-align-container">
             <div class="förklaringar-align">
-              <li><strong>Höjd:</strong> Här anges ungefärlig höjd i cm på plantan som säljs.</li>
-              <li>
-                <strong>Minsta order:</strong> här är angivit det minimumantal som gäller för en
-                viss växt (främst perenner i P9-kruka där det ofta är 12 st som är minimum).
-              </li>
-              <li><strong>Pris:</strong> Pris med moms per styck</li>
               <li>
                 <strong>Lager:</strong> här står hur många som finns i lager, när det är känt. Står
                 det inget går det ändå bra att beställa.
               </li>
               <li>
-                <strong>Zon:</strong> Vad gäller härdighet är det stor variation över listan och
-                mycket är otillräckligt prövat i Sverige. På en del växter har jag angivit svensk
-                zon-tålighet. Zon 0 står för innerstadsmiljöer i zon 1.
+                <strong>Minsta order:</strong> här är angivit det minimumantal som gäller för en
+                viss växt (främst perenner eftersom dom kommer i ett brätte med 12 st).
+              </li>
+              <li>
+                <strong>Storleks-kommentar:</strong> Här står t.ex. "Pa" på dom träd som är
+                toppympade på stam eller i vissa fall uppstammade till en tydlig stam. "Spö" innebär
+                att det mest är en huvudstam och inte så många sidogrenar ännu. På en del träd anges
+                här stamomfång, t.ex. 6-8 vilket betyder att stammen har en omkrets på 6-8 cm mätt 1
+                m upp.
               </li>
             </div>
             <div class="förklaringar-align">
@@ -184,13 +184,8 @@
                 odlats i marken. Har ingen större betydelse, ofta är det positivt och ger kraftiga
                 plantor. Leveraras som klump eller i kruka.
               </li>
-              <li>
-                <strong>Storleks-kommentar:</strong> Här står t.ex. "Pa" på dom träd som är
-                toppympade på stam eller i vissa fall uppstammade till en tydlig stam. "Spö" innebär
-                att det mest är en huvudstam och inte så många sidogrenar ännu. På en del träd anges
-                här stamomfång, t.ex. 6-8 vilket betyder att stammen har en omkrets på 6-8 cm mätt 1
-                m upp.
-              </li>
+              <li><strong>Höjd:</strong> Här anges ungefärlig höjd i cm på plantan som säljs.</li>
+              <li><strong>Pris:</strong> Pris med moms per styck</li>
             </div>
           </div>
         </ul>
@@ -285,7 +280,8 @@
             href="https://us7.campaign-archive.com/home/?u=0e9eb9946e9781ae0c59149df&id=9e50a747e2"
             >här!</a
           >
-          Där kan du också läsa tidigare nyhetsbrev.
+          Där kan du också läsa tidigare nyhetsbrev och få inspiration eftersom jag skrivit mycket
+          om Superlistans växter där.
         </p>
         <p class="hälsningar">
           Med gröna hälsningar / Peter Linder, 0733-518 716, peter@lindersplantskola.se
@@ -488,7 +484,7 @@ li > svg {
 }
 
 h1.main-title {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 900;
   letter-spacing: 1.5px;
 }
@@ -666,5 +662,14 @@ i.red {
 
 .dark i.red {
   color: var(--primary-red-dark);
+}
+
+.home-container .nyhet {
+  /* color: var(--primary-green); */
+  font-weight: 700;
+  font-size: 0.85em;
+  padding: 0.1rem 0.5rem;
+  border-radius: 0.5rem;
+  background: var(--primary-green);
 }
 </style>
