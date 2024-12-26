@@ -42,7 +42,7 @@
         </div> -->
 
         <!-- Väldigt nära med ungefärlig tid -->
-        <div class="closed coming-soon two-row">
+        <!-- <div class="closed coming-soon two-row">
           <div>
             <Icon name="mage:megaphone-a-fill" />
             <h2><strong>Superlistan 2025 kommer snart!</strong></h2>
@@ -59,15 +59,15 @@
               så du inte missar när den släpps!
             </p>
           </div>
-        </div>
+        </div> -->
 
-        <h1 class="main-title">Linders Superlista 2024</h1>
+        <h1 class="main-title">Linders Superlista 2025</h1>
         <p>
           En chans att hitta det du länge letat efter! Linders superlista är en härligt späckad
           lista med 16 000 rader av ovanliga och odlingsvärda växter att beställa ifrån.
-          <i>Beställningen gör du senast 25 februari 2024</i> för att sedan hämta dina beställda
+          <i>Beställningen gör du senast 23 februari 2025</i> för att sedan hämta dina beställda
           växter på <a href="https://lindersplantskola.se/">Linders plantskola</a>
-          utanför Hörby i Skåne under maj 2024. Tack vare att du gör beställningen i förväg och
+          utanför Hörby i Skåne under maj 2025. Tack vare att du gör beställningen i förväg och
           själv hämtar ut dina växter kan jag hålla låga priser i Linders superlista. Alla priser är
           inklusive moms. Lägsta ordersumma är 2000 kr. (Gå ihop med en vän om det är svårt att
           komma upp i den summan).

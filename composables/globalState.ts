@@ -55,6 +55,9 @@ export const useGlobalState = createGlobalState(() => {
   const currentImages = ref([]);
   const showImageModal = ref(false);
 
+  const listLength = ref(0);
+  const filteredListLength = ref(0);
+
   return {
     countError,
     openNav,
@@ -80,6 +83,8 @@ export const useGlobalState = createGlobalState(() => {
     sidebarMode,
     currentImageIndex,
     currentImages,
-    showImageModal
+    showImageModal,
+    listLength,
+    filteredListLength
   };
 });

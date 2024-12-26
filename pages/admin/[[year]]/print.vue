@@ -1,21 +1,20 @@
 <script setup>
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co';
+const supabaseKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-const list = ref()
-const personerList = ref()
+const list = ref();
+const personerList = ref();
 
 const fetchBestallningar = async () => {
-  let search = supabase
-    .from('kundpapper')
-    .select()
-  const { data, error } = await search
+  let search = supabase.from('kundpapper').select();
+  const { data, error } = await search;
 
   if (error) {
-    console.error(error)
+    console.error(error);
   }
   if (data) {
     console.log(data);
@@ -31,7 +30,7 @@ const fetchBestallningar = async () => {
     });
     const uniqueValues = [];
     const seenValues = new Set();
-    list.value.forEach(item => {
+    list.value.forEach((item) => {
       const value = item.Förnamn;
       if (!seenValues.has(value)) {
         uniqueValues.push(value);
@@ -40,9 +39,9 @@ const fetchBestallningar = async () => {
     });
     personerList.value = uniqueValues.sort();
   }
-}
+};
 
-fetchBestallningar()
+fetchBestallningar();
 
 // const personerList = () => {
 //   const uniqueValues = [];
@@ -63,25 +62,29 @@ const getPlantsFromPerson = (person) => {
     console.error('Input is not an array.');
     return [];
   }
-  let newArray = list.value.filter(obj => obj.Förnamn === person)
+  let newArray = list.value.filter((obj) => obj.Förnamn === person);
   // console.log(newArray);
   // return list.value
   // return sortedList.filter(true)
-  return newArray
-}
-
+  return newArray;
+};
 
 // getPlantsFromPerson('Agnes Cederholm')
 </script>
 
-
 <template>
   <div class="print-bg">
     <div v-for="person in personerList">
-      <h1>Superlistan 2024<span v-if="person !== getPlantsFromPerson(person)[0].Person"> - {{ person }}</span> - {{
-        getPlantsFromPerson(person)[0].Person }}</h1>
-      <p class="info">0{{ getPlantsFromPerson(person)[0].Phone }}, {{ getPlantsFromPerson(person)[0].Mail }}, {{
-        getPlantsFromPerson(person)[0].Adress }}</p>
+      <h1>
+        Superlistan 2025<span v-if="person !== getPlantsFromPerson(person)[0].Person">
+          - {{ person }}</span
+        >
+        - {{ getPlantsFromPerson(person)[0].Person }}
+      </h1>
+      <p class="info">
+        0{{ getPlantsFromPerson(person)[0].Phone }}, {{ getPlantsFromPerson(person)[0].Mail }},
+        {{ getPlantsFromPerson(person)[0].Adress }}
+      </p>
       <table>
         <tbody class="tabell">
           <tr>
@@ -103,8 +106,14 @@ const getPlantsFromPerson = (person) => {
             </td>
             <td>
               <p
-                :class="{ 'red': planta.Status === 'R', 'green': planta.Status === 'G', 'purple': planta.Status === 'L' }">
-                {{ planta.Namn }}</p>
+                :class="{
+                  red: planta.Status === 'R',
+                  green: planta.Status === 'G',
+                  purple: planta.Status === 'L',
+                }"
+              >
+                {{ planta.Namn }}
+              </p>
             </td>
             <td>
               <p>{{ planta.Kruka }}</p>
@@ -169,16 +178,28 @@ const getPlantsFromPerson = (person) => {
         </tr> -->
       </table>
       <div class="sum">
-        <p>Summa: {{ getPlantsFromPerson(person).map(e => e.Pris * e.Conf).reduce((a, b) => a + b, 0) }}</p>
+        <p>
+          Summa:
+          {{
+            getPlantsFromPerson(person)
+              .map((e) => e.Pris * e.Conf)
+              .reduce((a, b) => a + b, 0)
+          }}
+        </p>
         <p>Redan betalt: {{ getPlantsFromPerson(person)[0].RedanBetalt }}</p>
-        <p>Kvar att betala: {{ getPlantsFromPerson(person).map(e => e.Pris * e.Conf).reduce((a, b) => a + b, 0) -
-          getPlantsFromPerson(person)[0].RedanBetalt }}</p>
+        <p>
+          Kvar att betala:
+          {{
+            getPlantsFromPerson(person)
+              .map((e) => e.Pris * e.Conf)
+              .reduce((a, b) => a + b, 0) - getPlantsFromPerson(person)[0].RedanBetalt
+          }}
+        </p>
       </div>
       <div class="page-break"></div>
     </div>
   </div>
 </template>
-
 
 <style>
 .print-bg {
@@ -190,7 +211,8 @@ const getPlantsFromPerson = (person) => {
   background: white;
   color: black;
   font-size: 14pt;
-  font-family: Arial, Helvetica, sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: Arial, Helvetica, sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .print-bg h1 {
@@ -223,7 +245,8 @@ const getPlantsFromPerson = (person) => {
   margin: 2rem 0;
 }
 
-@media print {}
+@media print {
+}
 
 @page {
   size: A4;
@@ -231,15 +254,15 @@ const getPlantsFromPerson = (person) => {
 }
 
 .print-bg table {
-  border-collapse: collapse
+  border-collapse: collapse;
 }
 
 .print-bg .red {
-  color: #EA4335;
+  color: #ea4335;
 }
 
 .print-bg .green {
-  color: #34A853;
+  color: #34a853;
 }
 
 .print-bg .purple {

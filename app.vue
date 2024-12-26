@@ -161,7 +161,7 @@ const openNavFunc = () => {
   --primary-green: #76994e;
   /* --primary-green: #6fa246; */
 
-  --primary-red-light: #ff0000;
+  --primary-red-light: #ef5050;
   --primary-red-dark: #f36161;
 
   --link-light: #0645ad;
