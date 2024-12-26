@@ -47,7 +47,7 @@ useSeoMeta({
   ogTitle: 'Superlista',
   description: 'En härligt speckad lista med tusentals växter att beställa från.',
   ogDescription:
-    'En chans att hitta det du länge letat efter! Linders superlista är en härligt späckad lista med 16 000 rader av ovanliga och odlingsvärda växter att beställa ifrån och hämta upp i Hörby i Skåne.',
+    'En chans att hitta det du länge letat efter! Linders superlista är en härligt späckad lista med 18 000 rader av ovanliga och odlingsvärda växter att beställa ifrån och hämta upp i Hörby i Skåne.',
   ogImage: 'https://lindersplantskola.s3.eu-north-1.amazonaws.com/hemsida-assets/ogImage.jpg',
 });
 
@@ -161,7 +161,7 @@ const openNavFunc = () => {
   --primary-green: #76994e;
   /* --primary-green: #6fa246; */
 
-  --primary-red-light: #ff0000;
+  --primary-red-light: #ef5050;
   --primary-red-dark: #f36161;
 
   --link-light: #0645ad;

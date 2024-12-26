@@ -112,29 +112,31 @@ const toolTipCalculator = (firstLetter) => {
 };
 
 const iconClick = async () => {
-  state.showGoogleSearchResult.value = true;
-  state.searchedPlant.value = props.plant.Namn;
+  if (!props.isOnskeLista) {
+    state.showGoogleSearchResult.value = true;
+    state.searchedPlant.value = props.plant.Namn;
 
-  if (state.sidebarMode.value === true) {
-    state.showImages.value = false;
-  }
+    if (state.sidebarMode.value === true) {
+      state.showImages.value = false;
+    }
 
-  const url = ref(
-    `https://www.googleapis.com/customsearch/v1?cx=0114e20bfe1bc4e87&key=AIzaSyDCXzTT72V9WC44HefCRffYeK7o-sFwE0Y&num=10&start=1&searchType=image&q=${props.plant.Namn.replace(
-      /\s+/g,
-      '+'
-    )}`
-  );
+    const url = ref(
+      `https://www.googleapis.com/customsearch/v1?cx=0114e20bfe1bc4e87&key=AIzaSyDCXzTT72V9WC44HefCRffYeK7o-sFwE0Y&num=10&start=1&searchType=image&q=${props.plant.Namn.replace(
+        /\s+/g,
+        '+'
+      )}`
+    );
 
-  const { data, error } = await useFetch(url);
+    const { data, error } = await useFetch(url);
 
-  if (data) {
-    console.log(data);
-    state.googleSearchResult.value = data.value;
-    state.showImages.value = true;
-  }
-  if (error) {
-    console.error(error);
+    if (data) {
+      console.log(data);
+      state.googleSearchResult.value = data.value;
+      state.showImages.value = true;
+    }
+    if (error) {
+      console.error(error);
+    }
   }
 };
 
@@ -405,9 +407,16 @@ const openImage = (index) => {
             Min. Order: {{ plant.MinOrder }}
           </p>
           <a v-if="plant.Länk" :href="plant.Länk" target="_blank" class="link-color underline"
-            >Länk</a
+            >Länk{{ plant.ExtraLänk ? ' 1' : '' }}</a
           >
-          <p v-if="plant.Zon">Zon: {{ plant.Zon }}</p>
+          <a
+            v-if="plant.ExtraLänk"
+            :href="plant.ExtraLänk"
+            target="_blank"
+            class="link-color underline"
+            >Länk 2</a
+          >
+          <!-- <p v-if="plant.Zon">Zon: {{ plant.Zon }}</p> -->
           <p v-if="plant.Storlekskommentar">{{ plant.Storlekskommentar }}</p>
           <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
           <!-- <p>{{ databasArtikel.images }}</p> -->
@@ -569,6 +578,13 @@ const openImage = (index) => {
 }
 
 .dark .element.if-expanded {
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
+}
+
+.onske-list .element.if-expanded {
+  box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.05);
+}
+.dark .onske-list .element.if-expanded {
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
 }
 
@@ -910,8 +926,11 @@ const openImage = (index) => {
   height: 100%;
   width: 100%;
   object-fit: cover;
-  cursor: pointer;
   /* aspect-ratio: 1/1; */
+}
+
+.list-layout .expanded .image-container img {
+  cursor: pointer;
 }
 
 .info-container {

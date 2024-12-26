@@ -167,6 +167,8 @@ const computedList = computed(() => {
     userMessage.value = 'Här är listan slut';
   }
 
+  state.filteredListLength.value = newList.length;
+
   return newList;
 });
 
@@ -222,7 +224,10 @@ const fetchAllList = async () => {
   console.log('fetching all');
   listHasBeenFetched.value = false;
 
-  let search = supabase.from('superlista-2024').select();
+  // !                        ---------------
+  let search = supabase.from('superlista-2025').select();
+  // !                        ---------------
+
   const { data, error } = await search;
 
   if (error) {
@@ -234,6 +239,7 @@ const fetchAllList = async () => {
     listHasBeenFetched.value = false;
     userMessage.value = 'Här är listan slut';
     console.log(data);
+    state.listLength.value = data.length;
     dataList.value = data;
   }
 };
@@ -816,7 +822,6 @@ div.main-list {
   position: absolute;
   z-index: 13;
   width: 100%;
-  min-height: 200vh;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -833,6 +838,10 @@ div.main-list {
   height: 100vh;
   padding-top: 0;
   align-items: flex-end;
+}
+
+.search-modal:not(:has(.sidebar-mode)) {
+  min-height: 200vh;
 }
 
 .search-modal .image-grid {

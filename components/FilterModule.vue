@@ -205,6 +205,13 @@ const updateQuery = (newQuery) => {
       <Icon name="material-symbols:cancel-outline-rounded" />
       Rensa filter
     </button>
+
+    <p class="count">
+      Visar:
+      <span v-if="state.filteredListLength.value === state.listLength.value"
+        >{{ state.filteredListLength.value }} st</span
+      ><span v-else>{{ state.filteredListLength.value }} av {{ state.listLength.value }} st</span>
+    </p>
   </div>
 </template>
 
@@ -433,7 +440,7 @@ input.checkboxer {
 
 .filters .clear.show-clear {
   pointer-events: all;
-  opacity: 1;
+  opacity: 0.85;
   border: 1px solid var(--border-color);
 }
 
@@ -445,5 +452,15 @@ input.checkboxer {
 .dark .filters .clear.show-clear,
 .dark .filters .clear.show-clear * {
   color: var(--text-mute);
+}
+
+.filters .count {
+  margin: 0.5rem 0 0.25rem 0.25rem;
+  font-size: 0.9rem;
+  color: var(--text-mute);
+}
+
+.dark .filters .count {
+  opacity: 0.7;
 }
 </style>

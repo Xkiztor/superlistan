@@ -241,7 +241,7 @@ const sendNuxtMail = () => {
       orderPhone.value
     }\nAdress: ${orderAdress.value}\nKommentar: ${
       orderComment.value
-    }\n \nAdmin sidan: https://superlistan.lindersplantskola.se/admin/2024`,
+    }\n \nAdmin sidan: https://superlistan.lindersplantskola.se/admin/2025`,
   });
 };
 </script>
