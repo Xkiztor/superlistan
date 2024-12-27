@@ -343,7 +343,7 @@ html:not(.dark) .text-stycke.head img {
 .text-stycke.head * {
   z-index: 3;
   position: relative;
-  color: var(--text);
+  color: var(--text-dark);
 }
 
 .dark .text-stycke.head * {
@@ -665,7 +665,7 @@ i.red {
 }
 
 .home-container .nyhet {
-  /* color: var(--primary-green); */
+  color: var(--text-dark);
   font-weight: 700;
   font-size: 0.85em;
   padding: 0.1rem 0.5rem;
