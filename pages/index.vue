@@ -169,7 +169,7 @@
                 viss växt (främst perenner eftersom dom kommer i ett brätte med 12 st).
               </li>
               <li>
-                <strong>Storleks-kommentar:</strong> Här står t.ex. "Pa" på dom träd som är
+                <strong>Storleks-kommentar:</strong> här står t.ex. "Pa" på dom träd som är
                 toppympade på stam eller i vissa fall uppstammade till en tydlig stam. "Spö" innebär
                 att det mest är en huvudstam och inte så många sidogrenar ännu. På en del träd anges
                 här stamomfång, t.ex. 6-8 vilket betyder att stammen har en omkrets på 6-8 cm mätt 1
@@ -184,8 +184,8 @@
                 odlats i marken. Har ingen större betydelse, ofta är det positivt och ger kraftiga
                 plantor. Leveraras som klump eller i kruka.
               </li>
-              <li><strong>Höjd:</strong> Här anges ungefärlig höjd i cm på plantan som säljs.</li>
-              <li><strong>Pris:</strong> Pris med moms per styck</li>
+              <li><strong>Höjd:</strong> här anges ungefärlig höjd i cm på plantan som säljs.</li>
+              <li><strong>Pris:</strong> pris med moms per styck</li>
             </div>
           </div>
         </ul>
