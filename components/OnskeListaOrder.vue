@@ -1,96 +1,3 @@
-<template>
-  <div class="onske-list-bg order">
-    <h1 class="title">Beställ</h1>
-    <!-- <div class="sent-in-badge" v-if="hasSent">
-      <Icon name="material-symbols:check-circle-rounded" size="20" />
-      <h1>Du har redan skickat in!</h1>
-    </div> -->
-    <div class="input-layout">
-      <label for="user-name">Namn: </label>
-      <input v-model="orderName" id="user-name" type="text" placeholder="Ex. Peter Linder" />
-    </div>
-    <div class="input-layout">
-      <label for="user-mail">Mailadress: </label>
-      <input
-        v-model="orderMail"
-        id="user-mail"
-        type="text"
-        placeholder="Ex. peter@lindersplantskola.se"
-      />
-    </div>
-    <div class="input-layout">
-      <label for="user-adress">Adress: </label>
-      <input
-        v-model="orderAdress"
-        id="user-adress"
-        type="text"
-        placeholder="Ex. Köinge 6902, 242 92 Hörby"
-      />
-    </div>
-    <div class="input-layout">
-      <label for="user-phone">Telefonnummer: </label>
-      <input v-model="orderPhone" id="user-phone" type="tel" placeholder="Ex. 0733518716" />
-    </div>
-    <div class="input-layout">
-      <label for="user-comment">Kommentar: </label>
-      <input v-model="orderComment" id="user-comment" type="text" placeholder="(Frivilligt)" />
-    </div>
-    <button
-      @click="handleSend"
-      :class="{ 'all-fields': orderName && orderMail && orderAdress && orderPhone }"
-      class="send"
-    >
-      Skicka in
-    </button>
-    <!-- <button @click="mailjsSend()">Skicka mailjs test</button> -->
-  </div>
-  <div class="modals">
-    <Modal v-if="showModal" @close-modal="showModal = false">
-      <div>
-        <h1 class="modal-text">Tack!</h1>
-        <h1 class="modal-text">Din lista är inskickad!</h1>
-      </div>
-    </Modal>
-    <Modal v-if="showModalError" @close-modal="showModalError = false">
-      <div>
-        <Icon class="warning" name="mi:warning" size="60" />
-        <h1 class="modal-text">Det blev ett litet fel</h1>
-        <h1>Försök igen</h1>
-        <p>Om problemet kvarstår, kontakta peter@lindersplantskola.se</p>
-      </div>
-      <div class="modal-code-block">
-        <p class="modal-sub-text">
-          {{ errorMessage.code }}
-        </p>
-        <p class="modal-sub-text">
-          {{ errorMessage.message }}
-        </p>
-      </div>
-    </Modal>
-    <Modal v-if="showConfirmModal" @close-modal="showConfirmModal = false">
-      <h1 class="modal-text">Är du säker?</h1>
-    </Modal>
-    <Modal v-if="showModalCountError" @close-modal="showModalCountError = false">
-      <div>
-        <Icon class="warning" name="mi:warning" size="60" />
-        <h1 class="modal-text">Vänligen ange korrekt antal växter!</h1>
-      </div>
-    </Modal>
-    <Modal v-if="showModalPriceError" @close-modal="showModalPriceError = false">
-      <div>
-        <Icon class="warning" name="mi:warning" size="60" />
-        <h1 class="modal-text">Lägsta ordersumman är 2000kr</h1>
-      </div>
-    </Modal>
-    <Modal v-if="showModalNoName" @close-modal="showModalNoName = false">
-      <div>
-        <Icon class="warning" name="mi:warning" size="60" />
-        <h1 class="modal-text">Vänligen fyll i alla fält!</h1>
-      </div>
-    </Modal>
-  </div>
-</template>
-
 <script setup>
 import { useStorage } from '@vueuse/core';
 import { createClient } from '@supabase/supabase-js';
@@ -99,6 +6,24 @@ const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co';
 const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4';
 const supabase = createClient(supabaseUrl, supabaseKey);
+
+const { onLoaded } = useScriptNpm({
+  packageName: 'js-confetti',
+  file: 'dist/js-confetti.browser.js',
+  version: '0.12.0',
+  scriptOptions: {
+    use() {
+      return { JSConfetti: window.JSConfetti };
+    },
+  },
+});
+const showConfetti = () => {
+  onLoaded(({ JSConfetti }) => {
+    // using the real API instance
+    const confetti = new JSConfetti();
+    confetti.addConfetti({ emojis: ['🍃', '🌲', '🌳', '🌿', '🍃', '🌿'] });
+  });
+};
 
 const onskeList = useGlobalOnskeList();
 
@@ -194,6 +119,10 @@ const handleSend = async () => {
     sendList(i);
   }
 
+  if (hasSent.value) {
+    showConfetti();
+  }
+
   // if (!hasError && success) {
   //   console.log('No errors, sending mail');
   //   // mailjsSend()
@@ -249,6 +178,99 @@ const sendNuxtMail = () => {
   });
 };
 </script>
+
+<template>
+  <div class="onske-list-bg order">
+    <h1 class="title">Beställ</h1>
+    <!-- <div class="sent-in-badge" v-if="hasSent">
+      <Icon name="material-symbols:check-circle-rounded" size="20" />
+      <h1>Du har redan skickat in!</h1>
+    </div> -->
+    <div class="input-layout">
+      <label for="user-name">Namn: </label>
+      <input v-model="orderName" id="user-name" type="text" placeholder="Ex. Peter Linder" />
+    </div>
+    <div class="input-layout">
+      <label for="user-mail">Mailadress: </label>
+      <input
+        v-model="orderMail"
+        id="user-mail"
+        type="text"
+        placeholder="Ex. peter@lindersplantskola.se"
+      />
+    </div>
+    <div class="input-layout">
+      <label for="user-adress">Adress: </label>
+      <input
+        v-model="orderAdress"
+        id="user-adress"
+        type="text"
+        placeholder="Ex. Köinge 6902, 242 92 Hörby"
+      />
+    </div>
+    <div class="input-layout">
+      <label for="user-phone">Telefonnummer: </label>
+      <input v-model="orderPhone" id="user-phone" type="tel" placeholder="Ex. 0733518716" />
+    </div>
+    <div class="input-layout">
+      <label for="user-comment">Kommentar: </label>
+      <input v-model="orderComment" id="user-comment" type="text" placeholder="(Frivilligt)" />
+    </div>
+    <button
+      @click="handleSend"
+      :class="{ 'all-fields': orderName && orderMail && orderAdress && orderPhone }"
+      class="send"
+    >
+      Skicka in
+    </button>
+    <!-- <button @click="mailjsSend()">Skicka mailjs test</button> -->
+  </div>
+  <div class="modals">
+    <Modal v-if="showModal" @close-modal="showModal = false">
+      <div>
+        <h1 class="modal-text">Tack!</h1>
+        <h1 class="modal-text">Din lista är inskickad!</h1>
+      </div>
+    </Modal>
+    <Modal v-if="showModalError" @close-modal="showModalError = false">
+      <div>
+        <Icon class="warning" name="mi:warning" size="60" />
+        <h1 class="modal-text">Det blev ett litet fel</h1>
+        <h1>Försök igen</h1>
+        <p>Om problemet kvarstår, kontakta peter@lindersplantskola.se</p>
+      </div>
+      <div class="modal-code-block">
+        <p class="modal-sub-text">
+          {{ errorMessage.code }}
+        </p>
+        <p class="modal-sub-text">
+          {{ errorMessage.message }}
+        </p>
+      </div>
+    </Modal>
+    <Modal v-if="showConfirmModal" @close-modal="showConfirmModal = false">
+      <h1 class="modal-text">Är du säker?</h1>
+    </Modal>
+    <Modal v-if="showModalCountError" @close-modal="showModalCountError = false">
+      <div>
+        <Icon class="warning" name="mi:warning" size="60" />
+        <h1 class="modal-text">Vänligen ange korrekt antal växter!</h1>
+      </div>
+    </Modal>
+    <Modal v-if="showModalPriceError" @close-modal="showModalPriceError = false">
+      <div>
+        <Icon class="warning" name="mi:warning" size="60" />
+        <h1 class="modal-text">Lägsta ordersumman är 2000kr</h1>
+      </div>
+    </Modal>
+    <Modal v-if="showModalNoName" @close-modal="showModalNoName = false">
+      <div>
+        <Icon class="warning" name="mi:warning" size="60" />
+        <h1 class="modal-text">Vänligen fyll i alla fält!</h1>
+      </div>
+    </Modal>
+  </div>
+</template>
 
 <style>
 .order:is(div) {

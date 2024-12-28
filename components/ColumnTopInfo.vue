@@ -8,7 +8,7 @@
           <Icon v-if="state.sortAscending.value" name="typcn:arrow-sorted-down" size="20" />
           <Icon v-else name="typcn:arrow-sorted-up" size="20" />
         </i>
-        <i v-else class="unsorted">
+        <i v-else-if="!isOnskeLista" class="unsorted">
           <Icon name="typcn:arrow-unsorted" size="16" />
         </i>
       </p>
@@ -18,7 +18,7 @@
           <Icon v-if="state.sortAscending.value" name="typcn:arrow-sorted-down" size="20" />
           <Icon v-else name="typcn:arrow-sorted-up" size="20" />
         </i>
-        <i v-else class="unsorted">
+        <i v-else-if="!isOnskeLista" class="unsorted">
           <Icon name="typcn:arrow-unsorted" size="16" />
         </i>
       </p>
@@ -55,7 +55,7 @@
         <Icon v-if="state.sortAscending.value" name="typcn:arrow-sorted-down" size="20" />
         <Icon v-else name="typcn:arrow-sorted-up" size="20" />
       </i>
-      <i v-else class="unsorted">
+      <i v-else-if="!isOnskeLista" class="unsorted">
         <Icon name="typcn:arrow-unsorted" size="16" />
       </i>
     </p>

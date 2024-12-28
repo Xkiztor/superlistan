@@ -19,15 +19,13 @@ export default defineNuxtConfig({
     },
   ], '@nuxtjs/sitemap', '@nuxt/scripts'],
 
-  $production: {
     scripts: {
       registry: {
         googleAnalytics: {
           id: 'G-Y8HQTRVW6H',
         }
       }
-    }
-  },
+    },
 
   css: ['@/assets/css/styles.css'],
 
