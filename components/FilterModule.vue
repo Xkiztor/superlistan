@@ -34,6 +34,8 @@ const clearFilters = () => {
   state.typeFilter.value.K = false;
   state.typeFilter.value.O = false;
   state.typeFilter.value.G = false;
+  state.sortByWhat.value = 'Namn';
+  state.sortAscending.value = true;
 };
 
 watch(

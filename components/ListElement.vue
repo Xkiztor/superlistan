@@ -229,6 +229,7 @@ const openImage = (index) => {
         state.showGoogleSearchResult.value,
       'has-images': databasArtikel.images,
       'if-expanded': expanded,
+      'on-onske-list': isOnskeLista,
     }"
     ref="testRef"
   >
@@ -545,9 +546,14 @@ const openImage = (index) => {
   --current-icon-color: #000000;
 }
 
-.dark .element {
+.dark .element:not(.on-onske-list) {
   /* border-color: var(--border-color); */
   /* border-color: rgb(31, 31, 34); */
+  border-bottom: 1px solid var(--element-top);
+  /* border-color: transparent; */
+}
+
+.element.on-onske-list {
   border-color: transparent;
 }
 

@@ -56,7 +56,6 @@ const isDark = useDark();
 const state = useGlobalState();
 
 const onskeList = useGlobalOnskeList();
-const onskeListOld = useGlobalOnskeListOld();
 
 const openNav = ref(false);
 
@@ -77,6 +76,23 @@ const openNavFunc = () => {
     openNav.value = true;
   }
 };
+
+const justAdded = ref(false);
+
+watch(onskeList.onskeList, () => {
+  if (justAdded.value) {
+    justAdded.value = false;
+    clearTimeout();
+    setTimeout(() => {
+      justAdded.value = true;
+    }, 100);
+  } else {
+    justAdded.value = true;
+    setTimeout(() => {
+      justAdded.value = false;
+    }, 3000);
+  }
+});
 </script>
 
 <template>
@@ -146,6 +162,9 @@ const openNavFunc = () => {
       </nuxt-link> -->
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">
         <Icon name="material-symbols:shopping-cart-outline" /><i>Varukorg</i>
+        <Transition name="just-added">
+          <Icon name="material-symbols:check-circle-rounded" class="just-added" v-if="justAdded" />
+        </Transition>
       </nuxt-link>
       <ThemeToggle />
       <!-- <ThemeToggle v-if="$route.path == '/lista' || !isSmallScreen" /> -->
@@ -537,6 +556,68 @@ input:not([type='checkbox']) {
 
 .naver > a .icon {
   font-size: 1.3em;
+}
+
+.naver a:has(.just-added) {
+  position: relative;
+}
+
+@keyframes hover {
+  0% {
+    /* transform: scale(1); */
+    transform: translateY(0px);
+  }
+  50% {
+    /* transform: scale(1.1); */
+    transform: translateY(1px);
+  }
+  /* 0% {
+    transform: scale(1);
+    transform: translateY(0px);
+  } */
+}
+
+.just-added {
+  color: var(--primary-green);
+  transform: scale(1);
+  position: absolute;
+  top: 15%;
+  right: -0.4rem;
+  animation: hover 1s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1.5);
+  }
+  50% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.just-added-enter-active {
+  animation: bounce 0.5s ease-out;
+}
+.just-added-leave-active {
+  transition: all 0.3s ease;
+}
+
+.just-added-enter-from {
+  transform: scale(0);
+}
+.just-added-leave-to {
+  opacity: 0;
+  /* transform: scale(0); */
 }
 
 .naver button:not(.if-filter-open):hover {

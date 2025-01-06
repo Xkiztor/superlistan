@@ -84,24 +84,20 @@ const userData = computed(() => {
 });
 
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(userData, {
-  itemHeight: 24,
-  overscan: 25,
+  itemHeight: 27,
+  overscan: 50,
 });
 
-const totalCount = computed(() => userData.value.map((e) => e.Count).reduce((a, b) => a + b, 0));
-const totalPrice = computed(() =>
-  userData.value.map((e) => e.Pris * e.Count).reduce((a, b) => a + b, 0)
-);
-const peopleCount = computed(() => new Set(userData.value.map((item) => item.Person)).size);
-const recomendedCount = computed(
-  () =>
-    Math.round(
-      (userData.value.map((e) => e.Rekommenderas).reduce((a, b) => a + b, 0) /
-        userData.value.length) *
-        100 *
-        100
-    ) / 100
-);
+const totalCount = userData.value.map((e) => e.Count).reduce((a, b) => a + b, 0);
+const totalPrice = userData.value.map((e) => e.Pris * e.Count).reduce((a, b) => a + b, 0);
+const peopleCount = new Set(userData.value.map((item) => item.Person)).size;
+const recomendedCount =
+  Math.round(
+    (userData.value.map((e) => e.Rekommenderas).reduce((a, b) => a + b, 0) /
+      userData.value.length) *
+      100 *
+      100
+  ) / 100;
 
 fetchUserData();
 
@@ -286,8 +282,9 @@ const toggleDark = useToggle(isDark);
   display: grid;
   grid-template-columns: 20% 20% 42% 6% 6% 6%;
   border: 1px solid var(--border-color);
-  border-radius: 0.5rem;
-  padding-left: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  /* padding-left: 0.5rem; */
+  padding: 0.25rem 0 0.25rem 0.5rem;
 }
 
 .admin-container-props {
@@ -295,7 +292,7 @@ const toggleDark = useToggle(isDark);
   border: 1px solid var(--border-color);
   background: var(--element-bg);
   height: 80vh;
-  border-radius: 1rem;
+  border-radius: 0 0 1rem 1rem;
   width: auto;
   max-height: 100vh !important;
   overflow-x: hidden;
@@ -312,6 +309,7 @@ const toggleDark = useToggle(isDark);
   /* background: #ffffff; */
   padding-left: 0.5rem;
   border-radius: 1rem;
+  transition: all 0.1s ease;
 }
 
 .the-element {
@@ -322,7 +320,7 @@ const toggleDark = useToggle(isDark);
 
 .list-element:hover,
 .is-expanded {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   position: relative;
   z-index: 2;
 }
