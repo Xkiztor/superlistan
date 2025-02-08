@@ -75,8 +75,8 @@ const userData = computed(() => {
   //   else return 0
   // })
   list.sort((a, b) => {
-    if (a.created_at > b.created_at) return 1;
-    if (a.created_at < b.created_at) return -1;
+    if (a.created_at > b.created_at) return -1;
+    if (a.created_at < b.created_at) return 1;
     else return 0;
   });
   // console.log(list);
@@ -84,7 +84,7 @@ const userData = computed(() => {
 });
 
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(userData, {
-  itemHeight: 27,
+  itemHeight: 29,
   overscan: 50,
 });
 
@@ -102,8 +102,9 @@ const recomendedCount =
 fetchUserData();
 
 const topCount = ref(20);
+const topTenList = ref([]);
 
-const topTen = computed(() => {
+const topTen = () => {
   let stringCount = {};
   userData.value.forEach((obj) => {
     if (obj.hasOwnProperty('Namn')) {
@@ -119,8 +120,9 @@ const topTen = computed(() => {
   let top10Strings = sortedStrings
     .slice(0, topCount.value)
     .map((str) => ({ string: str, count: stringCount[str] }));
-  return top10Strings;
-});
+  // return top10Strings;
+  topTenList.value = top10Strings;
+};
 
 // console.log(topTen);
 
@@ -162,7 +164,7 @@ const toggleDark = useToggle(isDark);
             <span v-if="!showTable">Visa tabell</span>
             <span v-if="showTable">Visa formulerad</span>
           </button>
-          <button @click="showTopTen = !showTopTen">
+          <button @click="(showTopTen = !showTopTen), topTen()">
             <span v-if="!showTopTen">Visa vanligaste växterna</span>
             <span v-if="showTopTen">Dölj top växterna</span>
           </button>
@@ -170,7 +172,7 @@ const toggleDark = useToggle(isDark);
         </div>
         <div class="top-ten" v-if="showTopTen">
           <h1>Top <input type="text" v-model="topCount" /> växter:</h1>
-          <li v-for="(plant, index) in topTen">
+          <li v-for="(plant, index) in topTenList">
             <p>{{ index + 1 }}</p>
             <a
               :href="`https://www.google.com/search?q=${plant.string.replace(

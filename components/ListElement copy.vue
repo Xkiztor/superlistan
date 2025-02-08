@@ -1,25 +1,28 @@
 <script setup>
-// Define emits and props
 const emit = defineEmits(['addToCart', 'handleDelete']);
+
 const props = defineProps({
   plant: Object,
   isOnskeLista: Boolean,
   lignosdatabasen: Object,
 });
 
-// Reactive variables
 const order = ref(1);
 const expanded = ref(false);
 const isAdded = ref(false);
-const changeCount = ref(props.plant.Count);
 
-// Global state
 const state = useGlobalState();
 const onskeList = useGlobalOnskeList();
 
-// Check if the plant is already added to the list
+// console.log(onskeList.onskeList.value);
+
 const checkIfAdded = () => {
-  isAdded.value = onskeList.onskeList.value.some((obj) => obj.id === props.plant.id);
+  if (onskeList.onskeList.value.some((obj) => obj.id === props.plant.id)) {
+    isAdded.value = true;
+    // console.log(`Has added, id: ${props.plant.id}`);
+  } else {
+    isAdded.value = false;
+  }
 };
 checkIfAdded();
 
@@ -27,83 +30,93 @@ onUpdated(() => {
   checkIfAdded();
 });
 
-// Set initial order value
+const changeCount = ref(props.plant.Count);
+
 if (props.plant.MinOrder && !props.isOnskeLista) {
   order.value = props.plant.MinOrder;
 }
 
-// Validate the change count
 const validate = () => {
-  const { Lager, MinOrder } = props.plant;
-  state.countError.value =
-    (changeCount.value > Lager && Lager != null) ||
-    (changeCount.value < MinOrder && MinOrder != null);
+  if (
+    (changeCount.value > props.plant.Lager && props.plant.Lager != null) ||
+    (changeCount.value < props.plant.MinOrder && props.plant.MinOrder != null)
+  ) {
+    state.countError.value = true;
+    console.log('count erroorrr');
+  } else {
+    state.countError.value = false;
+  }
 };
+// validate()
 
-// Watch for changes in changeCount
 watch(changeCount, () => {
   validate();
-  onskeList.onskeList.value.forEach((obj) => {
+  for (let obj of onskeList.onskeList.value) {
     if (obj.id === props.plant.id) {
       obj.Count = changeCount.value;
+      break;
     }
-  });
+  }
 });
 
-// Validate the order value
 const validateOrder = () => {
-  const { Lager, MinOrder } = props.plant;
-  state.countError.value =
-    (order.value > Lager && Lager != null) || (order.value < MinOrder && MinOrder != null);
+  if (
+    (order.value > props.plant.Lager && props.plant.Lager != null) ||
+    (order.value < props.plant.MinOrder && props.plant.MinOrder != null)
+  ) {
+    state.countError.value = true;
+    console.log('count erroorrr');
+  } else {
+    state.countError.value = false;
+  }
 };
 
-// Watch for changes in order
 watch(order, () => {
+  console.log('order changed');
   validateOrder();
 });
 
-// Handle expand/collapse of the list element
 const handleExpand = () => {
   checkIfAdded();
   expanded.value = !expanded.value;
 };
 
-// Handle adding the plant to the cart
 const handleAdd = () => {
-  if (expanded.value) {
+  if (expanded) {
+    console.log(`Added plant id: ${props.plant.id}`);
+    console.log(`Added count: ${order.value}`);
+    console.log(props.plant);
     emit('addToCart', props.plant, order.value);
+    useGlobalOnskeList();
     isAdded.value = true;
+    // expanded.value = false
   } else {
     expanded.value = true;
   }
 };
 
-// Handle deleting the plant from the list
 const handleDelete = () => {
-  onskeList.onskeList.value = onskeList.onskeList.value.filter((b) => b.id !== props.plant.id);
+  const index = onskeList.onskeList.value.findIndex((b) => b.id === props.plant.id);
+  console.log(index);
+  onskeList.onskeList.value = onskeList.onskeList.value.filter((b) => b.id != props.plant.id);
   isAdded.value = false;
 };
 
-// Calculate tooltip based on plant type
 const toolTipCalculator = (firstLetter) => {
-  const tooltips = {
-    T: 'Träd',
-    B: 'Barrväxt',
-    G: 'Gräs',
-    K: 'Klätterväxt',
-    O: 'Ormbunke',
-    P: 'Perenner',
-  };
-  return tooltips[firstLetter];
+  if (firstLetter === 'T') return 'Träd';
+  if (firstLetter === 'B') return 'Barrväxt';
+  if (firstLetter === 'G') return 'Gräs';
+  if (firstLetter === 'K') return 'Klätterväxt';
+  if (firstLetter === 'O') return 'Ormbunke';
+  if (firstLetter === 'P') return 'Perenner';
 };
 
-// Handle icon click to perform Google search
 const iconClick = async () => {
   if (!props.isOnskeLista) {
     state.showGoogleSearchResult.value = true;
     state.searchedPlant.value = props.plant.Namn;
 
-    if (state.sidebarMode.value) {
+    if (state.sidebarMode.value === true) {
       state.showImages.value = false;
     }
 
@@ -113,9 +126,11 @@ const iconClick = async () => {
         '+'
       )}`
     );
+
     const { data, error } = await useFetch(url);
 
     if (data) {
+      console.log(data);
       state.googleSearchResult.value = data.value;
       state.showImages.value = true;
     }
@@ -125,9 +140,9 @@ const iconClick = async () => {
   }
 };
 
-// Compute article data from lignosdatabasen
+// * ---------- Lignosdatabasen -----------
 const databasArtikel = computed(() => {
-  const artikelObject = {
+  var artikelObject = {
     text: '',
     images: [],
     compressedImages: [],
@@ -137,49 +152,66 @@ const databasArtikel = computed(() => {
     ingress: '',
   };
 
-  const unformattedSuperlistName = props.plant.Namn.toLowerCase()
-    .replace(/'/g, '')
-    .replace(/ /g, '');
-  const artikelSameSortnamn = props.lignosdatabasen.find(
+  var unformattedSuperlistName = props.plant.Namn.toLowerCase().replace(/'/g, '').replace(/ /g, '');
+
+  var artikel;
+  var artikelSameSortnamn = props.lignosdatabasen.filter(
     (e) =>
       `${e.slakte.toLowerCase().replace(/ /g, '')}${
         e.art === '-' ? '' : e.art.toLowerCase().replace(/ /g, '')
       }${e.sortnamn.toLowerCase().replace(/'/g, '').replace(/ /g, '')}` === unformattedSuperlistName
-  );
-  const artikelWithoutSortnamn = props.lignosdatabasen.find(
+  )[0];
+  var artikelWithoutSortnamn = props.lignosdatabasen.filter(
     (e) =>
       `${e.slakte.toLowerCase().replace(/ /g, '')}${e.art.toLowerCase().replace(/ /g, '')}` ===
       unformattedSuperlistName
-  );
+  )[0];
+  if (artikelSameSortnamn) {
+    artikelObject.finns = true;
+    artikel = artikelSameSortnamn;
+  } else if (false) {
+    // } else if (artikelWithoutSortnamn) {
+    artikel = artikelWithoutSortnamn;
+  } else {
+    return false;
+  }
 
-  const artikel = artikelSameSortnamn || artikelWithoutSortnamn;
-  if (!artikel) return false;
-
-  artikelObject.finns = true;
-  artikelObject.images = artikel.text
+  var images = artikel.text
     .split(/!\[(?!.*omslag)[^\]]*\]\(([^)]+)\)/g)
-    .filter((str) => str.includes('http') && !str.includes('['));
-  artikelObject.compressedImages = artikelObject.images.map((e) =>
-    e.replace(
-      '/upload/',
-      artikelObject.images.length > 2 ? '/upload/t_700bred/' : '/upload/t_2000bred/'
-    )
-  );
-  artikelObject.text = artikel.text
+    .filter((str) => str !== '' && str.includes('http') && !str.includes('['));
+  // /!\[[^\]]*\]\(([^)]+)\)/g
+  artikelObject.images = images;
+  if (images.length > 2) {
+    artikelObject.compressedImages = images.map((e) => e.replace('/upload/', '/upload/t_700bred/'));
+  } else {
+    artikelObject.compressedImages = images.map((e) =>
+      e.replace('/upload/', '/upload/t_2000bred/')
+    );
+  }
+
+  var text = artikel.text
     .replace(/::Fifty|<div>|<\/div>|::/g, '')
-    .replace(/!\[.*?\]\(.*?\)|\{.*?\}/g, '')
-    .replace(/---/g, '')
-    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
-  artikelObject.url = `https://lignosdatabasen.se/planta/${artikel.slakte}/${artikel.art}${
+    .replace(/!\[.*?\]\(.*?\)|\{.*?\}/g, '') // Remove ![](){}
+    .replace(/---/g, '') // Remove ---
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1'); // Remove []()
+
+  // .replace(/!\[.*?\]\(.*?\)\{.*?\}|\[.*?\]\(.*?\)/g, '') // Remove ![](){} and []()
+  // .replace(/[*_#{}[\]]|(?<!\w)-|-(?!\w)/g, ''); // Remove special characters
+  // .replace(/[*\-_#{}\[\]]/g, '');
+  artikelObject.text = text;
+
+  const lignosdatabasenUrl = 'https://lignosdatabasen.se';
+  artikelObject.url = `${lignosdatabasenUrl}/planta/${artikel.slakte}/${artikel.art}${
     artikel.sortnamn ? '/' : ''
   }${artikel.sortnamn}/`;
+
   artikelObject.svensktNamn = artikel.svensktnamn;
   artikelObject.ingress = artikel.ingress;
 
   return artikelObject;
+  // return props.lignosdatabasen
 });
 
-// Open image modal
 const openImage = (index) => {
   state.currentImageIndex.value = index;
   state.showImageModal.value = true;
@@ -201,7 +233,9 @@ const openImage = (index) => {
     }"
     ref="testRef"
   >
-    <!-- List Item Text -->
+    <!-- @click.stop="expanded = !expanded" -->
+
+    <!-- --- --- --- List Item Text --- --- --- -->
     <div class="text-row" @click.stop="handleExpand()">
       <div
         class="plant-icon"
@@ -248,7 +282,8 @@ const openImage = (index) => {
             '+'
           )}&tbm=isch&dpr=1`"
           target="_blank"
-          >{{ plant.Namn }}</a
+        >
+          {{ plant.Namn }}</a
         >
       </p>
       <div class="ikoner hide-on-phone">
@@ -273,8 +308,11 @@ const openImage = (index) => {
           name="ooui:articles-ltr"
           size="20"
         />
+        <!-- <Icon v-if="plant.Kommentar" :title="plant.Kommentar" class="kommentar-icon" name="majesticons:comment-2-text"
+          size="20" /> -->
         <a :href="plant.Länk" :title="plant.Länk" target="_blank">
           <Icon v-if="plant.Länk" class="länk-icon" name="mdi:link-variant" size="20" />
+          <!-- <Icon v-if="plant.Länk" class="länk-icon" name="iconoir:internet" size="20" /> -->
         </a>
       </div>
       <p v-if="plant.Höjd && !isOnskeLista" :title="plant.Höjd" class="hide-on-phone">
@@ -299,18 +337,18 @@ const openImage = (index) => {
       <p v-if="isOnskeLista" class="on-right">{{ plant.Pris * changeCount }} kr</p>
       <p v-else class="on-right pris">{{ plant.Pris }} kr</p>
       <button class="on-right expand-button" aria-label="Expandera">
-        <Icon v-if="!expanded" name="material-symbols:keyboard-arrow-down-rounded" size="23" />
-        <!-- <Icon
+        <Icon
           v-if="!expanded"
+          class=""
           name="material-symbols:expand-circle-down-outline-rounded"
           size="23"
-        /> -->
-        <Icon v-else name="material-symbols:keyboard-arrow-up-rounded" size="23" />
-        <!-- <Icon v-else name="material-symbols:expand-circle-up-outline-rounded" size="23" /> -->
+        />
+        <Icon v-else class="" name="material-symbols:expand-circle-up-outline-rounded" size="23" />
       </button>
     </div>
+    <!-- --- --- --- --- --- --- -->
 
-    <!-- Expanded Section -->
+    <!-- --- --- --- Expanded --- --- --- -->
     <Transition name="expand">
       <div class="expanded" v-if="expanded">
         <div
@@ -350,7 +388,7 @@ const openImage = (index) => {
             />
           </div>
           <div class="ikoner hide-on-pc" :class="{ 'hide-on-phone': !plant.Edible }">
-            <Icon v-if="plant.Edible" name="twemoji:fork-and-knife" size="20" />
+            <Icon v-if="plant.Edible" class="" name="twemoji:fork-and-knife" size="20" />
           </div>
           <p v-if="isOnskeLista" class="hide-on-pc">Antal: {{ changeCount }}</p>
           <p v-if="plant.Höjd" class="hide-on-pc">Höjd: {{ plant.Höjd }}</p>
@@ -387,11 +425,13 @@ const openImage = (index) => {
             class="link-color underline"
             >Länk 2</a
           >
+          <!-- <p v-if="plant.Zon">Zon: {{ plant.Zon }}</p> -->
           <p v-if="plant.Storlekskommentar">{{ plant.Storlekskommentar }}</p>
           <p v-if="plant.Kommentar" class="kommentar">Kommentar: {{ plant.Kommentar }}</p>
+          <!-- <p>{{ databasArtikel.images }}</p> -->
+          <!-- <a>{{ databasArtikel.url }}</a> -->
         </div>
 
-        <!-- Add to Cart Section -->
         <form v-if="!isOnskeLista" class="add-section inte-önskelista">
           <div
             v-if="!isAdded"
@@ -428,7 +468,6 @@ const openImage = (index) => {
           </button>
         </form>
 
-        <!-- Wishlist Section -->
         <div v-else class="add-section önskelista">
           <div
             class="increment"
@@ -449,7 +488,6 @@ const openImage = (index) => {
 </template>
 
 <style>
-/* Error styles */
 .error-border {
   outline: 3px solid #ff5e5e;
 }
@@ -477,7 +515,6 @@ const openImage = (index) => {
   font-weight: bold;
 }
 
-/* Button styles */
 .muted-button {
   color: var(--text-mute);
 }

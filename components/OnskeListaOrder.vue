@@ -111,6 +111,7 @@ const handleSend = async () => {
       orderMail.value = '';
       orderAdress.value = '';
       orderPhone.value = '';
+      orderComment.value = '';
       return data;
     }
   };

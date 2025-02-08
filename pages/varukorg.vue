@@ -3,7 +3,7 @@
     <div class="onske-list-bg">
       <ColumnTopInfo :isOnskeLista="true" />
       <div v-for="plant in computedList" :key="plant.id">
-        <ListElement :plant="plant" :isOnskeLista="true" :lignosdatabasen="lignosdatabasen"/>
+        <ListElement :plant="plant" :isOnskeLista="true" :lignosdatabasen="lignosdatabasen" />
       </div>
     </div>
     <div class="bottom-section">
@@ -14,44 +14,51 @@
 </template>
 
 <script setup>
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4'
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabaseUrl = 'https://oykwqfkocubjvrixrunf.supabase.co';
+const supabaseKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95a3dxZmtvY3VianZyaXhydW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjMzNjMxMjUsImV4cCI6MTk3ODkzOTEyNX0.fthY1hbpesNps0RFKQxVA8Z10PLWD-3M_LJmkubhVF4';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-const list = ref([])
+const list = ref([]);
 
-const state = useGlobalState()
-const onskeList = useGlobalOnskeList()
+const state = useGlobalState();
+const onskeList = useGlobalOnskeList();
 
 const computedList = computed(() => {
-  var newList = onskeList.onskeList.value
+  var newList = onskeList.onskeList.value;
   newList = newList.sort((a, b) => {
     if (a.Namn.toLowerCase() < b.Namn.toLowerCase()) {
-      return -1
+      return -1;
     }
     if (a.Namn.toLowerCase() > b.Namn.toLowerCase()) {
-      return 1
+      return 1;
     }
-  })
-  return newList
-})
+  });
+  return newList;
+});
 
 const { data: lignosdatabasen } = await useAsyncData('lignosdatabasen-fetch', async () => {
-  const { data, error } = await supabase.from('lignosdatabasen').select().neq('art', 'slakte').eq('hidden', false).neq('text', 'Ingen info')
+  const { data, error } = await supabase
+    .from('lignosdatabasen')
+    .select()
+    .neq('art', 'slakte')
+    .eq('hidden', false)
+    .neq('text', 'Ingen info');
   // const { data, error } = await client.from('lignosdatabasen').select().eq('slakte', `${planta}`).single()
   if (error) {
     console.error(error);
   }
   console.log(data);
-  return data
-})
+  return data;
+});
 </script>
 
 <style>
 .onske-list {
-  padding-top: 1rem;
+  /* padding-top: 1rem; */
+  padding: 1rem 0.25rem;
 }
 
 .list-container {
@@ -84,8 +91,7 @@ const { data: lignosdatabasen } = await useAsyncData('lignosdatabasen-fetch', as
   gap: 1rem;
 }
 
-
-@media screen and (max-width:800px) {
+@media screen and (max-width: 800px) {
   .bottom-section {
     grid-template-columns: 1fr;
     grid-template-rows: max-content max-content;
@@ -93,7 +99,7 @@ const { data: lignosdatabasen } = await useAsyncData('lignosdatabasen-fetch', as
 }
 
 .header {
-  font-size: 2rem
+  font-size: 2rem;
 }
 
 .onske-list {

@@ -17,7 +17,9 @@ const showClear = computed(() => {
     state.typeFilter.value.P ||
     state.typeFilter.value.K ||
     state.typeFilter.value.O ||
-    state.typeFilter.value.G
+    state.typeFilter.value.G ||
+    state.sortByWhat.value !== 'Namn' ||
+    !state.sortAscending.value
   ) {
     return true;
   } else return false;

@@ -93,6 +93,8 @@ const computedList = computed(() => {
   // console.log(lignosdatabasen.value.map(obj => obj.slakte.toLowerCase().replace(/ /g, "") + obj.art.toLowerCase().replace(/ /g, "") + obj.sortnamn.toLowerCase().replace(/'/g, "").replace(/ /g, "")).join(' '));
 
   // ? Sorting
+  newList = newList.sort((a, b) => a.Pris - b.Pris);
+
   newList = newList.sort((a, b) => {
     // console.log('heho');
     if (state.sortByWhat.value == 'Namn') {
