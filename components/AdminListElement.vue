@@ -1,97 +1,62 @@
 <script setup>
-const props = defineProps(['el', 'index', 'userData', 'isPersonPage']);
+const props = defineProps(['item', 'index', 'firstOfDate', 'isPersonPage']);
 
 const isExpanded = ref(false);
-
-// const route = useRoute();
-
-const listOfDates = props.userData.map((e) => e.created_at.substring(5, 10));
-const firstOfDate =
-  listOfDates.indexOf(props.el.created_at.substring(5, 10)) === props.index ? true : false;
-
-const listWithCurrentDate = props.userData.filter(
-  (e) => e.created_at.substring(5, 10) === props.el.created_at.substring(5, 10)
-);
-// console.log(listWithCurrentDate);
-const currentDateCount = listWithCurrentDate.length;
-
-const totalCount = listWithCurrentDate.map((e) => e.Count).reduce((a, b) => a + b, 0);
-const totalPrice = listWithCurrentDate.map((e) => e.Pris * e.Count).reduce((a, b) => a + b, 0);
-const peopleCount = new Set(listWithCurrentDate.map((item) => item.Person)).size;
 </script>
 
 <template>
-  <div v-if="firstOfDate" class="first-of-date">
+  <div v-if="firstOfDate?.isFirstOfDate && !isPersonPage" class="first-of-date">
     <div class="first-of-date-flex">
       <div class="date">
-        <h1>{{ props.el.created_at.substring(8, 10) }}</h1>
-        <p>/{{ props.el.created_at.substring(5, 7) }}</p>
+        <h1>{{ item.created_at.substring(8, 10) }}</h1>
+        <p>/{{ item.created_at.substring(5, 7) }}</p>
       </div>
-      <p>{{ currentDateCount }} st</p>
-      <p>{{ totalCount }} st totalt</p>
-      <p>{{ totalPrice }} kr</p>
-      <p v-if="!isPersonPage">{{ peopleCount }} personer</p>
+      <p>{{ firstOfDate.currentDateCount }} st olika</p>
+      <p>{{ firstOfDate.totalCount }} st totalt</p>
+      <p>{{ firstOfDate.totalPrice }} kr</p>
+      <p v-if="!isPersonPage">{{ firstOfDate.peopleCount }} personer</p>
     </div>
-    <div v-if="firstOfDate" class="spacer-line"></div>
+    <div class="spacer-line"></div>
   </div>
   <div class="list-element" :class="{ 'is-expanded': isExpanded }">
-    <!-- <div class="the-element" @click="isExpanded = !isExpanded">
-      <p>created_at</p>
-      <nuxt-link class="no-link">
-        <p>Person</p>
-      </nuxt-link>
-      <a :href="`https://www.google.com/search?q=${el.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`"
-        target="_blank">namn</a>
-      <p>{{ el.Pris }}</p>
-      <p>{{ el.Count }}</p>
-      <p>{{ el.Pris * el.Count }}</p>
-    </div>
-    <div v-if="isExpanded" class="expanded-info">
-      <Icon v-if="el.Rekommenderas" class="rekommenderas-icon" name="ph:heart-straight-fill" size="20" />
-      <a :href="`https://www.google.se/maps/search/${el.Adress}`" target="_blank">{{ el.Adress }}</a>
-      <p>{{ el.Phone }}</p>
-      <p>{{ el.Mail }}</p>
-      <p v-if="el.Comment">{{ el.Comment }}</p>
-      <p>Plantskola: {{ el.Plantskola }}</p>
-      <nuxt-link :to="`/admin/${$route.params.year}/slakte/${el.Namn.split(' ')[0]}`">Släkte: {{ el.Namn.split(" ")[0]
-        }}</nuxt-link>
-    </div> -->
     <div class="the-element" @click="isExpanded = !isExpanded">
-      <p>{{ el.created_at }}</p>
-      <nuxt-link
-        :to="`/admin/${$route.params.year}/kund/${el.Person.replace(' ', '+')}`"
+      <p>{{ item.created_at }}</p>
+
+      <NuxtLink
+        :to="`/admin/${$route.params.year}/kund/${item.Person.replace(' ', '+')}`"
         class="no-link"
       >
-        <p>{{ el.Person }}</p>
-      </nuxt-link>
+        <p>{{ item.Person }}</p>
+      </NuxtLink>
+
       <a
-        :href="`https://www.google.com/search?q=${el.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`"
+        :href="`https://www.google.com/search?q=${item.Namn.replace(/\s+/g, '+')}&tbm=isch&dpr=1`"
         target="_blank"
-        >{{ el.Namn }}</a
+        >{{ item.Namn }}</a
       >
-      <p>{{ el.Pris }}</p>
-      <p>{{ el.Count }}</p>
-      <p>{{ el.Pris * el.Count }}</p>
+
+      <p>{{ item.Pris }}</p>
+      <p>{{ item.Count }}</p>
+      <p>{{ item.Pris * item.Count }}</p>
     </div>
     <div v-if="isExpanded" class="expanded-info">
       <Icon
-        v-if="el.Rekommenderas"
+        v-if="item.Rekommenderas"
         class="rekommenderas-icon"
         name="ph:heart-straight-fill"
         size="20"
       />
-      <a :href="`https://www.google.se/maps/search/${el.Adress}`" target="_blank">{{
-        el.Adress
+      <a :href="`https://www.google.se/maps/search/${item.Adress}`" target="_blank">{{
+        item.Adress
       }}</a>
-      <p>{{ el.Phone }}</p>
-      <p>{{ el.Mail }}</p>
-      <p v-if="el.Comment">{{ el.Comment }}</p>
-      <p>Plantskola: {{ el.Plantskola }}</p>
-      <nuxt-link :to="`/admin/${$route.params.year}/slakte/${el.Namn.split(' ')[0]}`"
-        >Släkte: {{ el.Namn.split(' ')[0] }}</nuxt-link
+      <p>{{ item.Phone }}</p>
+      <p>{{ item.Mail }}</p>
+      <p v-if="item.Comment">{{ item.Comment }}</p>
+      <p>Plantskola: {{ item.Plantskola }}</p>
+      <nuxt-link :to="`/admin/${$route.params.year}/slakte/${item.Namn.split(' ')[0]}`"
+        >Släkte: {{ item.Namn.split(' ')[0] }}</nuxt-link
       >
     </div>
-    <!-- {{ el.Person }} -->
   </div>
 </template>
 

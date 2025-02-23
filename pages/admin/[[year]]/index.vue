@@ -13,7 +13,7 @@ const typedPassword = ref('');
 const showTable = ref(false);
 const showTopTen = ref(false);
 
-const rawUserData = useStorage('raw-user-data', []);
+const userData = ref([]);
 
 const route = useRoute();
 
@@ -43,22 +43,23 @@ const fetchUserData = async () => {
     console.error(error);
   }
   if (data) {
-    rawUserData.value = data;
-    // console.log(data);
-
-    // rawUserData.value.map(e => e.created_at = e.created_at.replace('2023-', ''))
-    // rawUserData.value.map(e => e.created_at = e.created_at.replace('2024-', ''))
-    rawUserData.value.map((e) => (e.created_at = e.created_at.replace('T', ' | ')));
-    // rawUserData.value.map(e => e.created_at = e.created_at.slice(0, -6))
-    rawUserData.value.map((e) => (e.created_at = e.created_at.replace('.', '')));
-    rawUserData.value.map((e) => (e.created_at = e.created_at.substring(0, 18)));
-
-    // console.log(rawUserData.value);
+    userData.value = data;
   }
 };
 
-const userData = computed(() => {
-  let list = rawUserData.value;
+const computedUserData = computed(() => {
+  let list = userData.value || [];
+
+  list = list.map((e) => {
+    return {
+      ...e,
+      created_at: e.created_at.replace('T', ' | ').replace('.', '').substring(0, 18),
+    };
+  });
+  // list = list.map((e) => (e.created_at = e.created_at.replace('T', ' | ')));
+  // list = list.map((e) => (e.created_at = e.created_at.replace('.', '')));
+  // list = list.map((e) => (e.created_at = e.created_at.substring(0, 18)));
+
   // list = rawUserData.value.sort((a, b) => {
   //   if (a.Namn > b.Namn) return 1
   //   if (a.Namn < b.Namn) return -1
@@ -80,33 +81,33 @@ const userData = computed(() => {
     else return 0;
   });
   // console.log(list);
-  return list;
-});
+  const totalCount = list.map((e) => e.Count).reduce((a, b) => a + b, 0);
+  const totalPrice = list.map((e) => e.Pris * e.Count).reduce((a, b) => a + b, 0);
+  const peopleCount = new Set(list.map((item) => item.Person)).size;
+  const recomendedCount =
+    Math.round(
+      (list.map((e) => e.Rekommenderas).reduce((a, b) => a + b, 0) / list.length) * 100 * 100
+    ) / 100;
 
-const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(userData, {
-  itemHeight: 29,
-  overscan: 50,
-});
+  // console.log(list);
 
-const totalCount = userData.value.map((e) => e.Count).reduce((a, b) => a + b, 0);
-const totalPrice = userData.value.map((e) => e.Pris * e.Count).reduce((a, b) => a + b, 0);
-const peopleCount = new Set(userData.value.map((item) => item.Person)).size;
-const recomendedCount =
-  Math.round(
-    (userData.value.map((e) => e.Rekommenderas).reduce((a, b) => a + b, 0) /
-      userData.value.length) *
-      100 *
-      100
-  ) / 100;
+  return {
+    list: list,
+    totalCount: totalCount,
+    totalPrice: totalPrice,
+    peopleCount: peopleCount,
+    recomendedCount: recomendedCount,
+  };
+});
 
 fetchUserData();
 
 const topCount = ref(20);
-const topTenList = ref([]);
+const topTen = ref();
 
-const topTen = () => {
+const topTenCalc = () => {
   let stringCount = {};
-  userData.value.forEach((obj) => {
+  computedUserData.value.list.forEach((obj) => {
     if (obj.hasOwnProperty('Namn')) {
       let str = obj.Namn;
       if (stringCount.hasOwnProperty(str)) {
@@ -120,14 +121,89 @@ const topTen = () => {
   let top10Strings = sortedStrings
     .slice(0, topCount.value)
     .map((str) => ({ string: str, count: stringCount[str] }));
-  // return top10Strings;
-  topTenList.value = top10Strings;
+  topTen.value = top10Strings;
+};
+
+const topTenArt = ref();
+const topTenArtCalc = () => {
+  let stringCount = {};
+  computedUserData.value.list.forEach((obj) => {
+    if (obj.hasOwnProperty('Namn')) {
+      let str = obj.Namn.split(' ')[0] + ' ' + obj.Namn.split(' ')[1];
+      if (stringCount.hasOwnProperty(str)) {
+        stringCount[str]++;
+      } else {
+        stringCount[str] = 1;
+      }
+    }
+  });
+  let sortedStrings = Object.keys(stringCount).sort((a, b) => stringCount[b] - stringCount[a]);
+  let top10Strings = sortedStrings
+    .slice(0, topCount.value)
+    .map((str) => ({ string: str, count: stringCount[str] }));
+  topTenArt.value = top10Strings;
+};
+
+const topTenSlakte = ref();
+const topTenSlakteCalc = () => {
+  let stringCount = {};
+  computedUserData.value.list.forEach((obj) => {
+    if (obj.hasOwnProperty('Namn')) {
+      let str = obj.Namn.split(' ')[0];
+      if (stringCount.hasOwnProperty(str)) {
+        stringCount[str]++;
+      } else {
+        stringCount[str] = 1;
+      }
+    }
+  });
+  let sortedStrings = Object.keys(stringCount).sort((a, b) => stringCount[b] - stringCount[a]);
+  let top10Strings = sortedStrings
+    .slice(0, topCount.value)
+    .map((str) => ({ string: str, count: stringCount[str] }));
+  topTenSlakte.value = top10Strings;
+};
+
+const listOfDates = computed(() => {
+  let dateList = computedUserData.value.list.map((e) => e.created_at.substring(5, 10));
+  // console.log(dateList);
+
+  return dateList;
+});
+// console.log(listOfDates.value);
+// const listOfDates = computedUserData.value;
+// const listOfDates = computedUserData.value.list.map((e) => e.created_at.substring(5, 10));
+
+const firstOfDate = (item, index) => {
+  const isFirstOfDate =
+    listOfDates.value.indexOf(item.created_at.substring(5, 10)) === index ? true : false;
+
+  const listWithCurrentDate = computedUserData.value.list.filter(
+    (e) => e.created_at.substring(5, 10) === item.created_at.substring(5, 10)
+  );
+  const currentDateCount = listWithCurrentDate.length;
+  const totalCount = listWithCurrentDate.map((e) => e.Count).reduce((a, b) => a + b, 0);
+  const totalPrice = listWithCurrentDate.map((e) => e.Pris * e.Count).reduce((a, b) => a + b, 0);
+  const peopleCount = new Set(listWithCurrentDate.map((item) => item.Person)).size;
+
+  return {
+    isFirstOfDate: isFirstOfDate,
+    listWithCurrentDate: listWithCurrentDate,
+    currentDateCount: currentDateCount,
+    totalCount: totalCount,
+    totalPrice: totalPrice,
+    peopleCount: peopleCount,
+  };
 };
 
 // console.log(topTen);
 
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
+
+const formatNumber = (num) => {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+};
 </script>
 
 <template>
@@ -143,16 +219,40 @@ const toggleDark = useToggle(isDark);
         <div class="statistik">
           <h1>Statistik:</h1>
           <div>
-            <p>{{ totalCount }} stycken växter</p>
-            <p>{{ userData.length }} stycken rader</p>
+            <p>
+              <strong>{{ computedUserData.totalCount }}</strong> stycken växter
+            </p>
+            <p>
+              <strong>{{ computedUserData.list.length }}</strong> stycken rader
+            </p>
             <div></div>
-            <p>{{ totalPrice }} kr totalt</p>
-            <p>{{ Math.round(totalPrice * 0.8) }} kr utan moms</p>
-            <p>{{ peopleCount }} personer</p>
-            <p>{{ Math.round((totalCount / peopleCount) * 100) / 100 }} plantor per person</p>
+            <p>
+              <strong>{{ formatNumber(computedUserData.totalPrice) }}</strong> kr totalt
+            </p>
+            <p>
+              <strong>{{ formatNumber(Math.round(computedUserData.totalPrice * 0.8)) }}</strong> kr
+              utan moms
+            </p>
+            <p>
+              <strong>{{ computedUserData.peopleCount }}</strong> personer
+            </p>
+            <p>
+              <strong>{{
+                Math.round((computedUserData.totalCount / computedUserData.peopleCount) * 100) / 100
+              }}</strong>
+              plantor per person
+            </p>
             <div></div>
-            <p>{{ recomendedCount }}% hjärtan (7.8% på hela listan)</p>
-            <p>{{ Math.round((totalPrice / peopleCount) * 100) / 100 }} kr/person</p>
+            <p>
+              <strong>{{ computedUserData.recomendedCount }}</strong
+              >% hjärtan (7.8% på hela listan)
+            </p>
+            <p>
+              <strong>{{
+                Math.round((computedUserData.totalPrice / computedUserData.peopleCount) * 100) / 100
+              }}</strong>
+              kr/person
+            </p>
           </div>
         </div>
         <div class="sidebar">
@@ -164,26 +264,60 @@ const toggleDark = useToggle(isDark);
             <span v-if="!showTable">Visa tabell</span>
             <span v-if="showTable">Visa formulerad</span>
           </button>
-          <button @click="(showTopTen = !showTopTen), topTen()">
+          <button
+            @click="(showTopTen = !showTopTen), topTenCalc(), topTenSlakteCalc(), topTenArtCalc()"
+          >
             <span v-if="!showTopTen">Visa vanligaste växterna</span>
             <span v-if="showTopTen">Dölj top växterna</span>
           </button>
           <nuxt-link to="/admin/print"><button>Printa personlistor</button></nuxt-link>
         </div>
-        <div class="top-ten" v-if="showTopTen">
-          <h1>Top <input type="text" v-model="topCount" /> växter:</h1>
-          <li v-for="(plant, index) in topTenList">
-            <p>{{ index + 1 }}</p>
-            <a
-              :href="`https://www.google.com/search?q=${plant.string.replace(
-                /\s+/g,
-                '+'
-              )}&tbm=isch&dpr=1`"
-              target="_blank"
-              >{{ plant.string }}</a
-            >
-            <p>{{ plant.count }} st.</p>
-          </li>
+        <div class="topplistor">
+          <div class="top-ten" v-if="showTopTen">
+            <h1>Top <input type="text" v-model="topCount" /> växter:</h1>
+            <li v-for="(plant, index) in topTen">
+              <p>{{ index + 1 }}</p>
+              <a
+                :href="`https://www.google.com/search?q=${plant.string.replace(
+                  /\s+/g,
+                  '+'
+                )}&tbm=isch&dpr=1`"
+                target="_blank"
+                >{{ plant.string }}</a
+              >
+              <p>{{ plant.count }} st.</p>
+            </li>
+          </div>
+          <div class="top-ten art" v-if="showTopTen">
+            <h1>Top <input type="text" v-model="topCount" /> släkten:</h1>
+            <li v-for="(plant, index) in topTenArt">
+              <p>{{ index + 1 }}</p>
+              <a
+                :href="`https://www.google.com/search?q=${plant.string.replace(
+                  /\s+/g,
+                  '+'
+                )}&tbm=isch&dpr=1`"
+                target="_blank"
+                >{{ plant.string }}</a
+              >
+              <p>{{ plant.count }} st.</p>
+            </li>
+          </div>
+          <div class="top-ten slakte" v-if="showTopTen">
+            <h1>Top <input type="text" v-model="topCount" /> släkten:</h1>
+            <li v-for="(plant, index) in topTenSlakte">
+              <p>{{ index + 1 }}</p>
+              <a
+                :href="`https://www.google.com/search?q=${plant.string.replace(
+                  /\s+/g,
+                  '+'
+                )}&tbm=isch&dpr=1`"
+                target="_blank"
+                >{{ plant.string }}</a
+              >
+              <p>{{ plant.count }} st.</p>
+            </li>
+          </div>
         </div>
         <!-- <button @click="fetchUserData()">Ladda in data</button> -->
       </div>
@@ -196,8 +330,25 @@ const toggleDark = useToggle(isDark);
         <p>Antal</p>
         <p>Total</p>
       </div>
+
+      <ul v-if="!showTable">
+        <AdminListElement
+          v-for="(item, index) in computedUserData.list"
+          :item="item"
+          :index="index"
+          :firstOfDate="firstOfDate(item, index)"
+          :isPersonPage="false"
+        />
+        <!-- <AdminListElement
+          v-for="{ index, data } in computedUserData.list"
+          :el="data"
+          :index="index"
+          :userData="computedUserData.list"
+          :isPersonPage="false"
+        /> -->
+      </ul>
       <!-- {{userData}} -->
-      <div v-bind="containerProps" class="admin-container-props" v-if="!showTable">
+      <!-- <div v-bind="containerProps" class="admin-container-props" v-if="!showTable">
         <ul v-bind="wrapperProps" class="admin-list-container admin-wrapper-props">
           <li v-for="{ index, data } in list" class="list-el">
             <AdminListElement
@@ -208,11 +359,11 @@ const toggleDark = useToggle(isDark);
             />
           </li>
         </ul>
-      </div>
+      </div> -->
 
       <table>
         <tbody v-if="showTable">
-          <tr v-for="item in userData">
+          <tr v-for="item in computedUserData.list">
             <th>
               <p>{{ item.created_at }}</p>
             </th>
@@ -365,7 +516,7 @@ const toggleDark = useToggle(isDark);
 
 .statistik > div {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 0.3fr 1fr 1fr;
   grid-auto-flow: column;
 }
@@ -374,8 +525,20 @@ const toggleDark = useToggle(isDark);
   font-size: 1.4rem;
 }
 
+.statistik p {
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+}
+
 .show-sidebar button {
   width: 100%;
+}
+
+.admin-panel .topplistor {
+  grid-column: 1/4;
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .top-ten {
@@ -384,7 +547,7 @@ const toggleDark = useToggle(isDark);
 
 .top-ten li {
   display: grid;
-  grid-template-columns: 1.2rem 1fr 1fr;
+  grid-template-columns: 1.2rem 1fr max-content;
   gap: 1rem;
   margin-top: 0.1rem;
 }
