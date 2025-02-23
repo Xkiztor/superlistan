@@ -14,7 +14,7 @@ const isExpanded = ref(false);
       <p>{{ firstOfDate.currentDateCount }} st olika</p>
       <p>{{ firstOfDate.totalCount }} st totalt</p>
       <p>{{ firstOfDate.totalPrice }} kr</p>
-      <!-- <p v-if="!isPersonPage">{{ peopleCount }} personer</p> -->
+      <p v-if="!isPersonPage">{{ firstOfDate.peopleCount }} personer</p>
     </div>
     <div class="spacer-line"></div>
   </div>

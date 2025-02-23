@@ -194,7 +194,6 @@ const firstOfDate = (item, index) => {
     totalPrice: totalPrice,
     peopleCount: peopleCount,
   };
-  return 'chicken nuggets';
 };
 
 // console.log(topTen);
