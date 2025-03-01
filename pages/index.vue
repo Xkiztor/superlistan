@@ -74,7 +74,7 @@
         </p>
       </div>
     </header>
-    <article class="text-stycke">
+    <article class="text-stycke first">
       <div>
         <h1>Hur gör jag?</h1>
         <p class="top-desc">
@@ -142,12 +142,12 @@
             </ul> -->
           <div class="under-picture-align">
             <li>
-              <h1 class="underrubrik">Sortera</h1>
+              <h2 class="underrubrik">Sortera</h2>
               Om du vill sortera växtlistan efter något annat än växtnamnet (t.ex pris) kan du
               klicka på kolumens titel ovanför listan. Klicka på den igen för att byta riktning.
             </li>
             <li>
-              <h1 class="underrubrik">Bildsök - <span class="nyhet">Nyhet!</span></h1>
+              <h2 class="underrubrik">Bildsök - <span class="nyhet">Nyhet!</span></h2>
               Om man klickar på <i class="lite-tjockare">växtens ikon</i> öppnas en ruta med 9
               bilder från Googles bildsök. Men denna kan man enkelt få bilder på växterna medans man
               går igenom listan.
@@ -450,9 +450,13 @@ li > svg {
 
 .text-stycke {
   padding-top: 1rem;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem 1rem;
   width: 100%;
   /* background: var(--element-bg); */
+}
+
+.text-stycke:not(.first) {
+  padding: 1rem 2rem 2rem;
 }
 
 .text-stycke:not(:last-child) {
@@ -482,6 +486,13 @@ li > svg {
   font-size: 2rem;
   font-weight: 800;
 }
+.text-stycke h2 {
+  margin: 0.5rem 0 0.2rem;
+  /* text-align: center; */
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--text-white);
+}
 
 h1.main-title {
   font-size: 3rem;
@@ -489,27 +500,29 @@ h1.main-title {
   letter-spacing: 1.5px;
 }
 
+.text-stycke h1.underrubrik {
+  margin-top: 2.5rem;
+}
+
 @media screen and (max-width: 900px) {
-  h1.underrubrik {
-    /* text-align: center; */
-    margin-top: 1.5rem;
+  .text-stycke h1 {
     font-size: 1.5rem;
-    font-weight: 700;
   }
 
-  @media screen and (max-width: 900px) {
-    .text-stycke h1 {
-      font-size: 1.5rem;
-    }
+  h1.underrubrik {
+    /* text-align: center; */
+    margin-top: 2.5rem;
+    font-weight: 700;
+    font-size: 1.7rem;
+  }
+  h2.underrubrik {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
 
-    h1.underrubrik {
-      font-size: 1.25rem;
-    }
-
-    h1.main-title {
-      font-size: 2rem;
-      font-weight: 900;
-    }
+  h1.main-title {
+    font-size: 2rem;
+    font-weight: 900;
   }
 }
 
@@ -536,7 +549,11 @@ li > a,
 
 @media screen and (max-width: 750px) {
   .text-stycke {
-    padding: 1rem 1rem;
+    padding: 1.5rem 1rem 1rem;
+  }
+
+  .text-stycke:not(.first) {
+    padding: 1rem 1rem 2rem;
   }
 }
 

@@ -166,10 +166,14 @@ const databasArtikel = computed(() => {
     )
   );
   artikelObject.text = artikel.text
-    .replace(/::Fifty|<div>|<\/div>|::/g, '')
-    .replace(/!\[.*?\]\(.*?\)|\{.*?\}/g, '')
-    .replace(/---/g, '')
-    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
+    .replace(/::Fifty|<div>|<\/div>|::/g, '') // Remove specific substrings "::Fifty", "<div>", "</div>", and "::"
+    .replace(/!\[.*?\]\(.*?\)|\{.*?\}/g, '') // Remove markdown image syntax and curly braces content
+    .replace(/---/g, '') // Remove horizontal rule markdown syntax "---"
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Replace markdown link syntax with just the link text
+    .replace(/Kolumner2|Kolumner3/g, '') // Remove specific substrings "Kolumner2" and "Kolumner3"
+    .replace(/## /g, '') // Remove markdown header syntax "## "
+    .replace(/>/g, '') // Remove ">" characters
+    .replace(/\*([^*]+)\*/g, '$1'); // Replace italic markdown syntax with just the text;
   artikelObject.url = `https://lignosdatabasen.se/planta/${artikel.slakte}/${artikel.art}${
     artikel.sortnamn ? '/' : ''
   }${artikel.sortnamn}/`;
@@ -316,7 +320,14 @@ const openImage = (index) => {
         <div
           class="image-container"
           v-if="databasArtikel.images"
-          :style="{ 'grid-template-columns': `repeat(${databasArtikel.images.length}, 1fr)` }"
+          :style="{
+            'grid-template-columns':
+              databasArtikel.images.length > 8
+                ? ``
+                : `repeat(${databasArtikel.images.length}, 1fr)`,
+            display: databasArtikel.images.length > 8 ? 'flex' : 'grid',
+          }"
+          :class="{ 'above-8': databasArtikel.images.length > 8 }"
         >
           <img
             v-for="(image, index) in databasArtikel.compressedImages"
@@ -613,6 +624,7 @@ const openImage = (index) => {
   .expanded {
     display: grid;
     grid-template-columns: 12fr 5fr;
+    padding: 0 1rem;
   }
 }
 
@@ -788,7 +800,7 @@ const openImage = (index) => {
 
 @media screen and (min-width: 700px) {
   .expanded .article {
-    padding: 0 0.6rem;
+    /* padding: 0 0.6rem; */
   }
 }
 
@@ -806,7 +818,7 @@ const openImage = (index) => {
   grid-column: 5;
   margin-left: auto;
   grid-column: 2 / 3;
-  margin-right: 0.5rem;
+  /* margin-right: 0.5rem; */
   /* width: 100%; */
   height: min-content;
   gap: 0.5rem;
@@ -847,7 +859,7 @@ const openImage = (index) => {
 @media screen and (min-width: 600px) {
   .has-images .add-section {
     place-self: start;
-    margin-right: 1rem;
+    /* margin-right: 1rem; */
   }
 }
 
@@ -860,7 +872,8 @@ const openImage = (index) => {
 .expanded .image-container {
   grid-column: 1/3;
   display: grid;
-  padding: 0.5rem 0.5rem 0.5rem 0.1rem;
+  padding-bottom: 0.5rem;
+  /* padding: 0.5rem 0.5rem 0.5rem 0.1rem; */
   /* padding: 0.5rem calc(0.4rem + 0.5rem) 0.5rem 0.5rem; */
   /* grid-template-columns: repeat(5, 1fr); */
   /* height: 5rem; */
@@ -876,8 +889,34 @@ const openImage = (index) => {
 
 @media screen and (min-width: 700px) {
   .expanded .image-container {
-    padding: 0.5rem 1rem 1rem 0.6rem;
+    /* padding: 0.5rem 1rem 1rem 0.6rem; */
   }
+}
+
+.expanded .image-container.above-8 {
+  display: flex;
+  /* gap: 0.25rem; */
+  overflow-x: auto;
+  /* border-radius: 1rem; */
+  padding: 0;
+  padding-bottom: 0.25rem;
+  margin: 1rem 1rem;
+  /* padding: 0.5rem 0.5rem 0.5rem 0.1rem; */
+}
+
+/* Firefox specific styles */
+@-moz-document url-prefix() {
+  .expanded .image-container.above-8 {
+    padding-bottom: 1rem;
+  }
+}
+
+.expanded .image-container.above-8 img {
+  max-height: 12rem;
+  border-radius: 0.5rem;
+  height: 100%;
+  width: auto;
+  object-fit: cover;
 }
 
 @media screen and (max-width: 499px) {

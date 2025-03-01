@@ -426,7 +426,7 @@ input.checkboxer {
   grid-template-rows: 1fr;
   border-radius: 100000rem;
   margin-top: 0.6rem;
-  padding: 0.5rem;
+  padding: 0.4rem 0.5rem;
   opacity: 0.4;
   pointer-events: none;
   border: 1px solid transparent;
@@ -444,7 +444,7 @@ input.checkboxer {
 
 .filters .clear.show-clear {
   pointer-events: all;
-  opacity: 0.85;
+  opacity: 1;
   border: 1px solid var(--border-color);
 }
 

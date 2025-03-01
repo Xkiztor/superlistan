@@ -406,7 +406,11 @@ onClickOutside(bigImage, () => {
       <FilterModule @fetch-list="fetchAllList" @handle-click="handleClick" />
     </div>
 
-    <div v-if="shouldJumpOpen" class="jump-to">
+    <div
+      v-if="shouldJumpOpen"
+      class="jump-to"
+      :class="{ disabled: state.sortByWhat.value !== 'Namn' || state.sortAscending.value !== true }"
+    >
       <div>
         <h1>Hoppa till bokstav</h1>
         <Icon name="carbon:jump-link" size="23" />
@@ -464,7 +468,24 @@ onClickOutside(bigImage, () => {
             <p v-else-if="userMessage === 'Inga resultat'" @click="resetFilters()">
               Inga resultalt, klicka här för att nållställa filter
             </p>
-            <p v-else @click="fetchAllList()" data-no-crawl="true">{{ userMessage }}</p>
+            <p
+              v-else-if="
+                !state.query.value &&
+                !state.edibleFilter.value &&
+                !state.lignosdatabasenFilter.value &&
+                !state.linkFilter.value &&
+                !state.typeFilter.value.T &&
+                !state.typeFilter.value.B &&
+                !state.typeFilter.value.P &&
+                !state.typeFilter.value.K &&
+                !state.typeFilter.value.O &&
+                !state.typeFilter.value.G
+              "
+              @click="fetchAllList()"
+              data-no-crawl="true"
+            >
+              {{ userMessage }}
+            </p>
           </div>
         </ul>
       </div>
@@ -646,6 +667,13 @@ div.main-list {
 .jump-to h1 {
   grid-column: 1/6;
   text-align: center;
+}
+
+.jump-to.disabled button,
+.jump-to.disabled .icon {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
 }
 
 .list-layout {
