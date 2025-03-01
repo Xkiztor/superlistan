@@ -618,6 +618,7 @@ const openImage = (index) => {
   /* border-top: 1px solid var(--border-color); */
   margin-top: 0.5rem;
   /* padding-top: 0.5rem; */
+  padding-right: 0.4rem;
 }
 
 @media screen and (min-width: 600px) {

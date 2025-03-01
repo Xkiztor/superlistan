@@ -455,7 +455,7 @@ li > svg {
   /* background: var(--element-bg); */
 }
 
-.text-stycke:not(.first) {
+.text-stycke:not(.first):not(.head) {
   padding: 1rem 2rem 2rem;
 }
 
@@ -491,6 +491,10 @@ li > svg {
   /* text-align: center; */
   font-size: 1.45rem;
   font-weight: 700;
+  /* color: var(--text-white); */
+}
+
+.dark .text-stycke h2 {
   color: var(--text-white);
 }
 
