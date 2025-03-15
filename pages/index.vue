@@ -29,10 +29,10 @@
       />
       <div>
         <!-- Stängd lista -->
-        <!-- <div class="closed">
+        <div class="closed">
           <Icon name="material-symbols:cancel-outline-rounded" />
           <h2>Listan stängd för i år, öppnar igen nästa år!</h2>
-        </div> -->
+        </div>
 
         <!-- Närmar sig -->
         <!-- <div class="closed coming-soon">
@@ -147,7 +147,10 @@
               klicka på kolumens titel ovanför listan. Klicka på den igen för att byta riktning.
             </li>
             <li>
-              <h2 class="underrubrik">Bildsök - <span class="nyhet">Nyhet!</span></h2>
+              <h2 class="underrubrik">
+                Bildsök
+                <!-- - <span class="nyhet">Nyhet!</span> -->
+              </h2>
               Om man klickar på <i class="lite-tjockare">växtens ikon</i> öppnas en ruta med 9
               bilder från Googles bildsök. Men denna kan man enkelt få bilder på växterna medans man
               går igenom listan.
