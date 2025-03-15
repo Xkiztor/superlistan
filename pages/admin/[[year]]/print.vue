@@ -9,8 +9,12 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const list = ref();
 const personerList = ref();
 
+// !-------------------
+const year = '2024';
+// !-------------------
+
 const fetchBestallningar = async () => {
-  let search = supabase.from('kundpapper-2024').select();
+  let search = supabase.from(`kundpapper-${year}`).select();
   const { data, error } = await search;
 
   if (error) {
@@ -70,9 +74,170 @@ const getPlantsFromPerson = (person) => {
 };
 
 // getPlantsFromPerson('Agnes Cederholm')
+
+const formatNumber = (number) => {
+  return new Intl.NumberFormat('en-US', {
+    useGrouping: true,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  })
+    .format(number)
+    .replace(/,/g, ' ');
+};
+
+const lengthMellis = ref(0);
+const lengthLilla = ref(0);
+
+const depthMellis = ref(0);
+const depthLilla = ref(0);
+
+const mellisAvailableArea = computed(() => {
+  return lengthMellis.value * 100 * depthMellis.value * 100;
+});
+const lillaAvailableArea = computed(() => {
+  return lengthLilla.value * 100 * depthLilla.value * 100;
+});
+const totalAvailableArea = computed(() => {
+  return (
+    lengthMellis.value * 100 * depthMellis.value * 100 +
+    lengthLilla.value * 100 * depthLilla.value * 100
+  );
+});
+
+const pot = ref('');
+const result = ref(0);
+watch(pot, (newValue) => {
+  result.value = getAreaFromPot(newValue, 0);
+});
+
+const getAreaFromPot = (pot, height) => {
+  const kruka = pot.replace(/\/.*/, '').replace(/\s+/g, '').replace(/Pa/g, '');
+  // Högre än 160 cm åker bort
+  // Högre än C10 åker bort
+  if (height) {
+    if (Number(height.substring(0, 3)) > 160) {
+      // console.log('Error: Plant too high: "' + pot + '"');
+      return 0;
+    }
+  }
+  if (kruka[0] === 'P') {
+    return kruka[1] * kruka[1];
+  } else if (kruka[0] === 'C') {
+    let volumeLiters = parseFloat(kruka.replace(/C/, '').replace(/,/g, '.'));
+    if (volumeLiters > 10) {
+      // console.log('Error: Pot size too large: "' + pot + '"');
+      return 0;
+    }
+    let volumeCm3 = parseFloat(kruka.replace(/C/, '').replace(/,/g, '.')) * 1000;
+    let k = volumeLiters < 5 ? 0.6 : 0.85;
+    return Math.round(
+      Math.cbrt((4 * volumeCm3) / (Math.PI * k)) * Math.cbrt((4 * volumeCm3) / (Math.PI * k))
+    );
+  } else {
+    console.log('Error: No valid pot size: "' + pot + '"');
+  }
+};
+
+const totalAreaPlant = computed(() => {
+  if (list.value === undefined) {
+    return 0;
+  }
+  return list.value.reduce((total, plant) => {
+    if (plant.Förnamn.startsWith('x')) {
+      return total;
+    }
+    const area = getAreaFromPot(plant.Kruka, plant.Höjd);
+    return total + area * plant.Conf;
+  }, 0);
+});
+
+const calculatePlantProperties = (plants) => {
+  const totalArea = plants.reduce((total, plant) => {
+    const area = getAreaFromPot(plant.Kruka, plant.Höjd);
+    return total + area * plant.Conf;
+  }, 0);
+
+  const totalAvailable = totalAvailableArea.value;
+
+  const percentage = totalAvailable ? (totalArea / totalAvailable) * 100 : 0;
+
+  const highestPlant = plants.reduce((max, plant) => {
+    if (!plant.Höjd) return max;
+    return parseInt(plant.Höjd.substring(0, 3)) >
+      (max.Höjd ? parseInt(max.Höjd.substring(0, 3)) : 0)
+      ? plant
+      : max;
+  }, plants[0]);
+
+  const highestPlantUnderC10And160 = plants.reduce((max, plant) => {
+    if (!plant.Höjd || !plant.Kruka) return max;
+    const height = parseInt(plant.Höjd.substring(0, 3));
+    const potSize = parseFloat(plant.Kruka.replace(/C/, '').replace(/,/g, '.'));
+    if (height < 160 && potSize <= 10) {
+      return height > (max.Höjd ? parseInt(max.Höjd.substring(0, 3)) : 0) ? plant : max;
+    }
+    return max;
+  }, plants[0]);
+
+  const countUtomhus = plants.reduce((count, plant) => {
+    // if (!plant.Höjd || !plant.Kruka) return count;
+    const height = plant.Höjd ? parseInt(plant.Höjd.substring(0, 3)) : 0;
+    const potSize = parseFloat(plant.Kruka.replace(/C/, '').replace(/,/g, '.'));
+    if (height > 160 || potSize > 10) {
+      return count + 1;
+    }
+    return count;
+  }, 0);
+
+  const lengthMellis = totalArea / (depthMellis.value * 100);
+  const lengthLilla = totalArea / (depthLilla.value * 100);
+
+  return {
+    totalArea,
+    percentage,
+    highestPlant,
+    highestPlantUnderC10And160,
+    countUtomhus,
+    lengthMellis,
+    lengthLilla,
+  };
+};
 </script>
 
 <template>
+  <div class="admin settings">
+    <div class="side">
+      Test krukstorlek:
+      <div class="kruk-test">
+        <input type="text" v-model="pot" />
+        <p>{{ result }}</p>
+      </div>
+    </div>
+    <div class="inputs">
+      <div class="input-group">
+        <label for="lengthMellis">Längd Mellis (m):</label>
+        <input type="number" id="lengthMellis" v-model="lengthMellis" />
+      </div>
+      <div class="input-group">
+        <label for="depthMellis">Djup Mellis (m):</label>
+        <input type="number" id="depthMellis" v-model="depthMellis" />
+      </div>
+      <div class="input-group">
+        <label for="lengthLilla">Längd Lilla (m):</label>
+        <input type="number" id="lengthLilla" v-model="lengthLilla" />
+      </div>
+      <div class="input-group">
+        <label for="depthLilla">Djup Lilla (m):</label>
+        <input type="number" id="depthLilla" v-model="depthLilla" />
+      </div>
+    </div>
+    <div class="stats">
+      <p>Mellis area: {{ formatNumber(mellisAvailableArea) }} cm3</p>
+      <p>Lilla area: {{ formatNumber(lillaAvailableArea) }} cm3</p>
+      <p>Total area: {{ formatNumber(totalAvailableArea) }} cm3</p>
+      <p>Totalt: {{ formatNumber(totalAreaPlant) }} cm3 plantor</p>
+    </div>
+  </div>
   <div class="print-bg">
     <div v-for="person in personerList">
       <h1>
@@ -84,6 +249,23 @@ const getPlantsFromPerson = (person) => {
       <p class="info">
         0{{ getPlantsFromPerson(person)[0].Phone }}, {{ getPlantsFromPerson(person)[0].Mail }},
         {{ getPlantsFromPerson(person)[0].Adress }}
+      </p>
+      <p class="info area">
+        Totalt:
+        {{ formatNumber(calculatePlantProperties(getPlantsFromPerson(person)).totalArea) }} cm3 ({{
+          calculatePlantProperties(getPlantsFromPerson(person)).percentage.toFixed(2)
+        }}%) - Mellis längd:
+        {{ calculatePlantProperties(getPlantsFromPerson(person)).lengthMellis.toFixed(0) }} cm -
+        Lilla längd:
+        {{ calculatePlantProperties(getPlantsFromPerson(person)).lengthLilla.toFixed(0) }} cm
+      </p>
+      <p class="info">
+        Högsta planta:
+        {{ calculatePlantProperties(getPlantsFromPerson(person)).highestPlant.Höjd }} cm - Högsta
+        inomhus:
+        {{ calculatePlantProperties(getPlantsFromPerson(person)).highestPlantUnderC10And160.Höjd }}
+        cm - Antal utomhus:
+        {{ calculatePlantProperties(getPlantsFromPerson(person)).countUtomhus }} st
       </p>
       <table>
         <tbody class="tabell">
@@ -267,5 +449,48 @@ const getPlantsFromPerson = (person) => {
 
 .print-bg .purple {
   color: #9900ff;
+}
+
+.admin.settings {
+  display: grid;
+  grid-template-columns: 1fr 3fr 2fr;
+  gap: 4rem;
+  max-width: 70rem;
+  padding: 1rem 0 1rem;
+}
+
+.admin.settings .kruk-test {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+.admin.settings .kruk-test input {
+  margin: 0;
+  height: fit-content;
+}
+
+.admin.settings .inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin.settings .input-group {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  place-items: center start;
+}
+
+.admin.settings input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.admin.settings .stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 </style>
