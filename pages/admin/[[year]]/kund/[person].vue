@@ -67,7 +67,7 @@ console.log(rawDate.getDate().toString().length === 2 ? '' : '0');
 const date =
   rawDate.getFullYear() +
   '-' +
-  (rawDate.getMonth().length === 1 ? '0' : '') +
+  (rawDate.getMonth() < 9 ? '0' : '') +
   (rawDate.getMonth() + 1) +
   '-' +
   `${rawDate.getDate().toString().length === 2 ? '' : '0'}` +

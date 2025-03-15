@@ -163,7 +163,11 @@ watch(onskeList.onskeList, () => {
       <nuxt-link :class="$route.path == '/onske-lista' ? 'active' : ''" to="/varukorg">
         <Icon name="material-symbols:shopping-cart-outline" /><i>Varukorg</i>
         <Transition name="just-added">
-          <Icon name="material-symbols:check-circle-rounded" class="just-added" v-if="justAdded" />
+          <Icon
+            name="material-symbols:check-circle-rounded"
+            class="just-added"
+            v-if="justAdded && screenSize.width > 1200"
+          />
         </Transition>
       </nuxt-link>
       <ThemeToggle />
@@ -584,6 +588,12 @@ input:not([type='checkbox']) {
   top: 15%;
   right: -0.4rem;
   animation: hover 1s infinite;
+}
+
+@media screen and (max-width: 1200px) {
+  .just-added {
+    display: none;
+  }
 }
 
 @keyframes bounce {

@@ -76,8 +76,8 @@ const computedUserData = computed(() => {
   //   else return 0
   // })
   list.sort((a, b) => {
-    if (a.created_at > b.created_at) return 1;
-    if (a.created_at < b.created_at) return -1;
+    if (a.created_at > b.created_at) return -1;
+    if (a.created_at < b.created_at) return 1;
     else return 0;
   });
   // console.log(list);
