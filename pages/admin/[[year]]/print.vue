@@ -232,10 +232,10 @@ const calculatePlantProperties = (plants) => {
       </div>
     </div>
     <div class="stats">
-      <p>Mellis area: {{ formatNumber(mellisAvailableArea) }} cm3</p>
-      <p>Lilla area: {{ formatNumber(lillaAvailableArea) }} cm3</p>
-      <p>Total area: {{ formatNumber(totalAvailableArea) }} cm3</p>
-      <p>Totalt: {{ formatNumber(totalAreaPlant) }} cm3 plantor</p>
+      <p>Mellis area: {{ formatNumber(mellisAvailableArea) }} cm2</p>
+      <p>Lilla area: {{ formatNumber(lillaAvailableArea) }} cm2</p>
+      <p>Total area: {{ formatNumber(totalAvailableArea) }} cm2</p>
+      <p>Totalt: {{ formatNumber(totalAreaPlant) }} cm2 plantor</p>
     </div>
   </div>
   <div class="print-bg">
@@ -252,7 +252,7 @@ const calculatePlantProperties = (plants) => {
       </p>
       <p class="info area">
         Totalt:
-        {{ formatNumber(calculatePlantProperties(getPlantsFromPerson(person)).totalArea) }} cm3 ({{
+        {{ formatNumber(calculatePlantProperties(getPlantsFromPerson(person)).totalArea) }} cm2 ({{
           calculatePlantProperties(getPlantsFromPerson(person)).percentage.toFixed(2)
         }}%) - Mellis längd:
         {{ calculatePlantProperties(getPlantsFromPerson(person)).lengthMellis.toFixed(0) }} cm -
