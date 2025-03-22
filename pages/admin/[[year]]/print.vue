@@ -192,9 +192,9 @@ const calculatePlantProperties = (plants) => {
   const lengthMellis = totalArea / (depthMellis.value * 100);
   const lengthLilla = totalArea / (depthLilla.value * 100);
 
-  const percentageTypeP =
+  const percentageLaga =
     (plants.reduce((count, plant) => {
-      if (plant.Typ === 'P') {
+      if (plant.Typ === 'P' || plant.Typ === 'O' || plant.Typ === 'G') {
         return count + 1;
       }
       return count;
@@ -210,7 +210,7 @@ const calculatePlantProperties = (plants) => {
     countUtomhus,
     lengthMellis,
     lengthLilla,
-    percentageTypeP,
+    percentageLaga,
   };
 };
 </script>
@@ -282,8 +282,8 @@ const calculatePlantProperties = (plants) => {
         {{ calculatePlantProperties(getPlantsFromPerson(person)).countUtomhus }} st
       </p>
       <p class="info">
-        Perenner:
-        {{ calculatePlantProperties(getPlantsFromPerson(person)).percentageTypeP.toFixed(0) }} %
+        Låga:
+        {{ calculatePlantProperties(getPlantsFromPerson(person)).percentageLaga.toFixed(0) }} %
       </p>
       <table>
         <tbody class="tabell">
