@@ -10,7 +10,7 @@ const list = ref();
 const personerList = ref();
 
 // !-------------------
-const year = '2024';
+const year = '2025';
 // !-------------------
 
 const fetchBestallningar = async () => {
