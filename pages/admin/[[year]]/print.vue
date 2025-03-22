@@ -143,7 +143,7 @@ const totalAreaPlant = computed(() => {
     return 0;
   }
   return list.value.reduce((total, plant) => {
-    if (plant.Förnamn.startsWith('x')) {
+    if (plant.Förnamn.startsWith('x') || plant.Förnamn === 'Li') {
       return total;
     }
     const area = getAreaFromPot(plant.Kruka, plant.Höjd);
@@ -192,6 +192,16 @@ const calculatePlantProperties = (plants) => {
   const lengthMellis = totalArea / (depthMellis.value * 100);
   const lengthLilla = totalArea / (depthLilla.value * 100);
 
+  const percentageTypeP =
+    (plants.reduce((count, plant) => {
+      if (plant.Typ === 'P') {
+        return count + 1;
+      }
+      return count;
+    }, 0) /
+      plants.length) *
+    100;
+
   return {
     totalArea,
     percentage,
@@ -200,6 +210,7 @@ const calculatePlantProperties = (plants) => {
     countUtomhus,
     lengthMellis,
     lengthLilla,
+    percentageTypeP,
   };
 };
 </script>
@@ -269,6 +280,10 @@ const calculatePlantProperties = (plants) => {
         {{ calculatePlantProperties(getPlantsFromPerson(person)).highestPlantUnderC10And160.Höjd }}
         cm - Antal utomhus:
         {{ calculatePlantProperties(getPlantsFromPerson(person)).countUtomhus }} st
+      </p>
+      <p class="info">
+        Perenner:
+        {{ calculatePlantProperties(getPlantsFromPerson(person)).percentageTypeP.toFixed(0) }} %
       </p>
       <table>
         <tbody class="tabell">
