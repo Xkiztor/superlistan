@@ -143,7 +143,7 @@ const totalAreaPlant = computed(() => {
     return 0;
   }
   return list.value.reduce((total, plant) => {
-    if (plant.Förnamn.startsWith('x') || plant.Förnamn === 'Li') {
+    if (plant.Förnamn.startsWith('x') || plant.Förnamn.startsWith('X') || plant.Förnamn === 'Li') {
       return total;
     }
     const area = getAreaFromPot(plant.Kruka, plant.Höjd);
