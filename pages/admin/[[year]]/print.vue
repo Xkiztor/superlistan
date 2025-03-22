@@ -103,6 +103,9 @@ const totalAvailableArea = computed(() => {
     lengthLilla.value * 100 * depthLilla.value * 100
   );
 });
+const totalLöpMeter = computed(() => {
+  return lengthMellis.value + lengthLilla.value;
+});
 
 const pot = ref('');
 const result = ref(0);
@@ -191,6 +194,9 @@ const calculatePlantProperties = (plants) => {
 
   const lengthMellis = totalArea / (depthMellis.value * 100);
   const lengthLilla = totalArea / (depthLilla.value * 100);
+  const lengthFill =
+    ((totalArea / (((depthLilla.value + depthMellis.value) / 2) * 100)) * totalAvailable) /
+    totalAreaPlant.value;
 
   const percentageLaga =
     (plants.reduce((count, plant) => {
@@ -211,6 +217,7 @@ const calculatePlantProperties = (plants) => {
     lengthMellis,
     lengthLilla,
     percentageLaga,
+    lengthFill,
   };
 };
 </script>
@@ -243,6 +250,7 @@ const calculatePlantProperties = (plants) => {
       </div>
     </div>
     <div class="stats">
+      <p>Total löpmeter: {{ totalLöpMeter }} m</p>
       <p>Mellis area: {{ Math.round(mellisAvailableArea / 1000) / 10 }} m<sup>2</sup></p>
       <p>Lilla area: {{ Math.round(lillaAvailableArea / 1000) / 10 }} m<sup>2</sup></p>
       <p>Total area: {{ Math.round(totalAvailableArea / 1000) / 10 }} m<sup>2</sup></p>
@@ -262,16 +270,14 @@ const calculatePlantProperties = (plants) => {
         {{ getPlantsFromPerson(person)[0].Adress }}
       </p>
       <p class="info area">
-        Totalt:
         {{
           Math.round(calculatePlantProperties(getPlantsFromPerson(person)).totalArea / 100) / 100
         }}
-        m<sup>2</sup> ({{
+        m<sup>2</sup> växter ({{
           calculatePlantProperties(getPlantsFromPerson(person)).percentage.toFixed(2)
-        }}%) - Mellis längd:
-        {{ calculatePlantProperties(getPlantsFromPerson(person)).lengthMellis.toFixed(0) }} cm -
-        Lilla längd:
-        {{ calculatePlantProperties(getPlantsFromPerson(person)).lengthLilla.toFixed(0) }} cm
+        }}% av tillgänglig yta) - Längd:
+        {{ calculatePlantProperties(getPlantsFromPerson(person)).lengthFill.toFixed(0) }}
+        cm
       </p>
       <p class="info">
         Högsta planta:
