@@ -9,6 +9,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const list = ref();
 const personerList = ref();
 
+const visaPlatshantering = ref(false);
+
 // !-------------------
 const year = '2025';
 // !-------------------
@@ -223,7 +225,13 @@ const calculatePlantProperties = (plants) => {
 </script>
 
 <template>
-  <div class="admin settings">
+  <div>
+    <button @click="visaPlatshantering = true" v-if="!visaPlatshantering">
+      Visa platshantering
+    </button>
+    <button @click="visaPlatshantering = false" v-else>Visa platshantering</button>
+  </div>
+  <div class="admin settings" v-if="visaPlatshantering">
     <div class="side">
       Test krukstorlek:
       <div class="kruk-test">
@@ -269,7 +277,7 @@ const calculatePlantProperties = (plants) => {
         0{{ getPlantsFromPerson(person)[0].Phone }}, {{ getPlantsFromPerson(person)[0].Mail }},
         {{ getPlantsFromPerson(person)[0].Adress }}
       </p>
-      <p class="info area">
+      <p class="info area" v-if="visaPlatshantering">
         {{
           Math.round(calculatePlantProperties(getPlantsFromPerson(person)).totalArea / 100) / 100
         }}
@@ -279,7 +287,7 @@ const calculatePlantProperties = (plants) => {
         {{ calculatePlantProperties(getPlantsFromPerson(person)).lengthFill.toFixed(0) }}
         cm
       </p>
-      <p class="info">
+      <p class="info" v-if="visaPlatshantering">
         Högsta planta:
         {{ calculatePlantProperties(getPlantsFromPerson(person)).highestPlant.Höjd }} cm - Högsta
         inomhus:
@@ -287,7 +295,7 @@ const calculatePlantProperties = (plants) => {
         cm - Antal utomhus:
         {{ calculatePlantProperties(getPlantsFromPerson(person)).countUtomhus }} st
       </p>
-      <p class="info">
+      <p class="info" v-if="visaPlatshantering">
         Låga:
         {{ calculatePlantProperties(getPlantsFromPerson(person)).percentageLaga.toFixed(0) }} %
       </p>
